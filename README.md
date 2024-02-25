@@ -12,7 +12,7 @@ Welcome to the repository for the COSC 3380 Database class project. This applica
 
 ## Project Overview
 
-Our project aims to display the uses of topics of database systems whether for someone who doesn't know anything or someone who has worked with databases before. Throughout the semester, we'll be collaboratively working on our web application, The Online Music Library, to showcase our understanding of Database System principles.
+Our project aims to display the uses of topics of database systems whether for someone who doesn't know anything or someone who has worked with databases before. Throughout the semester, we'll be collaboratively working on our web application, Coogify Music - The Online Music Library, to showcase our understanding of Database System principles.
 
 ## Getting Started
 
