@@ -2,7 +2,7 @@
 
 Welcome to the repository for the COSC 3380 Database class project. This application project is part of our coursework and collaboration in the Database class.
 
-## Team Members (Here)
+## Team Members
 
 - Jacob Rangel (GitHub: [JacobUH](https://github.com/JacobUH))
 - Abdul Rafay Khan (GitHub: [arkhan24-cs](https://github.com/arkhan24-cs))
