@@ -8,7 +8,7 @@ Welcome to the repository for the COSC 3380 Database class project. This applica
 - Abdul Rafay Khan (GitHub: [arkhan24-cs](https://github.com/arkhan24-cs))
 - Shruthi Yenamagandla (GitHub: [~](https://github.com/))
 - Diego Vera Garza (GitHub: [~](https://github.com/))
-- Emma U. Pham (GitHub: [~](https://github.com/))
+- Emma U. Pham (GitHub: [EMMAPHA](https://github.com/EMMAPHA))
 
 ## Project Overview
 
@@ -34,4 +34,4 @@ Feel free to reach out to any of our emails below!
 - Abdul Rafay Khan [a.rafaykhan2002@gmail.com](https://a.rafaykhan2002@gmail.com)
 - Shruthi Yenamagandla [~]()
 - Diego Vera Garza [~]()
-- Emma U. Pham [~]()
+- Emma U. Pham [emmauyentrinh@gmail.com](https://emmauyentrinh@gmail.com)
