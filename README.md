@@ -5,7 +5,7 @@ Welcome to the repository for the COSC 3380 Database class project. This applica
 ## Team Members
 
 - Jacob Rangel (GitHub: [JacobUH](https://github.com/JacobUH))
-- Abdul Rafay Khan (GitHub: [arkhan24-cs](https://github.com/arkhan-cs))
+- Abdul Rafay Khan (GitHub: [arkhan24-cs](https://github.com/arkhan24-cs))
 - Shruthi Yenamagandla (GitHub: [~](https://github.com/))
 - Diego Vera Garza (GitHub: [~](https://github.com/))
 - Emma U. Pham (GitHub: [~](https://github.com/))
