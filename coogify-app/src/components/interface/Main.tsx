@@ -1,10 +1,15 @@
-import { newSongs, topSongs, rapSongs, rbSongs } from '../../public/data/songs';
+import {
+  newSongs,
+  topSongs,
+  rapSongs,
+  rbSongs,
+} from '../../../public/data/songs';
 import { MusicRows } from './MusicRows';
 
-export const Home = () => {
+export const Main = () => {
   return (
     <div
-      className="text-white md:pl-[400px] pl-4 px-5  flex flex-col w-full gap-5"
+      className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5"
       style={{ maxHeight: 'calc(100vh - 211px)' }}
     >
       <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto">

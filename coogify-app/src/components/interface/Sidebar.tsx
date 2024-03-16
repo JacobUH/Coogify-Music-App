@@ -1,8 +1,8 @@
-import HomeIcon from '../../public/images/Home.png';
-import SearchIcon from '../../public/images/Search.png';
-import UploadIcon from '../../public/images/Upload.png';
-import LibraryIcon from '../../public/images/Library.png';
-import { savedSongs } from '../../public/data/songs';
+import HomeIcon from '../../../public/images/Home.png';
+import SearchIcon from '../../../public/images/Search.png';
+import UploadIcon from '../../../public/images/Upload.png';
+import LibraryIcon from '../../../public/images/Library.png';
+import { savedSongs } from '../../../public/data/songs';
 
 export const Sidebar = () => {
   const sidebarItems = [

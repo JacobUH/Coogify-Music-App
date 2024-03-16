@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import cover from '../../public/images/8.png';
-import playButton from '../../public/images/Play.png';
-import pauseButton from '../../public/images/Pause.png';
+import cover from '../../../public/images/8.png';
+import playButton from '../../../public/images/Play.png';
+import pauseButton from '../../../public/images/Pause.png';
 
 export const Player = () => {
   const [volume, setVolume] = useState('70');

@@ -1,5 +1,5 @@
-import ProfileIcon from '../../public/images/Profile.png';
-import LogoIcon from '../../public/images/Logo.png';
+import ProfileIcon from '../../../public/images/Profile.png';
+import LogoIcon from '../../../public/images/Logo.png';
 
 export const Navbar = () => {
   return (
