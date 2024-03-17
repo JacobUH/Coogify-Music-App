@@ -6,7 +6,7 @@ import {
 } from '../../../public/data/songs';
 import { MusicRows } from './MusicRows';
 
-export const Main = () => {
+export const HomeMain = () => {
   return (
     <div
       className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5"
