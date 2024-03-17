@@ -1,5 +1,5 @@
-import ProfileIcon from '../../../public/images/Profile.png';
 import LogoIcon from '../../../public/images/Logo.png';
+import { AccountDropdown } from './AccountDropdown';
 
 export const Navbar = () => {
   return (
@@ -12,7 +12,7 @@ export const Navbar = () => {
       {/* Profile icon on the top right */}
       <div>
         <div className="flex items-center justify-center cursor-pointer">
-          <img src={ProfileIcon} alt="Profile" className="w-12 h-12" />
+          <AccountDropdown />
         </div>
       </div>
     </div>
