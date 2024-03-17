@@ -1,98 +1,181 @@
 import React, { useState } from 'react';
 
-
 const MainUpload = () => {
-    // State hooks for each form input
-    const [songName, setSongName] = useState('');
-    const [genre, setGenre] = useState('');
-    const [artistName, setArtistName] = useState('');
-    const [coverArt, setCoverArt] = useState<File | null>(null);
-    const [songFile, setSongFile] = useState<File | null>(null);
-  
-    const handleCoverArtChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.files) {
-        setCoverArt(event.target.files[0]);
-      }
-    };
-  
-    const handleSongFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.files) {
-        setSongFile(event.target.files[0]);
-      }
-    };
-  
-    const handleSubmit = (event: React.FormEvent) => {
-      event.preventDefault();
-      // Handle the submission logic here
-      // You will need to use something like FormData to append the files and text fields
-    };
-  
-    return (
-      <div className="text-white md:pl-[250px] pl-20 pr-5 flex flex-col gap-5" style={{ maxHeight: 'calc(100vh - 211px)' }}>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-          <div className="bg-gradient-to-br from-[#5e5c5c] to-[#312e3d] p-8 rounded-lg shadow-lg">
-            <div className="flex justify-between items-center">
-              <div>
-                <div className="text-2xl font-bold">Upload</div>
-              </div>
-              <div className="flex gap-4">
-                <button className="bg-transparent hover:bg-purple-500 text-purple-700 font-semibold hover:text-white py-2 px-4 border border-purple-500 hover:border-transparent rounded">
-                  Album
-                </button>
-                <button className="bg-purple-500 text-white font-bold py-2 px-4 rounded">
-                  Song
-                </button>
-              </div>
-            </div>
-  
-            <div className="flex flex-wrap gap-6 mt-6">
-              {/* Cover Art */}
-              <div className="w-40 h-40 border-2 border-dashed border-gray-300 rounded-lg flex justify-center items-center">
-                <input type="file" className="opacity-0 w-full h-full" onChange={handleCoverArtChange} />
-                <span className="text-center text-gray-300">Upload Cover</span>
-              </div>
-  
-              {/* Form Fields */}
-              <div className="flex flex-wrap gap-6">
-                <input
-                  className="bg-transparent border-b-2 border-gray-500 text-white w-60"
-                  type="text"
-                  placeholder="Single Name"
-                  value={songName}
-                  onChange={(e) => setSongName(e.target.value)}
-                />
-                <input
-                  className="bg-transparent border-b-2 border-gray-500 text-white w-60"
-                  type="text"
-                  placeholder="Genre"
-                  value={genre}
-                  onChange={(e) => setGenre(e.target.value)}
-                />
-                <input
-                  className="bg-transparent border-b-2 border-gray-500 text-white w-60"
-                  type="text"
-                  placeholder="Artist Name"
-                  value={artistName}
-                  onChange={(e) => setArtistName(e.target.value)}
-                />
-                <input
-                  className="bg-transparent border-b-2 border-gray-500 text-white w-full"
-                  type="file"
-                  placeholder="Upload Song"
-                  onChange={handleSongFileChange}
-                />
-              </div>
-            </div>
-  
-            <div className="flex justify-end mt-6">
-              <button type="submit" className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
-                Submit
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    );
+  const [songName, setSongName] = useState('');
+  const [genre, setGenre] = useState('');
+  const [artistName, setArtistName] = useState('');
+  const [coverArt, setCoverArt] = useState<File | null>(null);
+  const [songFile, setSongFile] = useState<File | null>(null);
+  const [songFileName, setSongFileName] = useState(''); // Added state for the song file name
+  const [isSongClicked, setIsSongClicked] = useState(false);
+  const [isAlbumClicked, setIsAlbumClicked] = useState(false);
+
+  const handleCoverArtChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setCoverArt(event.target.files[0]);
+    }
   };
 
-export default MainUpload
+  const handleSongFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setSongFile(event.target.files[0]);
+      setSongFileName(event.target.files[0].name); // Set file name when file is chosen
+    }
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    // Handle the submission logic here
+  };
+
+  const handleAlbumClick = () => {
+    setIsAlbumClicked(prevState => !prevState);
+    setIsSongClicked(false);
+  };
+
+  const handleSongClick = () => {
+    setIsSongClicked(prevState => !prevState);
+    setIsAlbumClicked(false);
+  };
+
+  return (
+    <div className="text-white md:pl-[400px] md:pr-[50px] pl-4 px-5 flex flex-col w-full gap-5 rounded-md hide-scrollbar overflow-auto" style={{ maxHeight: 'calc(100vh - 211px)' }}>
+       <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto mb-[30px] hide-scrollbar">
+       <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
+        <div className="text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">Upload</div>
+        <form className="flex items-center flex-col mt-[50px] "onSubmit={handleSubmit}>
+        <div className="flex flex-row space-x-[1600px]">
+            <div className="flex flex-col mt-[-20px]">
+                <label>Cover Art</label>
+                <div className="flex flex-col justify-center items-center mb-4">
+                <label className="w-40 h-40 border-2 border-dashed border-gray-300 rounded-lg flex justify-center items-center cursor-pointer mb-4">
+                <input type="file" className="hidden" onChange={handleCoverArtChange} />
+                <div>Upload Cover</div>
+                </label>
+                </div>
+            </div>
+            <div className="flex flex-col space-y-[25px]">
+            <button className="bg-gray-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full h-[70px] w-[225px]" onClick={handleAlbumClick}>
+                Album
+            </button>
+            <button className="bg-gray-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full h-[70px] w-[225px]" onClick={handleSongClick}>
+                Song
+            </button>
+            </div>
+        </div>
+        {isSongClicked &&  (
+          <><div className="flex flex-row space-x-[50px] mt-[75px]">
+                              <div className="flex flex-col">
+                                  <label>Single Name</label>
+                                  <input
+                                      className=" bg-gray-500 border-b-2 border-gray-500 rounded-[20px] p-2 text-white mb-3 w-[650px] h-[75px]"
+                                      type="text"
+                                      placeholder="Single Name"
+                                      value={songName}
+                                      onChange={(e) => setSongName(e.target.value)} />
+                              </div>
+                              <div className="flex flex-col">
+                                  <label>Genre</label>
+                                  <input
+                                      className="bg-gray-500 border-b-2 border-gray-500 rounded-[20px] p-2 text-white mb-3 w-[650px] h-[75px]"
+                                      type="text"
+                                      placeholder="Genre"
+                                      value={genre}
+                                      onChange={(e) => setGenre(e.target.value)} />
+                              </div>
+                              <div className="flex flex-col">
+                                  <label>Artist Name</label>
+                                  <input
+                                      className="bg-gray-500 border-b-2 border-gray-500 rounded-[20px] p-2 text-white mb-3 w-[600px] h-[75px]"
+                                      type="text"
+                                      placeholder="Artist Name"
+                                      value={artistName}
+                                      onChange={(e) => setArtistName(e.target.value)} />
+                              </div>
+                          </div><div className="flex flex-col mr-[5px]">
+                                  <label>Song</label>
+                                  <div className="flex flex-col items-center mb-4">
+                                      <input
+                                          className="bg-gray-500 border-b-2 border-gray-500 rounded-[20px] p-2 text-white mb-3 w-[2000px] h-[75px]"
+                                          type="text"
+                                          readOnly
+                                          placeholder="No song uploaded"
+                                          value={songFileName} />
+                                      <label className="bg-purple-500 text-white px-4 py-2 rounded-[20px] cursor-pointer hover:bg-purple-700 transition-colors">
+                                          <span>Upload Song</span>
+                                          <input
+                                              type="file"
+                                              className="hidden"
+                                              onChange={handleSongFileChange} />
+                                      </label>
+                                  </div>
+                              </div><div className="text-center mt-6">
+                                  <button type="submit" className="bg-purple-500 hover:bg-purple-700 rounded-[20px] text-white font-bold py-2 px-4">
+                                      Submit
+                                  </button>
+                              </div></>
+        )}
+        {isAlbumClicked &&(
+          <><div className="flex flex-row space-x-[50px] mt-[75px]">
+
+                              <div className="flex flex-col">
+                                  <label>Album Name</label>
+                                  <input
+                                      className=" bg-gray-500 border-b-2 border-gray-500 rounded-[20px] p-2 text-white mb-3 w-[650px] h-[75px]"
+                                      type="text"
+                                      placeholder="Single Name"
+                                      value={songName}
+                                      onChange={(e) => setSongName(e.target.value)} />
+                              </div>
+
+                              <div className="flex flex-col">
+                                  <label>Genre</label>
+                                  <input
+                                      className="bg-gray-500 border-b-2 border-gray-500 rounded-[20px] p-2 text-white mb-3 w-[650px] h-[75px]"
+                                      type="text"
+                                      placeholder="Genre"
+                                      value={genre}
+                                      onChange={(e) => setGenre(e.target.value)} />
+                              </div>
+
+                              <div className="flex flex-col">
+                                  <label>Artist Name</label>
+                                  <input
+                                      className="bg-gray-500 border-b-2 border-gray-500 rounded-[20px] p-2 text-white mb-3 w-[600px] h-[75px]"
+                                      type="text"
+                                      placeholder="Artist Name"
+                                      value={artistName}
+                                      onChange={(e) => setArtistName(e.target.value)} />
+                              </div>
+                          </div><div className="flex flex-col mr-[5px]">
+                                  <label>Song</label>
+                                  <div className="flex flex-col items-center mb-4">
+                                      <input
+                                          className="bg-gray-500 border-b-2 border-gray-500 rounded-[20px] p-2 text-white mb-3 w-[2000px] h-[75px]"
+                                          type="text"
+                                          readOnly
+                                          placeholder="No song uploaded"
+                                          value={songFileName} />
+                                      <label className="bg-purple-500 text-white px-4 py-2 rounded-[20px] cursor-pointer hover:bg-purple-700 transition-colors">
+                                          <span>Upload Song</span>
+                                          <input
+                                              type="file"
+                                              className="hidden"
+                                              onChange={handleSongFileChange} />
+                                      </label>
+                                  </div>
+                              </div><div className="text-center mt-6">
+                                  <button type="submit" className="bg-purple-500 hover:bg-purple-700 rounded-[20px] text-white font-bold py-2 px-4">
+                                      Submit
+                                  </button>
+                              </div></>
+        )}
+          
+        </form>
+      </div>
+      </div>
+    </div>
+  );
+};
+
+export default MainUpload;

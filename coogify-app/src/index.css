@@ -33,3 +33,7 @@ body {
     background-color: #212020;
     overflow-x: hidden;
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
