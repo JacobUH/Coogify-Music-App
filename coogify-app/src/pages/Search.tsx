@@ -1,5 +1,17 @@
-import React from 'react';
+import { Outlet } from 'react-router-dom';
+import { Sidebar } from '../components/interface/Sidebar';
+import { Navbar } from '../components/interface/Navbar';
+import { SearchMain } from '../components/interface/SearchMain';
+import { Player } from '../components/interface/Player';
 
 export const Search = () => {
-  return <div>Search</div>;
+  return (
+    <div className="w-full h-full text-white relative">
+      <Navbar />
+      <Sidebar />
+      <SearchMain />
+      <Player />
+      <Outlet />
+    </div>
+  );
 };

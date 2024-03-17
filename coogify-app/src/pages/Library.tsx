@@ -1,15 +1,15 @@
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from '../components/interface/Sidebar';
 import { Navbar } from '../components/interface/Navbar';
-import { HomeMain } from '../components/interface/HomeMain';
+import { LibraryMain } from '../components/interface/LibraryMain';
 import { Player } from '../components/interface/Player';
 
-export const Home = () => {
+export const Library = () => {
   return (
     <div className="w-full h-full text-white relative">
       <Navbar />
       <Sidebar />
-      <HomeMain />
+      <LibraryMain />
       <Player />
       <Outlet />
     </div>
