@@ -62,7 +62,8 @@ export const Sidebar = () => {
   };
 
   return (
-    <div className="md:h-screen h-fit md:w-[400px] w-full md:absolute block md:left-0 top-0 p-5 z-30 hide-scrollbar overflow-auto ">
+    <div className="md:h-screen h-fit md:w-[400px] z-30 w-full md:absolute block md:left-0 top-0 p-5 hide-scrollbar overflow-auto ">
+      {/* Sidebar Icons on top */}
       <div className="bg-[#3E3C3C] rounded-md overflow-hidden p-4">
         <div className="w-full flex flex-col gap-7">
           {sidebarItems.map((item) => (
@@ -87,11 +88,14 @@ export const Sidebar = () => {
           ))}
         </div>
       </div>
+
+      {/* Scrollable Sidebar */}
       <div
         className="bg-[#3E3C3C] rounded-md overflow-auto py-5 my-5"
         style={{ maxHeight: 'calc(100vh - 330px)' }}
       >
         <div className="w-full flex flex-col gap-7 px-4">
+          {/* Library Icon */}
           <div className="w-full flex items-center justify-between">
             <Link to="/library">
               <div
@@ -111,6 +115,7 @@ export const Sidebar = () => {
             </Link>
           </div>
 
+          {/* Every Song Icon */}
           {savedSongs.map((song) => {
             return (
               <div
