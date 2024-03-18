@@ -1,21 +1,39 @@
 import ProfileIcon from '../../../public/images/Profile Icon.svg';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { ConfirmationScreen } from './ConfirmationScreen';
 
 export const AccountDropdown = () => {
+  const[isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen)
+  }
+
+  const[showCon, setshowCon] = useState(false);
+
+  const handleLogout = () => {
+    setshowCon(true)
+  }
+  
   return (
     <div>
-      <div className="">
-        <img src={ProfileIcon} alt="Profile Icon" className=""></img>
-      
-        <div className="pt-32 pr-32">
-          <div className="bg-gray-700 text-white rounded-lg text-right">
-            {/* Work Here */}
-            <a href='#' className="block m-2 px-3 py-3 hover:bg-gray-600">Profile</a>
-            <a href='#' className="block m-2 px-3 py-3 hover:bg-gray-600">Subscription</a>
-            <a href='#' className="block m-2 px-3 py-3 hover:bg-gray-600 border-b-2">Payment</a>
-            <a href='#' className="block m-2 px-3 py-3 hover:bg-gray-600">Logout</a>
-          </div>
-        </div>
+      <div className="relative">
+        <img src={ProfileIcon} alt="Profile Icon" onClick={toggleDropdown}></img>
+        {isOpen && (<div className="absolute mt-2 right-0">
+            <div className="bg-[#3A3838] text-white rounded-lg text-right py-1">
+              {/* Work Here */}
+              <Link to ="/profile"><div className="block m-2 px-3 py-3 hover:bg-[#656262]">Profile</div></Link>
+              <Link to ="/subscription"><div className="block m-2 px-3 py-3 hover:bg-[#656262]">Subscription</div></Link>
+              <Link to ="/payment"><div className="block m-2 px-3 py-3 hover:bg-[#656262] border-b-2">Payment</div></Link>
+              <div className="block m-2 px-3 py-3 hover:bg-[#656262]" onClick={handleLogout}>Logout</div>
 
+              {/*<Link to ="/"><div className="block m-2 px-3 py-3 hover:bg-[#656262]">Logout</div></Link>*/}
+
+            </div> 
+            </div>
+            )}
+      {showCon && <ConfirmationScreen/>}
       </div>
     </div>
   );
