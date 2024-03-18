@@ -94,14 +94,14 @@ export const rbSongs = [
 ];
 
 export const savedPlaylists = [
-    { id: 1, title: "Gym Mix", cover: playlist1 },
-    { id: 2, title: "Chill Vibes", cover: playlist2 },
-    { id: 3, title: "Anime OSTs", cover: playlist3 },
-    { id: 4, title: "EDM era", cover: playlist4 },
-    { id: 5, title: "Solo Moods", cover: playlist5 },
-    { id: 6, title: "Music is Cool", cover: playlist6 },
-    { id: 7, title: "Late Night Studying", cover: playlist7 },
-    { id: 8, title: "Long Roads", cover: playlist8 },
+    { id: 1, title: "Gym Mix", genre:"Rap/Electronic", cover: playlist1 },
+    { id: 2, title: "Chill Vibes", genre:"Alternative/Jazz", cover: playlist2 },
+    { id: 3, title: "Anime OSTs",  genre:"Soundtrack/Kpop",cover: playlist3 },
+    { id: 4, title: "EDM era", genre:"Electronic", cover: playlist4 },
+    { id: 5, title: "Solo Moods", genre:"Rap/R&B", cover: playlist5 },
+    { id: 6, title: "Music is Cool", genre:"Pop/R&B",cover: playlist6 },
+    { id: 7, title: "Late Night Studying", genre:"Jazz/Soundtrack", cover: playlist7 },
+    { id: 8, title: "Long Roads", genre:"Rock/Alternative", cover: playlist8 },
 ]
 
 export const playlists = [

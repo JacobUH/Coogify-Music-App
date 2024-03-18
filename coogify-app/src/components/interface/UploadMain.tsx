@@ -44,11 +44,18 @@ export const UploadMain = () => {
     setSongs([...songs, { name: '', file: null }]);
   };
 
-  const handleSongFilesChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleSongFilesChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     const files = event.target.files;
     if (files) {
       const updatedSongs = [...songs];
-      updatedSongs[index] = { ...updatedSongs[index], name: files[0].name, file: files[0] };
+      updatedSongs[index] = {
+        ...updatedSongs[index],
+        name: files[0].name,
+        file: files[0],
+      };
       setSongs(updatedSongs);
     }
   };
@@ -89,13 +96,17 @@ export const UploadMain = () => {
               </div>
               <div className="flex flex-col justify-center space-y-[25px]">
                 <button
-                  className={`bg-[#292828] ${isAlbumClicked ? 'bg-[#875ABE]' : 'hover:bg-[#875ABE]'} text-white text-2xl py-4 px-16 rounded-full`}
+                  className={`bg-[#292828] ${
+                    isAlbumClicked ? 'bg-[#875ABE]' : 'hover:bg-[#875ABE]'
+                  } text-white text-2xl py-4 px-16 rounded-full`}
                   onClick={handleAlbumClick}
                 >
                   Album
                 </button>
                 <button
-                 className={`bg-[#292828] ${isSongClicked ? 'bg-[#875ABE]' : 'hover:bg-[#875ABE]'} text-white text-2xl py-4 px-16 rounded-full`}
+                  className={`bg-[#292828] ${
+                    isSongClicked ? 'bg-[#875ABE]' : 'hover:bg-[#875ABE]'
+                  } text-white text-2xl py-4 px-16 rounded-full`}
                   onClick={handleSongClick}
                 >
                   Single
@@ -104,11 +115,11 @@ export const UploadMain = () => {
             </div>
             {isSongClicked && (
               <>
-                <div className="flex flex-row space-x-[50px] mt-[75px]">
+                <div className="flex flex-row space-x-[50px] mt-[25px]">
                   <div className="flex flex-col">
                     <label>Single</label>
                     <input
-                      className="bg-[#656262] rounded-[20px] p-2 text-white mb-3  h-[75px]"
+                      className="bg-[#656262] rounded-[20px] p-2 text-white mb-3 w-[350px] h-[75px]"
                       type="text"
                       placeholder="Single Name"
                       value={songName}
@@ -118,7 +129,7 @@ export const UploadMain = () => {
                   <div className="flex flex-col">
                     <label>Genre</label>
                     <input
-                      className="bg-[#656262] rounded-[20px] p-2 text-white mb-3 h-[75px]"
+                      className="bg-[#656262] rounded-[20px] p-2 text-white mb-3 w-[350px] h-[75px]"
                       type="text"
                       placeholder="Genre"
                       value={genre}
@@ -128,7 +139,7 @@ export const UploadMain = () => {
                   <div className="flex flex-col">
                     <label>Artist</label>
                     <input
-                      className="bg-[#656262] rounded-[20px] p-2 text-white mb-3  h-[75px]"
+                      className="bg-[#656262] rounded-[20px] p-2 text-white mb-3 w-[350px] h-[75px]"
                       type="text"
                       placeholder="Artist Name"
                       value={artistName}
@@ -168,12 +179,11 @@ export const UploadMain = () => {
             )}
             {isAlbumClicked && (
               <>
-              
-                <div className="flex flex-row space-x-[50px] mt-[75px]">
-                  <div className="flex flex-col">
+                <div className="flex flex-row space-x-[50px] mt-[25px]">
+                  <div className="flex flex-auto flex-col">
                     <label>Album</label>
                     <input
-                      className=" bg-[#656262] rounded-[20px] p-2 text-white mb-3  h-[75px]"
+                      className=" bg-[#656262] rounded-[20px] p-2 text-white mb-3 w-[350px] h-[75px]"
                       type="text"
                       placeholder="Album Name"
                       value={songName}
@@ -181,10 +191,10 @@ export const UploadMain = () => {
                     />
                   </div>
 
-                  <div className="flex flex-col">
+                  <div className="flex flex-auto flex-col">
                     <label>Genre</label>
                     <input
-                      className="bg-[#656262] rounded-[20px] p-2 text-white mb-3 h-[75px]"
+                      className="bg-[#656262] rounded-[20px] p-2 text-white mb-3 w-[350px] h-[75px]"
                       type="text"
                       placeholder="Genre"
                       value={genre}
@@ -192,10 +202,10 @@ export const UploadMain = () => {
                     />
                   </div>
 
-                  <div className="flex flex-col">
+                  <div className="flex flex-auto flex-col">
                     <label>Artist</label>
                     <input
-                      className="bg-[#656262] rounded-[20px] p-2 text-white mb-3  h-[75px]"
+                      className="bg-[#656262] rounded-[20px] p-2 text-white mb-3 w-[350px] h-[75px]"
                       type="text"
                       placeholder="Artist Name"
                       value={artistName}
@@ -203,45 +213,44 @@ export const UploadMain = () => {
                     />
                   </div>
                 </div>
-                <div className="flex flex-col mr-[5px]">
+                <div className="flex flex-col ">
                   <label>Song</label>
                   {songs.map((song, index) => (
-                      <div key={index} className="flex items-center my-2">
+                    <div key={index} className="flex items-center my-2">
+                      <input
+                        className="bg-[#656262] rounded-[20px] p-2 text-white flex-1 h-[50px]"
+                        type="text"
+                        readOnly
+                        placeholder={`Song ${index + 1} uploaded`}
+                        value={song.name || ''}
+                      />
+                      <label className="bg-[#292828] text-white px-4 py-2 rounded-[20px] cursor-pointer hover:bg-[#875ABE] transition-colors h-[50px] ml-[20px]">
+                        <span>Upload Song</span>
                         <input
-                          className="bg-[#656262] rounded-[20px] p-2 text-white flex-1 h-[50px]"
-                          type="text"
-                          readOnly
-                          placeholder={`Song ${index + 1} uploaded`}
-                          value={song.name || ''}
+                          type="file"
+                          className="hidden"
+                          onChange={(e) => handleSongFilesChange(e, index)}
                         />
-                        <label className="bg-[#292828] text-white px-4 py-2 rounded-[20px] cursor-pointer hover:bg-[#875ABE] transition-colors h-[50px] ml-[20px]">
-                          <span>Upload Song</span>
-                          <input
-                            type="file"
-                            className="hidden"
-                            onChange={(e) => handleSongFilesChange(e, index)}
-                          />
-                        </label>
-                        {songs.length > 1 && (
-                          <button
-                            type="button"
-                            className="ml-2 bg-red-600 text-white px-2 py-1 rounded-[20px] hover:bg-red-700"
-                            onClick={() => handleRemoveSong(index)}
-                          >
-                            &times;
-                          </button>
-                        )}
-                      </div>
-                      
+                      </label>
+                      {songs.length > 1 && (
+                        <button
+                          type="button"
+                          className="ml-2 bg-red-600 text-white px-2 py-1 rounded-[20px] hover:bg-red-700"
+                          onClick={() => handleRemoveSong(index)}
+                        >
+                          &times;
+                        </button>
+                      )}
+                    </div>
                   ))}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleAddSong}
-                    className="bg-[#292828] text-white p-2 rounded-[20px] mt-2"
-                  >
-                    + Add Song
-                  </button>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleAddSong}
+                  className="bg-[#292828] text-white p-2 rounded-[20px] mt-2"
+                >
+                  + Add Song
+                </button>
                 <div className="text-center mt-6">
                   <button
                     type="submit"
@@ -250,7 +259,6 @@ export const UploadMain = () => {
                     Submit
                   </button>
                 </div>
-                
               </>
             )}
           </form>
