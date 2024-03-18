@@ -62,7 +62,7 @@ export const Sidebar = () => {
   };
 
   return (
-    <div className="md:h-screen h-fit md:w-[400px] w-full md:absolute block md:left-0 top-0 p-5 z-30 hide-scrollbar overflow-auto ">
+    <div className="md:h-screen h-fit md:w-[400px] z-30 w-full md:absolute block md:left-0 top-0 p-5 hide-scrollbar overflow-auto ">
       {/* Sidebar Icons on top */}
       <div className="bg-[#3E3C3C] rounded-md overflow-hidden p-4">
         <div className="w-full flex flex-col gap-7">

@@ -7,6 +7,9 @@ import { Home } from './pages/Home';
 import { Search } from './pages/Search';
 import { Upload } from './pages/Upload';
 import { Library } from './pages/Library';
+import { Profile } from './pages/Profile';
+import { Subscription } from './pages/Subscription';
+import { Payment } from './pages/Payment';
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/library" element={<Library />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/subscription" element={<Subscription />} />
+          <Route path="/payment" element={<Payment />} />
         </Routes>
       </div>
     </>
