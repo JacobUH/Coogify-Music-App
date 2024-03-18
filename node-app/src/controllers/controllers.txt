@@ -1,0 +1,3 @@
+ - Each route should have its corresponding controller function.
+ - Controllers handle the business logic and interact with models to fetch or manipulate data.
+ - Keep controllers simple and focused on a single task.
