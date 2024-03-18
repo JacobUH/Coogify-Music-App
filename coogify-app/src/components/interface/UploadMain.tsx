@@ -9,6 +9,7 @@ export const UploadMain = () => {
   const [songFileName, setSongFileName] = useState(''); // Added state for the song file name
   const [isSongClicked, setIsSongClicked] = useState(false);
   const [isAlbumClicked, setIsAlbumClicked] = useState(false);
+  const [songs, setSongs] = useState([{ name: '', file: null }]);
 
   const handleCoverArtChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -38,12 +39,30 @@ export const UploadMain = () => {
     setIsAlbumClicked(false);
   };
 
+  const handleAddSong = () => {
+    // Add a new object to the songs array state
+    setSongs([...songs, { name: '', file: null }]);
+  };
+
+  const handleSongFilesChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const files = event.target.files;
+    if (files) {
+      const updatedSongs = [...songs];
+      updatedSongs[index] = { ...updatedSongs[index], name: files[0].name, file: files[0] };
+      setSongs(updatedSongs);
+    }
+  };
+
+  const handleRemoveSong = (index: number) => {
+    setSongs(songs.filter((_, i) => i !== index));
+  };
+
   return (
     <div
-      className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5 overflow-hidden"
+      className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5 overflow-hidden hide-scrollbar"
       style={{ maxHeight: 'calc(100vh - 211px)' }}
     >
-      <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto">
+      <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto hide-scrollbar">
         <div className="text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
           Upload
         </div>
@@ -57,7 +76,7 @@ export const UploadMain = () => {
             <div className="flex flex-row ">
               <div className="flex flex-col mt-[-20px]">
                 <label>Cover Art</label>
-                <div className="flex flex-col justify-center items-center mb-4">
+                <div className="flex flex-col justify-center items-center mb-4 mr-[75px]">
                   <label className="w-[250px] h-[250px] bg-[#656262] rounded-lg flex justify-center items-center cursor-pointer mb-4">
                     <input
                       type="file"
@@ -70,13 +89,13 @@ export const UploadMain = () => {
               </div>
               <div className="flex flex-col justify-center space-y-[25px]">
                 <button
-                  className="bg-[#292828] hover:bg-[#875ABE] text-white text-2xl py-4 px-16 rounded-full"
+                  className={`bg-[#292828] ${isAlbumClicked ? 'bg-[#875ABE]' : 'hover:bg-[#875ABE]'} text-white text-2xl py-4 px-16 rounded-full`}
                   onClick={handleAlbumClick}
                 >
                   Album
                 </button>
                 <button
-                  className="bg-[#292828] hover:bg-[#875ABE] text-white text-2xl py-4 px-16 rounded-full"
+                 className={`bg-[#292828] ${isSongClicked ? 'bg-[#875ABE]' : 'hover:bg-[#875ABE]'} text-white text-2xl py-4 px-16 rounded-full`}
                   onClick={handleSongClick}
                 >
                   Single
@@ -149,6 +168,7 @@ export const UploadMain = () => {
             )}
             {isAlbumClicked && (
               <>
+              
                 <div className="flex flex-row space-x-[50px] mt-[75px]">
                   <div className="flex flex-col">
                     <label>Album</label>
@@ -185,24 +205,43 @@ export const UploadMain = () => {
                 </div>
                 <div className="flex flex-col mr-[5px]">
                   <label>Song</label>
-                  <div className="flex flex-col items-center mb-4">
-                    <input
-                      className="bg-[#656262] rounded-[20px] p-2 text-white mb-3 h-[75px]"
-                      type="text"
-                      readOnly
-                      placeholder="No song uploaded"
-                      value={songFileName}
-                    />
-                    <label className="bg-[#292828] text-white px-4 py-2 rounded-[20px] cursor-pointer hover:bg-[#875ABE] transition-colors">
-                      <span>Upload Song</span>
-                      <input
-                        type="file"
-                        className="hidden"
-                        onChange={handleSongFileChange}
-                      />
-                    </label>
+                  {songs.map((song, index) => (
+                      <div key={index} className="flex items-center my-2">
+                        <input
+                          className="bg-[#656262] rounded-[20px] p-2 text-white flex-1 h-[50px]"
+                          type="text"
+                          readOnly
+                          placeholder={`Song ${index + 1} uploaded`}
+                          value={song.name || ''}
+                        />
+                        <label className="bg-[#292828] text-white px-4 py-2 rounded-[20px] cursor-pointer hover:bg-[#875ABE] transition-colors h-[50px] ml-[20px]">
+                          <span>Upload Song</span>
+                          <input
+                            type="file"
+                            className="hidden"
+                            onChange={(e) => handleSongFilesChange(e, index)}
+                          />
+                        </label>
+                        {songs.length > 1 && (
+                          <button
+                            type="button"
+                            className="ml-2 bg-red-600 text-white px-2 py-1 rounded-[20px] hover:bg-red-700"
+                            onClick={() => handleRemoveSong(index)}
+                          >
+                            &times;
+                          </button>
+                        )}
+                      </div>
+                      
+                  ))}
                   </div>
-                </div>
+                  <button
+                    type="button"
+                    onClick={handleAddSong}
+                    className="bg-[#292828] text-white p-2 rounded-[20px] mt-2"
+                  >
+                    + Add Song
+                  </button>
                 <div className="text-center mt-6">
                   <button
                     type="submit"
@@ -211,6 +250,7 @@ export const UploadMain = () => {
                     Submit
                   </button>
                 </div>
+                
               </>
             )}
           </form>
