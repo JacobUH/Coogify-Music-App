@@ -11,7 +11,25 @@ export const SearchMain = () => {
           Search
         </div>
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
-          {/* Work in here */}
+          <div className="w-full flex justify-center">
+            <input
+              type="text"
+              placeholder="Search for songs, albums, artists..."
+              className="w-full max-w-lg bg-gray-800 rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-purple-500"
+            />
+          </div>
+          <div className="w-full item text-center">
+            <h2 className="text-2xl font-semibold mb-3">Songs</h2>
+            <div className="grid grid-cols-3 gap-5">
+              {/* Render songs here */}
+            </div>
+          </div>
+          <div className="w-full text-center">
+            <h2 className="text-2xl font-semibold mb-3">Albums</h2>
+            <div className="grid grid-cols-3 gap-5">
+              {/* Render albums here */}
+            </div>
+          </div>
         </div>
       </div>
     </div>
