@@ -3,20 +3,9 @@
 
 import pool from "../dbConnection.js";
 
-export async function getQuery(id) {
-  const [rows] = await pool.query(
-    `
-  SELECT *
-  FROM ADMIN
-  WHERE adminID = ?
-  `,
-    [id]
-  );
-  return rows;
-}
-
 export async function registerUser(params) {
   const { email, userPassword, firstName, lastName, dateOfBirth } = params;
+  console.log(params);
   try {
     const [rows] = await pool.query(
       `INSERT INTO USER 
