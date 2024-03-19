@@ -158,7 +158,9 @@ export const UploadMain = () => {
                       value={songFileName}
                     />
                     <label className="bg-[#292828] text-white px-4 py-2 rounded-[20px] cursor-pointer hover:bg-[#875ABE] transition-colors">
-                      <span>Upload Song</span>
+                      <span className="flex items-center justify-center">
+                        Upload Song
+                      </span>
                       <input
                         type="file"
                         className="hidden"
@@ -225,7 +227,9 @@ export const UploadMain = () => {
                         value={song.name || ''}
                       />
                       <label className="bg-[#292828] text-white px-4 py-2 rounded-[20px] cursor-pointer hover:bg-[#875ABE] transition-colors h-[50px] ml-[20px]">
-                        <span>Upload Song</span>
+                        <span className="flex items-center justify-center">
+                          Upload Song
+                        </span>
                         <input
                           type="file"
                           className="hidden"
