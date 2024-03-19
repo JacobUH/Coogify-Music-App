@@ -1,0 +1,18 @@
+{
+  "name": "coogify",
+  "version": "1.0.0",
+  "description": "Coogify application",
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd backend && npm run dev",
+    "frontend": "cd frontend && npm run dev",
+    "start": "concurrently \"npm run backend-start\" \"npm run frontend-start\"",
+    "backend-start": "cd backend && npm start",
+    "frontend-start": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "lint": "cd frontend && npm run lint"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
