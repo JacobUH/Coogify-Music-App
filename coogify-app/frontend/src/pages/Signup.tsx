@@ -1,36 +1,66 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../../public/images/Logo.svg';
+// import Logo from '../../public/images/Logo.svg';
 import { Footer } from '../components/setup/Footer';
+import React from 'react';
 
 export const Signup = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Validate form data
-    if (firstName && lastName && email && password) {
-      // Form is valid, navigate to setup page
-      window.location.href = '/setup'; // Alternatively, use useHistory() from react-router-dom for programmatic navigation
-    } else {
-      // Form is not valid, display error message or handle accordingly
-      console.error('Please fill out all required fields');
+    console.log(
+      JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        password,
+      })
+    );
+    try {
+      const response = await fetch('http://localhost:3001/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          password,
+        }),
+      });
+
+      console.log('Response:', response); // Add this line to check response
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message);
+      }
+
+      // Assuming successful signup, you can redirect the user to another page
+      window.location.href = '/setup';
+    } catch (error: unknown) {
+      setError((error as Error).message);
     }
   };
 
   return (
     <div className="w-full h-full absolute inset-0 bg-gradient-to-tr from-[#9E67E4] via-transparent to-[#212121] text-white overflow-hidden p-6">
       <Link to="/">
-        <img src={Logo} alt="Coogify Logo" className="mx-auto pb-20 w-[70px]" />
+        {/* <img src={Logo} alt="Coogify Logo" className="mx-auto pb-20 w-[70px]" /> */}
       </Link>
       <h1 className="text-4xl text-white text-center mb-5 ">Get Started</h1>
       <form
         onSubmit={handleSubmit}
         className="bg-[#3E3C3C] p-6 rounded-lg shadow-md md:w-[700px] mx-auto "
       >
+        {error && <div className="text-red-500 mb-4">{error}</div>}
+
         <div className="mb-4">
           <label htmlFor="firstName" className="block text-white">
             First Name

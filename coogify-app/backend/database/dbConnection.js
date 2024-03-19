@@ -1,6 +1,13 @@
-import mysql from "mysql2";
-import dotenv from "dotenv";
-dotenv.config();
+import path from 'path'; // Import the path module
+import dotenv from 'dotenv';
+import mysql from 'mysql2';
+
+// Get the directory name using import.meta.url
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
+// Specify the path to the .env file
+const envPath = path.resolve(__dirname, '..', '..', '.env');
+dotenv.config({ path: envPath });
 
 // create connection pool
 const pool = mysql

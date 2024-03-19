@@ -10,6 +10,7 @@ import { Library } from './pages/Library';
 import { Profile } from './pages/Profile';
 import { Subscription } from './pages/Subscription';
 import { Payment } from './pages/Payment';
+import React from 'react';
 
 function App() {
   return (

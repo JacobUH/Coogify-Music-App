@@ -1,9 +1,11 @@
 import { handleHomeRoute } from './homeRoutes.js';
+import * as logreg from './specificRoutes/loginRegRoutes.js';
 // import * as register from "./userRoutes/registration.js";
 
 const handlers = {
   api: {
     home: handleHomeRoute,
+    signup: logreg.register,
     admin: {
       modArtist: (req, res) => 'modArtist',
       modUser: (req, res) => 'modUser',
