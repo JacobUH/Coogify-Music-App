@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import AddIcon from '../../../public/images/AddIcon.svg';
+import AddBack from '../../../public/images/Back Button.svg';
+import { useNavigate } from 'react-router-dom';
 
 export const UploadMain = () => {
   const [songName, setSongName] = useState('');
@@ -9,7 +12,7 @@ export const UploadMain = () => {
   const [songFileName, setSongFileName] = useState(''); // Added state for the song file name
   const [isSongClicked, setIsSongClicked] = useState(false);
   const [isAlbumClicked, setIsAlbumClicked] = useState(false);
-  const [songs, setSongs] = useState([{ name: '', file: null }]);
+  const [songs, setSongs] = useState([{ name: '', file: "" }]);
 
   const handleCoverArtChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -41,7 +44,7 @@ export const UploadMain = () => {
 
   const handleAddSong = () => {
     // Add a new object to the songs array state
-    setSongs([...songs, { name: '', file: null }]);
+    setSongs([...songs, { name: '', file: "" }]);
   };
 
   const handleSongFilesChange = (
@@ -64,18 +67,26 @@ export const UploadMain = () => {
     setSongs(songs.filter((_, i) => i !== index));
   };
 
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1); 
+  };
+
   return (
     <div
       className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5 overflow-hidden hide-scrollbar"
       style={{ maxHeight: 'calc(100vh - 211px)' }}
     >
       <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto hide-scrollbar">
-        <div className="text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
+        <div className="flex-col text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
           Upload
         </div>
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
           {/* everything above has been checked and is working properly */}
-
+          <div className="w-full flex justify-between items-center px-5 md:px-10 py-4">
+          <img src={AddBack} alt="Back" onClick={handleBack} className="cursor-pointer absolute mb-48"/>
+        </div>
           <form
             className="flex items-center flex-col mt-[25px] "
             onSubmit={handleSubmit}
@@ -86,9 +97,10 @@ export const UploadMain = () => {
                 <div className="flex flex-col justify-center items-center mb-4 mr-[75px]">
                   <label className="w-[250px] h-[250px] bg-[#656262] rounded-lg flex justify-center items-center cursor-pointer mb-4">
                     <input
-                      type="file"
-                      className="hidden"
-                      onChange={handleCoverArtChange}
+                       type="file"
+                       className="hidden"
+                       accept="image/jpeg, image/jpg, image/png, image/svg+xml"
+                       onChange={handleCoverArtChange}
                     />
                     <div>Upload Cover</div>
                   </label>
@@ -151,18 +163,21 @@ export const UploadMain = () => {
                   <label>Song</label>
                   <div className="flex flex-col items-center mb-4">
                     <input
-                      className="bg-[#656262] rounded-[20px] p-2 text-white mb-3  h-[75px]"
+                      className="bg-[#656262] rounded-[20px] p-2 text-white mb-3 w-[1150px] h-[75px]"
                       type="text"
                       readOnly
                       placeholder="No song uploaded"
                       value={songFileName}
                     />
                     <label className="bg-[#292828] text-white px-4 py-2 rounded-[20px] cursor-pointer hover:bg-[#875ABE] transition-colors">
-                      <span>Upload Song</span>
+                      <span className="flex items-center justify-center">
+                        Upload Song
+                      </span>
                       <input
-                        type="file"
-                        className="hidden"
-                        onChange={handleSongFileChange}
+                         type="file"
+                         className="hidden"
+                         accept="audio/mpeg, audio/wav, audio/mp4"
+                         onChange={(e) => handleSongFilesChange(e, index)}
                       />
                     </label>
                   </div>
@@ -216,19 +231,20 @@ export const UploadMain = () => {
                 <div className="flex flex-col ">
                   <label>Song</label>
                   {songs.map((song, index) => (
-                    <div key={index} className="flex items-center my-2">
+                    <div key={index} className=" my-2 justify-center">
                       <input
-                        className="bg-[#656262] rounded-[20px] p-2 text-white flex-1 h-[50px]"
+                        className="bg-[#656262] rounded-[20px] p-2 mb-3 text-white flex-1 h-[75px] w-[1000px]"
                         type="text"
                         readOnly
                         placeholder={`Song ${index + 1} uploaded`}
                         value={song.name || ''}
                       />
-                      <label className="bg-[#292828] text-white px-4 py-2 rounded-[20px] cursor-pointer hover:bg-[#875ABE] transition-colors h-[50px] ml-[20px]">
-                        <span>Upload Song</span>
+                      <label className="bg-[#292828] text-white px-4 py-6 rounded-[20px] cursor-pointer hover:bg-[#875ABE] transition-colors ml-[20px] mb-[10px] h-[75px]">
+                        <span className="inline-block align-middle">Upload Song</span>
                         <input
                           type="file"
                           className="hidden"
+                          accept="audio/mpeg, audio/wav, audio/mp4"
                           onChange={(e) => handleSongFilesChange(e, index)}
                         />
                       </label>
@@ -247,9 +263,13 @@ export const UploadMain = () => {
                 <button
                   type="button"
                   onClick={handleAddSong}
-                  className="bg-[#292828] text-white p-2 rounded-[20px] mt-2"
+                  className="bg-[#292828] text-white rounded-[20px] mt-2 "
                 >
-                  + Add Song
+                  <img
+                    src={AddIcon}
+                    className="w-[20px] pb-1 cursor-pointer"
+                    onClick={handleAddSong}
+                />
                 </button>
                 <div className="text-center mt-6">
                   <button

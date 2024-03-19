@@ -10,6 +10,7 @@ export const PaymentMain = () => {
       <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto">
         <div className="text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
           Payment
+
       </div>
 
         <div className="rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col gap-5 px-8 md:py-5 pb-20 pt-5">
@@ -104,8 +105,6 @@ export const PaymentMain = () => {
                   </div>
                 </div>
             </div>
-            
-
 
             <div className="flex flex-row">
                 {/* CHANGE CARD DETAILS */}
@@ -163,7 +162,6 @@ export const PaymentMain = () => {
 
 
         </div>
-
         </div>
       </div>
   );
