@@ -1,3 +1,4 @@
+import React from 'react';
 import ProfileIcon from '../../../public/images/Profile Icon.svg';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';

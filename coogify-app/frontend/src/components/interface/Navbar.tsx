@@ -1,3 +1,4 @@
+import React from 'react';
 import LogoIcon from '../../../public/images/Logo.png';
 import { AccountDropdown } from './AccountDropdown';
 

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import cover from '../../../public/images/8.png';
 import playButton from '../../../public/images/Play.png';

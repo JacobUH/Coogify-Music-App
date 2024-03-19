@@ -1,3 +1,4 @@
+import React from 'react';
 import titleLogo from '../../../public/images/Title.svg';
 import { Link } from 'react-router-dom';
 import { Footer } from './Footer';

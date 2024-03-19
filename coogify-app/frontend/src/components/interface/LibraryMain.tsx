@@ -1,3 +1,4 @@
+import React from 'react';
 import { playlists, yourMusic } from '../../../public/data/songs';
 import { LibraryRows } from './LibraryRows';
 import { MusicRows } from './MusicRows';
