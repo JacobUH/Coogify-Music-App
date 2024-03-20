@@ -17,6 +17,7 @@ function App() {
     <>
       <div>
         <Routes>
+          <Route index element={<LandingPage />} />
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
