@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { LandingPage } from './pages/LandingPage';
 import { Login } from './pages/Login';
 import { Setup } from './pages/Setup';
@@ -14,20 +14,21 @@ import { Payment } from './pages/Payment';
 
 function App() {
   return (
-    <>
-      <div>
-        <Routes>
-          <Route index element={<Home />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/upload" element={<Upload />} />
-          <Route path="/library" element={<Library />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/subscription" element={<Subscription />} />
-          <Route path="/payment" element={<Payment />} />
-        </Routes>
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/setup" element={<Setup />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/upload" element={<Upload />} />
+        <Route path="/library" element={<Library />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/subscription" element={<Subscription />} />
+        <Route path="/payment" element={<Payment />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
