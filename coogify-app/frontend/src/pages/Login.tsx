@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Logo from '../../public/images/Logo.svg';
 import { Footer } from '../components/setup/Footer';
 
@@ -7,12 +7,14 @@ export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Validate form data
     if (email && password) {
       // Form is valid, navigate to setup page
-      window.location.href = '/home'; // Alternatively, use useHistory() from react-router-dom for programmatic navigation
+      navigate('/home');
     } else {
       // Form is not valid, display error message or handle accordingly
       console.error('Please fill out all required fields');

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Logo from '../../public/images/Logo.svg';
 import { Footer } from '../components/setup/Footer';
 
@@ -8,12 +8,14 @@ export const Setup = () => {
   const [day, setDay] = useState('');
   const [year, setYear] = useState('');
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Validate form data
     if (month && day && year) {
       // Form is valid, navigate to setup page
-      window.location.href = '/home'; // Alternatively, use useHistory() from react-router-dom for programmatic navigation
+      navigate('/home');
     } else {
       // Form is not valid, display error message or handle accordingly
       console.error('Please fill out all required fields');
