@@ -1,19 +1,21 @@
 // requestHandler.js
 import { jsonParser, authenticate } from '../middlewares/middleware.js';
-import * as logreg from './specificRoutes/loginRegRoutes.js';
-// import * as register from "./userRoutes/registration.js";
-
+import { register, login } from './specificRoutes/loginRegRoutes.js';
+import { uploadSong } from './specificRoutes/uploadsRoutes.js';
 const handlers = {
   api: {
-    signup: logreg.register,
+    register: register,
     setup: (req, res) => 'setup',
-    login: logreg.login,
+    login: login,
+    upload: {
+      uploadSong: uploadSong,
+      uploadAlbum: (req, res) => 'uploadAlbum',
+    },
     home: {
       fetchNewSongs: (req, res) => 'fetchNewSongs',
       fetchTopSongs: (req, res) => 'fetchTopSongs',
       fetchUserLikedSongs: (req, res) => 'fetchUserLikedSongs',
     },
-    uploadSongs: (req, res) => 'uploadSongs',
     landing: (req, res) => 'landing',
     admin: {
       modArtist: (req, res) => 'modArtist',

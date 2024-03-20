@@ -19,7 +19,9 @@ export async function registerUser(params) {
   }
 }
 
-export async function getUserFromEmail(email) {
+export async function getUserFromEmail(email_promise) {
+  const email = await email_promise;
+  console.log(email);
   try {
     const [rows] = await pool.query(
       `SELECT userID
@@ -33,6 +35,7 @@ export async function getUserFromEmail(email) {
       return rows[0].userID;
     } else {
       // No matching email found in the database
+      console.log('no email found matching in database');
       return null;
     }
   } catch (err) {

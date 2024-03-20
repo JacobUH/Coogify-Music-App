@@ -3,6 +3,7 @@ import { Sidebar } from '../components/interface/Sidebar';
 import { Navbar } from '../components/interface/Navbar';
 import { SearchMain } from '../components/interface/SearchMain';
 import { Player } from '../components/interface/Player';
+import React from 'react';
 
 export const Search = () => {
   return (

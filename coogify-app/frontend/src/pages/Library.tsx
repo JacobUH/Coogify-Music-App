@@ -3,6 +3,7 @@ import { Sidebar } from '../components/interface/Sidebar';
 import { Navbar } from '../components/interface/Navbar';
 import { LibraryMain } from '../components/interface/LibraryMain';
 import { Player } from '../components/interface/Player';
+import React from 'react';
 
 export const Library = () => {
   return (

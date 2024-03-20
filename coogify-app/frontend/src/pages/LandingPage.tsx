@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import AlbumBar from '../components/setup/AlbumBar';
 import { MainPage } from '../components/setup/MainPage';
+import React from 'react';
 
 export const LandingPage = () => {
   return (

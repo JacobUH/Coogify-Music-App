@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../public/images/Logo.svg';
 import { Footer } from '../components/setup/Footer';
+import React from 'react';
 
 export const Login = () => {
   const [email, setEmail] = useState('');

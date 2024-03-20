@@ -61,20 +61,30 @@ export async function hashPassword(password) {
 }
 
 export async function authenticate(req, res, next) {
-    console.log('authenticating');
+  console.log('authenticating');
+  const path = new URL(req.url, 'http://localhost').pathname;
+  console.log(path);
   // Check if the request path is not login or register
-  if (req.url !== '/login' && req.url !== '/register') {
+  if (path !== '/api/login' && path !== '/api/register') {
+    console.log('not in login or register');
     // Check if the session is valid
-    const { session } = req.body; // Assuming session ID is sent in the request body
-    const exists = await sessionExists(session); // Implement this function to check session validity
-
-    if (exists) {
-      res.writeHead(401, { 'Content-Type': 'text/plain' });
-      res.end('Unauthorized');
+    try {
+      const { sessionID } = req.body; // Assuming session ID is sent in the request body
+      const exists = await sessionExists(sessionID);
+      if (!exists) {
+        unauthorized(req, res);
+        return;
+      }
+    } catch (err) {
+      unauthorized(req, res);
       return;
     }
   }
-
-  // If the request path is login or register, or the session is valid, proceed to the next middleware or route handler
   next();
+}
+
+function unauthorized(req, res) {
+  res.writeHead(401, { 'Content-Type': 'text/plain' });
+  res.end('Unauthorized');
+  return;
 }

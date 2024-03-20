@@ -3,6 +3,7 @@ import { Sidebar } from '../components/interface/Sidebar';
 import { Navbar } from '../components/interface/Navbar';
 import { Player } from '../components/interface/Player';
 import { UploadMain } from '../components/interface/UploadMain';
+import React from 'react';
 
 export const Upload = () => {
   return (

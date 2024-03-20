@@ -22,7 +22,13 @@ export async function register(req, res) {
   }
 
   try {
-    if (logregq.registerUser(email, password, firstName, lastName)) {
+    const registered = await logregq.registerUser(
+      email,
+      password,
+      firstName,
+      lastName
+    );
+    if (registered) {
       const session = await createSession(getUserFromEmail(email));
       res.statusCode = 200;
       res.end(
