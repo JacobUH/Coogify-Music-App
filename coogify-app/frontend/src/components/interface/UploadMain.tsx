@@ -4,12 +4,12 @@ export const UploadMain = () => {
   const [songName, setSongName] = useState('');
   const [genre, setGenre] = useState('');
   const [artistName, setArtistName] = useState('');
-  const [coverArt, setCoverArt] = useState<File | null>(null);
-  const [songFile, setSongFile] = useState<File | null>(null);
+  const [, setCoverArt] = useState<File | null>(null);
+  const [, setSongFile] = useState<File | null>(null);
   const [songFileName, setSongFileName] = useState(''); // Added state for the song file name
   const [isSongClicked, setIsSongClicked] = useState(false);
   const [isAlbumClicked, setIsAlbumClicked] = useState(false);
-  const [songs, setSongs] = useState([{ name: '', file: null }]);
+  const [songs, setSongs] = useState([{ name: '', file: File[0] }]);
 
   const handleCoverArtChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -41,7 +41,7 @@ export const UploadMain = () => {
 
   const handleAddSong = () => {
     // Add a new object to the songs array state
-    setSongs([...songs, { name: '', file: null }]);
+    setSongs([...songs, { name: '', file: File[0] }]);
   };
 
   const handleSongFilesChange = (

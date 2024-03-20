@@ -3,7 +3,8 @@ import { useState } from 'react';
 
 export const SearchMain = () => {
   const [input, setInput] = useState('');
-  const fetchData = (value: string) => {};
+
+  /*const fetchData = (value: string) => {}; */
 
   return (
     <div
