@@ -60,16 +60,29 @@ export async function hashPassword(password) {
   }
 }
 
+
 export async function authenticate(req, res, next) {
   console.log('authenticating');
   const path = new URL(req.url, 'http://localhost').pathname;
   console.log(path);
+
   // Check if the request path is not login or register
   if (path !== '/api/login' && path !== '/api/register') {
     console.log('not in login or register');
+
+    // Check if the Authorization header is present
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+      unauthorized(req, res);
+      return;
+    }
+
+    // Extract the sessionID from the Authorization header
+    const [, sessionID] = authHeader.split(' ');
+    console.log(sessionID);
+
     // Check if the session is valid
     try {
-      const { sessionID } = req.body; // Assuming session ID is sent in the request body
       const exists = await sessionExists(sessionID);
       if (!exists) {
         unauthorized(req, res);
@@ -80,11 +93,43 @@ export async function authenticate(req, res, next) {
       return;
     }
   }
+
   next();
 }
 
 function unauthorized(req, res) {
   res.writeHead(401, { 'Content-Type': 'text/plain' });
   res.end('Unauthorized');
-  return;
 }
+
+
+// export async function authenticate(req, res, next) {
+//   console.log('authenticating');
+//   const path = new URL(req.url, 'http://localhost').pathname;
+//   console.log(path);
+//   // Check if the request path is not login or register
+//   if (path !== '/api/login' && path !== '/api/register') {
+//     console.log('not in login or register');
+//     // Check if the session is valid
+//     console.log(req.body);
+//     try {
+//       const { sessionID } = req.body; // Assuming session ID is sent in the request body
+//       console.log(sessionID);
+//       const exists = await sessionExists(sessionID);
+//       if (!exists) {
+//         unauthorized(req, res);
+//         return;
+//       }
+//     } catch (err) {
+//       unauthorized(req, res);
+//       return;
+//     }
+//   }
+//   next();
+// }
+
+// function unauthorized(req, res) {
+//   res.writeHead(401, { 'Content-Type': 'text/plain' });
+//   res.end('Unauthorized');
+//   return;
+// }
