@@ -1,10 +1,11 @@
-import fs from 'fs';
 import path from 'path';
 import multer from 'multer';
+import dotenv from 'dotenv';
 import { addSong } from '../../database/queries/dbUploadQueries.js';
+dotenv.config();
 
 // Define the base URL where files will be served
-const baseURL = 'http://localhost:3001/uploads/';
+const baseURL = `http://${process.env.MYSQL_HOST}:${process.env.SERVER_PORT}/uploads/`;
 
 // Define storage configuration for multer
 const storage = multer.diskStorage({

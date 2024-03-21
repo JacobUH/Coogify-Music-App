@@ -1,4 +1,3 @@
-import path from 'path'; // Import the path module
 import dotenv from 'dotenv';
 import mysql from 'mysql2';
 dotenv.config();
