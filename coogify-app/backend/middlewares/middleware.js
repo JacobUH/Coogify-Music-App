@@ -79,7 +79,6 @@ export async function authenticate(req, res, next) {
 
     // Extract the sessionID from the Authorization header
     const [, sessionID] = authHeader.split(' ');
-    console.log(sessionID);
 
     // Check if the session is valid
     try {

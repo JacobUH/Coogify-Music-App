@@ -1,10 +1,10 @@
-
 // Import necessary modules
+import fs from 'fs';
+import path from 'path';
 import { jsonParser, authenticate } from '../middlewares/middleware.js';
 import { register, login } from './specificRoutes/loginRegRoutes.js';
 import { uploadSong } from './specificRoutes/uploadsRoutes.js';
-import fs from 'fs';
-import path from 'path';
+import { getSong } from './specificRoutes/playSongRoutes.js';
 
 // Define the handlers object
 const handlers = {
@@ -12,6 +12,10 @@ const handlers = {
     register: register,
     setup: (req, res) => 'setup',
     login: login,
+    fetch: {
+      song: getSong,
+      album: (req, res) => 'info of album and image url',
+    },
     upload: {
       uploadSong: uploadSong,
       uploadAlbum: (req, res) => 'uploadAlbum',
@@ -51,7 +55,6 @@ function serveFile(req, res) {
   });
 }
 
-
 // Function to handle the request
 export async function handleRequest(req, res) {
   try {
@@ -83,7 +86,7 @@ export async function handleRequest(req, res) {
         // Check if the current object is a handler function
         if (typeof current === 'function') {
           if (method === 'POST') {
-            current(req, res); 
+            current(req, res);
           } else {
             const params = {};
             if (queryString) {
@@ -92,7 +95,7 @@ export async function handleRequest(req, res) {
                 params[key] = value;
               }
             }
-            current(req, res, params); 
+            current(req, res, params);
           }
         } else {
           res.writeHead(404, { 'Content-Type': 'text/plain' });
@@ -106,10 +109,6 @@ export async function handleRequest(req, res) {
     res.end('Internal server error');
   }
 }
-
-
-
-
 
 // // requestHandler.js
 // import { jsonParser, authenticate } from '../middlewares/middleware.js';

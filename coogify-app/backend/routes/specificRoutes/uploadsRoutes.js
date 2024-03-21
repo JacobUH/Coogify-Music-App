@@ -1,7 +1,7 @@
 import path from 'path';
 import multer from 'multer';
 import dotenv from 'dotenv';
-import { addSong } from '../../database/queries/dbUploadQueries.js';
+import { insertSong } from '../../database/queries/dbFileQueries.js';
 dotenv.config();
 
 // Define the base URL where files will be served
@@ -39,7 +39,7 @@ export async function uploadSong(req, res, next) {
 
       // Save file metadata to the database
       const { artistName, genreName, songName } = req.body;
-      if (addSong(artistName, genreName, songName, fileURL)) {
+      if (insertSong(artistName, genreName, songName, fileURL)) {
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end('File uploaded successfully');
       } else {
