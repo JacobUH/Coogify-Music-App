@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-// import Logo from '../../public/images/Logo.svg';
+import Logo from '../../public/images/Logo.svg';
 import { Footer } from '../components/setup/Footer';
 import React from 'react';
 
@@ -52,7 +52,7 @@ export const Signup = () => {
   return (
     <div className="w-full h-full absolute inset-0 bg-gradient-to-tr from-[#9E67E4] via-transparent to-[#212121] text-white overflow-hidden p-6">
       <Link to="/">
-        {/* <img src={Logo} alt="Coogify Logo" className="mx-auto pb-20 w-[70px]" /> */}
+        <img src={Logo} alt="Coogify Logo" className="mx-auto pb-20 w-[70px]" />
       </Link>
       <h1 className="text-4xl text-white text-center mb-5 ">Get Started</h1>
       <form
