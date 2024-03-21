@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../public/images/Logo.svg';
 import { Footer } from '../components/setup/Footer';
 import React from 'react';
@@ -10,6 +10,8 @@ export const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,7 +50,7 @@ export const Signup = () => {
       }
 
       // Assuming successful signup, you can redirect the user to another page
-      window.location.href = '/setup';
+      navigate('/setup');
     } catch (error: unknown) {
       setError((error as Error).message);
     }

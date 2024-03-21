@@ -1,9 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
 import { LandingPage } from './pages/LandingPage';
 import { Login } from './pages/Login';
-import { ArtistSetup } from './pages/ArtistSetup';
-import { Setup } from './pages/Setup';
 import { Signup } from './pages/Signup';
+import { Setup } from './pages/Setup';
+import { ArtistSetup } from './pages/ArtistSetup';
 import { Home } from './pages/Home';
 import { Search } from './pages/Search';
 import { Upload } from './pages/Upload';

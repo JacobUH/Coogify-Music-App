@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../public/images/Logo.svg';
 import { Footer } from '../components/setup/Footer';
 import React from 'react';
@@ -7,6 +7,8 @@ import React from 'react';
 export const ArtistSetup = () => {
   const [artistName, setArtistName] = useState('');
   const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,7 +41,7 @@ export const ArtistSetup = () => {
       }
 
       // Assuming successful signup, you can redirect the user to another page
-      window.location.href = '/home';
+      navigate('/home');
     } catch (error: unknown) {
       setError((error as Error).message);
     }
@@ -47,9 +49,7 @@ export const ArtistSetup = () => {
 
   return (
     <div className="w-full h-full absolute inset-0 bg-gradient-to-tr from-[#9E67E4] via-transparent to-[#212121] text-white overflow-hidden p-6">
-      <Link to="/">
-        <img src={Logo} alt="Coogify Logo" className="mx-auto pb-48 w-[70px]" />
-      </Link>
+      <img src={Logo} alt="Coogify Logo" className="mx-auto pb-48 w-[70px]" />
       <h1 className="text-4xl text-white text-center mb-5 ">
         Welcome New Artist
       </h1>

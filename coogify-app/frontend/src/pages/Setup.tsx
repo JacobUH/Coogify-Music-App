@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../public/images/Logo.svg';
 import { Footer } from '../components/setup/Footer';
 import React from 'react';
@@ -9,14 +9,16 @@ export const Setup = () => {
   const [day, setDay] = useState('');
   const [year, setYear] = useState('');
 
+  const navigate = useNavigate();
+
   const handleSubmit = (userType: string) => {
     // Validate form data
     if (month && day && year) {
       // Form is valid, navigate based on user type
       if (userType === 'listener') {
-        window.location.href = '/home'; // Navigate to home page for listener
+        navigate('/home'); // Navigate to home page for listener
       } else if (userType === 'artist') {
-        window.location.href = '/artistSetup'; // Navigate to artist setup page
+        navigate('/artistSetup'); // Navigate to artist setup page
       }
     } else {
       // Form is not valid, display error message or handle accordingly
@@ -26,9 +28,7 @@ export const Setup = () => {
 
   return (
     <div className="w-full h-full absolute inset-0 bg-gradient-to-tr from-[#9E67E4] via-transparent to-[#212121] text-white overflow-hidden p-6">
-      <Link to="/">
-        <img src={Logo} alt="Coogify Logo" className="mx-auto pb-20 w-[70px]" />
-      </Link>
+      <img src={Logo} alt="Coogify Logo" className="mx-auto pb-20 w-[70px]" />
       <h1 className="text-4xl text-white text-center mb-5 pt-16">
         Let's Setup Your Account
       </h1>
