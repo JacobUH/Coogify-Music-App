@@ -9,12 +9,15 @@ export const Setup = () => {
   const [day, setDay] = useState('');
   const [year, setYear] = useState('');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (userType: string) => {
     // Validate form data
     if (month && day && year) {
-      // Form is valid, navigate to setup page
-      window.location.href = '/home'; // Alternatively, use useHistory() from react-router-dom for programmatic navigation
+      // Form is valid, navigate based on user type
+      if (userType === 'listener') {
+        window.location.href = '/home'; // Navigate to home page for listener
+      } else if (userType === 'artist') {
+        window.location.href = '/artistSetup'; // Navigate to artist setup page
+      }
     } else {
       // Form is not valid, display error message or handle accordingly
       console.error('Please fill out all required fields');
@@ -29,10 +32,7 @@ export const Setup = () => {
       <h1 className="text-4xl text-white text-center mb-5 pt-16">
         Let's Setup Your Account
       </h1>
-      <form
-        onSubmit={handleSubmit}
-        className="bg-[#3E3C3C] p-6 rounded-lg shadow-md md:w-[700px] mx-auto "
-      >
+      <form className="bg-[#3E3C3C] p-6 rounded-lg shadow-md md:w-[700px] mx-auto ">
         <h1 className="text-xl text-white text-center pb-6">
           When's Your Birthday?
         </h1>
@@ -77,12 +77,14 @@ export const Setup = () => {
         <div className="space-y-4 pt-14">
           <button
             type="submit"
+            onClick={() => handleSubmit('listener')}
             className="w-full bg-[#6F4D9B] hover:bg-[#533976] rounded-[15px] text-2xl p-3 px-3 py-5"
           >
             Continue as Listener
           </button>
           <button
             type="submit"
+            onClick={() => handleSubmit('artist')}
             className="w-full bg-[#472670] hover:bg-[#361e55] rounded-[15px] text-2xl p-3 px-3 py-5"
           >
             Continue as Artist

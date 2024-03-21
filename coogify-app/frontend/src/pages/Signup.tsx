@@ -22,18 +22,23 @@ export const Signup = () => {
       })
     );
     try {
-      const response = await fetch('http://localhost:3001/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          password,
-        }),
-      });
+      const response = await fetch(
+        `http://${import.meta.env.VITE_HOST}:${
+          import.meta.env.VITE_BACKEND_PORT
+        }/api/register`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            email,
+            password,
+          }),
+        }
+      );
 
       console.log('Response:', response); // Add this line to check response
 

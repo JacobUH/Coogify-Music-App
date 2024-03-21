@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { LandingPage } from './pages/LandingPage';
 import { Login } from './pages/Login';
+import { ArtistSetup } from './pages/ArtistSetup';
 import { Setup } from './pages/Setup';
 import { Signup } from './pages/Signup';
 import { Home } from './pages/Home';
@@ -21,6 +22,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/setup" element={<Setup />} />
+          <Route path="/artistSetup" element={<ArtistSetup />} />
           <Route path="/home" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/upload" element={<Upload />} />
