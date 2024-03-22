@@ -170,16 +170,16 @@ export const PaymentMain = () => {
               {/* ADD PAYMENT */}
               <div className="block h-[335px] w-[300px] px-5 py-7 bg-[#212020] text-white rounded-xl">
                 <div className="text-left px-1">Card Type</div>
-                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] mb-2 px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
+                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full"></input>
 
                 <div className="text-left px-1">Card Number</div>
-                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] mb-2 px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
+                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full"></input>
 
                 <div className="text-left px-1">Expiration Date</div>
-                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] mb-2 px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
+                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full"></input>
 
                 <div className="text-left px-1">CVV</div>
-                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] mb-2 px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
+                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full"></input>
               </div>
             </div>
           </div>
