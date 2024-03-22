@@ -8,30 +8,35 @@ import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
 import { fetchNewestSongs } from './specificRoutes/homeRoutes.js';
 
+// CHECKLIST:
+// /api/setup page
+
+
+
 // Define the handlers object
 const handlers = {
   api: {
-    register: register,
+    register: register, // need
     setup: (req, res) => 'setup',
-    login: login,
+    login: login, // need
     fetch: {
-      song: getSong,
+      song: getSong, // need
       album: (req, res) => 'info of album and image url',
     },
     upload: {
-      uploadSingle: uploadThing,
-      uploadMultiple: (req, res) => 'uploadAlbum',
+      uploadSingle: uploadThing, // need
+      uploadMultiple: (req, res) => 'uploadAlbum', // need
     },
     home: {
-      fetchNewSongs: fetchNewestSongs,
-      fetchTopSongs: (req, res) => 'fetchTopSongs',
+      fetchNewSongs: fetchNewestSongs, // need ( ill do this - jacob)
+      fetchTopSongs: (req, res) => 'fetchTopSongs', // need
       fetchUserLikedSongs: (req, res) => 'fetchUserLikedSongs',
     },
     landing: (req, res) => 'landing',
     admin: {
       modArtist: (req, res) => 'modArtist',
       modUser: (req, res) => 'modUser',
-      viewTransactions: (req, res) => 'viewTransactions',
+      viewTransactions: (req, res) => 'viewTransactions', // need
     },
     artist: {
       artistProfile: (req, res) => 'artistProfile',

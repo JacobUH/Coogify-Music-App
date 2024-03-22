@@ -7,9 +7,10 @@ import { deleteSession } from '../../database/queries/dbAuthQueries.js';
 
 export async function register(req, res) {
   const { firstName, lastName, email, password } = req.body;
+  const hashedInput = await hashPassword(password);
   if (
     email === undefined ||
-    password === undefined ||
+    hashedInput === undefined ||
     firstName === undefined ||
     lastName === undefined
   ) {
@@ -24,12 +25,11 @@ export async function register(req, res) {
   try {
     const registered = await logregq.registerUser(
       email,
-      password,
+      hashedInput,
       firstName,
       lastName
     );
     if (registered) {
-      console.log('registed')
       const session = await createSession(getUserFromEmail(email));
       res.statusCode = 200;
       res.end(
@@ -45,7 +45,7 @@ export async function register(req, res) {
   } catch (error) {
     console.error('Error registering user:', error);
     res.statusCode = 500;
-    res.end(JSON.stringify({ error: 'Internal Server Error or Already Existing' }));
+    res.end(JSON.stringify({ error: 'Internal Server Error' }));
   }
 }
 
