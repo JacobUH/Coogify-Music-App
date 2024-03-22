@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../public/images/Logo.svg';
 import { Footer } from '../components/setup/Footer';
 import React from 'react';
+import axios from 'axios';
+import backendBaseUrl from '../apiConfig';
 
 export const Signup = () => {
   const [firstName, setFirstName] = useState('');
@@ -24,29 +26,25 @@ export const Signup = () => {
       })
     );
     try {
-      const response = await fetch(
-        `http://${import.meta.env.VITE_HOST}:${
-          import.meta.env.VITE_BACKEND_PORT
-        }/api/register`,
+      const response = await axios.post(
+        `${backendBaseUrl}/api/register`, // Use backendBaseUrl here
         {
-          method: 'POST',
+          firstName,
+          lastName,
+          email,
+          password,
+        },
+        {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            firstName,
-            lastName,
-            email,
-            password,
-          }),
         }
       );
 
-      console.log('Response:', response); // Add this line to check response
+      console.log('Response:', response);
 
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message);
+      if (response.status !== 200) {
+        throw new Error(response.data.message);
       }
 
       // Assuming successful signup, you can redirect the user to another page
