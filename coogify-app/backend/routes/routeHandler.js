@@ -6,6 +6,7 @@ import { register, login } from './specificRoutes/loginRegRoutes.js';
 import { uploadSong } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
+import { fetchNewestSongs } from './specificRoutes/homeRoutes.js';
 
 // Define the handlers object
 const handlers = {
@@ -22,7 +23,7 @@ const handlers = {
       uploadAlbum: (req, res) => 'uploadAlbum',
     },
     home: {
-      fetchNewSongs: (req, res) => 'fetchNewSongs',
+      fetchNewSongs: fetchNewestSongs,
       fetchTopSongs: (req, res) => 'fetchTopSongs',
       fetchUserLikedSongs: (req, res) => 'fetchUserLikedSongs',
     },
