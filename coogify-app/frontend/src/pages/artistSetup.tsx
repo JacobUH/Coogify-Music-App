@@ -21,7 +21,7 @@ export const ArtistSetup = () => {
       const response = await fetch(
         `http://${import.meta.env.VITE_HOST}:${
           import.meta.env.VITE_BACKEND_PORT
-        }/api/artistSetup`,
+        }/api/artist/artistSetup`,
         {
           method: 'POST',
           headers: {
