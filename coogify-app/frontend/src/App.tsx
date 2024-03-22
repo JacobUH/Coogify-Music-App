@@ -3,7 +3,7 @@ import { LandingPage } from './pages/LandingPage';
 import { Login } from './pages/Login';
 import { Signup } from './pages/Signup';
 import { Setup } from './pages/Setup';
-import { ArtistSetup } from './pages/ArtistSetup';
+import { ArtistSetup } from './pages/artistSetup';
 import { Home } from './pages/Home';
 import { Search } from './pages/Search';
 import { Upload } from './pages/Upload';
