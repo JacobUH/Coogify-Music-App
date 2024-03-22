@@ -43,16 +43,22 @@ export async function selectSong(songName) {
 }
 
 export async function insertPlaylist(
-  userID,
+  userID_promise,
   playlistName,
   playlistArtURL,
   playlistDescription
 ) {
+  console.log('Inserting playlist in DB');
+  const userID = await userID_promise;
   try {
+    // Cast userID to an integer
+    // const userIDInt = parseInt(userID);
+    console.log(`userId: ${userID}`);
+
     const [rows] = await pool.query(
       `INSERT INTO PLAYLIST 
       (userID, playlistName, playlistArt, playlistDescription)
-       VALUES (?, ?, ?, ?)`,
+      VALUES (?, ?, ?, ?)`,
       [userID, playlistName, playlistArtURL, playlistDescription]
     );
     return true;
