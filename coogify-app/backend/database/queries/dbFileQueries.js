@@ -1,12 +1,11 @@
 import pool from '../dbConnection.js';
 
-export async function insertSong(artistName, genreName, songName, songItem) {
+export async function insertSong(artistID, genreName, songName, songItem) {
   try {
     const [rows] = await pool.query(
       `INSERT INTO TRACK (artistID, genreID, songName, songURL)
-      VALUES ((SELECT artistID FROM ARTIST WHERE artistName = ?), 
-      (SELECT genreID FROM GENRE WHERE genreName = ?), ?, ?)`,
-      [artistName, genreName, songName, songItem]
+      VALUES (?, (SELECT genreID FROM GENRE WHERE genreName = ?), ?, ?)`,
+      [artistID, genreName, songName, songItem]
     );
     console.log('Song inserted successfully');
     return true;
@@ -43,3 +42,22 @@ export async function selectSong(songName) {
   }
 }
 
+export async function insertPlaylist(
+  userID,
+  playlistName,
+  playlistArtURL,
+  playlistDescription
+) {
+  try {
+    const [rows] = await pool.query(
+      `INSERT INTO PLAYLIST 
+      (userID, playlistName, playlistArt, playlistDescription)
+       VALUES (?, ?, ?, ?)`,
+      [userID, playlistName, playlistArtURL, playlistDescription]
+    );
+    return true;
+  } catch (err) {
+    console.error(err.message);
+    return false;
+  }
+}

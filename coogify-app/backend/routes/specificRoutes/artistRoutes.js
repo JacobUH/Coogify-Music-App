@@ -1,8 +1,5 @@
 import { insertArtist } from '../../database/queries/dbArtistQueries.js';
-import {
-  extractSessionId,
-  errorMessage,
-} from '../../middlewares/middleware.js';
+import { extractSessionId, errorMessage } from '../../util/utilFunctions.js';
 
 export async function addArtistName(req, res) {
   const { artistName } = req.body;

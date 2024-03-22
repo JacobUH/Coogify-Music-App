@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { jsonParser, authenticate } from '../middlewares/middleware.js';
 import { register, login } from './specificRoutes/loginRegRoutes.js';
-import { uploadSong } from './specificRoutes/uploadsRoutes.js';
+import { uploadThing } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
 import { fetchNewestSongs } from './specificRoutes/homeRoutes.js';
@@ -19,8 +19,8 @@ const handlers = {
       album: (req, res) => 'info of album and image url',
     },
     upload: {
-      uploadSong: uploadSong,
-      uploadAlbum: (req, res) => 'uploadAlbum',
+      uploadSingle: uploadThing,
+      uploadMultiple: (req, res) => 'uploadAlbum',
     },
     home: {
       fetchNewSongs: fetchNewestSongs,

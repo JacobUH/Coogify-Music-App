@@ -1,5 +1,5 @@
 import { selectNewestSongs } from '../../database/queries/dbHomeQueries.js';
-import { errorMessage } from '../../middlewares/middleware.js';
+import { errorMessage } from '../../util/utilFunctions.js';
 
 export async function fetchNewestSongs(req, res) {
   try {

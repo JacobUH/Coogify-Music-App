@@ -39,3 +39,21 @@ export async function insertArtist(sessionID, artistName) {
     return false;
   }
 }
+
+export async function selectArtistIDfromUserID(userID) {
+  try {
+    const [rows] = await pool.query(
+      `SELECT artistID FROM ARTIST WHERE userID = ?`,
+      [userID]
+    );
+    if (rows.length > 0) {
+      return true; // Return true if artist is found
+    } else {
+      console.log(`No artist found for userID ${userID}`);
+      return false; // Return false if no artist is found for the userID
+    }
+  } catch (error) {
+    console.error('Error selecting artistID:', error);
+    return false;
+  }
+}
