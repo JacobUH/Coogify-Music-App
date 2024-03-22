@@ -60,7 +60,6 @@ export async function hashPassword(password) {
   }
 }
 
-
 export async function authenticate(req, res, next) {
   console.log('authenticating');
   const path = new URL(req.url, 'http://localhost').pathname;
@@ -101,34 +100,25 @@ function unauthorized(req, res) {
   res.end('Unauthorized');
 }
 
+export function errorMessage(res, theError, message) {
+  console.error(`${message}: ${theError}`);
+  res.writeHead(500, { 'Content-Type': 'text/plain' });
+  res.end('Internal server error');
+}
 
-// export async function authenticate(req, res, next) {
-//   console.log('authenticating');
-//   const path = new URL(req.url, 'http://localhost').pathname;
-//   console.log(path);
-//   // Check if the request path is not login or register
-//   if (path !== '/api/login' && path !== '/api/register') {
-//     console.log('not in login or register');
-//     // Check if the session is valid
-//     console.log(req.body);
-//     try {
-//       const { sessionID } = req.body; // Assuming session ID is sent in the request body
-//       console.log(sessionID);
-//       const exists = await sessionExists(sessionID);
-//       if (!exists) {
-//         unauthorized(req, res);
-//         return;
-//       }
-//     } catch (err) {
-//       unauthorized(req, res);
-//       return;
-//     }
-//   }
-//   next();
-// }
+export function extractSessionId(req) {
+  // Check if the Authorization header exists
+  if (req.headers && req.headers.authorization) {
+    // Split the Authorization header value by space
+    const parts = req.headers.authorization.split(' ');
 
-// function unauthorized(req, res) {
-//   res.writeHead(401, { 'Content-Type': 'text/plain' });
-//   res.end('Unauthorized');
-//   return;
-// }
+    // Check if the Authorization header has two parts and the first part is "Bearer"
+    if (parts.length === 2 && parts[0] === 'Bearer') {
+      // Return the second part, which should be the session ID
+      return parts[1];
+    }
+  }
+
+  // If the Authorization header doesn't exist or is invalid, return null
+  return null;
+}

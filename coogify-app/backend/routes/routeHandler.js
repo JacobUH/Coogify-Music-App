@@ -5,6 +5,7 @@ import { jsonParser, authenticate } from '../middlewares/middleware.js';
 import { register, login } from './specificRoutes/loginRegRoutes.js';
 import { uploadSong } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
+import { addArtistName } from './specificRoutes/artistRoutes.js';
 
 // Define the handlers object
 const handlers = {
@@ -33,6 +34,7 @@ const handlers = {
     },
     artist: {
       artistProfile: (req, res) => 'artistProfile',
+      artistSetup: addArtistName,
     },
   },
 };
