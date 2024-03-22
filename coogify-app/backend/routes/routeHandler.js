@@ -3,8 +3,10 @@ import fs from 'fs';
 import path from 'path';
 import { jsonParser, authenticate } from '../middlewares/middleware.js';
 import { register, login } from './specificRoutes/loginRegRoutes.js';
-import { uploadSong } from './specificRoutes/uploadsRoutes.js';
+import { uploadThing } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
+import { addArtistName } from './specificRoutes/artistRoutes.js';
+import { fetchNewestSongs } from './specificRoutes/homeRoutes.js';
 
 // Define the handlers object
 const handlers = {
@@ -17,11 +19,11 @@ const handlers = {
       album: (req, res) => 'info of album and image url',
     },
     upload: {
-      uploadSong: uploadSong,
-      uploadAlbum: (req, res) => 'uploadAlbum',
+      uploadSingle: uploadThing,
+      uploadMultiple: (req, res) => 'uploadAlbum',
     },
     home: {
-      fetchNewSongs: (req, res) => 'fetchNewSongs',
+      fetchNewSongs: fetchNewestSongs,
       fetchTopSongs: (req, res) => 'fetchTopSongs',
       fetchUserLikedSongs: (req, res) => 'fetchUserLikedSongs',
     },
@@ -33,6 +35,7 @@ const handlers = {
     },
     artist: {
       artistProfile: (req, res) => 'artistProfile',
+      artistSetup: addArtistName,
     },
   },
 };
