@@ -29,6 +29,7 @@ export async function register(req, res) {
       lastName
     );
     if (registered) {
+      console.log('registed')
       const session = await createSession(getUserFromEmail(email));
       res.statusCode = 200;
       res.end(
@@ -44,7 +45,7 @@ export async function register(req, res) {
   } catch (error) {
     console.error('Error registering user:', error);
     res.statusCode = 500;
-    res.end(JSON.stringify({ error: 'Internal Server Error' }));
+    res.end(JSON.stringify({ error: 'Internal Server Error or Already Existing' }));
   }
 }
 
