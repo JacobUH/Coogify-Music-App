@@ -41,7 +41,7 @@ export async function insertSongWithCover(
 export async function selectSong(songName) {
   try {
     const [rows] = await pool.query(
-      `SELECT A.artistName, T.albumName, T.songName, T.releaseDate, T.songURL
+      `SELECT A.artistName, T.albumName, T.songName, T.releaseDate, T.songURL, T.isPopular
       FROM TRACK T
       INNER JOIN ARTIST A ON T.artistID = A.artistID
       WHERE T.songName = ?`,

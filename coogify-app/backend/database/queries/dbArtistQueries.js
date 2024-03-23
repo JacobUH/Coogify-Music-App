@@ -20,22 +20,33 @@ export async function insertArtist(sessionID, artistName) {
     // Extract user ID
     const userID = rows[0].user_id;
 
+    // Start a transaction
+    await pool.query('START TRANSACTION');
+
     // Insert artist into the ARTIST table
     const [insertResult] = await pool.query(
       'INSERT INTO ARTIST (userID, artistName) VALUES (?, ?)',
-      [userID, artistName] // Change 'New Artist' to the desired artist name
+      [userID, artistName]
     );
 
     // Check if artist insertion was successful
     if (insertResult.affectedRows !== 1) {
       console.error('Failed to insert artist');
+      await pool.query('ROLLBACK'); // Rollback transaction
       return false;
     }
+
+    // Update isArtist in USER table
+    await pool.query('UPDATE USER SET isArtist = 1 WHERE userID = ?', [userID]);
+
+    // Commit transaction
+    await pool.query('COMMIT');
 
     console.log('Artist inserted successfully');
     return true;
   } catch (error) {
     console.error('Error inserting artist:', error);
+    await pool.query('ROLLBACK'); // Rollback transaction on error
     return false;
   }
 }

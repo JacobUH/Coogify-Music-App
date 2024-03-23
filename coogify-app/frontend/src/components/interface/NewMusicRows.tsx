@@ -9,6 +9,7 @@ interface Song {
   songURL: string;
   albumName: string;
   artistName: string;
+  isPopular: boolean;
 }
 
 interface Props {
@@ -58,12 +59,15 @@ export const NewMusicRows = ({ title }: Props) => {
               <div
                 key={song.songName}
                 className="flex flex-col items-center gap-[6px] cursor-pointer"
-                style={{ minWidth: '200px' }} // Adjust the minimum width of each song item
+                style={{ minWidth: '200px' }}
               >
-                <div className=" bg-[#656262] rounded-lg p-5 bg-center bg-cover">
+                <div className="bg-[#656262] rounded-lg p-5 bg-center bg-cover relative">
+                  {song.isPopular ? ( // Conditionally render the blue dot when isPopular is true
+                    <div className="absolute bottom-1 right-1 w-3 h-3 bg-blue-500 rounded-full"></div>
+                  ) : null}
                   <img
                     className="w-[140px] h-[140px] rounded-xl"
-                    src={song.coverArtURL} // Update this line to use "coverArtURL"
+                    src={song.coverArtURL}
                     alt={song.songName}
                   />
 
