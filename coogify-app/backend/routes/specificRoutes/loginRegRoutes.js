@@ -7,10 +7,9 @@ import { deleteSession } from '../../database/queries/dbAuthQueries.js';
 
 export async function register(req, res) {
   const { firstName, lastName, email, password } = req.body;
-  const hashedInput = await hashPassword(password);
   if (
     email === undefined ||
-    hashedInput === undefined ||
+    password === undefined ||
     firstName === undefined ||
     lastName === undefined
   ) {
@@ -25,7 +24,7 @@ export async function register(req, res) {
   try {
     const registered = await logregq.registerUser(
       email,
-      hashedInput,
+      password,
       firstName,
       lastName
     );
@@ -39,8 +38,8 @@ export async function register(req, res) {
         })
       );
     } else {
-      res.statusCode = 500;
-      res.end(JSON.stringify({ error: 'Failed to register user.' }));
+      res.statusCode = 409;
+      res.end(JSON.stringify({ error: 'Email already exists for another account.' }));
     }
   } catch (error) {
     console.error('Error registering user:', error);

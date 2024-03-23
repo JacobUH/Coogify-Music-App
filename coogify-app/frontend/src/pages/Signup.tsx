@@ -49,8 +49,16 @@ export const Signup = () => {
 
       // Assuming successful signup, you can redirect the user to another page
       navigate('/setup');
-    } catch (error: unknown) {
-      setError((error as Error).message);
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        setError('Email already exists with another account.');
+      } else if (
+        error.response &&
+        error.response.data &&
+        error.response.data.error
+      ) {
+        setError(error.response.data.error);
+      }
     }
   };
 
