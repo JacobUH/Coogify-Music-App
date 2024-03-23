@@ -11,8 +11,6 @@ import { fetchNewestSongs } from './specificRoutes/homeRoutes.js';
 // CHECKLIST:
 // /api/setup page
 
-
-
 // Define the handlers object
 const handlers = {
   api: {
@@ -65,16 +63,17 @@ function serveFile(req, res) {
 
 // Function to handle the request
 export async function handleRequest(req, res) {
+  console.log('in routehandler');
   try {
-   // Check if the request URL starts with '/uploads/'
+    // Check if the request URL starts with '/uploads/'
     if (req.url.startsWith('/uploads/')) {
       serveFile(req, res);
       return;
     }
 
     // Your existing request handling logic
-    await jsonParser(req, res, async () => {
-      await authenticate(req, res, async () => {
+    await authenticate(req, res, async () => {
+      await jsonParser(req, res, async () => {
         const { method, url } = req;
         const [path, queryString] = url.split('?');
         const segments = path.split('/').filter(Boolean);
