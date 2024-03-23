@@ -1,6 +1,6 @@
 import { playlists, yourMusic } from '../../../public/data/songs';
 import { LibraryRows } from './LibraryRows';
-import { MusicRows } from './MusicRows';
+import { NewMusicRows } from './NewMusicRows';
 
 export const LibraryMain = () => {
   return (
@@ -17,7 +17,7 @@ export const LibraryMain = () => {
           <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
             <div className="w-full flex flex-col gap-8">
               <LibraryRows title="Your Playlists" data={playlists} />
-              <MusicRows title="Your Music" data={yourMusic} />
+              <NewMusicRows title="Your Music" />
             </div>
           </div>
         </div>

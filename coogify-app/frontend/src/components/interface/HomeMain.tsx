@@ -1,11 +1,8 @@
 import React from 'react';
-import {
-  newSongs,
-  topSongs,
-  rapSongs,
-  rbSongs,
-} from '../../../public/data/songs';
-import { MusicRows } from './MusicRows';
+import { NewMusicRows } from './NewMusicRows';
+import { TopMusicRows } from './TopMusicRows';
+import { RapMusicRows } from './RapMusicRows';
+import { RBMusicRows } from './RBMusicRows';
 
 export const HomeMain = () => {
   return (
@@ -19,11 +16,11 @@ export const HomeMain = () => {
         </div>
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
           <div className="w-full flex flex-col gap-8">
-            <MusicRows title="Newest Songs" />
-            <MusicRows title="Top Songs" />
-            <MusicRows title="Rap Mix" />
+            <NewMusicRows title="Newest Songs" />
+            <TopMusicRows title="Top Songs" />
+            <RapMusicRows title="Rap Mix" />
             <div className="mb-8">
-              <MusicRows title="Smooth R&B" />
+              <RBMusicRows title="Smooth R&B" />
             </div>
           </div>
         </div>
