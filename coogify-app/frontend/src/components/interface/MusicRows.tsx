@@ -25,7 +25,12 @@ export const MusicRows = ({ title }: Props) => {
     const fetchNewestSongs = async () => {
       try {
         const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchNewestSongs`
+          `${backendBaseUrl}/api/home/fetchNewestSongs`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+            },
+          }
         );
 
         setNewestSongs(response.data);
