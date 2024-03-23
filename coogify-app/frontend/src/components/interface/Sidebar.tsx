@@ -35,30 +35,25 @@ export const Sidebar = () => {
       isHovered: false,
     },
   ]);
-  const [isLibraryHovered, setLibraryHovered] = useState(false); // State for Library hover
+  const [currentHoveredItem, setCurrentHoveredItem] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     const updatedItems = sidebarItems.map((item) => ({
       ...item,
-      isHovered: item.link === location.pathname,
+      isHovered:
+        item.link === currentHoveredItem || item.link === location.pathname,
     }));
     setSidebarItems(updatedItems);
-    // Set Library hover state
-    setLibraryHovered(location.pathname === '/library');
-  }, [location.pathname, sidebarItems]);
+  }, [location.pathname, currentHoveredItem]);
 
   const handleMouseEnter = (title: string) => {
-    const updatedItems = sidebarItems.map((item) =>
-      item.title === title ? { ...item, isHovered: true } : item
-    );
-    setSidebarItems(updatedItems);
+    setCurrentHoveredItem(title);
   };
 
-  const handleMouseLeave = (title: string) => {
-    const updatedItems = sidebarItems.map((item) =>
-      item.title === title ? { ...item, isHovered: false } : item
-    );
-    setSidebarItems(updatedItems);
+  const handleMouseLeave = () => {
+    setCurrentHoveredItem(null);
   };
 
   return (
@@ -73,7 +68,7 @@ export const Sidebar = () => {
                   item.isHovered ? 'text-[#9E67E4]' : ''
                 }`}
                 onMouseEnter={() => handleMouseEnter(item.title)}
-                onMouseLeave={() => handleMouseLeave(item.title)}
+                onMouseLeave={handleMouseLeave}
               >
                 <img
                   className="w-[38px] h-[32px]"
@@ -100,14 +95,22 @@ export const Sidebar = () => {
             <Link to="/library">
               <div
                 className={`flex items-center gap-3 cursor-pointer ${
-                  isLibraryHovered ? 'text-[#9E67E4]' : ''
+                  currentHoveredItem === 'Your Library' ||
+                  location.pathname === '/library'
+                    ? 'text-[#9E67E4]'
+                    : ''
                 }`}
-                onMouseEnter={() => setLibraryHovered(true)}
-                onMouseLeave={() => setLibraryHovered(false)}
+                onMouseEnter={() => setCurrentHoveredItem('Your Library')}
+                onMouseLeave={handleMouseLeave}
               >
                 <img
                   className="w-[36px] h-[30px]"
-                  src={isLibraryHovered ? LibraryIconHover : LibraryIcon}
+                  src={
+                    currentHoveredItem === 'Your Library' ||
+                    location.pathname === '/library'
+                      ? LibraryIconHover
+                      : LibraryIcon
+                  }
                   alt="Library"
                 />
                 <span className="font-medium text-[20px]">Your Library</span>
