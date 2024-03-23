@@ -6,7 +6,7 @@ import { register, login } from './specificRoutes/loginRegRoutes.js';
 import { uploadThing } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
-import { fetchNewestSongs } from './specificRoutes/homeRoutes.js';
+import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs } from './specificRoutes/homeRoutes.js';
 
 // CHECKLIST:
 // /api/setup page
@@ -26,8 +26,10 @@ const handlers = {
       uploadMultiple: (req, res) => 'uploadAlbum', // need
     },
     home: {
-      fetchNewSongs: fetchNewestSongs, // need ( ill do this - jacob)
-      fetchTopSongs: (req, res) => 'fetchTopSongs', // need
+      fetchNewSongs: fetchNewestSongs, // need
+      fetchTopSongs: fetchTopSongs, // need
+      fetchRapSongs: fetchRapSongs,
+      fetchRBSongs: fetchRBSongs,
       fetchUserLikedSongs: (req, res) => 'fetchUserLikedSongs',
     },
     landing: (req, res) => 'landing',

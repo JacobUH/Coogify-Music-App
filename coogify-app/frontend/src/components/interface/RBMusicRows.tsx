@@ -15,26 +15,31 @@ interface Props {
   title: string;
 }
 
-export const MusicRows = ({ title }: Props) => {
-  const [newestSongs, setNewestSongs] = useState<Song[]>([]);
+export const RBMusicRows = ({ title }: Props) => {
+  const [rbSongs, setRBSongs] = useState<Song[]>([]);
 
   const storedToken = localStorage.getItem('sessionToken');
 
   useEffect(() => {
-    // Fetch data from backend API
-    const fetchNewestSongs = async () => {
+    const fetchRBSongs = async () => {
       try {
         const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchNewestSongs`
+          `${backendBaseUrl}/api/home/fetchRBSongs`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
         );
 
-        setNewestSongs(response.data);
+        setRBSongs(response.data);
       } catch (error) {
         console.error('Error fetching new songs:', error);
       }
     };
 
-    fetchNewestSongs();
+    fetchRBSongs();
   }, []);
 
   return (
@@ -47,7 +52,7 @@ export const MusicRows = ({ title }: Props) => {
       </div>
       <div className="w-full flex items-center overflow-x-auto overflow-y-auto md:pb-0 pb-5">
         <div className="flex items-center gap-2">
-          {newestSongs.map((song: Song) => {
+          {rbSongs.map((song: Song) => {
             return (
               <div
                 key={song.songName}
