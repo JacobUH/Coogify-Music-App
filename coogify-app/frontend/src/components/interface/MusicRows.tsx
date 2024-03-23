@@ -24,11 +24,13 @@ export const MusicRows = ({ title }: Props) => {
     // Fetch data from backend API
     const fetchNewestSongs = async () => {
       try {
+        console.log('Stored Token:', storedToken); // works
         const response = await axios.get(
           `${backendBaseUrl}/api/home/fetchNewestSongs`,
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
             },
           }
         );

@@ -8,6 +8,7 @@ export async function fetchNewestSongs(req, res) {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(songs));
     } else {
+      console.log('made it in fetchNewestSongs');
       errorMessage(res, 'Error fetching newest songs', 'Error');
     }
   } catch (error) {

@@ -1,6 +1,7 @@
 import http from 'http';
 import { handleRequest } from '../routes/routeHandler.js';
 // import { handleRequest } from "./requestHandler.js";
+import cors from 'cors';
 
 // Function to initialize the server
 export default function initializeServer() {
@@ -14,7 +15,7 @@ export default function initializeServer() {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
 
     // Allow specific headers
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type',);
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     // Handle preflight requests
     if (req.method === 'OPTIONS') {
@@ -26,6 +27,9 @@ export default function initializeServer() {
 
     handleRequest(req, res);
   });
+
+  // Apply CORS middleware to the server
+  server.use(cors());
 
   return server;
 }
