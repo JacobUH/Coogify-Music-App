@@ -16,17 +16,19 @@ import pool from '../dbConnection.js';
 // }
 
 export async function insertSongWithCover(
-  artistID,
+  artistID_promise,
+  albumName,
   genreName,
   songName,
   songItem,
   coverArtURL
 ) {
+  const artistID = await artistID_promise;
   try {
     const [rows] = await pool.query(
-      `INSERT INTO TRACK (artistID, genreID, songName, songURL, coverArtURL)
-      VALUES (?, (SELECT genreID FROM GENRE WHERE genreName = ?), ?, ?, ?)`,
-      [artistID, genreName, songName, songItem, coverArtURL]
+      `INSERT INTO TRACK (artistID, genreID, songName, songURL, coverArtURL, albumName)
+      VALUES (?, (SELECT genreID FROM GENRE WHERE genreName = ?), ?, ?, ?, ?)`,
+      [artistID, genreName, songName, songItem, coverArtURL, albumName]
     );
     console.log('Song inserted successfully');
     return true;
@@ -35,7 +37,6 @@ export async function insertSongWithCover(
     return false;
   }
 }
-
 
 export async function selectSong(songName) {
   try {
@@ -91,4 +92,3 @@ export async function insertPlaylist(
     }
   }
 }
-

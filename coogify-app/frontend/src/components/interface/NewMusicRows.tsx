@@ -5,7 +5,7 @@ import backendBaseUrl from '../../apiConfig';
 
 interface Song {
   songName: string;
-  coverArt: string;
+  coverArtURL: string;
   songURL: string;
   albumName: string;
   artistName: string;
@@ -53,7 +53,7 @@ export const NewMusicRows = ({ title }: Props) => {
       <div className="w-full flex items-center overflow-x-auto overflow-y-auto md:pb-0 pb-5">
         <div className="flex items-center gap-2">
           {newestSongs.map((song: Song) => {
-            console.log(song.coverArt);
+            console.log(song.coverArtURL);
             return (
               <div
                 key={song.songName}
@@ -63,9 +63,10 @@ export const NewMusicRows = ({ title }: Props) => {
                 <div className=" bg-[#656262] rounded-lg p-5 bg-center bg-cover">
                   <img
                     className="w-[140px] h-[140px] rounded-xl"
-                    src={song.coverArt}
+                    src={song.coverArtURL} // Update this line to use "coverArtURL"
                     alt={song.songName}
                   />
+
                   <div className="pt-2 text-white text-[15px] font-medium whitespace-nowrap">
                     {song.songName.length > 20
                       ? song.songName.slice(0, 17) + '...'

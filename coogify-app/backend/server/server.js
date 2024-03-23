@@ -1,7 +1,6 @@
 import http from 'http';
 import { handleRequest } from '../routes/routeHandler.js';
-// import { handleRequest } from "./requestHandler.js";
-//import cors from 'cors';
+import { createNewSongNotificationTrigger } from '../database/triggers/newSongByLikedArtist.js';
 
 // Function to initialize the server
 export default function initializeServer() {
@@ -27,6 +26,7 @@ export default function initializeServer() {
 
     handleRequest(req, res);
   });
+  createNewSongNotificationTrigger();
 
   // Apply CORS middleware to the server
   //server.use(cors());
