@@ -74,6 +74,7 @@ export async function authenticate(req, res, next) {
 
     // Check if the Authorization header is present
     const authHeader = req.headers['authorization'];
+    console.log(authHeader);
     if (!authHeader) {
       unauthorized(req, res);
       return;

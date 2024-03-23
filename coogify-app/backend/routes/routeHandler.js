@@ -29,7 +29,7 @@ const handlers = {
       song: getSong, // need
       album: (req, res) => 'info of album and image url',
     },
-    payment: (req, res) =>'pay',
+    payment: (req, res) => 'pay',
     upload: {
       uploadPlaylist: uploadPlaylist, // need
       uploadSongs: uploadSongsWithAlbum, // need
@@ -83,8 +83,8 @@ export async function handleRequest(req, res) {
     }
 
     // Your existing request handling logic
-    await authenticate(req, res, async () => {
-      await jsonParser(req, res, async () => {
+    await jsonParser(req, res, async () => {
+      await authenticate(req, res, async () => {
         const { method, url } = req;
         const [path, queryString] = url.split('?');
         const segments = path.split('/').filter(Boolean);
