@@ -67,18 +67,14 @@ function serveFile(req, res) {
 export async function handleRequest(req, res) {
   try {
    // Check if the request URL starts with '/uploads/'
-    // if (req.url.startsWith('/uploads/')) {
-    //   serveFile(req, res);
-    //   return;
-    // }
+    if (req.url.startsWith('/uploads/')) {
+      serveFile(req, res);
+      return;
+    }
 
     // Your existing request handling logic
     await jsonParser(req, res, async () => {
       await authenticate(req, res, async () => {
-        if (req.url.startsWith('/uploads/')) {
-          serveFile(req, res);
-          return;
-        }
         const { method, url } = req;
         const [path, queryString] = url.split('?');
         const segments = path.split('/').filter(Boolean);
