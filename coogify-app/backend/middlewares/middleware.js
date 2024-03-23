@@ -4,7 +4,6 @@ import { sessionExists } from '../Session/sessionManager.js';
 import { getUserFromSession } from '../database/queries/dbAuthQueries.js';
 dotenv.config();
 
-
 export async function jsonParser(req, res, next) {
   try {
     if (req.headers['content-type'] === 'application/json') {

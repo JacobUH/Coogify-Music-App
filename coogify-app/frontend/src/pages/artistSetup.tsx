@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../public/images/Logo.svg';
 import { Footer } from '../components/setup/Footer';
 import React from 'react';
+import backendBaseUrl from '../apiConfig';
 
 export const ArtistSetup = () => {
   const [artistName, setArtistName] = useState('');
@@ -18,20 +19,15 @@ export const ArtistSetup = () => {
       })
     );
     try {
-      const response = await fetch(
-        `http://${import.meta.env.VITE_HOST}:${
-          import.meta.env.VITE_BACKEND_PORT
-        }/api/artist/artistSetup`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            artistName,
-          }),
-        }
-      );
+      const response = await fetch(`${backendBaseUrl}/api/artist/artistSetup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          artistName,
+        }),
+      });
 
       console.log('Response:', response); // Add this line to check response
 
