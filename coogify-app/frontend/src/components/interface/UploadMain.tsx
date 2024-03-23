@@ -195,10 +195,7 @@ export const UploadMain = () => {
           </form>
         </div>
       </div>
-      {
-        true &&
-      // successPrompt && 
-      (
+      {successPrompt && (
         <div className="bg-green-500 text-white p-5 fixed bottom-10 right-10 rounded-lg">
           Songs uploaded successfully!
         </div>
