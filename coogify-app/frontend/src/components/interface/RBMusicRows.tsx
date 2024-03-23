@@ -5,7 +5,7 @@ import backendBaseUrl from '../../apiConfig';
 
 interface Song {
   songName: string;
-  coverArt: string;
+  coverArtURL: string;
   songURL: string;
   albumName: string;
   artistName: string;
@@ -62,7 +62,7 @@ export const RBMusicRows = ({ title }: Props) => {
                 <div className=" bg-[#656262] rounded-lg p-5 bg-center bg-cover">
                   <img
                     className="w-[140px] h-[140px] rounded-xl"
-                    src={song.coverArt}
+                    src={song.coverArtURL}
                     alt={song.songName}
                   />
                   <div className="pt-2 text-white text-[15px] font-medium whitespace-nowrap">
