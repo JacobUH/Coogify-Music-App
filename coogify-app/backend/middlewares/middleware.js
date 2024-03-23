@@ -1,6 +1,9 @@
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
 import { sessionExists } from '../Session/sessionManager.js';
 import { getUserFromSession } from '../database/queries/dbAuthQueries.js';
+dotenv.config();
+
 
 export async function jsonParser(req, res, next) {
   try {
@@ -63,7 +66,7 @@ export async function hashPassword(password) {
 
 export async function authenticate(req, res, next) {
   console.log('authenticating');
-  const path = new URL(req.url, 'http://localhost').pathname;
+  const path = new URL(req.url, `http://${process.env.MYSQL_HOST}`).pathname;
   console.log(path);
 
   // Check if the request path is not login or register
