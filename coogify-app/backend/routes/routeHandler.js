@@ -51,6 +51,9 @@ const handlers = {
       artistProfile: (req, res) => 'artistProfile',
       artistSetup: addArtistName,
     },
+    notifications: {
+      daysToPay: (req, res) => 'pay',
+    },
   },
 };
 
