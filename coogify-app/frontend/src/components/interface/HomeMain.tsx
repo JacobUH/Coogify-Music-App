@@ -18,11 +18,11 @@ export const HomeMain = () => {
         </div>
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
           <div className="w-full flex flex-col gap-8">
-            <MusicRows title="Newest Songs" data={newSongs} />
-            <MusicRows title="Top Songs" data={topSongs} />
-            <MusicRows title="Rap Mix" data={rapSongs} />
+            <MusicRows title="Newest Songs" />
+            <MusicRows title="Top Songs" />
+            <MusicRows title="Rap Mix" />
             <div className="mb-8">
-              <MusicRows title="Smooth R&B" data={rbSongs} />
+              <MusicRows title="Smooth R&B" />
             </div>
           </div>
         </div>

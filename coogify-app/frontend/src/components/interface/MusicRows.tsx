@@ -18,6 +18,8 @@ interface Props {
 export const MusicRows = ({ title }: Props) => {
   const [newestSongs, setNewestSongs] = useState<Song[]>([]);
 
+  const storedToken = localStorage.getItem('sessionToken');
+
   useEffect(() => {
     // Fetch data from backend API
     const fetchNewestSongs = async () => {
@@ -28,7 +30,7 @@ export const MusicRows = ({ title }: Props) => {
 
         setNewestSongs(response.data);
       } catch (error) {
-        console.error('Error fetching newest songs:', error);
+        console.error('Error fetching new songs:', error);
       }
     };
 

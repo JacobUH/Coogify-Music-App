@@ -47,6 +47,11 @@ export const Signup = () => {
         throw new Error(response.data.message);
       }
 
+      // Assuming successful signup, you can handle the session token here
+      const sessionToken = response.data.sessionID;
+      // Store the session token in Local Storage or Session Storage
+      localStorage.setItem('sessionToken', sessionToken);
+
       // Assuming successful signup, you can redirect the user to another page
       navigate('/setup');
     } catch (error) {
