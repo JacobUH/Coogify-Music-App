@@ -39,8 +39,8 @@ export async function register(req, res) {
         })
       );
     } else {
-      res.statusCode = 500;
-      res.end(JSON.stringify({ error: 'Failed to register user.' }));
+      res.statusCode = 409;
+      res.end(JSON.stringify({ error: 'Email already exists for another account.' }));
     }
   } catch (error) {
     console.error('Error registering user:', error);
