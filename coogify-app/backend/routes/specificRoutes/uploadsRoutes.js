@@ -24,8 +24,60 @@ const storage = multer.diskStorage({
 // Initialize multer with the storage configuration
 const upload = multer({ storage: storage });
 
-export async function uploadThing(req, res, next) {
-  upload.fields([{ name: 'file', maxCount: 2 }])(req, res, async (err) => {
+export async function uploadPlaylist(req, res, next) {
+  upload.single('imageFile')(req, res, async (err) => {
+    if (err instanceof multer.MulterError) {
+      console.error('Multer error: ', err);
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
+      res.end('File upload failed');
+    } else if (err) {
+      console.error('Unknown error: ', err);
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
+      res.end('File upload failed');
+    } else {
+      console.log('File uploaded successfully');
+
+      // Get the URL of the uploaded image file
+      const imageFile = req.file;
+
+      // Check if required file is uploaded
+      if (!imageFile) {
+        res.writeHead(400, { 'Content-Type': 'text/plain' });
+        res.end('Please upload an image file');
+        return;
+      }
+
+      // Get other fields from the request body
+      const { playlistName, playlistDescription } = req.body;
+
+      // Save file metadata to the database
+      const userID = extractUserID(req);
+
+      // Insert playlist with cover art URL
+      const inserted = await insertPlaylist(
+        userID,
+        playlistName,
+        baseURL + encodeURIComponent(imageFile.originalname), // Use the image file URL
+        playlistDescription
+      );
+
+      // if upload was successful
+      if (inserted) {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Files uploaded successfully');
+      } else {
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('File upload to db failed');
+      }
+    }
+  });
+}
+
+export async function uploadSongsWithAlbum(req, res, next) {
+  upload.fields([
+    { name: 'mp3Files', maxCount: 50 },
+    { name: 'imageFile', maxCount: 1 },
+  ])(req, res, async (err) => {
     if (err instanceof multer.MulterError) {
       console.error('Multer error: ', err);
       res.writeHead(500, { 'Content-Type': 'text/plain' });
@@ -38,41 +90,50 @@ export async function uploadThing(req, res, next) {
       console.log('Files uploaded successfully');
 
       // Get the URLs of the uploaded files
-      const fileURLs = req.files['file'].map(
-        (file) => baseURL + file.originalname
+      const mp3Files = req.files['mp3Files'];
+      const imageFile = req.files['imageFile'][0];
+
+      // Check if required files are uploaded
+      if (!mp3Files || !mp3Files.length || !imageFile) {
+        res.writeHead(400, { 'Content-Type': 'text/plain' });
+        res.end('Please upload at least one MP3 file and one image file');
+        return;
+      }
+
+      // Map uploaded MP3 files to their URLs and extract song names
+      const mp3FileURLs = mp3Files.map(
+        (file) => baseURL + encodeURIComponent(file.originalname)
       );
+      const songNames = mp3Files.map(
+        (file) => path.parse(file.originalname).name
+      ); // Extract song names from file names
 
       // Save file metadata to the database
-      const userID = extractUserID(req);
-      const { playlistName, playlistDescription } = req.body; // if uploading a playlist
-      const { genreName, songName } = req.body; // if uploading a song
+      const { genreName, albumName } = req.body;
 
       let inserted = false;
 
-      // Check if a song was uploaded
-      if (genreName && songName) {
-        // Extract artist ID
-        const artistID = await extractArtistID(req);
-        console.log(artistID);
+      const artistID = await extractArtistID(req);
+      console.log(artistID);
 
-        // Insert song with cover art and mp3 file URLs
+      // Prepend baseURL to image file name
+      const imageURL = baseURL + encodeURIComponent(imageFile.originalname);
+
+      // Loop through each song and insert it with the album cover
+      for (let i = 0; i < mp3FileURLs.length; i++) {
         inserted = await insertSongWithCover(
           artistID,
+          albumName,
           genreName,
-          songName,
-          fileURLs[0],
-          fileURLs[1]
+          songNames[i],
+          mp3FileURLs[i],
+          imageURL // Use full URL of the image file
         );
-      }
-      // Check if a playlist was uploaded
-      else if (playlistName) {
-        // Insert playlist with cover art URL
-        inserted = await insertPlaylist(
-          userID,
-          playlistName,
-          fileURLs[0],
-          playlistDescription
-        );
+
+        // Break the loop if insertion fails for any song
+        if (!inserted) {
+          break;
+        }
       }
 
       // if upload was successful
@@ -87,9 +148,8 @@ export async function uploadThing(req, res, next) {
   });
 }
 
-// handles uploading for both songs and playlists
 // export async function uploadThing(req, res, next) {
-//   upload.single('file')(req, res, async (err) => {
+//   upload.fields([{ name: 'file', maxCount: 2 }])(req, res, async (err) => {
 //     if (err instanceof multer.MulterError) {
 //       console.error('Multer error: ', err);
 //       res.writeHead(500, { 'Content-Type': 'text/plain' });
@@ -99,33 +159,54 @@ export async function uploadThing(req, res, next) {
 //       res.writeHead(500, { 'Content-Type': 'text/plain' });
 //       res.end('File upload failed');
 //     } else {
-//       console.log('File uploaded successfully');
+//       console.log('Files uploaded successfully');
 
-//       // Construct the file URL by combining the base URL and the filename
-//       const fileURL = baseURL + req.file.originalname;
+//       // Get the URLs of the uploaded files
+//       const fileURLs = req.files['file'].map(
+//         (file) => baseURL + encodeURIComponent(file.originalname)
+//       );
+//       // const fileURLs = req.files['file'].map(
+//       //   (file) => baseURL + file.originalname
+//       // );
 
 //       // Save file metadata to the database
 //       const userID = extractUserID(req);
-//       const { playlistName, playlistDescription } = req.body; // if uploaded playlist
-//       const { genreName, songName } = req.body; // if uploaded song
+//       const { playlistName, playlistDescription } = req.body; // if uploading a playlist
+//       const { genreName, songName, albumName } = req.body; // if uploading a song
+
 //       let inserted = false;
-//       // playlist was uploaded
-//       if (playlistName !== null)
+
+//       // Check if a song was uploaded
+//       if (genreName && songName) {
+//         // Extract artist ID
+//         const artistID = await extractArtistID(req);
+//         console.log(artistID);
+
+//         // Insert song with cover art and mp3 file URLs
+//         inserted = await insertSongWithCover(
+//           artistID,
+//           albumName,
+//           genreName,
+//           songName,
+//           fileURLs[0],
+//           fileURLs[1]
+//         );
+//       }
+//       // Check if a playlist was uploaded
+//       else if (playlistName) {
+//         // Insert playlist with cover art URL
 //         inserted = await insertPlaylist(
 //           userID,
 //           playlistName,
-//           fileURL,
+//           fileURLs[0],
 //           playlistDescription
 //         );
-//       // song was uploaded
-//       else if (genreName !== null && songName !== null){
-//         const artistID = await extractArtistID(req);
-//         inserted = await insertSong(artistID, genreName, songName, fileURL);
 //       }
+
 //       // if upload was successful
 //       if (inserted) {
 //         res.writeHead(200, { 'Content-Type': 'text/plain' });
-//         res.end('File uploaded successfully');
+//         res.end('Files uploaded successfully');
 //       } else {
 //         res.writeHead(500, { 'Content-Type': 'text/plain' });
 //         res.end('File upload to db failed');
