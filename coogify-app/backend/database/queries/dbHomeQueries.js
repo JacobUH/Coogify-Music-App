@@ -3,7 +3,7 @@ import pool from '../dbConnection.js';
 export async function selectNewestSongs() {
   try {
     const query = `
-    SELECT t.songName, t.songURL, t.albumName, t.coverArtURL, a.artistName
+    SELECT t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
     FROM TRACK t
     INNER JOIN ARTIST a ON t.artistID = a.artistID
     ORDER BY t.trackID DESC
@@ -21,7 +21,7 @@ export async function selectNewestSongs() {
 export async function selectTopSongs() {
   try {
     const query = `
-      SELECT t.songName, t.songURL, t.albumName, t.coverArtURL, a.artistName,
+      SELECT t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName,
              COUNT(tl.trackLikedID) AS likeCount
       FROM TRACK t
       INNER JOIN ARTIST a ON t.artistID = a.artistID
@@ -42,7 +42,7 @@ export async function selectTopSongs() {
 export async function selectRapSongs() {
   try {
     const query = `
-    SELECT t.songName, t.songURL, t.albumName, t.coverArtURL, a.artistName
+    SELECT t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
     FROM TRACK t
     INNER JOIN ARTIST a ON t.artistID = a.artistID
     INNER JOIN GENRE g ON t.genreID = g.genreID
@@ -62,7 +62,7 @@ export async function selectRapSongs() {
 export async function selectRBSongs() {
   try {
     const query = `
-    SELECT t.songName, t.songURL, t.albumName, t.coverArtURL, a.artistName
+    SELECT t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
     FROM TRACK t
     INNER JOIN ARTIST a ON t.artistID = a.artistID
     INNER JOIN GENRE g ON t.genreID = g.genreID

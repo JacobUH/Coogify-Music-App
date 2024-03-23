@@ -29,6 +29,7 @@ const handlers = {
       song: getSong, // need
       album: (req, res) => 'info of album and image url',
     },
+    payment: (req, res) =>'pay',
     upload: {
       uploadPlaylist: uploadPlaylist, // need
       uploadSongs: uploadSongsWithAlbum, // need

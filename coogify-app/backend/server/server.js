@@ -1,6 +1,5 @@
 import http from 'http';
 import { handleRequest } from '../routes/routeHandler.js';
-import { createNewSongNotificationTrigger } from '../database/triggers/newSongByLikedArtist.js';
 
 // Function to initialize the server
 export default function initializeServer() {
@@ -14,7 +13,10 @@ export default function initializeServer() {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
 
     // Allow specific headers
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Content-Type, Authorization'
+    );
 
     // Handle preflight requests
     if (req.method === 'OPTIONS') {
@@ -26,7 +28,6 @@ export default function initializeServer() {
 
     handleRequest(req, res);
   });
-  createNewSongNotificationTrigger();
 
   // Apply CORS middleware to the server
   //server.use(cors());
