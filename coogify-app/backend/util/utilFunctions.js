@@ -31,6 +31,7 @@ export async function extractUserID(req) {
 }
 
 export async function extractArtistID(req) {
-  const userID = extractUserID(req);
+  const userID = await extractUserID(req);
   const artistID = await selectArtistIDfromUserID(userID);
+  return artistID;
 }

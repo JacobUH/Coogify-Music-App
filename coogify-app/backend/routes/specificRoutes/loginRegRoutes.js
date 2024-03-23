@@ -7,9 +7,10 @@ import { deleteSession } from '../../database/queries/dbAuthQueries.js';
 
 export async function register(req, res) {
   const { firstName, lastName, email, password } = req.body;
+  const hashedInput = await hashPassword(password);
   if (
     email === undefined ||
-    password === undefined ||
+    hashedInput === undefined ||
     firstName === undefined ||
     lastName === undefined
   ) {
@@ -24,7 +25,7 @@ export async function register(req, res) {
   try {
     const registered = await logregq.registerUser(
       email,
-      password,
+      hashedInput,
       firstName,
       lastName
     );

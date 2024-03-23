@@ -47,13 +47,13 @@ export async function selectArtistIDfromUserID(userID) {
       [userID]
     );
     if (rows.length > 0) {
-      return true; // Return true if artist is found
+      return rows[0].artistID; // Return the artistID if found
     } else {
       console.log(`No artist found for userID ${userID}`);
-      return false; // Return false if no artist is found for the userID
+      return null; // Return null if no artist is found for the userID
     }
   } catch (error) {
     console.error('Error selecting artistID:', error);
-    return false;
+    throw error; // Rethrow the error to be handled in the calling function
   }
 }

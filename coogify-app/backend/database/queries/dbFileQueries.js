@@ -1,11 +1,32 @@
 import pool from '../dbConnection.js';
 
-export async function insertSong(artistID, genreName, songName, songItem) {
+// export async function insertSong(artistID, genreName, songName, songItem) {
+//   try {
+//     const [rows] = await pool.query(
+//       `INSERT INTO TRACK (artistID, genreID, songName, songURL)
+//       VALUES (?, (SELECT genreID FROM GENRE WHERE genreName = ?), ?, ?)`,
+//       [artistID, genreName, songName, songItem]
+//     );
+//     console.log('Song inserted successfully');
+//     return true;
+//   } catch (err) {
+//     console.error(err.message);
+//     return false;
+//   }
+// }
+
+export async function insertSongWithCover(
+  artistID,
+  genreName,
+  songName,
+  songItem,
+  coverArtURL
+) {
   try {
     const [rows] = await pool.query(
-      `INSERT INTO TRACK (artistID, genreID, songName, songURL)
-      VALUES (?, (SELECT genreID FROM GENRE WHERE genreName = ?), ?, ?)`,
-      [artistID, genreName, songName, songItem]
+      `INSERT INTO TRACK (artistID, genreID, songName, songURL, coverArtURL)
+      VALUES (?, (SELECT genreID FROM GENRE WHERE genreName = ?), ?, ?, ?)`,
+      [artistID, genreName, songName, songItem, coverArtURL]
     );
     console.log('Song inserted successfully');
     return true;
@@ -14,6 +35,7 @@ export async function insertSong(artistID, genreName, songName, songItem) {
     return false;
   }
 }
+
 
 export async function selectSong(songName) {
   try {
@@ -51,10 +73,6 @@ export async function insertPlaylist(
   console.log('Inserting playlist in DB');
   const userID = await userID_promise;
   try {
-    // Cast userID to an integer
-    // const userIDInt = parseInt(userID);
-    console.log(`userId: ${userID}`);
-
     const [rows] = await pool.query(
       `INSERT INTO PLAYLIST 
       (userID, playlistName, playlistArt, playlistDescription)
@@ -63,7 +81,14 @@ export async function insertPlaylist(
     );
     return true;
   } catch (err) {
-    console.error(err.message);
-    return false;
+    // Check if the error is related to duplicate key violation
+    if (err.code === 'ER_DUP_ENTRY') {
+      console.error('Duplicate entry error:', err.message);
+      return false; // Return false for duplicate key violation
+    } else {
+      console.error('Database error:', err.message);
+      throw err; // Throw other errors for further handling
+    }
   }
 }
+

@@ -2,7 +2,7 @@ import path from 'path';
 import multer from 'multer';
 import dotenv from 'dotenv';
 import {
-  insertSong,
+  insertSongWithCover,
   insertPlaylist,
 } from '../../database/queries/dbFileQueries.js';
 import { extractUserID, extractArtistID } from '../../util/utilFunctions.js';
@@ -24,9 +24,8 @@ const storage = multer.diskStorage({
 // Initialize multer with the storage configuration
 const upload = multer({ storage: storage });
 
-// handles uploading for both songs and playlists
 export async function uploadThing(req, res, next) {
-  upload.single('file')(req, res, async (err) => {
+  upload.fields([{ name: 'file', maxCount: 2 }])(req, res, async (err) => {
     if (err instanceof multer.MulterError) {
       console.error('Multer error: ', err);
       res.writeHead(500, { 'Content-Type': 'text/plain' });
@@ -36,34 +35,50 @@ export async function uploadThing(req, res, next) {
       res.writeHead(500, { 'Content-Type': 'text/plain' });
       res.end('File upload failed');
     } else {
-      console.log('File uploaded successfully');
+      console.log('Files uploaded successfully');
 
-      // Construct the file URL by combining the base URL and the filename
-      const fileURL = baseURL + req.file.originalname;
+      // Get the URLs of the uploaded files
+      const fileURLs = req.files['file'].map(
+        (file) => baseURL + file.originalname
+      );
 
       // Save file metadata to the database
       const userID = extractUserID(req);
-      const { playlistName, playlistDescription } = req.body; // if uploaded playlist
-      const { genreName, songName } = req.body; // if uploaded song
+      const { playlistName, playlistDescription } = req.body; // if uploading a playlist
+      const { genreName, songName } = req.body; // if uploading a song
+
       let inserted = false;
-      // playlist was uploaded
-      if (playlistName !== null)
-        inserted = insertPlaylist(
+
+      // Check if a song was uploaded
+      if (genreName && songName) {
+        // Extract artist ID
+        const artistID = await extractArtistID(req);
+        console.log(artistID);
+
+        // Insert song with cover art and mp3 file URLs
+        inserted = await insertSongWithCover(
+          artistID,
+          genreName,
+          songName,
+          fileURLs[0],
+          fileURLs[1]
+        );
+      }
+      // Check if a playlist was uploaded
+      else if (playlistName) {
+        // Insert playlist with cover art URL
+        inserted = await insertPlaylist(
           userID,
           playlistName,
-          fileURL,
+          fileURLs[0],
           playlistDescription
         );
-      // song was uploaded
-      else if (genreName !== null && songName !== null){
-        const artistID = await extractArtistID(req);
-        inserted = insertSong(artistID, genreName, songName, fileURL);
       }
 
       // if upload was successful
       if (inserted) {
         res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.end('File uploaded successfully');
+        res.end('Files uploaded successfully');
       } else {
         res.writeHead(500, { 'Content-Type': 'text/plain' });
         res.end('File upload to db failed');
@@ -72,8 +87,8 @@ export async function uploadThing(req, res, next) {
   });
 }
 
-// // Define the uploadSong function
-// export async function uploadSong(req, res, next) {
+// handles uploading for both songs and playlists
+// export async function uploadThing(req, res, next) {
 //   upload.single('file')(req, res, async (err) => {
 //     if (err instanceof multer.MulterError) {
 //       console.error('Multer error: ', err);
@@ -90,8 +105,25 @@ export async function uploadThing(req, res, next) {
 //       const fileURL = baseURL + req.file.originalname;
 
 //       // Save file metadata to the database
-//       const { artistName, genreName, songName } = req.body;
-//       if (insertSong(artistName, genreName, songName, fileURL)) {
+//       const userID = extractUserID(req);
+//       const { playlistName, playlistDescription } = req.body; // if uploaded playlist
+//       const { genreName, songName } = req.body; // if uploaded song
+//       let inserted = false;
+//       // playlist was uploaded
+//       if (playlistName !== null)
+//         inserted = await insertPlaylist(
+//           userID,
+//           playlistName,
+//           fileURL,
+//           playlistDescription
+//         );
+//       // song was uploaded
+//       else if (genreName !== null && songName !== null){
+//         const artistID = await extractArtistID(req);
+//         inserted = await insertSong(artistID, genreName, songName, fileURL);
+//       }
+//       // if upload was successful
+//       if (inserted) {
 //         res.writeHead(200, { 'Content-Type': 'text/plain' });
 //         res.end('File uploaded successfully');
 //       } else {
