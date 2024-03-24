@@ -10,12 +10,15 @@ export const Setup = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (userType: string) => {
     // Validate form data
     if (month && day && year) {
-      // Form is valid, navigate to setup page
-      navigate('/artistSetup');
+      // Form is valid, navigate based on user type
+      if (userType === 'listener') {
+        navigate('/home'); // Navigate to home page for listener
+      } else if (userType === 'artist') {
+        navigate('/artistSetup'); // Navigate to artist setup page
+      }
     } else {
       // Form is not valid, display error message or handle accordingly
       console.error('Please fill out all required fields');
