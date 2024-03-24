@@ -43,8 +43,13 @@ export const AccountDropdown = () => {
                 </div>
               </Link>
               <Link to="/payment">
-                <div className="block m-2 px-3 py-3 hover:bg-[#656262] border-b-2">
+                <div className="block m-2 px-3 py-3 hover:bg-[#656262] ">
                   Payment
+                </div>
+              </Link>
+              <Link to="/reports">
+                <div className="block m-2 px-3 py-3 hover:bg-[#656262] border-b-2">
+                  Reports
                 </div>
               </Link>
               <div
