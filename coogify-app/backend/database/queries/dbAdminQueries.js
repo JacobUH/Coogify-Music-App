@@ -3,14 +3,20 @@
 
 import pool from "../dbConnection.js";
 
-export async function testQuery(id) {
-  const [rows] = await pool.query(
-    `
-  SELECT *
-  FROM ADMIN
-  WHERE adminID = ?`,
-    [id]
-  );
+export async function selectAllSongs() {
+  const [rows] = await pool.query(`SELECT * FROM TRACK`);
   return rows;
 }
+
+
+export async function selectAllUsers() {
+  const [rows] = await pool.query(`SELECT * FROM USER`);
+  return rows;
+}
+
+export async function selectAllArtists() {
+  const [rows] = await pool.query(`SELECT * FROM ARTIST`);
+  return rows;
+}
+
 

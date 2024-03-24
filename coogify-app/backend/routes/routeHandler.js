@@ -16,6 +16,11 @@ import {
   fetchRBSongs,
 } from './specificRoutes/homeRoutes.js';
 import { makePayment } from './specificRoutes/subscriptionRoutes.js';
+import {
+  retrieveAllArtists,
+  retrieveAllUsers,
+  retrieveAllSongs,
+} from './specificRoutes/adminRoutes.js';
 
 // CHECKLIST:
 // /api/setup page
@@ -44,9 +49,9 @@ const handlers = {
     },
     landing: (req, res) => 'landing',
     admin: {
-      modArtist: (req, res) => 'modArtist',
-      modUser: (req, res) => 'modUser',
-      viewTransactions: (req, res) => 'viewTransactions', // need
+      music: retrieveAllSongs,
+      users: retrieveAllUsers,
+      artists: retrieveAllArtists,
     },
     artist: {
       artistProfile: (req, res) => 'artistProfile',
