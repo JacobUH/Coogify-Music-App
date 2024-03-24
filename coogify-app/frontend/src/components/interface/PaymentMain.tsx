@@ -1,7 +1,34 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import backendBaseUrl from '../../apiConfig';
 
 export const PaymentMain = () => {
+  const handlePayNow = async () => {
+    const storedToken = localStorage.getItem('sessionToken');
+    if (!storedToken) {
+      console.error('Session token not found');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${backendBaseUrl}/api/payment`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      // Handle successful response here, if needed
+      console.log('Payment successful');
+    } catch (error) {
+      console.error('Error making payment:', error);
+    }
+  };
+
   return (
     <div
       className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5"
@@ -180,6 +207,14 @@ export const PaymentMain = () => {
 
                 <div className="text-left px-1">CVV</div>
                 <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full"></input>
+
+                {/* Pay Now button */}
+                <button
+                  className="hover:bg-blue-500 bg-blue-400 shadow-lg shadow-[#313131] h-[40px] w-[260px] px-2 py-2 text-center rounded-full"
+                  onClick={handlePayNow}
+                >
+                  Pay Now
+                </button>
               </div>
             </div>
           </div>

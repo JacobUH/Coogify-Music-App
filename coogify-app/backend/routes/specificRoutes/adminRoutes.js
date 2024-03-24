@@ -3,30 +3,69 @@ import {
   selectAllSongs,
   selectAllUsers,
 } from '../../database/queries/dbAdminQueries.js';
+import { errorMessage } from '../../util/utilFunctions.js';
 
 export async function retrieveAllArtists(req, res) {
   try {
     const artists = await selectAllArtists();
-    res.status(200).json(artists);
+    sendResponse(res, 200, artists);
   } catch (error) {
-    errorMessage(res, error, 'Error fetching artists');
+    sendErrorResponse(res, error, 'Error fetching artists');
   }
 }
 
 export async function retrieveAllSongs(req, res) {
   try {
     const songs = await selectAllSongs();
-    res.status(200).json(songs);
+    sendResponse(res, 200, songs);
   } catch (error) {
-    errorMessage(res, error, 'Error fetching songs');
+    sendErrorResponse(res, error, 'Error fetching songs');
   }
 }
 
 export async function retrieveAllUsers(req, res) {
   try {
     const users = await selectAllUsers();
-    res.status(200).json(users);
+    sendResponse(res, 200, users);
   } catch (error) {
-    errorMessage(res, error, 'Error fetching users');
+    sendErrorResponse(res, error, 'Error fetching users');
   }
 }
+
+function sendResponse(res, statusCode, data) {
+  res.writeHead(statusCode, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify(data));
+}
+
+function sendErrorResponse(res, error, message) {
+  console.error(message, error);
+  res.writeHead(500, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ error: message }));
+}
+
+// export async function retrieveAllArtists(req, res) {
+//   try {
+//     const artists = await selectAllArtists();
+//     res.status(200).json(artists);
+//   } catch (error) {
+//     errorMessage(res, error, 'Error fetching artists');
+//   }
+// }
+
+// export async function retrieveAllSongs(req, res) {
+//   try {
+//     const songs = await selectAllSongs();
+//     res.status(200).json(songs);
+//   } catch (error) {
+//     errorMessage(res, error, 'Error fetching songs');
+//   }
+// }
+
+// export async function retrieveAllUsers(req, res) {
+//   try {
+//     const users = await selectAllUsers();
+//     res.status(200).json(users);
+//   } catch (error) {
+//     errorMessage(res, error, 'Error fetching users');
+//   }
+// }
