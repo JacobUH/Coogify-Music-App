@@ -15,7 +15,7 @@ export const Setup = () => {
     // Validate form data
     if (month && day && year) {
       // Form is valid, navigate to setup page
-      navigate('/home');
+      navigate('/artistSetup');
     } else {
       // Form is not valid, display error message or handle accordingly
       console.error('Please fill out all required fields');

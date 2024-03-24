@@ -14,13 +14,13 @@ export const PaymentMain = () => {
 
         <div className="rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col gap-5 px-8 md:py-5 pb-20 pt-5">
           {/* Work in here */}
-          <div className="flex flex-row">
+          <div className="flex flex-row justify-center">
             <div className="items-center">
               <div className="font-bold px-2">Payment Method</div>
               {/* PAYMENT METHOD */}
-              <div className="block h-[380px] w-[500px] bg-[#656262] text-white rounded-xl px-5 py-5 mr-8">
+              <div className="block h-[380px] w-[500px] bg-[#212020] text-white rounded-xl px-5 py-5 mr-8">
                 <Link to="">
-                  <div className="flex mb-4 h-30 w-70 hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-md shadow-[#d0c2e2] rounded-xl px-2 py-2 ">
+                  <div className="flex mb-4 h-30 w-70 hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] rounded-xl px-2 py-2 ">
                     <img
                       src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png"
                       width="100"
@@ -37,7 +37,7 @@ export const PaymentMain = () => {
                 </Link>
 
                 <Link to="">
-                  <div className="flex mb-4 h-30 w-70 hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-md shadow-[#d0c2e2] rounded-xl px-2 py-2">
+                  <div className="flex mb-4 h-30 w-70 hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] rounded-xl px-2 py-2">
                     <img
                       src="https://1000logos.net/wp-content/uploads/2017/03/MasterCard-Logo-1990.png"
                       width="100"
@@ -54,7 +54,7 @@ export const PaymentMain = () => {
                 </Link>
 
                 <Link to="">
-                  <div className="flex mb-4 h-30 w-70 hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-md shadow-[#d0c2e2] rounded-xl px-2 py-2">
+                  <div className="flex mb-4 h-30 w-70 hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] rounded-xl px-2 py-2">
                     <img
                       src="https://1000logos.net/wp-content/uploads/2016/10/American-Express-Color.png"
                       width="100"
@@ -73,7 +73,7 @@ export const PaymentMain = () => {
                 </Link>
 
                 <Link to="">
-                  <div className="flex mb-4 h-30 w-70 hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-md shadow-[#d0c2e2] rounded-xl px-2 py-2">
+                  <div className="flex mb-4 h-30 w-70 hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] rounded-xl px-2 py-2">
                     <img
                       src="https://www.discoversignage.com/uploads/DGN_AcceptanceMark_2C_Hrz_CMYK2.jpg"
                       width="100"
@@ -94,7 +94,7 @@ export const PaymentMain = () => {
             {/* PREV TRANSACTIONS */}
             <div className="items-center">
               <div className="font-bold px-2">Previous Transactions</div>
-              <div className="h-[380px] w-[500px] bg-[#656262] text-white rounded-xl px-5 py-2 overflow-y-auto">
+              <div className="h-[380px] w-[500px] bg-[#212020] text-white rounded-xl px-5 py-2 overflow-y-auto">
                 <div className="grid grid-cols-2 gap-y-1 gap-x-6">
                   <div className="border-b border-gray-400 py-3">
                     Transaction 4
@@ -128,37 +128,37 @@ export const PaymentMain = () => {
             </div>
           </div>
 
-          <div className="flex flex-row">
+          <div className="flex flex-row justify-center">
             {/* CHANGE CARD DETAILS */}
             <div className="items-center mb-12">
               <div className="font-bold px-2">Change Card Details</div>
-              <div className="grid grid-cols-2 gap-y-4 gap-x-4 h-[335px] w-[700px] px-5 py-7 bg-[#656262] text-white rounded-xl mr-8">
+              <div className="grid grid-cols-2 gap-y-4 gap-x-4 h-[335px] w-[700px] px-5 py-7 bg-[#212020] text-white rounded-xl mr-8">
                 <div className="text-left">
                   <div className="px-1">First Name</div>
-                  <textarea className="caret-white border border-white focus:outline-none focus:border-white hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-lg shadow-[#d0c2e2] h-[35px] w-[260px] px-2 py-2 rounded-full transition duration-200 ease-in-out"></textarea>
+                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
 
                   <div className="px-1">Last Name</div>
-                  <textarea className="caret-white border border-white focus:outline-none focus:border-white hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-lg shadow-[#d0c2e2] h-[35px] w-[260px] px-2 py-2 rounded-full transition duration-200 ease-in-out"></textarea>
+                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
 
                   <div className="px-1">Postal/Zip Code</div>
-                  <textarea className="caret-white border border-white focus:outline-none focus:border-white hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-lg shadow-[#d0c2e2] h-[35px] w-[260px] px-2 py-2 rounded-full transition duration-200 ease-in-out"></textarea>
+                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
 
                   <div className="px-1">Address</div>
-                  <textarea className="caret-white border border-white focus:outline-none focus:border-white hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-lg shadow-[#d0c2e2] h-[35px] w-[260px] px-2 py-2 rounded-full transition duration-200 ease-in-out"></textarea>
+                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
                 </div>
 
                 <div className="text-left">
                   <div className="px-1">Expiration Date</div>
-                  <textarea className="caret-white border border-white focus:outline-none focus:border-white hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-lg shadow-[#d0c2e2] h-[35px] w-[260px] px-2 py-2 rounded-full transition duration-200 ease-in-out"></textarea>
+                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
 
                   <div className="px-1">CVV</div>
-                  <textarea className="caret-white border border-white focus:outline-none focus:border-white hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-lg shadow-[#d0c2e2] h-[35px] w-[260px] px-2 py-2 rounded-full transition duration-200 ease-in-out"></textarea>
+                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
 
                   <div className="px-1">Set Card as Default?</div>
-                  <button className="transition duration-200 ease-in-out border-white focus:outline-none focus:border-white hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-lg shadow-[#d0c2e2] h-[40px] w-[60px] px-2 py-2 text-center rounded-full mr-4">
+                  <button className="  hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[40px] w-[60px] px-2 py-2 text-center rounded-full mr-4">
                     Yes
                   </button>
-                  <button className="transition duration-200 ease-in-out border-white focus:outline-none focus:border-white hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-lg shadow-[#d0c2e2] h-[40px] w-[60px] px-2 py-2 text-center rounded-full">
+                  <button className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[40px] w-[60px] px-2 py-2 text-center rounded-full">
                     No
                   </button>
                 </div>
@@ -168,18 +168,18 @@ export const PaymentMain = () => {
             <div className="items-center">
               <div className="font-bold px-2">Add Payment</div>
               {/* ADD PAYMENT */}
-              <div className="block h-[335px] w-[300px] px-5 py-7 bg-[#656262] text-white rounded-xl">
+              <div className="block h-[335px] w-[300px] px-5 py-7 bg-[#212020] text-white rounded-xl">
                 <div className="text-left px-1">Card Type</div>
-                <textarea className="caret-white border border-white focus:outline-none focus:border-white hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-lg shadow-[#d0c2e2] h-[35px] w-[260px] mb-2 px-2 py-2 rounded-full transition duration-200 ease-in-out"></textarea>
+                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full"></input>
 
                 <div className="text-left px-1">Card Number</div>
-                <textarea className="caret-white border border-white focus:outline-none focus:border-white hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-lg shadow-[#d0c2e2] h-[35px] w-[260px] mb-2 px-2 py-2 rounded-full transition duration-200 ease-in-out"></textarea>
+                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full"></input>
 
                 <div className="text-left px-1">Expiration Date</div>
-                <textarea className="caret-white border border-white focus:outline-none focus:border-white hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-lg shadow-[#d0c2e2] h-[35px] w-[260px] mb-2 px-2 py-2 rounded-full transition duration-200 ease-in-out"></textarea>
+                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full"></input>
 
                 <div className="text-left px-1">CVV</div>
-                <textarea className="caret-white border border-white focus:outline-none focus:border-white hover:bg-[#ddc5fc] bg-[#d1c9db] shadow-lg shadow-[#d0c2e2] h-[35px] w-[260px] mb-2 px-2 py-2 rounded-full transition duration-200 ease-in-out"></textarea>
+                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full"></input>
               </div>
             </div>
           </div>
