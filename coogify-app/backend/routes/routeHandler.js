@@ -15,6 +15,7 @@ import {
   fetchRapSongs,
   fetchRBSongs,
 } from './specificRoutes/homeRoutes.js';
+import { makePayment } from './specificRoutes/subscriptionRoutes.js';
 
 // CHECKLIST:
 // /api/setup page
@@ -29,7 +30,7 @@ const handlers = {
       song: getSong, // need
       album: (req, res) => 'info of album and image url',
     },
-    payment: (req, res) => 'pay',
+    payment: makePayment,
     upload: {
       uploadPlaylist: uploadPlaylist, // need
       uploadSongs: uploadSongsWithAlbum, // need
