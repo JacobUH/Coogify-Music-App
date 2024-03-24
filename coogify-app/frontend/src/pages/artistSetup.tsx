@@ -10,6 +10,7 @@ export const ArtistSetup = () => {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
+  const storedToken = localStorage.getItem('sessionToken');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,6 +23,7 @@ export const ArtistSetup = () => {
       const response = await fetch(`${backendBaseUrl}/api/artist/artistSetup`, {
         method: 'POST',
         headers: {
+          Authorization: `Bearer ${storedToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({

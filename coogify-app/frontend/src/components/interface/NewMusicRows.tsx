@@ -18,6 +18,25 @@ interface Props {
 
 export const NewMusicRows = ({ title }: Props) => {
   const [newestSongs, setNewestSongs] = useState<Song[]>([]);
+  const [selectedSong, setSelectedSong] = useState<Song | null>(null);
+  const [clickPosition, setClickPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+  const [hideCard, setHideCard] = useState<boolean>(true);
+
+  const handleSongClick = (
+    song: Song,
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    setSelectedSong(song);
+    setClickPosition({ x: event.clientX, y: event.clientY });
+    setHideCard(false); // Reset the hide flag when a song is clicked
+  };
+
+  const handleMouseLeave = () => {
+    setHideCard(true); // Hide the card when mouse leaves the song card
+  };
 
   const storedToken = localStorage.getItem('sessionToken');
 
@@ -60,9 +79,10 @@ export const NewMusicRows = ({ title }: Props) => {
                 key={song.songName}
                 className="flex flex-col items-center gap-[6px] cursor-pointer"
                 style={{ minWidth: '200px' }}
+                onClick={(e) => handleSongClick(song, e)}
               >
                 <div className="bg-[#656262] rounded-lg p-5 bg-center bg-cover relative">
-                  {song.isPopular ? ( // Conditionally render the blue dot when isPopular is true
+                  {song.isPopular ? (
                     <div className="absolute bottom-1 right-1 w-3 h-3 bg-blue-500 rounded-full"></div>
                   ) : null}
                   <img
@@ -85,6 +105,27 @@ export const NewMusicRows = ({ title }: Props) => {
           })}
         </div>
       </div>
+      {selectedSong && clickPosition && !hideCard && (
+        <div
+          className="absolute"
+          style={{ top: clickPosition.y - 10, left: clickPosition.x - 50 }}
+        >
+          <div
+            className="text-center font-color-red-500 w-[100px] h-[150px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
+            onMouseLeave={handleMouseLeave}
+          >
+            <button className="hover:bg-[#656262] text-xs m-2  px-3 ">
+              Play Song
+            </button>
+            <button className="hover:bg-[#656262] text-xs m-2  px-3 ">
+              Like Song
+            </button>
+            <button className="hover:bg-[#656262] text-xs m-2  px-3 ">
+              Add to Playlist
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
