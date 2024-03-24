@@ -11,6 +11,8 @@ import { Library } from './pages/Library';
 import { Profile } from './pages/Profile';
 import { Subscription } from './pages/Subscription';
 import { Payment } from './pages/Payment';
+import { Report } from './pages/Reports';
+import { LikedSongs } from './pages/LikedSongs';
 import React from 'react';
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/payment" element={<Payment />} />
+          <Route path="/reports" element={<Report />} />
+          <Route path="/likedSongs" element={<LikedSongs />} />
         </Routes>
       </div>
     </>
