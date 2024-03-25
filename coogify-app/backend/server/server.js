@@ -7,7 +7,7 @@ export default function initializeServer() {
   const server = http.createServer((req, res) => {
     // Pass the request and response objects to the request handler
     // Allow requests from the specified origin
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
     // Allow specific HTTP methods
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
