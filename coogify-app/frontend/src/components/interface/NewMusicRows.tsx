@@ -52,7 +52,7 @@ export const NewMusicRows = ({ title }: Props) => {
             },
           }
         );
-        console.log(response.data);
+        //console.log(response.data);
         setNewestSongs(response.data);
       } catch (error) {
         console.error('Error fetching new songs:', error);
@@ -73,7 +73,6 @@ export const NewMusicRows = ({ title }: Props) => {
       <div className="w-full flex items-center overflow-x-auto overflow-y-auto md:pb-0 pb-5">
         <div className="flex items-center gap-2">
           {newestSongs.map((song: Song) => {
-            console.log(song.coverArtURL);
             return (
               <div
                 key={song.songName}
@@ -114,13 +113,22 @@ export const NewMusicRows = ({ title }: Props) => {
             className="text-center font-color-red-500 w-[100px] h-[150px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
             onMouseLeave={handleMouseLeave}
           >
-            <button className="hover:bg-[#656262] text-xs m-2  px-3 ">
+            <button
+              className="hover:bg-[#656262] text-xs m-2  px-3"
+              onClick={() => setHideCard(true)}
+            >
               Play Song
             </button>
-            <button className="hover:bg-[#656262] text-xs m-2  px-3 ">
+            <button
+              className="hover:bg-[#656262] text-xs m-2  px-3"
+              onClick={() => setHideCard(true)}
+            >
               Like Song
             </button>
-            <button className="hover:bg-[#656262] text-xs m-2  px-3 ">
+            <button
+              className="hover:bg-[#656262] text-xs m-2  px-3"
+              onClick={() => setHideCard(true)}
+            >
               Add to Playlist
             </button>
           </div>

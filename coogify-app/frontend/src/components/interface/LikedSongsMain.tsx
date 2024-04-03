@@ -1,4 +1,5 @@
 import React from 'react';
+import { LikedMusicRows } from './LikedMusicRows';
 
 export const LikedSongsMain = () => {
   return (
@@ -12,6 +13,9 @@ export const LikedSongsMain = () => {
         </div>
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
           {/* Work in here */}
+          <div className="w-full flex justify-center items-center">
+            <LikedMusicRows title="Liked Songs" />
+          </div>
         </div>
       </div>
     </div>

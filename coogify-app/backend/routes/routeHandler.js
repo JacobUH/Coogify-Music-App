@@ -2,19 +2,11 @@
 import fs from 'fs';
 import path from 'path';
 import { jsonParser, authenticate } from '../middlewares/middleware.js';
-import { register, login } from './specificRoutes/loginRegRoutes.js';
-import {
-  uploadPlaylist,
-  uploadSongsWithAlbum,
-} from './specificRoutes/uploadsRoutes.js';
+import { register, login, logout} from './specificRoutes/loginRegRoutes.js';
+import { uploadPlaylist, uploadSongsWithAlbum } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
-import {
-  fetchNewestSongs,
-  fetchTopSongs,
-  fetchRapSongs,
-  fetchRBSongs,
-} from './specificRoutes/homeRoutes.js';
+import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
 
 // CHECKLIST:
 // /api/setup page
@@ -25,6 +17,7 @@ const handlers = {
     register: register, // need
     setup: (req, res) => 'setup',
     login: login, // need
+    logout: logout, // need
     fetch: {
       song: getSong, // need
       album: (req, res) => 'info of album and image url',
@@ -39,7 +32,7 @@ const handlers = {
       fetchTopSongs: fetchTopSongs, // need
       fetchRapSongs: fetchRapSongs,
       fetchRBSongs: fetchRBSongs,
-      fetchUserLikedSongs: (req, res) => 'fetchUserLikedSongs',
+      fetchUserLikedSongs: fetchUserLikedSongs,
     },
     landing: (req, res) => 'landing',
     admin: {

@@ -1,9 +1,8 @@
 import * as logregq from '../../database/queries/dbLoginRegQueries.js';
 import bcrypt from 'bcrypt';
 import { hashPassword } from '../../middlewares/middleware.js';
-import { createSession } from '../../Session/sessionManager.js';
+import { createSession, destroySession } from '../../Session/sessionManager.js';
 import { getUserFromEmail } from '../../database/queries/dbUserQueries.js';
-import { deleteSession } from '../../database/queries/dbAuthQueries.js';
 
 export async function register(req, res) {
   const { firstName, lastName, email, password } = req.body;
@@ -92,3 +91,36 @@ export async function login(req, res) {
     res.end('Internal server error');
   }
 }
+
+export async function logout(req, res) {
+  try {
+    // Extract the session token from the request body
+    console.log(req);
+    const { sessionToken } = req.body;
+
+    // If user is missing, return an error response
+    if (!sessionToken) {
+      res.writeHead(400, { 'Content-Type': 'text/plain' });
+      res.end('Session token is required.');
+      return;
+    }
+
+    // Delete the session associated with the provided session token
+    const deletedSession = await deleteSession(extractUserID(sessionToken));
+
+    if (deletedSession) {
+      // If the session is successfully deleted, send a success response
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.end('Logout successful');
+    } else {
+      // If the session does not exist or any other error occurs, send an error response
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.end('Session not found or already expired.');
+    }
+  } catch (error) {
+    console.error('Error during logout:', error);
+    res.writeHead(500, { 'Content-Type': 'text/plain' });
+    res.end('Internal server error.');
+  }
+}
+

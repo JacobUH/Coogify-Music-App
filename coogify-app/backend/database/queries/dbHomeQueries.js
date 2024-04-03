@@ -78,3 +78,21 @@ export async function selectRBSongs() {
     return false;
   }
 }
+
+export async function selectUserLikedSongs(userID) {
+  try{
+    const query = `
+    SELECT tl.trackID, t.artistID, t.genreID, t.albumName, t.songName, t.songURL, t.coverArtURL, t.duration, t.releaseDate, a.artistName
+    FROM TRACK_LIKED tl
+    INNER JOIN TRACK t ON tl.trackID = t.trackID
+    INNER JOIN ARTIST a ON t.artistID = a.artistID
+    WHERE tl.userID = ?;
+    `;
+    const [rows] = await pool.query(query, [userID]);
+    console.log(rows);
+    return rows;
+  } catch (error){
+    console.error('Error fetching your liked songs:', error);
+    return false;
+  }
+}

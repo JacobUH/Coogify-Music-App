@@ -1,4 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import axios from 'axios';
+import backendBaseUrl from '../../apiConfig';
 
 interface ConfirmationScreenProps {
   onClose: () => void; // Specify the type of onClose prop
@@ -7,10 +10,49 @@ interface ConfirmationScreenProps {
 export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({
   onClose,
 }) => {
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+  const storedToken = localStorage.getItem('sessionToken');
 
-  const handleYes = () => {
-    navigate('/');
+  const handleYes = async () => {
+    try {
+      const response = await axios.post(
+        `${backendBaseUrl}/api/logout`, // Use backendBaseUrl here
+        {
+          storedToken,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      console.log('Response:', response);
+
+      if (response.status !== 200) {
+        throw new Error(response.data.message);
+      }
+
+      // Assuming successful login, you can redirect the home page
+      console.log(
+        'clearing stored token and deleting it from database: ',
+        storedToken
+      );
+      localStorage.clear();
+      navigate('/');
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setError('unable to logout and remove stored token.');
+      } else if (
+        error.response &&
+        error.response.data &&
+        error.response.data.error
+      ) {
+        setError(error.response.data.error);
+      }
+    }
   };
 
   const handleNo = () => {
