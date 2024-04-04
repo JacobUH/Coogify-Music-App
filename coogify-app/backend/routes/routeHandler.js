@@ -2,19 +2,12 @@
 import fs from 'fs';
 import path from 'path';
 import { jsonParser, authenticate } from '../middlewares/middleware.js';
-import { register, login } from './specificRoutes/loginRegRoutes.js';
-import {
-  uploadPlaylist,
-  uploadSongsWithAlbum,
-} from './specificRoutes/uploadsRoutes.js';
+import { register, login, logout} from './specificRoutes/loginRegRoutes.js';
+import { uploadPlaylist, uploadSongsWithAlbum } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
-import {
-  fetchNewestSongs,
-  fetchTopSongs,
-  fetchRapSongs,
-  fetchRBSongs,
-} from './specificRoutes/homeRoutes.js';
+import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
+import { likeSong } from './specificRoutes/songRoutes.js';
 import { makePayment } from './specificRoutes/subscriptionRoutes.js';
 import {
   retrieveAllArtists,
@@ -22,32 +15,33 @@ import {
   retrieveAllSongs,
 } from './specificRoutes/adminRoutes.js';
 
-// CHECKLIST:
-// /api/setup page
-
 // Define the handlers object
 const handlers = {
   api: {
-    register: register, // need
-    setup: (req, res) => 'setup',
-    login: login, // need
+    register: register, 
+    login: login, 
+    logout: logout, 
+    song: {
+      likeSong: likeSong,
+      addSong: (req, res) => 'addSongToPlaylist',
+      removeSong: (req, res) => 'removeSongFromPlaylist',
+    },
     fetch: {
-      song: getSong, // need
+      song: getSong,
       album: (req, res) => 'info of album and image url',
     },
     payment: makePayment,
     upload: {
-      uploadPlaylist: uploadPlaylist, // need
-      uploadSongs: uploadSongsWithAlbum, // need
+      uploadPlaylist: uploadPlaylist,
+      uploadSongs: uploadSongsWithAlbum,
     },
     home: {
-      fetchNewSongs: fetchNewestSongs, // need
-      fetchTopSongs: fetchTopSongs, // need
+      fetchNewSongs: fetchNewestSongs,
+      fetchTopSongs: fetchTopSongs,
       fetchRapSongs: fetchRapSongs,
       fetchRBSongs: fetchRBSongs,
-      fetchUserLikedSongs: (req, res) => 'fetchUserLikedSongs',
+      fetchUserLikedSongs: fetchUserLikedSongs,
     },
-    landing: (req, res) => 'landing',
     admin: {
       music: retrieveAllSongs,
       users: retrieveAllUsers,

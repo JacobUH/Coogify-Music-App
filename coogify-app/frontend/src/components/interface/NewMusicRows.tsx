@@ -4,6 +4,7 @@ import axios from 'axios';
 import backendBaseUrl from '../../apiConfig';
 
 interface Song {
+  trackID: number;
   songName: string;
   coverArtURL: string;
   songURL: string;
@@ -40,6 +41,7 @@ export const NewMusicRows = ({ title }: Props) => {
 
   const storedToken = localStorage.getItem('sessionToken');
 
+  // FETCH NEW SONGS BACKEND CALL
   useEffect(() => {
     const fetchNewestSongs = async () => {
       try {
@@ -52,7 +54,7 @@ export const NewMusicRows = ({ title }: Props) => {
             },
           }
         );
-        console.log(response.data);
+        //console.log(response.data);
         setNewestSongs(response.data);
       } catch (error) {
         console.error('Error fetching new songs:', error);
@@ -61,6 +63,41 @@ export const NewMusicRows = ({ title }: Props) => {
 
     fetchNewestSongs();
   }, []);
+
+  // LIKE SONG BACKEND CALL
+  const handleLikeSong = async () => {
+    console.log(
+      JSON.stringify({
+        selectedSong,
+      })
+    );
+    if (selectedSong) {
+      console.log('trackID: ', selectedSong.trackID);
+      console.log('storedToken: ', storedToken);
+      try {
+        await axios.post(
+          `${backendBaseUrl}/api/song/likeSong`,
+          {
+            trackID: selectedSong.trackID,
+            sessionToken: storedToken,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Song liked successfully');
+      } catch (error) {
+        console.error('Error liking the song:', error);
+      }
+    }
+  };
+
+  function refreshPage() {
+    window.location.reload();
+  }
 
   return (
     <div className="w-full flex flex-col md:gap-4 gap-6 px-2">
@@ -73,7 +110,6 @@ export const NewMusicRows = ({ title }: Props) => {
       <div className="w-full flex items-center overflow-x-auto overflow-y-auto md:pb-0 pb-5">
         <div className="flex items-center gap-2">
           {newestSongs.map((song: Song) => {
-            console.log(song.coverArtURL);
             return (
               <div
                 key={song.songName}
@@ -114,13 +150,33 @@ export const NewMusicRows = ({ title }: Props) => {
             className="text-center font-color-red-500 w-[100px] h-[150px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
             onMouseLeave={handleMouseLeave}
           >
-            <button className="hover:bg-[#656262] text-xs m-2  px-3 ">
+            <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('play button clicked');
+                setHideCard(true);
+              }}
+            >
               Play Song
             </button>
-            <button className="hover:bg-[#656262] text-xs m-2  px-3 ">
+            <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('like button clicked');
+                handleLikeSong();
+                setHideCard(true);
+                refreshPage();
+              }}
+            >
               Like Song
             </button>
-            <button className="hover:bg-[#656262] text-xs m-2  px-3 ">
+            <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('add to playlist button clicked');
+                setHideCard(true);
+              }}
+            >
               Add to Playlist
             </button>
           </div>

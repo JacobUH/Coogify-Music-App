@@ -16,8 +16,8 @@ interface Props {
   title: string;
 }
 
-export const TopMusicRows = ({ title }: Props) => {
-  const [topSongs, setTopSongs] = useState<Song[]>([]);
+export const LikedMusicRows = ({ title }: Props) => {
+  const [likedSongs, setLikedSongs] = useState<Song[]>([]);
   const [selectedSong, setSelectedSong] = useState<Song | null>(null);
   const [clickPosition, setClickPosition] = useState<{
     x: number;
@@ -41,11 +41,10 @@ export const TopMusicRows = ({ title }: Props) => {
   const storedToken = localStorage.getItem('sessionToken');
 
   useEffect(() => {
-    // Fetch data from backend API for top songs
-    const fetchTopSongs = async () => {
+    const fetchNewestSongs = async () => {
       try {
         const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchTopSongs`,
+          `${backendBaseUrl}/api/home/fetchUserLikedSongs`,
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,
@@ -53,14 +52,14 @@ export const TopMusicRows = ({ title }: Props) => {
             },
           }
         );
-
-        setTopSongs(response.data);
+        //console.log(response.data);
+        setLikedSongs(response.data);
       } catch (error) {
-        console.error('Error fetching top songs:', error);
+        console.error('Error fetching new songs:', error);
       }
     };
 
-    fetchTopSongs();
+    fetchNewestSongs();
   }, []);
 
   return (
@@ -73,20 +72,24 @@ export const TopMusicRows = ({ title }: Props) => {
       </div>
       <div className="w-full flex items-center overflow-x-auto overflow-y-auto md:pb-0 pb-5">
         <div className="flex items-center gap-2">
-          {topSongs.map((song: Song) => {
+          {likedSongs.map((song: Song) => {
             return (
               <div
                 key={song.songName}
                 className="flex flex-col items-center gap-[6px] cursor-pointer"
-                style={{ minWidth: '200px' }} // Adjust the minimum width of each song item
+                style={{ minWidth: '200px' }}
                 onClick={(e) => handleSongClick(song, e)}
               >
-                <div className=" bg-[#656262] rounded-lg p-5 bg-center bg-cover">
+                <div className="bg-[#656262] rounded-lg p-5 bg-center bg-cover relative">
+                  {song.isPopular ? (
+                    <div className="absolute bottom-1 right-1 w-3 h-3 bg-blue-500 rounded-full"></div>
+                  ) : null}
                   <img
                     className="w-[140px] h-[140px] rounded-xl"
                     src={song.coverArtURL}
                     alt={song.songName}
                   />
+
                   <div className="pt-2 text-white text-[15px] font-medium whitespace-nowrap">
                     {song.songName.length > 20
                       ? song.songName.slice(0, 17) + '...'

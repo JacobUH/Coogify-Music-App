@@ -1,25 +1,69 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../public/images/Logo.svg';
 import { Footer } from '../components/setup/Footer';
+import axios from 'axios';
+import backendBaseUrl from '../apiConfig';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Validate form data
-    if (email && password) {
-      // Form is valid, navigate to setup page
-      navigate('/home'); // Alternatively, use useHistory() from react-router-dom for programmatic navigation
-    } else {
-      // Form is not valid, display error message or handle accordingly
-      console.error('Please fill out all required fields');
+    console.log(
+      JSON.stringify({
+        email,
+        password,
+      })
+    );
+
+    try {
+      const response = await axios.post(
+        `${backendBaseUrl}/api/login`, // Use backendBaseUrl here
+        {
+          email,
+          password,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      console.log('Response:', response);
+
+      if (response.status !== 200) {
+        throw new Error(response.data.message);
+      }
+
+      // Assuming successful login, you can handle the session token here
+      const storedToken = response.data.sessionID;
+      if (storedToken) {
+        console.log('new token is: ', storedToken);
+      }
+
+      // Store the session token in Local Storage or Session Storage
+      localStorage.setItem('sessionToken', storedToken);
+
+      // Assuming successful login, you can redirect the home page
+      navigate('/home');
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setError('Invalid Email or Password.');
+      } else if (
+        error.response &&
+        error.response.data &&
+        error.response.data.error
+      ) {
+        setError(error.response.data.error);
+      }
     }
   };
 
@@ -33,6 +77,7 @@ export const Login = () => {
         onSubmit={handleSubmit}
         className="bg-[#3E3C3C] p-6 rounded-lg shadow-md md:w-[700px] mx-auto "
       >
+        {error && <div className="text-red-500 mb-4">{error}</div>}
         <div className="mb-4">
           <label htmlFor="email" className="block text-white">
             Email

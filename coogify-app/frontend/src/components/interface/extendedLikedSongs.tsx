@@ -4,6 +4,7 @@ import axios from 'axios';
 import backendBaseUrl from '../../apiConfig';
 
 interface Song {
+  trackID: number;
   songName: string;
   coverArtURL: string;
   songURL: string;
@@ -16,8 +17,8 @@ interface Props {
   title: string;
 }
 
-export const TopMusicRows = ({ title }: Props) => {
-  const [topSongs, setTopSongs] = useState<Song[]>([]);
+export const ExtendedLikedSongs = ({ title }: Props) => {
+  const [newestSongs, setNewestSongs] = useState<Song[]>([]);
   const [selectedSong, setSelectedSong] = useState<Song | null>(null);
   const [clickPosition, setClickPosition] = useState<{
     x: number;
@@ -40,12 +41,12 @@ export const TopMusicRows = ({ title }: Props) => {
 
   const storedToken = localStorage.getItem('sessionToken');
 
+  // FETCH NEW SONGS BACKEND CALL
   useEffect(() => {
-    // Fetch data from backend API for top songs
-    const fetchTopSongs = async () => {
+    const fetchNewestSongs = async () => {
       try {
         const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchTopSongs`,
+          `${backendBaseUrl}/api/home/fetchNewSongs`,
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,
@@ -53,40 +54,73 @@ export const TopMusicRows = ({ title }: Props) => {
             },
           }
         );
-
-        setTopSongs(response.data);
+        //console.log(response.data);
+        setNewestSongs(response.data);
       } catch (error) {
-        console.error('Error fetching top songs:', error);
+        console.error('Error fetching new songs:', error);
       }
     };
 
-    fetchTopSongs();
+    fetchNewestSongs();
   }, []);
+
+  // LIKE SONG BACKEND CALL
+  const handleLikeSong = async () => {
+    console.log(
+      JSON.stringify({
+        selectedSong,
+      })
+    );
+    if (selectedSong) {
+      console.log('trackID: ', selectedSong.trackID);
+      console.log('storedToken: ', storedToken);
+      try {
+        await axios.post(
+          `${backendBaseUrl}/api/song/likeSong`,
+          {
+            trackID: selectedSong.trackID,
+            sessionToken: storedToken,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Song liked successfully');
+      } catch (error) {
+        console.error('Error liking the song:', error);
+      }
+    }
+  };
+
+  function refreshPage() {
+    window.location.reload();
+  }
 
   return (
     <div className="w-full flex flex-col md:gap-4 gap-6 px-2">
-      <div className="w-full flex items-center justify-between">
-        <span className="text-[22px]">{title}</span>
-        <a href="#" className="text-[#9E67E4] text-[15px] font-medium">
-          See More
-        </a>
-      </div>
       <div className="w-full flex items-center overflow-x-auto overflow-y-auto md:pb-0 pb-5">
-        <div className="flex items-center gap-2">
-          {topSongs.map((song: Song) => {
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+          {newestSongs.map((song: Song) => {
             return (
               <div
                 key={song.songName}
                 className="flex flex-col items-center gap-[6px] cursor-pointer"
-                style={{ minWidth: '200px' }} // Adjust the minimum width of each song item
+                style={{ minWidth: '200px' }}
                 onClick={(e) => handleSongClick(song, e)}
               >
-                <div className=" bg-[#656262] rounded-lg p-5 bg-center bg-cover">
+                <div className="bg-[#656262] rounded-lg p-5 bg-center bg-cover relative">
+                  {song.isPopular ? (
+                    <div className="absolute bottom-1 right-1 w-3 h-3 bg-blue-500 rounded-full"></div>
+                  ) : null}
                   <img
                     className="w-[140px] h-[140px] rounded-xl"
                     src={song.coverArtURL}
                     alt={song.songName}
                   />
+
                   <div className="pt-2 text-white text-[15px] font-medium whitespace-nowrap">
                     {song.songName.length > 20
                       ? song.songName.slice(0, 17) + '...'
@@ -107,24 +141,24 @@ export const TopMusicRows = ({ title }: Props) => {
           style={{ top: clickPosition.y - 10, left: clickPosition.x - 50 }}
         >
           <div
-            className="text-center font-color-red-500 w-[100px] h-[150px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
+            className="text-center font-color-red-500 w-[100px] h-[105px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
             onMouseLeave={handleMouseLeave}
           >
             <button
-              className="hover:bg-[#656262] text-xs m-2  px-3"
-              onClick={() => setHideCard(true)}
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('play button clicked');
+                setHideCard(true);
+              }}
             >
               Play Song
             </button>
             <button
-              className="hover:bg-[#656262] text-xs m-2  px-3"
-              onClick={() => setHideCard(true)}
-            >
-              Like Song
-            </button>
-            <button
-              className="hover:bg-[#656262] text-xs m-2  px-3"
-              onClick={() => setHideCard(true)}
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('add to playlist button clicked');
+                setHideCard(true);
+              }}
             >
               Add to Playlist
             </button>

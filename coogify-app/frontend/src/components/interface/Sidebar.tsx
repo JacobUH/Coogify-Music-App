@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import HomeIcon from '../../../public/images/HomeIcon.svg';
@@ -8,7 +9,17 @@ import UploadIcon from '../../../public/images/UploadIcon.svg';
 import UploadIconHover from '../../../public/images/UploadIconHover.svg';
 import LibraryIcon from '../../../public/images/LibraryIcon.svg';
 import LibraryIconHover from '../../../public/images/LibraryIconHover.svg';
-import { savedSongs } from '../../../public/data/songs';
+import backendBaseUrl from '../../apiConfig';
+import axios from 'axios';
+
+interface Song {
+  songName: string;
+  coverArtURL: string;
+  songURL: string;
+  albumName: string;
+  artistName: string;
+  isPopular: boolean;
+}
 
 export const Sidebar = () => {
   const location = useLocation();
@@ -56,8 +67,57 @@ export const Sidebar = () => {
     setCurrentHoveredItem(null);
   };
 
+  // song card feature
+  const [likedSongs, setLikedSongs] = useState<Song[]>([]);
+  const [selectedSong, setSelectedSong] = useState<Song | null>(null);
+  const [clickPosition, setClickPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+  const [hideCard, setHideCard] = useState<boolean>(true);
+
+  const handleSongClick = (
+    song: Song,
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    setSelectedSong(song);
+    setClickPosition({ x: event.clientX, y: event.clientY });
+    setHideCard(false); // Reset the hide flag when a song is clicked
+  };
+
+  const handleSongMouseLeave = () => {
+    setHideCard(true); // Hide the card when mouse leaves the song card
+  };
+
+  const storedToken = localStorage.getItem('sessionToken');
+
+  useEffect(() => {
+    const fetchUserLikedSongs = async () => {
+      try {
+        const response = await axios.get(
+          `${backendBaseUrl}/api/home/fetchUserLikedSongs`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log(response.data);
+        setLikedSongs(response.data);
+      } catch (error) {
+        console.error('Error fetching new songs:', error);
+      }
+    };
+
+    fetchUserLikedSongs();
+  }, []);
+
   return (
-    <div className="md:h-screen h-fit md:w-[400px] z-30 w-full md:absolute block md:left-0 top-0 p-5 hide-scrollbar overflow-auto ">
+    <div
+      className="md:h-screen h-fit md:w-[400px] z-30 w-full md:absolute block md:left-0 top-0 p-5 hide-scrollbar overflow-clip  "
+      style={{ maxHeight: 'calc(100vh - 89px)' }}
+    >
       {/* Sidebar Icons on top */}
       <div className="bg-[#3E3C3C] rounded-md overflow-hidden p-4">
         <div className="w-full flex flex-col gap-7">
@@ -119,24 +179,24 @@ export const Sidebar = () => {
           </div>
 
           {/* Every Song Icon */}
-          {savedSongs.map((song) => {
+          {likedSongs.map((song: Song) => {
             return (
               <div
-                key={song.id}
+                key={song.songName}
                 className="w-full flex items-center justify-between cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <img
-                    src={song.cover}
-                    alt={song.title}
+                    src={song.coverArtURL}
+                    alt={song.songName}
                     className="rounded-md w-[60px]"
                   />
                   <div className="flex flex-col justify-center items-start">
                     <span className="font-medium text-white text-[16px]">
-                      {song.title}
+                      {song.songName}
                     </span>
                     <span className="font-medium text-[#9E67E4] text-[14px]">
-                      {song.artist}
+                      {song.artistName}
                     </span>
                   </div>
                 </div>

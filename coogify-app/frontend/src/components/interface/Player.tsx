@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
+import React from 'react';
 import cover from '../../../public/images/8.png';
 import playButton from '../../../public/images/Play.png';
 import pauseButton from '../../../public/images/Pause.png';
+import LikeButton from '../../../public/images/LikeIcon.svg';
+import LikeButtonActive from '../../../public/images/LikeIconActive.svg';
 
 export const Player = () => {
-  const [volume, setVolume] = useState('70');
   const [play, setPlay] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
+  const isDragging = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const totalDuration = 206; // Total Duration in Seconds (3 mins and 26 seconds)
 
@@ -31,50 +33,44 @@ export const Player = () => {
     return () => clearInterval(intervalId);
   }, [play, totalDuration, isDragging]);
 
-  const progressBarWidth = (currentTime / totalDuration) * 100;
-
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
 
-  const handleProgressBarClick = (e: any) => {
-    const progressBar = e.currentTarget;
-    const clickPosition = e.clientX - progressBar.getBoundingClientRect().left;
-    const progressBarWidth = progressBar.offsetWidth;
-    const clickedTime = (clickPosition / progressBarWidth) * totalDuration;
-    setCurrentTime(clickedTime);
-  };
+  const [liked, setLiked] = useState(false); // State to track whether the button is liked or not
 
-  const handleDragStart = () => {
-    setIsDragging(true);
-  };
-
-  const handleDragMove = (e: any) => {
-    if (isDragging && !play) {
-      const progressBar = e.currentTarget;
-      const clickPosition =
-        e.clientX - progressBar.getBoundingClientRect().left;
-      const progressBarWidth = progressBar.offsetWidth;
-      const clickedTime = (clickPosition / progressBarWidth) * totalDuration;
-      setCurrentTime(clickedTime);
-    }
-  };
-
-  const handleDragEnd = () => {
-    setIsDragging(false);
+  const handleLikeClick = () => {
+    setLiked(!liked); // Toggle the liked state
   };
 
   return (
     <div className="w-full bottom h-20 md:py-[50px] py-2 px-6 flex items-center justify-between z-50">
       <div className="flex items-center gap-4">
         <img src={cover} className="rounded-md w-[65px]" alt="music" />
-        <div className="flex flex-col gap-1">
-          <span className="text-[15px] font-medium opacity-85">
-            Can I See You Tonight?
-          </span>
-          <span className="text-[13px] text-[#BA85FE]">Eyedress</span>
+        <div className="flex flex-row">
+          <div className="flex flex-col gap-1">
+            <span className="text-[15px] font-medium opacity-85">
+              Can I See You Tonight?
+            </span>
+            <span className="text-[13px] text-[#BA85FE]">Eyedress</span>
+          </div>
+          <button onClick={handleLikeClick}>
+            {liked ? (
+              <img
+                className="w-[30px] ml-10"
+                src={LikeButtonActive}
+                alt="LikeButtonActive"
+              />
+            ) : (
+              <img
+                className="w-[30px] ml-10"
+                src={LikeButton}
+                alt="LikeButton"
+              />
+            )}
+          </button>
         </div>
       </div>
       <div className="flex items-center gap-4">

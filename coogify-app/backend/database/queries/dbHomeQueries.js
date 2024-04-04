@@ -3,7 +3,7 @@ import pool from '../dbConnection.js';
 export async function selectNewestSongs() {
   try {
     const query = `
-    SELECT t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
+    SELECT t.trackID, t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
     FROM TRACK t
     INNER JOIN ARTIST a ON t.artistID = a.artistID
     ORDER BY t.trackID DESC
@@ -31,7 +31,7 @@ export async function selectTopSongs() {
       LIMIT 10
     `;
     const [rows] = await pool.query(query);
-    console.log(rows);
+    //console.log(rows);
     return rows;
   } catch (error) {
     console.error('Error fetching top songs:', error);
@@ -51,7 +51,7 @@ export async function selectRapSongs() {
     LIMIT 10;    
     `;
     const [rows] = await pool.query(query);
-    console.log(rows);
+    //console.log(rows);
     return rows;
   } catch (error) {
     console.error('Error fetching rap songs:', error);
@@ -71,10 +71,28 @@ export async function selectRBSongs() {
     LIMIT 10;    
     `;
     const [rows] = await pool.query(query);
-    console.log(rows);
+    //console.log(rows);
     return rows;
   } catch (error) {
     console.error('Error fetching r&b songs:', error);
+    return false;
+  }
+}
+
+export async function selectUserLikedSongs(userID) {
+  try{
+    const query = `
+    SELECT tl.trackID, t.artistID, t.genreID, t.albumName, t.songName, t.songURL, t.coverArtURL, t.duration, t.releaseDate, a.artistName
+    FROM TRACK_LIKED tl
+    INNER JOIN TRACK t ON tl.trackID = t.trackID
+    INNER JOIN ARTIST a ON t.artistID = a.artistID
+    WHERE tl.userID = ?;
+    `;
+    const [rows] = await pool.query(query, [userID]);
+    //console.log(rows);
+    return rows;
+  } catch (error){
+    console.error('Error fetching your liked songs:', error);
     return false;
   }
 }

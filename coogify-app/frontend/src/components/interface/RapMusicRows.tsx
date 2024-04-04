@@ -110,13 +110,22 @@ export const RapMusicRows = ({ title }: Props) => {
             className="text-center font-color-red-500 w-[100px] h-[150px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
             onMouseLeave={handleMouseLeave}
           >
-            <button className="hover:bg-[#656262] text-xs m-2  px-3 ">
+            <button
+              className="hover:bg-[#656262] text-xs m-2  px-3"
+              onClick={() => setHideCard(true)}
+            >
               Play Song
             </button>
-            <button className="hover:bg-[#656262] text-xs m-2  px-3 ">
+            <button
+              className="hover:bg-[#656262] text-xs m-2  px-3"
+              onClick={() => setHideCard(true)}
+            >
               Like Song
             </button>
-            <button className="hover:bg-[#656262] text-xs m-2  px-3 ">
+            <button
+              className="hover:bg-[#656262] text-xs m-2  px-3"
+              onClick={() => setHideCard(true)}
+            >
               Add to Playlist
             </button>
           </div>
