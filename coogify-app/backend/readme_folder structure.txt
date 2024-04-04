@@ -1,7 +1,0 @@
- - controllers/: Contains the logic for handling HTTP requests.
- - models/: Defines database models and interacts with the MySQL database.
- - routes/: Defines the API routes and links them to the appropriate controllers.
- - middlewares/: Custom middleware functions, such as authentication or error handling.
- - config/: Configuration files, such as database connection settings.
- - utils/: Utility functions used across your application.
- - index.js: Entry point of your application, where you set up your server and connect to the database.
