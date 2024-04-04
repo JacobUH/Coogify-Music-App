@@ -4,13 +4,13 @@ import { extractUserID, extractArtistID } from "../../util/utilFunctions.js";
 import {
   insertSongWithCover,
   insertPlaylist,
-} from "../../database/queries/dbFileQueries";
+} from "../../database/queries/dbFileQueries.js";
 import jsonParserMiddleware from "../../middlewares/jsonParser.js";
 import hashPasswordMiddleware from "../../middlewares/hashPassword.js";
 import authenticateMiddleware from "../../middlewares/authenticate.js";
 
 export default async function handler(req, res) {
-  jsonParserMiddleware(req, res);
+  // jsonParserMiddleware(req, res);
   hashPasswordMiddleware(req, res);
   authenticateMiddleware(req, res);
   upload.fields([

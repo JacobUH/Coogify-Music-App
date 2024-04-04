@@ -1,37 +1,37 @@
-import multer from "multer";
-import { baseURL, storage, upload } from "../../util/uploadUtilFunctions.js";
-import { extractUserID, extractArtistID } from "../../util/utilFunctions.js";
+import multer from 'multer';
+import { baseURL, storage, upload } from '../../util/uploadUtilFunctions.js';
+import { extractUserID, extractArtistID } from '../../util/utilFunctions.js';
 import {
   insertSongWithCover,
   insertPlaylist,
-} from "../../database/queries/dbFileQueries";
-import jsonParserMiddleware from "../../middlewares/jsonParser.js";
-import hashPasswordMiddleware from "../../middlewares/hashPassword.js";
-import authenticateMiddleware from "../../middlewares/authenticate.js";
+} from '../../database/queries/dbFileQueries.js';
+import jsonParserMiddleware from '../../middlewares/jsonParser.js';
+import hashPasswordMiddleware from '../../middlewares/hashPassword.js';
+import authenticateMiddleware from '../../middlewares/authenticate.js';
 
 export default async function handler(req, res) {
   jsonParserMiddleware(req, res);
   hashPasswordMiddleware(req, res);
   authenticateMiddleware(req, res);
-  upload.single("imageFile")(req, res, async (err) => {
+  upload.single('imageFile')(req, res, async (err) => {
     if (err instanceof multer.MulterError) {
-      console.error("Multer error: ", err);
-      res.writeHead(500, { "Content-Type": "text/plain" });
-      res.end("File upload failed");
+      console.error('Multer error: ', err);
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
+      res.end('File upload failed');
     } else if (err) {
-      console.error("Unknown error: ", err);
-      res.writeHead(500, { "Content-Type": "text/plain" });
-      res.end("File upload failed");
+      console.error('Unknown error: ', err);
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
+      res.end('File upload failed');
     } else {
-      console.log("File uploaded successfully");
+      console.log('File uploaded successfully');
 
       // Get the URL of the uploaded image file
       const imageFile = req.file;
 
       // Check if required file is uploaded
       if (!imageFile) {
-        res.writeHead(400, { "Content-Type": "text/plain" });
-        res.end("Please upload an image file");
+        res.writeHead(400, { 'Content-Type': 'text/plain' });
+        res.end('Please upload an image file');
         return;
       }
 
@@ -51,11 +51,11 @@ export default async function handler(req, res) {
 
       // if upload was successful
       if (inserted) {
-        res.writeHead(200, { "Content-Type": "text/plain" });
-        res.end("Files uploaded successfully");
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Files uploaded successfully');
       } else {
-        res.writeHead(500, { "Content-Type": "text/plain" });
-        res.end("File upload to db failed");
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('File upload to db failed');
       }
     }
   });
