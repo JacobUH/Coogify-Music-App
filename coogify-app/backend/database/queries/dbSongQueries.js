@@ -6,9 +6,9 @@ export async function insertLikedSong(trackID, userID) {
     try {
         const [rows] = await pool.query(
             `INSERT INTO TRACK_LIKED 
-            (track_id, user_id, liked_at)
+            (userID, trackID, dateLiked)
             VALUES (?, ?, NOW())`,
-            [trackID, userID]
+            [userID, trackID]
         );
         
         // Return true to indicate successful insertion
