@@ -7,13 +7,30 @@ export async function registerUser(params) {
   const { email, userPassword, firstName, lastName, dateOfBirth } = params;
   console.log(params);
   try {
-    const [rows] = await pool.query(
+    await pool.query(
       `INSERT INTO USER 
-    (email, userPassword, firstName, lastName, dateOfBirth)
-     VALUES (?, ?, ?, ?, ?)`,
+       (email, userPassword, firstName, lastName, dateOfBirth)
+       VALUES (?, ?, ?, ?, ?)`,
       [email, userPassword, firstName, lastName, dateOfBirth]
     );
     console.log('User inserted successfully');
+
+    // Get the userID of the newly inserted user
+    const [userRows] = await pool.query(
+      `SELECT userID FROM USER WHERE email = ?`,
+      [email]
+    );
+    const userID = userRows[0].userID;
+
+    // Insert a row into the SUBSCRIPTION table
+    await pool.query(
+      `INSERT INTO SUBSCRIPTION 
+       (userID, subscriptionType, subscriptionActive, renewDate)
+       VALUES (?, 'Paid', 0, CURRENT_DATE())`,
+      [userID]
+    );
+
+    console.log('Subscription inserted successfully');
   } catch (err) {
     console.error(err.message);
   }
@@ -43,3 +60,37 @@ export async function getUserFromEmail(email_promise) {
     return null;
   }
 }
+
+export async function insertPayment(userID_promise) {
+  try {
+    const userID = await userID_promise;
+
+    // Update renewDate and set subscriptionActive to 1
+    await pool.query(
+      `UPDATE SUBSCRIPTION 
+       SET renewDate = DATE_ADD(renewDate, INTERVAL 1 MONTH), subcriptionActive = 1 
+       WHERE userID = ?`,
+      [userID]
+    );
+
+    console.log('Payment inserted successfully');
+  } catch (err) {
+    console.error(err.message);
+  }
+}
+
+// export async function registerUser(params) {
+//   const { email, userPassword, firstName, lastName, dateOfBirth } = params;
+//   console.log(params);
+//   try {
+//     const [rows] = await pool.query(
+//       `INSERT INTO USER
+//     (email, userPassword, firstName, lastName, dateOfBirth)
+//      VALUES (?, ?, ?, ?, ?)`,
+//       [email, userPassword, firstName, lastName, dateOfBirth]
+//     );
+//     console.log('User inserted successfully');
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// }

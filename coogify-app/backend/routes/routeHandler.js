@@ -8,7 +8,12 @@ import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
 import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
 import { likeSong } from './specificRoutes/songRoutes.js';
-
+import { makePayment } from './specificRoutes/subscriptionRoutes.js';
+import {
+  retrieveAllArtists,
+  retrieveAllUsers,
+  retrieveAllSongs,
+} from './specificRoutes/adminRoutes.js';
 
 // Define the handlers object
 const handlers = {
@@ -25,7 +30,7 @@ const handlers = {
       song: getSong,
       album: (req, res) => 'info of album and image url',
     },
-    payment: (req, res) =>'pay',
+    payment: makePayment,
     upload: {
       uploadPlaylist: uploadPlaylist,
       uploadSongs: uploadSongsWithAlbum,
@@ -38,13 +43,16 @@ const handlers = {
       fetchUserLikedSongs: fetchUserLikedSongs,
     },
     admin: {
-      modArtist: (req, res) => 'modArtist',
-      modUser: (req, res) => 'modUser',
-      viewTransactions: (req, res) => 'viewTransactions', // need
+      music: retrieveAllSongs,
+      users: retrieveAllUsers,
+      artists: retrieveAllArtists,
     },
     artist: {
       artistProfile: (req, res) => 'artistProfile',
       artistSetup: addArtistName,
+    },
+    notifications: {
+      daysToPay: (req, res) => 'pay',
     },
   },
 };
@@ -78,8 +86,8 @@ export async function handleRequest(req, res) {
     }
 
     // Your existing request handling logic
-    await authenticate(req, res, async () => {
-      await jsonParser(req, res, async () => {
+    await jsonParser(req, res, async () => {
+      await authenticate(req, res, async () => {
         const { method, url } = req;
         const [path, queryString] = url.split('?');
         const segments = path.split('/').filter(Boolean);

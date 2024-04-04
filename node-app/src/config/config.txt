@@ -1,0 +1,2 @@
+ - Store configuration settings such as database connection details in the config/ directory.
+ - Use environment variables to manage sensitive information like database credentials.
