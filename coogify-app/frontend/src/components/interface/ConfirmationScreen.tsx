@@ -15,11 +15,16 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({
   const storedToken = localStorage.getItem('sessionToken');
 
   const handleYes = async () => {
+    console.log(
+      JSON.stringify({
+        storedToken,
+      })
+    );
     try {
       const response = await axios.post(
         `${backendBaseUrl}/api/logout`, // Use backendBaseUrl here
         {
-          storedToken,
+          sessionToken: storedToken,
         },
         {
           headers: {
@@ -37,8 +42,9 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({
 
       // Assuming successful login, you can redirect the home page
       console.log(
-        'clearing stored token and deleting it from database: ',
-        storedToken
+        'clearing stored token: ',
+        storedToken,
+        ' and marking to_delete to 1 in the database.'
       );
       localStorage.clear();
       navigate('/');

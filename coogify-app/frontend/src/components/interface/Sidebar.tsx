@@ -90,7 +90,7 @@ export const Sidebar = () => {
   };
 
   const storedToken = localStorage.getItem('sessionToken');
-  console.log(storedToken);
+  //console.log(storedToken);
 
   useEffect(() => {
     const fetchUserLikedSongs = async () => {

@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import { hashPassword } from '../../middlewares/middleware.js';
 import { createSession, destroySession } from '../../Session/sessionManager.js';
 import { getUserFromEmail } from '../../database/queries/dbUserQueries.js';
+import { extractUserID } from '../../util/utilFunctions.js';
 
 export async function register(req, res) {
   const { firstName, lastName, email, password } = req.body;
@@ -76,8 +77,14 @@ export async function login(req, res) {
 
     // Passwords match, user successfully authenticated
     try {
-      deleteSession(getUserFromEmail(email));
+      console.log('Destroying session...');
+      await destroySession(getUserFromEmail(email));
+      console.log('Sessions destroyed successfully.');
+
+      console.log('Creating new session...');
       const session = await createSession(getUserFromEmail(email));
+      console.log('New session created successfully:', session);
+      
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(
         JSON.stringify({ message: 'Login successful', sessionID: session })
@@ -93,20 +100,19 @@ export async function login(req, res) {
 }
 
 export async function logout(req, res) {
+  console.log('this is inside the req: ', req);
   try {
-    // Extract the session token from the request body
-    console.log(req);
-    const { sessionToken } = req.body;
 
     // If user is missing, return an error response
-    if (!sessionToken) {
+    if (!req) {
       res.writeHead(400, { 'Content-Type': 'text/plain' });
       res.end('Session token is required.');
+      console.log('Session token is required.');
       return;
     }
-
+  
     // Delete the session associated with the provided session token
-    const deletedSession = await deleteSession(extractUserID(sessionToken));
+    const deletedSession = await destroySession(extractUserID(req));
 
     if (deletedSession) {
       // If the session is successfully deleted, send a success response

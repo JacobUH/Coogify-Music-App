@@ -7,34 +7,36 @@ import { uploadPlaylist, uploadSongsWithAlbum } from './specificRoutes/uploadsRo
 import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
 import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
+import { likeSong } from './specificRoutes/songRoutes.js';
 
-// CHECKLIST:
-// /api/setup page
 
 // Define the handlers object
 const handlers = {
   api: {
-    register: register, // need
-    setup: (req, res) => 'setup',
-    login: login, // need
-    logout: logout, // need
+    register: register, 
+    login: login, 
+    logout: logout, 
+    song: {
+      likeSong: likeSong,
+      addSong: (req, res) => 'addSongToPlaylist',
+      removeSong: (req, res) => 'removeSongFromPlaylist',
+    },
     fetch: {
-      song: getSong, // need
+      song: getSong,
       album: (req, res) => 'info of album and image url',
     },
     payment: (req, res) =>'pay',
     upload: {
-      uploadPlaylist: uploadPlaylist, // need
-      uploadSongs: uploadSongsWithAlbum, // need
+      uploadPlaylist: uploadPlaylist,
+      uploadSongs: uploadSongsWithAlbum,
     },
     home: {
-      fetchNewSongs: fetchNewestSongs, // need
-      fetchTopSongs: fetchTopSongs, // need
+      fetchNewSongs: fetchNewestSongs,
+      fetchTopSongs: fetchTopSongs,
       fetchRapSongs: fetchRapSongs,
       fetchRBSongs: fetchRBSongs,
       fetchUserLikedSongs: fetchUserLikedSongs,
     },
-    landing: (req, res) => 'landing',
     admin: {
       modArtist: (req, res) => 'modArtist',
       modUser: (req, res) => 'modUser',

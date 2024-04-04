@@ -44,6 +44,9 @@ export const Login = () => {
 
       // Assuming successful login, you can handle the session token here
       const storedToken = response.data.sessionID;
+      if (storedToken) {
+        console.log('new token is: ', storedToken);
+      }
 
       // Store the session token in Local Storage or Session Storage
       localStorage.setItem('sessionToken', storedToken);
