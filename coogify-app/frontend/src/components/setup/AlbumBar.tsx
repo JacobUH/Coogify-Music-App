@@ -1,3 +1,4 @@
+import React from 'react';
 import fatd from '../../../public/images/2.png';
 import graduation from '../../../public/images/5.png';
 import simple from '../../../public/images/15.png';

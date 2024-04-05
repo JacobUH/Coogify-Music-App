@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import React from 'react';
 import cover from '../../../public/images/8.png';

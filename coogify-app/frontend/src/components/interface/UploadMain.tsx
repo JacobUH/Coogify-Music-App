@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import AddIcon from '../../../public/images/AddIcon.svg';
 import AddBack from '../../../public/images/Back Button.svg';
 import { useNavigate } from 'react-router-dom';
 import backendBaseUrl from '../../apiConfig';
