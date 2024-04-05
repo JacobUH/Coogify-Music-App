@@ -4,8 +4,7 @@ import hashPasswordMiddleware from '../../middlewares/hashPassword.js';
 import authenticateMiddleware from '../../middlewares/authenticate.js';
 
 export default async function handler(req, res) {
-  jsonParserMiddleware(req, res);
-  await hashPasswordMiddleware(req, res, async () => {
+  jsonParserMiddleware(req, res, async () => {
     await authenticateMiddleware(req, res, async () => {
       const { songName } = req.body;
       try {
