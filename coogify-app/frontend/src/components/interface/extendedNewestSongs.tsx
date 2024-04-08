@@ -17,7 +17,7 @@ interface Props {
   title: string;
 }
 
-export const ExtendedLikedSongs = ({ title }: Props) => {
+export const ExtendedNewestSongs = ({ title }: Props) => {
   const [newestSongs, setNewestSongs] = useState<Song[]>([]);
   const [selectedSong, setSelectedSong] = useState<Song | null>(null);
   const [clickPosition, setClickPosition] = useState<{
@@ -46,7 +46,7 @@ export const ExtendedLikedSongs = ({ title }: Props) => {
     const fetchNewestSongs = async () => {
       try {
         const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchUserLikedSongs`,
+          `${backendBaseUrl}/api/home/fetchNewSongs`,
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,
@@ -141,11 +141,11 @@ export const ExtendedLikedSongs = ({ title }: Props) => {
           style={{ top: clickPosition.y - 10, left: clickPosition.x - 50 }}
         >
           <div
-            className="text-center font-color-red-500 w-[100px] h-[105px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
+            className="text-center font-color-red-500 w-[100px] h-[150px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
             onMouseLeave={handleMouseLeave}
           >
             <button
-              className="hover:bg-[#656262] text-xs m-2 px-3"
+              className="hover:bg-[#656262] text-xs m-2  px-3"
               onClick={() => {
                 console.log('play button clicked');
                 setHideCard(true);
@@ -154,7 +154,18 @@ export const ExtendedLikedSongs = ({ title }: Props) => {
               Play Song
             </button>
             <button
-              className="hover:bg-[#656262] text-xs m-2 px-3"
+              className="hover:bg-[#656262] text-xs m-2  px-3"
+              onClick={() => {
+                console.log('like button clicked');
+                handleLikeSong();
+                setHideCard(true);
+                refreshPage();
+              }}
+            >
+              Like Song
+            </button>
+            <button
+              className="hover:bg-[#656262] text-xs m-2  px-3"
               onClick={() => {
                 console.log('add to playlist button clicked');
                 setHideCard(true);

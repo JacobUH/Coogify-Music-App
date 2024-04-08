@@ -4,6 +4,7 @@ import axios from 'axios';
 import backendBaseUrl from '../../apiConfig';
 
 interface Song {
+  trackID: number;
   songName: string;
   coverArtURL: string;
   songURL: string;
@@ -62,6 +63,41 @@ export const RBMusicRows = ({ title }: Props) => {
     fetchRBSongs();
   }, []);
 
+  // LIKE SONG BACKEND CALL
+  const handleLikeSong = async () => {
+    console.log(
+      JSON.stringify({
+        selectedSong,
+      })
+    );
+    if (selectedSong) {
+      console.log('trackID: ', selectedSong.trackID);
+      console.log('storedToken: ', storedToken);
+      try {
+        await axios.post(
+          `${backendBaseUrl}/api/song/likeSong`,
+          {
+            trackID: selectedSong.trackID,
+            sessionToken: storedToken,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Song liked successfully');
+      } catch (error) {
+        console.error('Error liking the song:', error);
+      }
+    }
+  };
+
+  function refreshPage() {
+    window.location.reload();
+  }
+
   return (
     <div className="w-full flex flex-col md:gap-4 gap-6 px-2">
       <div className="w-full flex items-center justify-between">
@@ -111,19 +147,30 @@ export const RBMusicRows = ({ title }: Props) => {
           >
             <button
               className="hover:bg-[#656262] text-xs m-2  px-3"
-              onClick={() => setHideCard(true)}
+              onClick={() => {
+                console.log('play button clicked');
+                setHideCard(true);
+              }}
             >
               Play Song
             </button>
             <button
               className="hover:bg-[#656262] text-xs m-2  px-3"
-              onClick={() => setHideCard(true)}
+              onClick={() => {
+                console.log('like button clicked');
+                handleLikeSong();
+                setHideCard(true);
+                refreshPage();
+              }}
             >
               Like Song
             </button>
             <button
               className="hover:bg-[#656262] text-xs m-2  px-3"
-              onClick={() => setHideCard(true)}
+              onClick={() => {
+                console.log('add to playlist button clicked');
+                setHideCard(true);
+              }}
             >
               Add to Playlist
             </button>

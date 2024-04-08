@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AddIcon from '../../../public/images/AddIcon.svg';
-import AddBack from '../../../public/images/Back Button.svg';
+import BackIcon from '../../../public/images/Back Button.svg';
 import { useNavigate } from 'react-router-dom';
 import backendBaseUrl from '../../apiConfig';
 
@@ -89,7 +89,7 @@ export const UploadMain = () => {
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
           <div className="w-full flex justify-between items-center px-5 md:px-10 py-4">
             <img
-              src={AddBack}
+              src={BackIcon}
               alt="Back"
               onClick={handleBack}
               className="cursor-pointer absolute mb-48"

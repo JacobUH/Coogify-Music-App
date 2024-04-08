@@ -103,7 +103,7 @@ export const Sidebar = () => {
             },
           }
         );
-        console.log(response.data);
+        //console.log(response.data);
         setLikedSongs(response.data);
       } catch (error) {
         console.error('Error fetching new songs:', error);

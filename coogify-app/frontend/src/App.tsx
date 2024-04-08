@@ -13,6 +13,7 @@ import { Subscription } from './pages/Subscription';
 import { Payment } from './pages/Payment';
 import { Report } from './pages/Reports';
 import { LikedSongs } from './pages/LikedSongs';
+import { NewestSongs } from './pages/NewestSongs';
 import React from 'react';
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path="/payment" element={<Payment />} />
           <Route path="/reports" element={<Report />} />
           <Route path="/likedSongs" element={<LikedSongs />} />
+          <Route path="/newestSongs" element={<NewestSongs />} />
         </Routes>
       </div>
     </>

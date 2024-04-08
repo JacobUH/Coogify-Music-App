@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import backendBaseUrl from '../../apiConfig';
+import { Link } from 'react-router-dom';
 
 interface Song {
   trackID: number;
@@ -103,9 +104,13 @@ export const NewMusicRows = ({ title }: Props) => {
     <div className="w-full flex flex-col md:gap-4 gap-6 px-2">
       <div className="w-full flex items-center justify-between">
         <span className="text-[22px]">{title}</span>
-        <a href="#" className="text-[#9E67E4] text-[15px] font-medium">
+        <Link
+          to="/newestSongs"
+          href="#"
+          className="text-[#9E67E4] text-[15px] font-medium"
+        >
           See More
-        </a>
+        </Link>
       </div>
       <div className="w-full flex items-center overflow-x-auto overflow-y-auto md:pb-0 pb-5">
         <div className="flex items-center gap-2">
