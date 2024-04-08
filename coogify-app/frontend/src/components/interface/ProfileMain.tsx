@@ -29,7 +29,7 @@ export const ProfileMain = () => {
         </div>
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
           {/* Work in here */}
-          <div className="w-full max-w-4xl mx-auto bg-[#2D2C2C] rounded-xl p-8 flex flex-col md:flex-row gap-6">
+          <div className="w-full max-w-4xl mx-auto  rounded-xl p-8 flex flex-col md:flex-row gap-6">
             {/* Profile Image */}
             <div className="md:w-48 md:h-48 w-32 h-32 bg-[#656262] rounded-full flex items-center justify-center overflow-hidden">
               <img
