@@ -20,8 +20,6 @@ export async function insertLikedSong(trackID, userID) {
   }
 }
 
-import pool from 'path/to/your/database/connection'; // Import your database connection pool
-
 export async function updatePlaylist(
   playlistName,
   playlistDescription,
