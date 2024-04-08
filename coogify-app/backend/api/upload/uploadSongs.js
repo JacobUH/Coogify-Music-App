@@ -1,16 +1,15 @@
 import multer from 'multer';
 import { baseURL, storage, upload } from '../../util/uploadUtilFunctions.js';
-import { extractUserID, extractArtistID } from '../../util/utilFunctions.js';
-import {
-  insertSongWithCover,
-  insertPlaylist,
-} from '../../database/queries/dbFileQueries.js';
+import { extractArtistID } from '../../util/utilFunctions.js'; // Removed unnecessary import
+import { insertSongWithCover } from '../../database/queries/dbFileQueries.js';
 import jsonParserMiddleware from '../../middlewares/jsonParser.js';
 import authenticateMiddleware from '../../middlewares/authenticate.js';
+import path from 'path'; // Added import for path module
 
 export default async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {
     authenticateMiddleware(req, res, async () => {
+      console.log(req.body);
       upload.fields([
         { name: 'mp3Files', maxCount: 50 },
         { name: 'imageFile', maxCount: 1 },
@@ -30,6 +29,9 @@ export default async function handler(req, res) {
           const mp3Files = req.files['mp3Files'];
           const imageFile = req.files['imageFile'][0];
 
+          console.log('MP3 Files:', mp3Files);
+          console.log('Image File:', imageFile);
+
           // Check if required files are uploaded
           if (!mp3Files || !mp3Files.length || !imageFile) {
             res.writeHead(400, { 'Content-Type': 'text/plain' });
@@ -45,13 +47,16 @@ export default async function handler(req, res) {
             (file) => path.parse(file.originalname).name
           ); // Extract song names from file names
 
+          console.log('MP3 File URLs:', mp3FileURLs);
+          console.log('Song Names:', songNames);
+
           // Save file metadata to the database
           const { genreName, albumName } = req.body;
 
           let inserted = false;
 
           const artistID = await extractArtistID(req);
-          console.log(artistID);
+          console.log('Artist ID:', artistID);
 
           // Prepend baseURL to image file name
           const imageURL = baseURL + encodeURIComponent(imageFile.originalname);
