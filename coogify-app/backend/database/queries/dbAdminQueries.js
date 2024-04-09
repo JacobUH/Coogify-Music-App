@@ -10,7 +10,9 @@ export async function selectAllSongs() {
 }
 
 export async function selectAllUsers() {
-  const [rows] = await pool.query(`SELECT * FROM USER`);
+  const [rows] = await pool.query(
+    `SELECT userID, email, userPassword, firstName, lastName, dateOfBirth, isArtist, isAdmin
+     FROM USER`);
   return rows;
 }
 

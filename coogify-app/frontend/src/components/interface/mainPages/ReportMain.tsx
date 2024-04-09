@@ -1,14 +1,149 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import backendBaseUrl from '../../../apiConfig';
+
+interface Music {
+  trackID: number;
+  artistID: number;
+  genreID: number;
+  albumName: string;
+  songName: string;
+  coverArtURL: string;
+  duration: string;
+  releaseDate: string;
+  songURL: string;
+  isPopular: boolean;
+}
+
+interface Users {
+  userID: number;
+  email: string;
+  userPassword: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  isArtist: boolean;
+  isAdmin: boolean;
+}
+
+interface Artist {
+  artistID: number;
+  userID: number;
+  artistName: string;
+}
 
 export const ReportMain = () => {
   const [dataType, setDataType] = useState('Music');
+  const [music, setMusic] = useState<Music[]>([]);
+  const [users, setUsers] = useState<Users[]>([]);
+  const [artists, setArtists] = useState<Artist[]>([]);
   const [searchInput, setSearchInput] = useState('');
+
+  const storedToken = localStorage.getItem('sessionToken');
+
+  useEffect(() => {
+    const fetchAllMusic = async () => {
+      try {
+        const response = await axios.get(`${backendBaseUrl}/api/admin/music`, {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        setMusic(response.data);
+      } catch (error) {
+        console.error('Error fetching music:', error);
+      }
+    };
+
+    const fetchAllUsers = async () => {
+      try {
+        const response = await axios.get(`${backendBaseUrl}/api/admin/users`, {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        console.log(response.data);
+        setUsers(response.data);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    const fetchAllArtists = async () => {
+      try {
+        const response = await axios.get(
+          `${backendBaseUrl}/api/admin/artists`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        setArtists(response.data);
+      } catch (error) {
+        console.error('Error fetching artists:', error);
+      }
+    };
+
+    fetchAllMusic();
+    fetchAllUsers();
+    fetchAllArtists();
+  }, [storedToken]);
+
+  const filteredMusic = music.filter((track) => {
+    const trackID = track.trackID && track.trackID.toString() === searchInput;
+    const artistID =
+      track.artistID && track.artistID.toString() === searchInput;
+    const genreID = track.genreID && track.genreID.toString() === searchInput;
+    const releaseDate =
+      track.releaseDate && track.releaseDate.toString() === searchInput;
+    return (
+      trackID ||
+      artistID ||
+      genreID ||
+      track.albumName.toLowerCase().includes(searchInput.toLowerCase()) ||
+      track.songName.toLowerCase().includes(searchInput.toLowerCase()) ||
+      releaseDate
+    );
+  });
+
+  const filteredUsers = users.filter((user) => {
+    const userID = user.userID && user.userID.toString() === searchInput;
+    const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
+    const dateOfBirth =
+      user.dateOfBirth && user.dateOfBirth.includes(searchInput);
+    const isArtist = user.isArtist && user.isArtist.toString() === searchInput;
+    const isAdmin = user.isAdmin && user.isAdmin.toString() === searchInput;
+
+    return (
+      userID ||
+      user.email.toLowerCase().includes(searchInput.toLowerCase()) ||
+      fullName.includes(searchInput.toLowerCase()) ||
+      dateOfBirth ||
+      isArtist ||
+      isAdmin
+    );
+  });
+
+  const filteredArtists = artists.filter((artist) => {
+    const artistID =
+      artist.artistID && artist.artistID.toString() === searchInput;
+    const userID = artist.userID && artist.userID.toString() === searchInput;
+    return (
+      artistID ||
+      userID ||
+      artist.artistName.toLowerCase().includes(searchInput.toLowerCase())
+    );
+  });
 
   const renderTable = () => {
     switch (dataType) {
       case 'Music':
         return (
-          <table className="min-w-full divide-y divide-gray-200">
+          <table className=" min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -34,14 +169,38 @@ export const ReportMain = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {/* Render music data rows here from the api calls - jacob */}
+            <tbody className="bg-white divide-y divide-gray-200 text-black">
+              {filteredMusic.map((track) => (
+                <tr key={track.trackID}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {track.trackID}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {track.artistID}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {track.genreID}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {track.albumName}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {track.songName}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {track.duration}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {track.releaseDate}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         );
       case 'User':
         return (
-          <table className="min-w-full divide-y divide-gray-200">
+          <table className="min-w-full divide-y divide-gray-200 text-black">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -62,16 +221,51 @@ export const ReportMain = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   dateOfBirth
                 </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  is_Artist
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  is_Admin
+                </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {/* Render user data rows here from the api calls - jacob */}
+            <tbody className="bg-white divide-y divide-gray-200 text-black">
+              {filteredUsers.map((user) => (
+                <tr key={user.userID}>
+                  <td className="px-6 py-4 whitespace-nowrap">{user.userID}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="truncate w-[150px]">
+                      {user.userPassword}
+                    </div>
+                  </td>
+
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {user.firstName}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {user.lastName}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {user.dateOfBirth
+                      ? new Date(user.dateOfBirth).toISOString().split('T')[0]
+                      : ''}
+                  </td>
+
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {user.isArtist}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {user.isAdmin}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         );
       case 'Artist':
         return (
-          <table className="min-w-full divide-y divide-gray-200">
+          <table className="min-w-full divide-y divide-gray-200 text-black">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -86,7 +280,19 @@ export const ReportMain = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {/* Render artist data rows here from the api calls - jacob */}
+              {filteredArtists.map((artist) => (
+                <tr key={artist.artistID}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {artist.artistID}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {artist.userID}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {artist.artistName}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         );

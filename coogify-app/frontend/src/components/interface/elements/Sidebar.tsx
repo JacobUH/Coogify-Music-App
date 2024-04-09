@@ -183,7 +183,8 @@ export const Sidebar = () => {
             return (
               <div
                 key={song.songName}
-                className="w-full flex items-center justify-between cursor-pointer"
+                className="w-full flex items-center justify-between cursor-pointer hover:bg-[#494646]"
+                onClick={(e) => handleSongClick(song, e)}
               >
                 <div className="flex items-center gap-3">
                   <img
@@ -205,6 +206,36 @@ export const Sidebar = () => {
           })}
         </div>
       </div>
+      {selectedSong && clickPosition && !hideCard && (
+        <div
+          className="absolute z-60"
+          style={{ top: clickPosition.y, left: clickPosition.x - 50 }}
+        >
+          <div
+            className="flex flex-row text-center font-color-red-500 bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
+            onMouseLeave={handleSongMouseLeave}
+          >
+            <button
+              className="hover:bg-[#656262] text-xs m-2 p-1"
+              onClick={() => {
+                console.log('play button clicked');
+                setHideCard(true);
+              }}
+            >
+              Play Song
+            </button>
+            <button
+              className="hover:bg-[#656262] text-xs m-2 p-1"
+              onClick={() => {
+                console.log('add to playlist button clicked');
+                setHideCard(true);
+              }}
+            >
+              Add to Playlist
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
