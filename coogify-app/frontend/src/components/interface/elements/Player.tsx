@@ -1,11 +1,10 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import React from 'react';
-import cover from '../../../public/images/8.png';
-import playButton from '../../../public/images/Play.png';
-import pauseButton from '../../../public/images/Pause.png';
-import LikeButton from '../../../public/images/LikeIcon.svg';
-import LikeButtonActive from '../../../public/images/LikeIconActive.svg';
+import cover from '/images/8.png';
+import playButton from '/images/Play.png';
+import pauseButton from '/images/Pause.png';
+import LikeButton from '/images/LikeIcon.svg';
+import LikeButtonActive from '/images/LikeIconActive.svg';
 
 export const Player = () => {
   const [play, setPlay] = useState(false);

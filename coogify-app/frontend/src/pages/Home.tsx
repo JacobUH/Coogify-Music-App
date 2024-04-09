@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
-import { Sidebar } from '../components/interface/Sidebar';
-import { Navbar } from '../components/interface/Navbar';
-import { HomeMain } from '../components/interface/HomeMain';
-import { Player } from '../components/interface/Player';
+import { Sidebar } from '../components/interface/elements/Sidebar';
+import { Navbar } from '../components/interface/elements/Navbar';
+import { HomeMain } from '../components/interface/mainPages/HomeMain';
+import { Player } from '../components/interface/elements/Player';
 import React from 'react';
 
 export const Home = () => {

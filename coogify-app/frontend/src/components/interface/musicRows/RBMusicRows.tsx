@@ -1,7 +1,8 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import backendBaseUrl from '../../apiConfig';
+import backendBaseUrl from '../../../apiConfig';
+import { Link } from 'react-router-dom';
 
 interface Song {
   trackID: number;
@@ -17,8 +18,8 @@ interface Props {
   title: string;
 }
 
-export const ExtendedNewestSongs = ({ title }: Props) => {
-  const [newestSongs, setNewestSongs] = useState<Song[]>([]);
+export const RBMusicRows = ({ title }: Props) => {
+  const [rbSongs, setRBSongs] = useState<Song[]>([]);
   const [selectedSong, setSelectedSong] = useState<Song | null>(null);
   const [clickPosition, setClickPosition] = useState<{
     x: number;
@@ -41,12 +42,11 @@ export const ExtendedNewestSongs = ({ title }: Props) => {
 
   const storedToken = localStorage.getItem('sessionToken');
 
-  // FETCH NEW SONGS BACKEND CALL
   useEffect(() => {
-    const fetchNewestSongs = async () => {
+    const fetchRBSongs = async () => {
       try {
         const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchNewSongs`,
+          `${backendBaseUrl}/api/home/fetchRBSongs`,
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,
@@ -54,14 +54,14 @@ export const ExtendedNewestSongs = ({ title }: Props) => {
             },
           }
         );
-        //console.log(response.data);
-        setNewestSongs(response.data);
+
+        setRBSongs(response.data);
       } catch (error) {
         console.error('Error fetching new songs:', error);
       }
     };
 
-    fetchNewestSongs();
+    fetchRBSongs();
   }, []);
 
   // LIKE SONG BACKEND CALL
@@ -101,26 +101,28 @@ export const ExtendedNewestSongs = ({ title }: Props) => {
 
   return (
     <div className="w-full flex flex-col md:gap-4 gap-6 px-2">
+      <div className="w-full flex items-center justify-between">
+        <span className="text-[22px]">{title}</span>
+        <Link to="/rbSongs" className="text-[#9E67E4] text-[15px] font-medium">
+          See More
+        </Link>
+      </div>
       <div className="w-full flex items-center overflow-x-auto overflow-y-auto md:pb-0 pb-5">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-          {newestSongs.map((song: Song) => {
+        <div className="flex items-center gap-2">
+          {rbSongs.map((song: Song) => {
             return (
               <div
                 key={song.songName}
                 className="flex flex-col items-center gap-[6px] cursor-pointer"
-                style={{ minWidth: '200px' }}
+                style={{ minWidth: '200px' }} // Adjust the minimum width of each song item
                 onClick={(e) => handleSongClick(song, e)}
               >
-                <div className="bg-[#656262] rounded-lg p-5 bg-center bg-cover relative">
-                  {song.isPopular ? (
-                    <div className="absolute bottom-1 right-1 w-3 h-3 bg-blue-500 rounded-full"></div>
-                  ) : null}
+                <div className=" bg-[#656262] rounded-lg p-5 bg-center bg-cover">
                   <img
                     className="w-[140px] h-[140px] rounded-xl"
                     src={song.coverArtURL}
                     alt={song.songName}
                   />
-
                   <div className="pt-2 text-white text-[15px] font-medium whitespace-nowrap">
                     {song.songName.length > 20
                       ? song.songName.slice(0, 17) + '...'

@@ -1,7 +1,7 @@
 import React from 'react';
-import { playlists, yourMusic } from '../../../public/data/songs';
-import { LibraryRows } from './LibraryRows';
-import { LikedMusicRows } from './LikedMusicRows';
+import { playlists, yourMusic } from '../../../../public/data/songs';
+import { LibraryRows } from '../musicRows/LibraryRows';
+import { LikedMusicRows } from '../musicRows/LikedMusicRows';
 
 export const LibraryMain = () => {
   return (

@@ -1,10 +1,10 @@
 import React from 'react';
-import { NewMusicRows } from './NewMusicRows';
-import { TopMusicRows } from './TopMusicRows';
-import { RapMusicRows } from './RapMusicRows';
-import { RBMusicRows } from './RBMusicRows';
+import { NewMusicRows } from '../musicRows/NewMusicRows';
+import { TopMusicRows } from '../musicRows/TopMusicRows';
+import { RapMusicRows } from '../musicRows/RapMusicRows';
+import { RBMusicRows } from '../musicRows/RBMusicRows';
 import { Link } from 'react-router-dom';
-import { ExtendedLikedSongs } from './extendedLikedSongs';
+import { ExtendedLikedSongs } from '../extendedPages/extendedLikedSongs';
 
 export const HomeMain = () => {
   return (

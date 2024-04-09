@@ -1,4 +1,4 @@
-import LogoIcon from '../../../public/images/Logo.png';
+import LogoIcon from '/images/Logo.png';
 import { AccountDropdown } from './AccountDropdown';
 import { Link } from 'react-router-dom';
 

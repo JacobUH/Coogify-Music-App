@@ -1,5 +1,5 @@
 import React from 'react';
-import ProfileIcon from '../../../public/images/Profile Icon.svg';
+import ProfileIcon from '/images/Profile Icon.svg';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { ConfirmationScreen } from './ConfirmationScreen';
@@ -23,7 +23,7 @@ export const AccountDropdown = () => {
 
   return (
     <div>
-      <div className="relative">
+      <div className="relative z-50">
         <img
           src={ProfileIcon}
           alt="Profile Icon"

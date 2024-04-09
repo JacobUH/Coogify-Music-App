@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import backendBaseUrl from '../../apiConfig';
+import backendBaseUrl from '../../../apiConfig';
 
 export const PaymentMain = () => {
   const handlePayNow = async () => {

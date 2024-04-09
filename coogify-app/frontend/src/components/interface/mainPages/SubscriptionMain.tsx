@@ -12,6 +12,7 @@ export const SubscriptionMain = () => {
           Subscription
         </div>
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-row items-center gap-5 px-5 md:py-5 pb-20 pt-5 relative ">
+          {/* Work in here */}
           <div className="absolute top-0 left-52 text-2xl flex flex-col gap-4 items-center ">
             <Link to="">
               Subscription Plans

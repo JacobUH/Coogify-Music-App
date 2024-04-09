@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
-import { Sidebar } from '../components/interface/Sidebar';
-import { Navbar } from '../components/interface/Navbar';
-import { SubscriptionMain } from '../components/interface/SubscriptionMain';
-import { Player } from '../components/interface/Player';
+import { Sidebar } from '../components/interface/elements/Sidebar';
+import { Navbar } from '../components/interface/elements/Navbar';
+import { SubscriptionMain } from '../components/interface/mainPages/SubscriptionMain';
+import { Player } from '../components/interface/elements/Player';
 import React from 'react';
 
 export const Subscription = () => {

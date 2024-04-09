@@ -1,6 +1,6 @@
 import React from 'react';
-import ProfileIcon from '../../../public/images/Profile Icon.svg';
-import BackButton from '../../../public/images/Back Button.svg';
+import ProfileIcon from '/images/Profile Icon.svg';
+import BackButton from '/images/Back Button.svg';
 import { useNavigate } from 'react-router-dom';
 
 export const ProfileMain = () => {

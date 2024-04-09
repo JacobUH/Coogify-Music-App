@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
-import { Sidebar } from '../components/interface/Sidebar';
-import { Navbar } from '../components/interface/Navbar';
-import { SearchMain } from '../components/interface/SearchMain';
-import { Player } from '../components/interface/Player';
+import { Sidebar } from '../components/interface/elements/Sidebar';
+import { Navbar } from '../components/interface/elements/Navbar';
+import { SearchMain } from '../components/interface/mainPages/SearchMain';
+import { Player } from '../components/interface/elements/Player';
 import React from 'react';
 
 export const Search = () => {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import AddIcon from '../../../public/images/AddIcon.svg';
-import BackIcon from '../../../public/images/Back Button.svg';
+import AddIcon from '../../../../public/images/AddIcon.svg';
+import BackIcon from '../../../../public/images/Back Button.svg';
 import { useNavigate } from 'react-router-dom';
-import backendBaseUrl from '../../apiConfig';
+import backendBaseUrl from '../../../apiConfig';
 
 export const UploadMain = () => {
   const [albumName, setAlbumName] = useState('');

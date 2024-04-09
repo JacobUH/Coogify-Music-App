@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Logo from '../../public/images/Logo.svg';
+import Logo from '/images/Logo.svg';
 import { Footer } from '../components/setup/Footer';
 import React from 'react';
 import backendBaseUrl from '../apiConfig';

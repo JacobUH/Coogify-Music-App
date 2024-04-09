@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
-import { Sidebar } from '../components/interface/Sidebar';
-import { Navbar } from '../components/interface/Navbar';
-import { ReportMain } from '../components/interface/ReportMain';
-import { Player } from '../components/interface/Player';
+import { Sidebar } from '../components/interface/elements/Sidebar';
+import { Navbar } from '../components/interface/elements/Navbar';
+import { ReportMain } from '../components/interface/mainPages/ReportMain';
+import { Player } from '../components/interface/elements/Player';
 import React from 'react';
 
 export const Report = () => {

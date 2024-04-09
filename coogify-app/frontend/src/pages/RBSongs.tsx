@@ -1,16 +1,16 @@
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from '../components/interface/elements/Sidebar';
 import { Navbar } from '../components/interface/elements/Navbar';
-import { LikedSongsMain } from '../components/interface/mainPages/LikedSongsMain';
 import { Player } from '../components/interface/elements/Player';
+import { RBSongsMain } from '../components/interface/mainPages/RBSongsMain';
 import React from 'react';
 
-export const LikedSongs = () => {
+export const RBSongs = () => {
   return (
     <div className="w-full h-full text-white relative">
       <Navbar />
       <Sidebar />
-      <LikedSongsMain />
+      <RBSongsMain />
       <Player />
       <Outlet />
     </div>

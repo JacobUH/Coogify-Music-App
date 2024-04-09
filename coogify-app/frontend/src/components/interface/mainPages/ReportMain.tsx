@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 export const ReportMain = () => {
   const [dataType, setDataType] = useState('Music');
+  const [searchInput, setSearchInput] = useState('');
 
   const renderTable = () => {
     switch (dataType) {
@@ -104,6 +105,15 @@ export const ReportMain = () => {
           Data Reports
         </div>
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
+          <div className="w-full flex justify-center">
+            <input
+              type="text"
+              placeholder="Looking for something specific?"
+              className="w-full max-w-4xl bg-[#292828] rounded-full text-center px-4 py-3 text-2xl focus:outline-none hover:ring hover:ring-[#9E67E4]"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
+          </div>
           <div className="flex gap-4">
             <button
               onClick={() => setDataType('Music')}

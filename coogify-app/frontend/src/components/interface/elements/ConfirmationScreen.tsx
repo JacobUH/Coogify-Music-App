@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
-import backendBaseUrl from '../../apiConfig';
+import backendBaseUrl from '../../../apiConfig';
 
 interface ConfirmationScreenProps {
   onClose: () => void; // Specify the type of onClose prop

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import backendBaseUrl from '../../apiConfig';
+import backendBaseUrl from '../../../apiConfig';
 
 interface Song {
   trackID: number;
@@ -17,8 +17,8 @@ interface Props {
   title: string;
 }
 
-export const ExtendedLikedSongs = ({ title }: Props) => {
-  const [newestSongs, setNewestSongs] = useState<Song[]>([]);
+export const ExtendedTopSongs = ({ title }: Props) => {
+  const [topSongs, setTopSongs] = useState<Song[]>([]);
   const [selectedSong, setSelectedSong] = useState<Song | null>(null);
   const [clickPosition, setClickPosition] = useState<{
     x: number;
@@ -41,12 +41,12 @@ export const ExtendedLikedSongs = ({ title }: Props) => {
 
   const storedToken = localStorage.getItem('sessionToken');
 
-  // FETCH NEW SONGS BACKEND CALL
+  // FETCH TOP SONGS BACKEND CALL
   useEffect(() => {
-    const fetchNewestSongs = async () => {
+    const fetchTopSongs = async () => {
       try {
         const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchUserLikedSongs`,
+          `${backendBaseUrl}/api/home/fetchTopSongs`,
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,
@@ -55,13 +55,13 @@ export const ExtendedLikedSongs = ({ title }: Props) => {
           }
         );
         //console.log(response.data);
-        setNewestSongs(response.data);
+        setTopSongs(response.data);
       } catch (error) {
         console.error('Error fetching new songs:', error);
       }
     };
 
-    fetchNewestSongs();
+    fetchTopSongs();
   }, []);
 
   // LIKE SONG BACKEND CALL
@@ -103,7 +103,7 @@ export const ExtendedLikedSongs = ({ title }: Props) => {
     <div className="w-full flex flex-col md:gap-4 gap-6 px-2">
       <div className="w-full flex items-center overflow-x-auto overflow-y-auto md:pb-0 pb-5">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-          {newestSongs.map((song: Song) => {
+          {topSongs.map((song: Song) => {
             return (
               <div
                 key={song.songName}
@@ -141,11 +141,11 @@ export const ExtendedLikedSongs = ({ title }: Props) => {
           style={{ top: clickPosition.y - 10, left: clickPosition.x - 50 }}
         >
           <div
-            className="text-center font-color-red-500 w-[100px] h-[105px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
+            className="text-center font-color-red-500 w-[100px] h-[150px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
             onMouseLeave={handleMouseLeave}
           >
             <button
-              className="hover:bg-[#656262] text-xs m-2 px-3"
+              className="hover:bg-[#656262] text-xs m-2  px-3"
               onClick={() => {
                 console.log('play button clicked');
                 setHideCard(true);
@@ -154,7 +154,18 @@ export const ExtendedLikedSongs = ({ title }: Props) => {
               Play Song
             </button>
             <button
-              className="hover:bg-[#656262] text-xs m-2 px-3"
+              className="hover:bg-[#656262] text-xs m-2  px-3"
+              onClick={() => {
+                console.log('like button clicked');
+                handleLikeSong();
+                setHideCard(true);
+                refreshPage();
+              }}
+            >
+              Like Song
+            </button>
+            <button
+              className="hover:bg-[#656262] text-xs m-2  px-3"
               onClick={() => {
                 console.log('add to playlist button clicked');
                 setHideCard(true);

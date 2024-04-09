@@ -1,5 +1,5 @@
 import React from 'react';
-import AddIcon from '../../../public/images/AddIcon.svg';
+import AddIcon from '../../../../public/images/AddIcon.svg';
 import { useState } from 'react';
 
 interface Props {

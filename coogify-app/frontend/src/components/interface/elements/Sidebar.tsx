@@ -1,15 +1,15 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import HomeIcon from '../../../public/images/HomeIcon.svg';
-import HomeIconHover from '../../../public/images/HomeIconHover.svg';
-import SearchIcon from '../../../public/images/SearchIcon.svg';
-import SearchIconHover from '../../../public/images/SearchIconHover.svg';
-import UploadIcon from '../../../public/images/UploadIcon.svg';
-import UploadIconHover from '../../../public/images/UploadIconHover.svg';
-import LibraryIcon from '../../../public/images/LibraryIcon.svg';
-import LibraryIconHover from '../../../public/images/LibraryIconHover.svg';
-import backendBaseUrl from '../../apiConfig';
+import HomeIcon from '/images/HomeIcon.svg';
+import HomeIconHover from '/images/HomeIconHover.svg';
+import SearchIcon from '/images/SearchIcon.svg';
+import SearchIconHover from '/images/SearchIconHover.svg';
+import UploadIcon from '/images/UploadIcon.svg';
+import UploadIconHover from '/images/UploadIconHover.svg';
+import LibraryIcon from '/images/LibraryIcon.svg';
+import LibraryIconHover from '/images/LibraryIconHover.svg';
+import backendBaseUrl from '../../../apiConfig';
 import axios from 'axios';
 
 interface Song {
