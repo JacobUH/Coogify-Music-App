@@ -9,11 +9,8 @@ import { addArtistName } from './specificRoutes/artistRoutes.js';
 import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
 import { likeSong } from './specificRoutes/songRoutes.js';
 import { makePayment } from './specificRoutes/subscriptionRoutes.js';
-import {
-  retrieveAllArtists,
-  retrieveAllUsers,
-  retrieveAllSongs,
-} from './specificRoutes/adminRoutes.js';
+import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
+import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
 
 // Define the handlers object
 const handlers = {
@@ -34,6 +31,10 @@ const handlers = {
     upload: {
       uploadPlaylist: uploadPlaylist,
       uploadSongs: uploadSongsWithAlbum,
+    },
+    search: {
+      fetchSongs: fetchSongs,
+      fetchAlbums: fetchAlbums
     },
     home: {
       fetchNewSongs: fetchNewestSongs,
