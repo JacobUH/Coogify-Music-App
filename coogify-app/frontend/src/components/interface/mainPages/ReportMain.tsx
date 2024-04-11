@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import BackButton from '/images/Back Button.svg';
 import axios from 'axios';
 import backendBaseUrl from '../../../apiConfig';
 
 interface Music {
   trackID: number;
   artistID: number;
+  artistName: string;
   genreID: number;
+  genreName: string;
   albumName: string;
   songName: string;
   coverArtURL: string;
@@ -29,7 +33,10 @@ interface Users {
 interface Artist {
   artistID: number;
   userID: number;
+  email: string;
   artistName: string;
+  firstName: string;
+  lastName: string;
 }
 
 export const ReportMain = () => {
@@ -82,6 +89,7 @@ export const ReportMain = () => {
             },
           }
         );
+        console.log(response.data);
         setArtists(response.data);
       } catch (error) {
         console.error('Error fetching artists:', error);
@@ -103,7 +111,9 @@ export const ReportMain = () => {
     return (
       trackID ||
       artistID ||
+      track.artistName.toLowerCase().includes(searchInput.toLowerCase()) ||
       genreID ||
+      track.genreName.toLowerCase().includes(searchInput.toLowerCase()) ||
       track.albumName.toLowerCase().includes(searchInput.toLowerCase()) ||
       track.songName.toLowerCase().includes(searchInput.toLowerCase()) ||
       releaseDate
@@ -135,7 +145,10 @@ export const ReportMain = () => {
     return (
       artistID ||
       userID ||
-      artist.artistName.toLowerCase().includes(searchInput.toLowerCase())
+      artist.email.toLowerCase().includes(searchInput.toLowerCase()) ||
+      artist.artistName.toLowerCase().includes(searchInput.toLowerCase()) ||
+      artist.firstName.toLowerCase().includes(searchInput.toLowerCase()) ||
+      artist.lastName.toLowerCase().includes(searchInput.toLowerCase())
     );
   });
 
@@ -153,7 +166,13 @@ export const ReportMain = () => {
                   artistID
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  artistName
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   genreID
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  genreName
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   albumName
@@ -179,7 +198,13 @@ export const ReportMain = () => {
                     {track.artistID}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
+                    {track.artistName}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
                     {track.genreID}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {track.genreName}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {track.albumName}
@@ -275,7 +300,16 @@ export const ReportMain = () => {
                   userID
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  email
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   artistName
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  firstName
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  lastName
                 </th>
               </tr>
             </thead>
@@ -289,7 +323,16 @@ export const ReportMain = () => {
                     {artist.userID}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
+                    {artist.email}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
                     {artist.artistName}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {artist.firstName}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {artist.lastName}
                   </td>
                 </tr>
               ))}
@@ -301,12 +344,26 @@ export const ReportMain = () => {
     }
   };
 
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div
       className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5"
       style={{ maxHeight: 'calc(100vh - 211px)' }}
     >
-      <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto">
+      <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto relative">
+        <div className="absolute top-10 left-10">
+          <img
+            src={BackButton}
+            alt="Back"
+            onClick={handleBack}
+            className="cursor-pointer"
+          />
+        </div>
         <div className="text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
           Data Reports
         </div>

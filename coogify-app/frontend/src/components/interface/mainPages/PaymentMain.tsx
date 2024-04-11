@@ -1,8 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import BackButton from '/images/Back Button.svg';
 import backendBaseUrl from '../../../apiConfig';
 
 export const PaymentMain = () => {
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   const handlePayNow = async () => {
     const storedToken = localStorage.getItem('sessionToken');
     if (!storedToken) {
@@ -34,11 +41,18 @@ export const PaymentMain = () => {
       className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5"
       style={{ maxHeight: 'calc(100vh - 211px)' }}
     >
-      <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto">
+      <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto relative">
+        <div className="absolute top-10 left-10">
+          <img
+            src={BackButton}
+            alt="Back"
+            onClick={handleBack}
+            className="cursor-pointer"
+          />
+        </div>
         <div className="text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
           Payment
         </div>
-
         <div className="rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col gap-5 px-8 md:py-5 pb-20 pt-5">
           {/* Work in here */}
           <div className="flex flex-row justify-center">
