@@ -69,9 +69,9 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({
   return (
     <>
       <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
-        <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-60"></div>{' '}
+        <div className="absolute top-0 left-0 w-full h-full bg-black opacity-70 z-60"></div>{' '}
         {/* Increased z-index to 60 */}
-        <div className="bg-[#3E3C3C] text-white rounded-lg p-4 shadow-md z-50 flex flex-col items-center">
+        <div className="bg-[#3E3C3C] text-white rounded-lg p-8 shadow-md z-50 flex flex-col items-center">
           <p className="mb-4">Are you sure you want to logout?</p>
           <div className="flex">
             <Link

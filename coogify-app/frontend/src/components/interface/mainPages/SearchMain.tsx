@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useHistory
+import { Link } from 'react-router-dom';
+import BackButton from '/images/Back Button.svg';
 import axios from 'axios';
 import backendBaseUrl from '../../../apiConfig';
-import { Link } from 'react-router-dom';
 
 interface Music {
   trackID: number;
@@ -16,15 +18,51 @@ interface Music {
 const storedToken = localStorage.getItem('sessionToken');
 
 export const SearchMain = () => {
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   const [searchInput, setSearchInput] = useState('');
-  const [songs, setSongs] = useState<Music[]>([]);
-  const [albums, setAlbums] = useState<Music[]>([]);
-  const [selectedSong, setSelectedSong] = useState<Music | null>(null);
   const [clickPosition, setClickPosition] = useState<{
     x: number;
     y: number;
   } | null>(null);
-  const [hideCard, setHideCard] = useState<boolean>(true);
+
+  const [songs, setSongs] = useState<Music[]>([]);
+  const [selectedSong, setSelectedSong] = useState<Music | null>(null);
+  const [hideSongCard, setHideSongCard] = useState<boolean>(true);
+
+  const handleSongClick = (
+    song: Music,
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    setSelectedSong(song);
+    setClickPosition({ x: event.clientX, y: event.clientY });
+    setHideSongCard(false); // Reset the hide flag when a song is clicked
+  };
+
+  const handleMouseSongLeave = () => {
+    setHideSongCard(true); // Hide the card when mouse leaves the song card
+  };
+
+  const [albums, setAlbums] = useState<Music[]>([]);
+  const [selectedAlbum, setSelectedAlbum] = useState<Music | null>(null);
+  const [hideAlbumCard, setHideAlbumCard] = useState<boolean>(true);
+
+  const handleAlbumClick = (
+    album: Music,
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    setSelectedAlbum(album);
+    setClickPosition({ x: event.clientX, y: event.clientY });
+    setHideAlbumCard(false); // Reset the hide flag when a song is clicked
+  };
+
+  const handleMouseAlbumLeave = () => {
+    setHideAlbumCard(true); // Hide the card when mouse leaves the song card
+  };
 
   // FETCH SONGS BACKEND CALL
   useEffect(() => {
@@ -49,7 +87,7 @@ export const SearchMain = () => {
     fetchSongs();
   }, []);
 
-  // FETCH NEW SONGS BACKEND CALL
+  // FETCH ALBUMS BACKEND CALL
   useEffect(() => {
     const fetchAlbums = async () => {
       try {
@@ -114,7 +152,15 @@ export const SearchMain = () => {
       className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5"
       style={{ maxHeight: 'calc(100vh - 211px)' }}
     >
-      <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-y-auto">
+      <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-y-auto relative">
+        <div className="absolute top-10 left-10">
+          <img
+            src={BackButton}
+            alt="Back"
+            onClick={handleBack}
+            className="cursor-pointer"
+          />
+        </div>
         <div className="text-center text-4xl font-bold mb-5 mt-[45px] text-[50px]">
           Search
         </div>
@@ -138,7 +184,7 @@ export const SearchMain = () => {
                     key={song.songName}
                     className="flex flex-col items-center gap-[6px] cursor-pointer"
                     style={{ minWidth: '150px' }}
-                    //onClick={(e) => handleSongClick(song, e)}
+                    onClick={(e) => handleSongClick(song, e)}
                   >
                     <div className="bg-[#656262] rounded-lg p-5 bg-center bg-cover relative">
                       {song.isPopular ? (
@@ -171,10 +217,10 @@ export const SearchMain = () => {
               {filteredAlbums.slice(0, 6).map((album: Music) => {
                 return (
                   <div
-                    key={album.songName}
+                    key={album.albumName}
                     className="flex flex-col items-center gap-[6px] cursor-pointer"
                     style={{ minWidth: '150px' }}
-                    //onClick={(e) => handleSongClick(song, e)}
+                    onClick={(e) => handleAlbumClick(album, e)}
                   >
                     <div className="bg-[#656262] rounded-lg p-5 bg-center bg-cover relative">
                       {album.isPopular ? (
@@ -202,6 +248,86 @@ export const SearchMain = () => {
           </div>
         </div>
       </div>
+      {selectedSong && clickPosition && !hideSongCard && (
+        <div
+          className="absolute"
+          style={{ top: clickPosition.y - 195, left: clickPosition.x - 5 }}
+        >
+          <div
+            className="text-center font-color-red-500 w-[100px] h-[200px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
+            onMouseLeave={handleMouseSongLeave}
+          >
+            <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('view song button clicked');
+                setHideSongCard(true);
+              }}
+            >
+              View Song
+            </button>
+            <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('play button clicked');
+                setHideSongCard(true);
+              }}
+            >
+              Play Song
+            </button>
+            <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('like button clicked');
+                setHideSongCard(true);
+              }}
+            >
+              Like Song
+            </button>
+            <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('add to playlist button clicked');
+                setHideSongCard(true);
+              }}
+            >
+              Add to Playlist
+            </button>
+          </div>
+        </div>
+      )}
+      {selectedAlbum && clickPosition && !hideAlbumCard && (
+        <div
+          className="absolute"
+          style={{ top: clickPosition.y - 115, left: clickPosition.x - 5 }}
+        >
+          <div
+            className="text-center font-color-red-500 w-[100px] h-[120px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
+            onMouseLeave={handleMouseAlbumLeave}
+          >
+            <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('view album button clicked');
+                //console.log(`/album/${selectedAlbum.albumName}`);
+                navigate(`/album/${selectedAlbum.albumName}`); // Navigate to new page with selected album as parameter
+                setHideAlbumCard(true);
+              }}
+            >
+              View Album
+            </button>
+            <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('play random song button clicked');
+                setHideAlbumCard(true);
+              }}
+            >
+              Play Random Song
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

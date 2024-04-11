@@ -6,6 +6,7 @@ import { Setup } from './pages/Setup';
 import { ArtistSetup } from './pages/artistSetup';
 import { Home } from './pages/Home';
 import { Search } from './pages/Search';
+import { AlbumPage } from './pages/AlbumPage';
 import { Upload } from './pages/Upload';
 import { Library } from './pages/Library';
 import { Profile } from './pages/Profile';
@@ -31,6 +32,7 @@ function App() {
           <Route path="/artistSetup" element={<ArtistSetup />} />
           <Route path="/home" element={<Home />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/album/:albumName" element={<AlbumPage />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/library" element={<Library />} />
           <Route path="/profile" element={<Profile />} />

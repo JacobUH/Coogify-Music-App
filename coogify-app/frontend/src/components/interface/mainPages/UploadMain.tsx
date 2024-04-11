@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AddIcon from '../../../../public/images/AddIcon.svg';
-import BackIcon from '../../../../public/images/Back Button.svg';
+import BackButton from '../../../../public/images/Back Button.svg';
 import { useNavigate } from 'react-router-dom';
 import backendBaseUrl from '../../../apiConfig';
 
@@ -82,19 +82,19 @@ export const UploadMain = () => {
       className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5 overflow-hidden hide-scrollbar"
       style={{ maxHeight: 'calc(100vh - 211px)' }}
     >
-      <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto hide-scrollbar">
+      <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto hide-scrollbar relative">
+        <div className="absolute top-10 left-10">
+          <img
+            src={BackButton}
+            alt="Back"
+            onClick={handleBack}
+            className="cursor-pointer"
+          />
+        </div>
         <div className="flex-col text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
           Upload
         </div>
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
-          <div className="w-full flex justify-between items-center px-5 md:px-10 py-4">
-            <img
-              src={BackIcon}
-              alt="Back"
-              onClick={handleBack}
-              className="cursor-pointer absolute mb-48"
-            />
-          </div>
           <form
             className="flex items-center flex-col mt-[25px]"
             onSubmit={handleSubmit}
