@@ -79,6 +79,26 @@ export async function selectRBSongs() {
   }
 }
 
+export async function selectPopSongs() {
+  try {
+    const query = `
+    SELECT t.trackID, t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
+    FROM TRACK t
+    INNER JOIN ARTIST a ON t.artistID = a.artistID
+    INNER JOIN GENRE g ON t.genreID = g.genreID
+    WHERE g.genreName = 'Pop'
+    ORDER BY RAND()
+    LIMIT 10;    
+    `;
+    const [rows] = await pool.query(query);
+    //console.log(rows);
+    return rows;
+  } catch (error) {
+    console.error('Error fetching pop songs:', error);
+    return false;
+  }
+}
+
 export async function selectUserLikedSongs(userID) {
   try{
     const query = `

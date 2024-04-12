@@ -1,4 +1,4 @@
-import { selectNewestSongs, selectTopSongs, selectRapSongs, selectRBSongs, selectUserLikedSongs } from '../../database/queries/dbHomeQueries.js';
+import { selectNewestSongs, selectTopSongs, selectRapSongs, selectRBSongs, selectPopSongs, selectUserLikedSongs } from '../../database/queries/dbHomeQueries.js';
 import { extractUserID, errorMessage } from '../../util/utilFunctions.js';
 
 export async function fetchNewestSongs(req, res) {
@@ -54,6 +54,20 @@ export async function fetchRBSongs(req, res) {
     }
   } catch (error) {
     errorMessage(res, error, 'Error fetching r&b songs');
+  }
+}
+
+export async function fetchPopSongs(req, res) {
+  try {
+    const songs = await selectPopSongs();
+    if (songs !== false) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(songs));
+    } else {
+      errorMessage(res, 'Error fetching pop songs', 'Error');
+    }
+  } catch (error) {
+    errorMessage(res, error, 'Error fetching pop songs');
   }
 }
 
