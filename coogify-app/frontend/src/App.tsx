@@ -18,6 +18,8 @@ import { NewestSongs } from './pages/NewestSongs';
 import { TopSongs } from './pages/TopSongs';
 import { RapSongs } from './pages/RapSongs';
 import { RBSongs } from './pages/RBSongs';
+import { PopSongs } from './pages/PopSongs';
+
 import React from 'react';
 
 function App() {
@@ -44,6 +46,7 @@ function App() {
           <Route path="/topSongs" element={<TopSongs />} />
           <Route path="/rapSongs" element={<RapSongs />} />
           <Route path="/rbSongs" element={<RBSongs />} />
+          <Route path="/popSongs" element={<PopSongs />} /> 
         </Routes>
       </div>
     </>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { NewMusicRows } from '../musicRows/NewMusicRows';
 import { TopMusicRows } from '../musicRows/TopMusicRows';
+import { PopMusicRows } from '../musicRows/PopMusicRows';
 import { RapMusicRows } from '../musicRows/RapMusicRows';
 import { RBMusicRows } from '../musicRows/RBMusicRows';
 import { Link } from 'react-router-dom';
@@ -42,6 +43,7 @@ export const HomeMain = () => {
           <div className="w-full flex flex-col gap-8">
             <NewMusicRows title="Newest Songs" />
             <TopMusicRows title="Top Songs" />
+            <PopMusicRows title="Pop Party" />
             <RapMusicRows title="Rap Mix" />
             <div className="mb-8">
               <RBMusicRows title="Smooth R&B" />

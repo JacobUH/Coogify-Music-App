@@ -6,7 +6,7 @@ import { register, login, logout} from './specificRoutes/loginRegRoutes.js';
 import { uploadPlaylist, uploadSongsWithAlbum } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
-import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
+import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs, fetchPopSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
 import { likeSong } from './specificRoutes/songRoutes.js';
 import { makePayment } from './specificRoutes/subscriptionRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
@@ -43,6 +43,7 @@ const handlers = {
       fetchTopSongs: fetchTopSongs,
       fetchRapSongs: fetchRapSongs,
       fetchRBSongs: fetchRBSongs,
+      fetchPopSongs: fetchPopSongs,
       fetchUserLikedSongs: fetchUserLikedSongs,
     },
     admin: {
