@@ -28,6 +28,27 @@ export const AlbumMain = () => {
     navigate(-1);
   };
 
+  // Function to format duration
+  const formatDuration = (duration) => {
+    // Check if duration is not null
+    if (duration !== null) {
+      // Split duration string into hours, minutes, and seconds
+      const [hours, minutes, seconds] = duration.split(':');
+
+      // Format hours, minutes, and seconds
+      const formattedHours = parseInt(hours) > 0 ? `${parseInt(hours)}:` : '';
+      const formattedMinutes =
+        parseInt(minutes) > 0 ? `${parseInt(minutes)}:` : '0:';
+      const formattedSeconds = `${parseInt(seconds)}`;
+
+      // Concatenate formatted time
+      return `${formattedHours}${formattedMinutes}${formattedSeconds}`;
+    } else {
+      // Return empty string if duration is null
+      return '';
+    }
+  };
+
   const storedToken = localStorage.getItem('sessionToken');
   const { albumName } = useParams<{ albumName: string }>(); // Get the albumName parameter from the URL
 
@@ -76,7 +97,7 @@ export const AlbumMain = () => {
           {songs.length > 0 && (
             <div className="flex flex-col items-center gap-3">
               <img
-                className="w-[325px] h-[325px]"
+                className="w-[325px] h-[325px] shadow-2xl"
                 src={songs[0].coverArtURL}
                 alt="Album Cover"
               />
@@ -119,7 +140,9 @@ export const AlbumMain = () => {
                     {song.artistName}
                   </div>
                 </div>
-                <div className="text-sm text-gray-400">{song.duration}</div>
+                <div className="text-sm text-gray-400">
+                  {formatDuration(song.duration)}
+                </div>
               </div>
             ))}
           </div>

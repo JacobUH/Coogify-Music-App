@@ -261,7 +261,7 @@ export const SearchMain = () => {
               className="hover:bg-[#656262] text-xs m-2 px-3"
               onClick={() => {
                 console.log('view song button clicked');
-                setHideSongCard(true);
+                navigate(`/album/${selectedSong.albumName}`);
               }}
             >
               View Song
@@ -309,8 +309,7 @@ export const SearchMain = () => {
               className="hover:bg-[#656262] text-xs m-2 px-3"
               onClick={() => {
                 console.log('view album button clicked');
-                //console.log(`/album/${selectedAlbum.albumName}`);
-                navigate(`/album/${selectedAlbum.albumName}`); // Navigate to new page with selected album as parameter
+                navigate(`/album/${selectedAlbum.albumName}`);
                 setHideAlbumCard(true);
               }}
             >
