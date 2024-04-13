@@ -4,8 +4,17 @@ import { TopMusicRows } from '../musicRows/TopMusicRows';
 import { PopMusicRows } from '../musicRows/PopMusicRows';
 import { RapMusicRows } from '../musicRows/RapMusicRows';
 import { RBMusicRows } from '../musicRows/RBMusicRows';
+import { KPopMusicRows } from '../musicRows/KPopMusicRows';
+import { LatinMusicRows } from '../musicRows/LatinMusicRows';
+import { AlternativeMusicRows } from '../musicRows/AlternativeMusicRows';
+import { ClassicalMusicRows } from '../musicRows/ClassicalMusicRows';
+import { JazzMusicRows } from '../musicRows/JazzMusicRows';
+import { ElectronicMusicRows } from '../musicRows/ElectronicMusicRows';
+import { CountryMusicRows } from '../musicRows/CountryMusicRows';
+import { HipHopMusicRows } from '../musicRows/HipHopMusicRows';
+import { RockMusicRows } from '../musicRows/RockMusicRows';
+
 import { Link } from 'react-router-dom';
-import { ExtendedLikedSongs } from '../extendedPages/extendedLikedSongs';
 
 export const HomeMain = () => {
   return (
@@ -45,6 +54,14 @@ export const HomeMain = () => {
             <TopMusicRows title="Top Songs" />
             <PopMusicRows title="Pop Party" />
             <RapMusicRows title="Rap Mix" />
+            <KPopMusicRows title="K-Pop Songs" />
+            <LatinMusicRows title="Latin Mix" />
+            <AlternativeMusicRows title="Alternative Songs" />
+            <ClassicalMusicRows title="Classical Songs" />
+            <ElectronicMusicRows title="Electronic Songs" />
+            <CountryMusicRows title="Country Songs" />
+            <HipHopMusicRows title="HipHop Songs" />
+            <RockMusicRows title="Rock Songs" />
             <div className="mb-8">
               <RBMusicRows title="Smooth R&B" />
             </div>
