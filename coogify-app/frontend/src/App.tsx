@@ -30,7 +30,6 @@ import { CountrySongs } from './pages/CountrySongs';
 import { HipHopSongs } from './pages/HipHopSongs';
 import { RockSongs } from './pages/RockSongs';
 
-
 import React from 'react';
 
 function App() {
@@ -58,15 +57,14 @@ function App() {
           <Route path="/topSongs" element={<TopSongs />} />
           <Route path="/rapSongs" element={<RapSongs />} />
           <Route path="/rbSongs" element={<RBSongs />} />
-          <Route path="/popSongs" element={<PopSongs />} /> 
-          <Route path="/kpopSongs" element={<KPopSongs />} /> 
-          <Route path="/LatinSongs" element={<LatinSongs />} /> 
+          <Route path="/popSongs" element={<PopSongs />} />
+          <Route path="/kpopSongs" element={<KPopSongs />} />
+          <Route path="/LatinSongs" element={<LatinSongs />} />
           <Route path="/AlternativeSongs" element={<AlternativeSongs />} />
           <Route path="/ClassicalSongs" element={<ClassicalSongs />} />
           <Route path="/JazzSongs" element={<JazzSongs />} />
           <Route path="/ElectronicSongs" element={<ElectronicSongs />} />
           <Route path="/CountrySongs" element={<CountrySongs />} />
-          <Route path="/HipHopSongs" element={<HipHopSongs />} />
           <Route path="/RockSongs" element={<RockSongs />} />
         </Routes>
       </div>

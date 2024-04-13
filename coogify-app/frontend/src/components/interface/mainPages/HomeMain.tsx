@@ -11,7 +11,6 @@ import { ClassicalMusicRows } from '../musicRows/ClassicalMusicRows';
 import { JazzMusicRows } from '../musicRows/JazzMusicRows';
 import { ElectronicMusicRows } from '../musicRows/ElectronicMusicRows';
 import { CountryMusicRows } from '../musicRows/CountryMusicRows';
-import { HipHopMusicRows } from '../musicRows/HipHopMusicRows';
 import { RockMusicRows } from '../musicRows/RockMusicRows';
 
 import { Link } from 'react-router-dom';
@@ -60,7 +59,6 @@ export const HomeMain = () => {
             <ClassicalMusicRows title="Classical Songs" />
             <ElectronicMusicRows title="Electronic Songs" />
             <CountryMusicRows title="Country Songs" />
-            <HipHopMusicRows title="HipHop Songs" />
             <RockMusicRows title="Rock Songs" />
             <div className="mb-8">
               <RBMusicRows title="Smooth R&B" />

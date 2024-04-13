@@ -1,4 +1,4 @@
-import { selectNewestSongs, selectTopSongs, selectRapSongs, selectRBSongs, selectPopSongs, selectUserLikedSongs, selectKPopSongs, selectLatinSongs, selectAlternativeSongs, selectClassicalSongs, selectJazzSongs, selectElectronicSongs, selectCountrySongs, selectHipHopSongs, selectRockSongs} from '../../database/queries/dbHomeQueries.js';
+import { selectNewestSongs, selectTopSongs, selectRapSongs, selectRBSongs, selectPopSongs, selectUserLikedSongs, selectKPopSongs, selectLatinSongs, selectAlternativeSongs, selectClassicalSongs, selectJazzSongs, selectElectronicSongs, selectCountrySongs, selectRockSongs} from '../../database/queries/dbHomeQueries.js';
 import { extractUserID, errorMessage } from '../../util/utilFunctions.js';
 
 export async function fetchNewestSongs(req, res) {
@@ -188,21 +188,6 @@ export async function fetchCountrySongs(req, res) {
     }
   } catch (error) {
     errorMessage(res, error, 'Error fetching Country songs');
-  }
-}
-
-export async function fetchHipHopSongs(req, res) {
-  try {
-    const userID = await extractUserID(req);
-    const songs = await selectHipHopSongs(userID);
-    if (songs !== false) {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(songs));
-    } else {
-      errorMessage(res, 'Error fetching hip hop songs', 'Error');
-    }
-  } catch (error) {
-    errorMessage(res, error, 'Error fetching hip hop songs');
   }
 }
 

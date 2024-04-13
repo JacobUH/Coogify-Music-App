@@ -6,7 +6,7 @@ import { register, login, logout} from './specificRoutes/loginRegRoutes.js';
 import { uploadPlaylist, uploadSongsWithAlbum } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
-import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs, fetchPopSongs, fetchUserLikedSongs, fetchKPopSongs, fetchLatinSongs, fetchAlternativeSongs, fetchClassicalSongs, fetchJazzSongs, fetchElectronicSongs, fetchCountrySongs, fetchHipHopSongs, fetchRockSongs } from './specificRoutes/homeRoutes.js';
+import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs, fetchPopSongs, fetchUserLikedSongs, fetchKPopSongs, fetchLatinSongs, fetchAlternativeSongs, fetchClassicalSongs, fetchJazzSongs, fetchElectronicSongs, fetchCountrySongs, fetchRockSongs } from './specificRoutes/homeRoutes.js';
 import { likeSong } from './specificRoutes/songRoutes.js';
 import { makePayment } from './specificRoutes/subscriptionRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
@@ -51,7 +51,6 @@ const handlers = {
       fetchJazzSongs: fetchJazzSongs,
       fetchElectronicSongs: fetchElectronicSongs,
       fetchCountrySongs: fetchCountrySongs,
-      fetchHipHopSongs: fetchHipHopSongs,
       fetchRockSongs: fetchRockSongs,
       fetchUserLikedSongs: fetchUserLikedSongs,
     },
