@@ -9,6 +9,7 @@ import { Search } from './pages/Search';
 import { AlbumPage } from './pages/AlbumPage';
 import { Upload } from './pages/Upload';
 import { Library } from './pages/Library';
+import { Playlist } from './pages/Playlist';
 import { Profile } from './pages/Profile';
 import { Subscription } from './pages/Subscription';
 import { Payment } from './pages/Payment';
@@ -47,6 +48,7 @@ function App() {
           <Route path="/album/:albumName" element={<AlbumPage />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/library" element={<Library />} />
+          <Route path="/playlist:playlistName" element={<Playlist />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/payment" element={<Payment />} />
@@ -66,8 +68,6 @@ function App() {
           <Route path="/CountrySongs" element={<CountrySongs />} />
           <Route path="/HipHopSongs" element={<HipHopSongs />} />
           <Route path="/RockSongs" element={<RockSongs />} />
-
-
         </Routes>
       </div>
     </>
