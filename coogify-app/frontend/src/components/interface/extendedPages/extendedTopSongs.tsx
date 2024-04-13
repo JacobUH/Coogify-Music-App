@@ -138,7 +138,7 @@ export const ExtendedTopSongs = ({ title }: Props) => {
       {selectedSong && clickPosition && !hideCard && (
         <div
           className="absolute"
-          style={{ top: clickPosition.y - 10, left: clickPosition.x - 50 }}
+          style={{ top: clickPosition.y - 255, left: clickPosition.x - 405 }}
         >
           <div
             className="text-center font-color-red-500 w-[100px] h-[150px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
