@@ -4,11 +4,11 @@ import { useState } from 'react';
 import axios from 'axios';
 import backendBaseUrl from '../../../apiConfig';
 
-interface ConfirmationScreenProps {
+interface PlaylistScreenProps {
   onClose: () => void; // Specify the type of onClose prop
 }
 
-export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({
+export const ConfirmationScreen: React.FC<PlaylistScreenProps> = ({
   onClose,
 }) => {
   const [error, setError] = useState('');

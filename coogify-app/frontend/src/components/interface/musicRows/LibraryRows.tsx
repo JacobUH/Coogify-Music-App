@@ -1,6 +1,8 @@
-import React from 'react';
-import AddIcon from '../../../../public/images/AddIcon.svg';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import AddIcon from '/images/AddIcon.svg';
+import AddIconHover from '/images/AddIconHover.svg';
+import { useLocation } from 'react-router-dom';
+import { CreatePlaylistScreen } from '../elements/CreatePlaylistScreen';
 
 interface Props {
   title: string;
@@ -9,9 +11,22 @@ interface Props {
 
 export const LibraryRows = ({ title, data }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
-  const toggleCreatePlaylist = () => {
-    setIsOpen(!isOpen);
+  const location = useLocation();
+
+  const [currentHoveredItem, setCurrentHoveredItem] = useState(false);
+
+  const handleMouseLeave = () => {
+    setCurrentHoveredItem(null);
+  };
+
+  const toggleShowScreen = () => {
+    setShowPopup(true);
+  };
+
+  const handleCloseScreen = () => {
+    setShowPopup(false); // Close the confirmation screen
   };
 
   return (
@@ -19,11 +34,17 @@ export const LibraryRows = ({ title, data }: Props) => {
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <span className="text-[22px]">{title}</span>
-          <img
-            src={AddIcon}
-            className="w-[20px] pb-1 cursor-pointer"
-            onClick={toggleCreatePlaylist}
-          />
+          <div
+            onMouseEnter={() => setCurrentHoveredItem(true)}
+            onMouseLeave={() => setCurrentHoveredItem(false)}
+          >
+            <img
+              className="w-[20px] pb-1 cursor-pointer"
+              src={currentHoveredItem ? AddIconHover : AddIcon}
+              onClick={toggleShowScreen}
+            />
+          </div>
+
           {isOpen /*{ && (Work In Here For Create PLaylist) }*/}
         </div>
 
@@ -33,32 +54,31 @@ export const LibraryRows = ({ title, data }: Props) => {
       </div>
       <div className="w-full flex items-center overflow-x-auto overflow-y-auto md:pb-0 pb-5">
         <div className="flex items-center gap-2">
-          {data.map((song: any) => {
-            return (
-              <div
-                key={song.title}
-                className="flex flex-col items-center gap-[6px] cursor-pointer"
-                style={{ minWidth: '200px' }} // Adjust the minimum width of each song item
-              >
-                <div className=" bg-[#656262] rounded-lg p-5 bg-center bg-cover">
-                  <img
-                    className="w-[140px] h-[140px] rounded-xl"
-                    src={song.cover}
-                    alt={song.title}
-                  />
-                  <div className="pt-2 text-white text-[15px] font-medium whitespace-nowrap">
-                    {song.title.length > 20
-                      ? song.title.slice(0, 17) + '...'
-                      : song.title}
-                  </div>
-                  <div className="pt-1 text-[#BA85FE] text-[13px]">
-                    {song.genre}
-                  </div>
+          {data.map((song: any) => (
+            <div
+              key={song.title}
+              className="flex flex-col items-center gap-[6px] cursor-pointer"
+              style={{ minWidth: '200px' }} // Adjust the minimum width of each song item
+            >
+              <div className=" bg-[#656262] rounded-lg p-5 bg-center bg-cover">
+                <img
+                  className="w-[140px] h-[140px] rounded-xl"
+                  src={song.cover}
+                  alt={song.title}
+                />
+                <div className="pt-2 text-white text-[15px] font-medium whitespace-nowrap">
+                  {song.title.length > 20
+                    ? song.title.slice(0, 17) + '...'
+                    : song.title}
+                </div>
+                <div className="pt-1 text-[#BA85FE] text-[13px]">
+                  {song.genre}
                 </div>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
+        {showPopup && <CreatePlaylistScreen onClose={handleCloseScreen} />}
       </div>
     </div>
   );
