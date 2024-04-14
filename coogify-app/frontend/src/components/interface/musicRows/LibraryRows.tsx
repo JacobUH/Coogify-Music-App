@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
 import AddIcon from '/images/AddIcon.svg';
 import AddIconHover from '/images/AddIconHover.svg';
-import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CreatePlaylistScreen } from '../elements/CreatePlaylistScreen';
+import axios from 'axios';
+import backendBaseUrl from '../../../apiConfig';
+
+interface Playlist {
+  playlistID: number;
+  userID: number;
+  playlistName: string;
+  playlistArt: string;
+}
 
 interface Props {
   title: string;
-  data: any[];
 }
 
-export const LibraryRows = ({ title, data }: Props) => {
+export const LibraryRows = ({ title }: Props) => {
+  const navigate = useNavigate();
+  const [playlists, setPlaylists] = useState<Playlist[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
@@ -28,6 +39,31 @@ export const LibraryRows = ({ title, data }: Props) => {
   const handleCloseScreen = () => {
     setShowPopup(false); // Close the confirmation screen
   };
+
+  const storedToken = localStorage.getItem('sessionToken');
+
+  useEffect(() => {
+    // Fetch data from backend API for rap songs
+    const fetchPlaylists = async () => {
+      try {
+        const response = await axios.get(
+          `${backendBaseUrl}/api/playlist/fetchPlaylists`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        setPlaylists(response.data);
+      } catch (error) {
+        console.error('Error fetching rap songs:', error);
+      }
+    };
+
+    fetchPlaylists();
+  }, []);
 
   return (
     <div className="w-full flex flex-col md:gap-4 gap-6 px-2">
@@ -54,25 +90,26 @@ export const LibraryRows = ({ title, data }: Props) => {
       </div>
       <div className="w-full flex items-center overflow-x-auto overflow-y-auto md:pb-0 pb-5">
         <div className="flex items-center gap-2">
-          {data.map((song: any) => (
+          {playlists.map((playlist: Playlist) => (
             <div
-              key={song.title}
+              key={playlist.playlistID}
               className="flex flex-col items-center gap-[6px] cursor-pointer"
               style={{ minWidth: '200px' }} // Adjust the minimum width of each song item
+              onClick={() => navigate(`/playlist/${playlist.playlistName}`)}
             >
               <div className=" bg-[#656262] rounded-lg p-5 bg-center bg-cover">
                 <img
                   className="w-[140px] h-[140px] rounded-xl"
-                  src={song.cover}
-                  alt={song.title}
+                  src={playlist.playlistArt}
+                  alt={playlist.playlistName}
                 />
                 <div className="pt-2 text-white text-[15px] font-medium whitespace-nowrap">
-                  {song.title.length > 20
-                    ? song.title.slice(0, 17) + '...'
-                    : song.title}
+                  {playlist.playlistName.length > 20
+                    ? playlist.playlistName.slice(0, 17) + '...'
+                    : playlist.playlistName}
                 </div>
                 <div className="pt-1 text-[#BA85FE] text-[13px]">
-                  {song.genre}
+                  {playlist.userID}
                 </div>
               </div>
             </div>

@@ -12,6 +12,7 @@ import { makePayment } from './specificRoutes/subscriptionRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
 import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
 import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
+import { uploadPlaylistEntry, fetchPlaylists, fetchPlaylistSongs } from './specificRoutes/playlistRoutes.js'
 
 // Define the handlers object
 const handlers = {
@@ -25,6 +26,11 @@ const handlers = {
       removeSong: (req, res) => 'removeSongFromPlaylist',
     },
     album: fetchAlbumSongs,
+    playlist: {
+      uploadPlaylistEntry: uploadPlaylistEntry,
+      fetchPlaylists: fetchPlaylists,
+      fetchPlaylistSongs: fetchPlaylistSongs,
+    },
     fetch: {
       song: getSong,
       album: (req, res) => 'info of album and image url',

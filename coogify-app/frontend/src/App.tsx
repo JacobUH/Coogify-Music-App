@@ -47,7 +47,7 @@ function App() {
           <Route path="/album/:albumName" element={<AlbumPage />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/library" element={<Library />} />
-          <Route path="/playlist:playlistName" element={<Playlist />} />
+          <Route path="/playlist/:playlistName" element={<Playlist />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/payment" element={<Payment />} />
