@@ -25,7 +25,7 @@ export const AlternativeSongsMain = () => {
           />
         </div>
         <div className="text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
-          Alternative Mix
+        Alternative Mix
         </div>
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
           {/* Work in here */}
