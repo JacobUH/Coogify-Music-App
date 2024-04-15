@@ -1,10 +1,90 @@
 import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import ProfileIcon from '/images/Profile Icon.svg';
 import BackButton from '/images/Back Button.svg';
 import { useNavigate } from 'react-router-dom';
+import backendBaseUrl from '../../../apiConfig';
+
+interface Profile {
+  userEmail: string;
+  userPassword: string;
+  userFirstName: string;
+  userLastName: string;
+  userBirthDay: string;
+  userBirthMonth: string;
+  userBirthYear: string;
+  userProfileImage: string;
+  userBio: string;
+}
+
 
 export const ProfileMain = () => {
   const navigate = useNavigate();
+  const [profilePic, setProfilePic] = useState<File | null>(null);
+  const [profile, setProfile] = useState<Profile>({
+    userEmail: '',
+    userPassword: '',
+    userFirstName: '',
+    userLastName: '',
+    userBirthDay: '',
+    userBirthMonth: '',
+    userBirthYear: '',
+    userProfileImage: '',
+    userBio: '',
+  });
+
+  const storedToken = localStorage.getItem('sessionToken'); // Assuming you store the token in localStorage
+
+  useEffect(() => {
+    const handleRetrieve = async () => {
+      try {
+        const response = await axios.get(
+          `${backendBaseUrl}/api/profile/fetchProfile`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        const data = response.data;
+        const { year, month, day } = data.userdateOfBirth
+          ? {
+              year: data.userdateOfBirth.split('-')[0],
+              month: data.userdateOfBirth.split('-')[1],
+              day: data.userdateOfBirth.split('-')[2],
+            }
+          : { year: '', month: '', day: '' };
+  
+        setProfile({
+          ...data,
+          userBirthDay: day,
+          userBirthMonth: month,
+          userBirthYear: year,
+          // Assuming the API does not return these keys and you are transforming them here
+        });
+      } catch (error) {
+        console.error('Error fetching profile data: ', error);
+      }
+    };
+    handleRetrieve();
+  }, [storedToken]); 
+
+  const handleProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setProfilePic(event.target.files[0]);
+    }
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setProfile((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  
 
   const handleBack = () => {
     navigate(-1);
@@ -31,13 +111,15 @@ export const ProfileMain = () => {
           {/* Work in here */}
           <div className="w-full max-w-4xl mx-auto  rounded-xl p-8 flex flex-col md:flex-row gap-6">
             {/* Profile Image */}
-            <div className="md:w-48 md:h-48 w-32 h-32 bg-[#656262] rounded-full flex items-center justify-center overflow-hidden">
-              <img
-                src={ProfileIcon}
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <label className="w-[250px] h-[250px] bg-[#656262] rounded-lg flex justify-center items-center cursor-pointer mb-4">
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="image/jpeg, image/jpg, image/png, image/svg+xml"
+                    onChange={handleProfilePicChange}
+                  />
+                  <div>Profile Picture</div>
+                </label>
 
             {/* Profile Form */}
             <div className="flex flex-col gap-4 w-full">
@@ -47,7 +129,10 @@ export const ProfileMain = () => {
                   <input
                     className="bg-[#656262] rounded-[20px] p-2 text-white"
                     type="text"
-                    placeholder="Travis"
+                    placeholder="First Name"
+                    value={profile.userFirstName}
+                    onChange={handleInputChange}
+                    name="userFirstName"
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -55,7 +140,10 @@ export const ProfileMain = () => {
                   <input
                     className="bg-[#656262] rounded-[20px] p-2 text-white"
                     type="text"
-                    placeholder="Scott"
+                    placeholder="Last Name"
+                    value={profile.userLastName}
+                    onChange={handleInputChange}
+                    name="userLastName"
                   />
                 </div>
               </div>
@@ -64,7 +152,10 @@ export const ProfileMain = () => {
                 <input
                   className="bg-[#656262] rounded-[20px] p-2 text-white"
                   type="email"
-                  placeholder="travisscott@cactusjack.com"
+                  placeholder="email@domain.com"
+                  value={profile.userEmail}
+                  onChange={handleInputChange}
+                  name="userEmail"
                 />
               </div>
               <div className="flex flex-col mt-4">
@@ -73,13 +164,19 @@ export const ProfileMain = () => {
                   className="bg-[#656262] rounded-[20px] p-2 text-white"
                   type="password"
                   placeholder="********"
+                  value={profile.userPassword}
+                  onChange={handleInputChange}
+                  name="userPassword"
                 />
               </div>
               <div className="flex flex-col mt-4">
                 <label className="text-sm font-bold">Profile Bio</label>
                 <textarea
                   className="bg-[#656262] rounded-[20px] p-2 text-white"
-                  placeholder="CACTUS JACK, IT'S LITTTTTTTTTTSDSDSA"
+                  placeholder="Add a bio"
+                  value={profile.userBio}
+                  onChange={handleInputChange}
+                  name="userBio"
                 />
               </div>
               <div className="flex flex-row mt-4 gap-4">
@@ -88,7 +185,10 @@ export const ProfileMain = () => {
                   <input
                     className="bg-[#656262] rounded-[20px] p-2 text-white"
                     type="text"
-                    placeholder="04"
+                    placeholder="MM"
+                    value={profile.userBirthMonth}
+                    onChange={handleInputChange}
+                    name="userBirthMonth"
                   />
                 </div>
                 <div className="flex flex-col w-1/3">
@@ -96,7 +196,11 @@ export const ProfileMain = () => {
                   <input
                     className="bg-[#656262] rounded-[20px] p-2 text-white"
                     type="text"
-                    placeholder="30"
+                    placeholder="DD"
+                    value={profile.userBirthDay}
+                    onChange={handleInputChange}
+                    name="userBirthDay"
+
                   />
                 </div>
                 <div className="flex flex-col w-1/3">
@@ -104,7 +208,10 @@ export const ProfileMain = () => {
                   <input
                     className="bg-[#656262] rounded-[20px] p-2 text-white"
                     type="text"
-                    placeholder="1991"
+                    placeholder="YYYY"
+                    value={profile.userBirthYear}
+                    onChange={handleInputChange}
+                    name="userBirthYear"
                   />
                 </div>
               </div>
