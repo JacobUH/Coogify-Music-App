@@ -12,7 +12,7 @@ import { makePayment } from './specificRoutes/subscriptionRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
 import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
 import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
-import { uploadPlaylistEntry, fetchPlaylists, fetchPlaylistSongs } from './specificRoutes/playlistRoutes.js'
+import { uploadPlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist } from './specificRoutes/playlistRoutes.js'
 
 // Define the handlers object
 const handlers = {
@@ -30,6 +30,7 @@ const handlers = {
       uploadPlaylistEntry: uploadPlaylistEntry,
       fetchPlaylists: fetchPlaylists,
       fetchPlaylistSongs: fetchPlaylistSongs,
+      addSong: addSongToPlaylist
     },
     fetch: {
       song: getSong,

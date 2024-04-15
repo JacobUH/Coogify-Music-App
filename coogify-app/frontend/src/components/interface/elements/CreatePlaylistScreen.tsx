@@ -30,6 +30,7 @@ export const CreatePlaylistScreen: React.FC<ConfirmationScreenProps> = ({
   const handleInputChange = (e) => {
     const newName = e.target.textContent.trim(); // Trim any leading or trailing whitespace
     setPlaylistName(newName || defaultPlaylistName); // If newName is empty, use defaultPlaylistName
+    setError(''); // Clear error whenever the playlist name content changes
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,6 +139,7 @@ export const CreatePlaylistScreen: React.FC<ConfirmationScreenProps> = ({
                 >
                   {playlistName || 'My Playlist'}
                 </div>
+                {error && <div className="text-red-500 mb-4">{error}</div>}
               </div>
             </div>
           </div>

@@ -20,8 +20,9 @@ export async function createPlaylist(userID, playlistName, playlistDescription, 
   export async function selectPlaylists(userID) {
     try {
       const query = `
-      SELECT p.playlistID, p.userID, p.playlistName, p.playlistArt
+      SELECT p.playlistID, p.userID, u.firstName, u.lastName, p.playlistName, p.playlistArt
       FROM PLAYLIST p
+      INNER JOIN USER u on p.userID = u.userID
       WHERE p.userID = ?
       `;
       const [rows] = await pool.query(query, [userID]);
@@ -35,10 +36,12 @@ export async function createPlaylist(userID, playlistName, playlistDescription, 
   export async function selectPlaylistSongs(userID, playlistName) {
     try {
       const query = `
-      SELECT p.playlistID, p.userID, p.playlistName, p.playlistDescription, p.playlistArt, t.trackID, t.songName, t.coverArtURL , t.songURL, t.duration, t.artistID, pt.dateAdded
+      SELECT p.playlistID, p.userID, u.firstName,u.lastName, p.playlistName, p.playlistDescription, p.playlistArt, t.trackID, t.songName, t.coverArtURL , t.songURL, t.duration, a.artistName, pt.dateAdded
         FROM PLAYLIST p
         LEFT JOIN PLAYLIST_TRACK pt ON p.playlistID = pt.playlistID
         LEFT JOIN TRACK t ON pt.trackID = t.trackID
+        LEFT JOIN ARTIST a ON t.artistID = a.artistID
+        LEFT JOIN USER u ON p.userID = u.userID
         WHERE p.userID = ? AND p.playlistName = ?
       `;
       const [rows] = await pool.query(query, [userID, playlistName]);
@@ -49,3 +52,24 @@ export async function createPlaylist(userID, playlistName, playlistDescription, 
     }
   }
   
+  const currentDate = new Date(); // Get current date
+  const year = currentDate.getFullYear(); // Get current year
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Get current month (add 1 because month index starts from 0)
+  const day = String(currentDate.getDate()).padStart(2, '0'); // Get current day
+  const formattedDate = `${year}-${month}-${day}`; // Format the date as YYYY-MM-DD
+
+  export async function addTrackToPlaylist(playlistID, trackID){
+    try {
+      const [rows] = await pool.query(
+        `INSERT INTO PLAYLIST_TRACK 
+        (playlistID, trackID, dateAdded)
+        VALUES (?, ?, ?)`,
+        [playlistID, trackID, formattedDate]
+    );
+    console.log('song added to playlist successfully');
+    return true;
+    } catch (error) {
+      console.error('Error adding song to playlist')
+      return false;
+    }
+  }

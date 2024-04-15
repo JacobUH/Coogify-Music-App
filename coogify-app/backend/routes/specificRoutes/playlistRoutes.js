@@ -1,4 +1,4 @@
-import { createPlaylist, selectPlaylists, selectPlaylistSongs } from "../../database/queries/dbPlaylistQueries.js";
+import { createPlaylist, selectPlaylists, selectPlaylistSongs, addTrackToPlaylist } from "../../database/queries/dbPlaylistQueries.js";
 import { extractUserID, errorMessage } from '../../util/utilFunctions.js';
 
 export async function uploadPlaylistEntry(req, res) {
@@ -13,7 +13,8 @@ export async function uploadPlaylistEntry(req, res) {
               JSON.stringify({ message: 'playlist creation successful'})
             );  
           } else {
-            errorMessage(res, 'Error fetching playlist songs', 'Error');
+            res.writeHead(409, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Already Have Playlist Name.' }));
           }
     } catch(error) {
         errorMessage(res, error, 'Error fetching playlist songs');
@@ -56,3 +57,22 @@ export async function fetchPlaylistSongs(req, res) {
 
     }
 }
+
+export async function addSongToPlaylist(req, res) {
+  const { playlistID, trackID } = req.body;
+  
+  try {
+    const addSong = await addTrackToPlaylist (playlistID, trackID);
+    if (addSong !== false) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(              
+        JSON.stringify({ message: 'song added to playlist successful'})
+      );
+    } else {
+      errorMessage(res, 'Error adding song to playlist', 'Error');
+    }
+  } catch(error) {
+  errorMessage(res, error, 'Error adding song to playlist');
+
+  }
+ }

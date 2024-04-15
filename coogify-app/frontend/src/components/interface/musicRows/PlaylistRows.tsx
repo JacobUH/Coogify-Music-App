@@ -10,6 +10,8 @@ import backendBaseUrl from '../../../apiConfig';
 interface Playlist {
   playlistID: number;
   userID: number;
+  firstName: string;
+  lastName: string;
   playlistName: string;
   playlistArt: string;
 }
@@ -18,10 +20,9 @@ interface Props {
   title: string;
 }
 
-export const LibraryRows = ({ title }: Props) => {
+export const PlaylistRows = ({ title }: Props) => {
   const navigate = useNavigate();
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
   const location = useLocation();
@@ -80,8 +81,6 @@ export const LibraryRows = ({ title }: Props) => {
               onClick={toggleShowScreen}
             />
           </div>
-
-          {isOpen /*{ && (Work In Here For Create PLaylist) }*/}
         </div>
 
         <a href="#" className="text-[#9E67E4] text-[15px] font-medium">
@@ -109,7 +108,7 @@ export const LibraryRows = ({ title }: Props) => {
                     : playlist.playlistName}
                 </div>
                 <div className="pt-1 text-[#BA85FE] text-[13px]">
-                  {playlist.userID}
+                  {playlist.firstName + ' ' + playlist.lastName}
                 </div>
               </div>
             </div>

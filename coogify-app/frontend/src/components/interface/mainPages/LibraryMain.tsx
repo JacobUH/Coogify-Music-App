@@ -1,5 +1,5 @@
 import React from 'react';
-import { LibraryRows } from '../musicRows/LibraryRows';
+import { PlaylistRows } from '../musicRows/PlaylistRows';
 import { LikedMusicRows } from '../musicRows/LikedMusicRows';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '/images/Back Button.svg';
@@ -8,7 +8,7 @@ export const LibraryMain = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate(-1);
+    navigate('/home');
   };
 
   return (
@@ -32,7 +32,7 @@ export const LibraryMain = () => {
           {/* Work in here */}
           <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
             <div className="w-full flex flex-col gap-8">
-              <LibraryRows title="Your Playlists" />
+              <PlaylistRows title="Your Playlists" />
               <LikedMusicRows title="Your Music" />
             </div>
           </div>
