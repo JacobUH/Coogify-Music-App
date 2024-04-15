@@ -26,8 +26,9 @@ export const SubscriptionMain = () => {
         <div className="text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
           Subscription
         </div>
-        <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
+        <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5 overflow-auto">
           {/* Work in here */}
+          {/* Subscription Main here: */}
           <div className="w-full flex flex-col md:flex-row items-center justify-center md:gap-40">
             <div className="text-2xl flex flex-col gap-4 items-center sm:w-96 md:w-96">
               <Link to="">Subscription Plans</Link>
@@ -71,7 +72,61 @@ export const SubscriptionMain = () => {
               </div>
             </div>
           </div>
+          
+
+
+          {/* Shruthi's Changes Here - note: put all this on the pop-up card */}
+          <div className="flex">
+            <div className="flex bg-[#858181] h-[900px] w-[900px] rounded-lg">
+              <div className="bg-gray-50 h-[200px] w-[400px] m-10">
+              <div className="flex p-10 bg-[#656262] grid-cols-2 gap-y-4 gap-x-8 text-white rounded-xl">
+
+                  <div className="text-left">
+                      <div className="px-1">Card Type</div>
+                      <input className=" hover:bg-[#434242] bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[250px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out" 
+                          title="Please enter a card type.">
+                      </input>
+
+                      <div className="px-1">Card Number</div>
+                      <input className=" hover:bg-[#434242] bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[250px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out" 
+                          title="Please enter a card number."> 
+                      </input>
+
+                      <div className="px-1">Expiration Date</div>
+                      <input className=" hover:bg-[#434242] bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[250px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out" 
+                          title="Please enter a expiration date.">
+                          </input>
+
+                      <div className="px-1">CVV</div>
+                      <input className=" hover:bg-[#434242] bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[250px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"
+                          title="Please enter a CVV.">
+                          </input>
+                  </div>
+
+                  <div className="pl-64">
+                    <Link to="">
+                      <div className="flex mb-4 h-30 w-70 hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] rounded-xl px-2 py-2 ">
+                      <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png"
+                      width="100"
+                      height="40"
+                      ></img>
+
+                      <div className="items-center">
+                      <div className="ml-4 pl-5 text-left">Visa</div>
+                      <div className="ml-4 pl-5 mt-auto text-left">
+                        ####-####-####-####
+                      </div>
+                      </div>
+                      </div>
+                    </Link>
+                  </div>
+              </div>
+              </div>
+            
+        </div> 
         </div>
+      </div>
       </div>
     </div>
   );

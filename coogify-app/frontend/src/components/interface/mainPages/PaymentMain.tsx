@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import BackButton from '/images/Back Button.svg';
+import AddIcon from '/images/AddIcon.svg';
 import backendBaseUrl from '../../../apiConfig';
 
-export const PaymentMain = () => {
+export const PaymentMain = () => 
+  {
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -50,14 +52,32 @@ export const PaymentMain = () => {
             className="cursor-pointer"
           />
         </div>
+
+
         <div className="text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
           Payment
         </div>
+
+
         <div className="rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col gap-5 px-8 md:py-5 pb-20 pt-5">
           {/* Work in here */}
           <div className="flex flex-row justify-center">
             <div className="items-center">
-              <div className="font-bold px-2">Payment Method</div>
+              
+              <div className="font-bold flex items-center px-2 mb-2">
+                Payment Method
+                {/* <Link to="/AddCardPage"> */}
+                  <div className="px-2">
+                    <img
+                      src={AddIcon}
+                      alt="Back"
+                      onClick={() => navigate('/AddCard')}
+                      className="cursor-pointer h-6 w-6"
+                      />
+                  </div>
+                {/* </Link> */}
+              </div>
+
               {/* PAYMENT METHOD */}
               <div className="block h-[380px] w-[500px] bg-[#212020] text-white rounded-xl px-5 py-5 mr-8">
                 <Link to="">
@@ -134,7 +154,7 @@ export const PaymentMain = () => {
 
             {/* PREV TRANSACTIONS */}
             <div className="items-center">
-              <div className="font-bold px-2">Previous Transactions</div>
+              <div className="font-bold px-2 mb-2">Previous Transactions</div>
               <div className="h-[380px] w-[500px] bg-[#212020] text-white rounded-xl px-5 py-2 overflow-y-auto">
                 <div className="grid grid-cols-2 gap-y-1 gap-x-6">
                   <div className="border-b border-gray-400 py-3">
@@ -165,6 +185,17 @@ export const PaymentMain = () => {
                     2024-01-11
                   </div>
                 </div>
+
+                {/* <Link to=""> */} 
+                <div>
+                  <button className="mt-24 ml-44 justify-center hover:bg-[#434242] bg-[#9E67E4] shadow-lg shadow-[#313131] px-6 py-3 mb-3 text-center rounded-full" 
+                  onClick={() => navigate('/PrevTransactions')}>
+                    View All
+                  </button>
+                  
+                </div>
+                {/* </Link> */} 
+
               </div>
             </div>
           </div>
@@ -172,66 +203,47 @@ export const PaymentMain = () => {
           <div className="flex flex-row justify-center">
             {/* CHANGE CARD DETAILS */}
             <div className="items-center mb-12">
-              <div className="font-bold px-2">Change Card Details</div>
-              <div className="grid grid-cols-2 gap-y-4 gap-x-4 h-[335px] w-[700px] px-5 py-7 bg-[#212020] text-white rounded-xl mr-8">
+              <div className="font-bold px-4 mb-2">Change Card Details</div>
+              <div className="grid grid-cols-2 gap-y-4 gap-x-8 h-[335px] w-[1030px] px-6 py-7 bg-[#212020] text-white rounded-xl mr-2">
                 <div className="text-left">
                   <div className="px-1">First Name</div>
-                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
+                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[400px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
 
                   <div className="px-1">Last Name</div>
-                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
+                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[400px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
 
                   <div className="px-1">Postal/Zip Code</div>
-                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
+                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[400px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
 
                   <div className="px-1">Address</div>
-                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
+                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[400px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
                 </div>
 
                 <div className="text-left">
                   <div className="px-1">Expiration Date</div>
-                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
+                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[400px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
 
                   <div className="px-1">CVV</div>
-                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
+                  <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[400px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
 
                   <div className="px-1">Set Card as Default?</div>
-                  <button className="  hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[40px] w-[60px] px-2 py-2 text-center rounded-full mr-4">
-                    Yes
-                  </button>
-                  <button className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[40px] w-[60px] px-2 py-2 text-center rounded-full">
-                    No
-                  </button>
+                    <div>
+                      <button className="hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[40px] w-[60px] px-2 py-2 text-center rounded-full mr-4">
+                        Yes
+                      </button>
+                      <button className="hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[40px] w-[60px] px-2 py-2 text-center rounded-full">
+                        No
+                      </button>  
+                    </div>
+                  <button className="mt-8 hover:bg-[#434242] bg-[#9E67E4] shadow-lg shadow-[#313131] px-5 py-2 mb-3 text-center rounded-full">
+                    Confirm Changes
+                  </button>               
                 </div>
-              </div>
-            </div>
-
-            <div className="items-center">
-              <div className="font-bold px-2">Add Payment</div>
-              {/* ADD PAYMENT */}
-              <div className="block h-[335px] w-[300px] px-5 py-7 bg-[#212020] text-white rounded-xl">
-                <div className="text-left px-1">Card Type</div>
-                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full"></input>
-
-                <div className="text-left px-1">Card Number</div>
-                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full"></input>
-
-                <div className="text-left px-1">Expiration Date</div>
-                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full"></input>
-
-                <div className="text-left px-1">CVV</div>
-                <input className=" hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[35px] w-[260px] px-2 py-2 pb-2 mb-3 rounded-full"></input>
-
-                {/* Pay Now button */}
-                <button
-                  className="hover:bg-blue-500 bg-blue-400 shadow-lg shadow-[#313131] h-[40px] w-[260px] px-2 py-2 text-center rounded-full"
-                  onClick={handlePayNow}
-                >
-                  Pay Now
-                </button>
+  
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
