@@ -1,4 +1,4 @@
-import { selectUserProfile, updateUserProfile } from '../../database/queries/dbUserQueries.js';
+import { selectUserProfile, updateUserProfile } from '../../database/queries/dbProfileQueries.js';
 import { extractUserID, errorMessage } from '../../util/utilFunctions.js';
 
 // Handler to fetch user profile data
@@ -6,7 +6,7 @@ export async function fetchUserProfile(req, res) {
   try {
     const userID = await extractUserID(req);
     const userProfile = await selectUserProfile(userID);
-    if (userProfile) {
+    if (userProfile !== false) {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(userProfile));
     } else {
@@ -21,9 +21,9 @@ export async function fetchUserProfile(req, res) {
 export async function updateProfile(req, res) {
   try {
     const userID = await extractUserID(req);
-    const updateData = req.body; // Assuming jsonParser middleware is used
-    const result = await updateUserProfile(userID, updateData);
-    if (result) {
+    const {email, userPassword, firstName, lastName, dateOfBirth, profileImage, bio}  = req.body;
+    const result = await updateUserProfile(userID, email, userPassword, firstName, lastName, dateOfBirth, profileImage, bio);
+    if (result !== false) {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: 'Profile updated successfully' }));
     } else {
@@ -33,10 +33,3 @@ export async function updateProfile(req, res) {
     errorMessage(res, error, 'Error updating profile');
   }
 }
-
-const profileHandlers = {
-    fetchUserProfile,
-    updateProfile,
-};
-
-export default profileHandlers;

@@ -79,44 +79,6 @@ export async function insertPayment(userID_promise) {
   }
 }
 
-export async function selectUserProfile(userID) {
-  try {
-    const [rows] = await pool.query(
-      `SELECT email, userPassword, firstName, lastName, dateOfBirth, profileImage, bio 
-       FROM USER 
-       WHERE userID = ?`,
-      [userID]
-    );
-
-    console.log('profile retrieved successfully');
-    return rows;
-
-    }   catch (error) {
-        console.error('Error retrieving profile', error);
-        return false;
-    }
-}
-
-// Function to update user profile data based on userID and provided data
-export async function updateUserProfile(userID, userData) {
-  const { email, firstName, lastName, dateOfBirth, bio } = userData;
-  try {
-    const result = await pool.query(
-      `UPDATE USER 
-       SET email = ?, userPasswordd = ?, firstName = ?, lastName = ?, dateOfBirth = ?, bio = ? 
-       WHERE userID = ?`,
-      [email, firstName, lastName, dateOfBirth, bio, userID]
-    );
-
-    console.log('profile retrieved successfully');
-    return rows;
-
-    }   catch (error) {
-        console.error('Error retrieving profile', error);
-        return false;
-    }
-}
-
 // export async function registerUser(params) {
 //   const { email, userPassword, firstName, lastName, dateOfBirth } = params;
 //   console.log(params);

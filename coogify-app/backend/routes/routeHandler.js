@@ -12,7 +12,7 @@ import { makePayment } from './specificRoutes/subscriptionRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
 import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
 import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
-import profileHandlers from './specificRoutes/profileRoutes.js';
+import { fetchUserProfile, updateProfile } from './specificRoutes/profileRoutes.js';
 
 
 // Define the handlers object
@@ -60,7 +60,10 @@ const handlers = {
     notifications: {
       daysToPay: (req, res) => 'pay',
     },
-    profile: profileHandlers,
+    profile: {
+      fetchProfile: fetchUserProfile,
+      updateProfile: updateProfile,
+    },
   },
 };
 

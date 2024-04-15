@@ -7,32 +7,28 @@ import { useNavigate } from 'react-router-dom';
 import backendBaseUrl from '../../../apiConfig';
 
 interface Profile {
-  userEmail: string;
+  email: string;
   userPassword: string;
-  userFirstName: string;
-  userLastName: string;
-  userBirthDay: string;
-  userBirthMonth: string;
-  userBirthYear: string;
-  userProfileImage: string;
-  userBio: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  profileImage: string;
+  bio: string;
 }
 
 
 export const ProfileMain = () => {
   const navigate = useNavigate();
   const [profilePic, setProfilePic] = useState<File | null>(null);
-  const [profile, setProfile] = useState<Profile>({
-    userEmail: '',
-    userPassword: '',
-    userFirstName: '',
-    userLastName: '',
-    userBirthDay: '',
-    userBirthMonth: '',
-    userBirthYear: '',
-    userProfileImage: '',
-    userBio: '',
-  });
+  const [profile, setProfile] = useState<Profile[]>([]);
+
+  const [email, setEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [profileImage, setProfileImage] = useState('');
+  const [bio, setBio] = useState('');
 
   const storedToken = localStorage.getItem('sessionToken'); // Assuming you store the token in localStorage
 
@@ -48,43 +44,21 @@ export const ProfileMain = () => {
             },
           }
         );
-        const data = response.data;
-        const { year, month, day } = data.userdateOfBirth
-          ? {
-              year: data.userdateOfBirth.split('-')[0],
-              month: data.userdateOfBirth.split('-')[1],
-              day: data.userdateOfBirth.split('-')[2],
-            }
-          : { year: '', month: '', day: '' };
-  
-        setProfile({
-          ...data,
-          userBirthDay: day,
-          userBirthMonth: month,
-          userBirthYear: year,
-          // Assuming the API does not return these keys and you are transforming them here
-        });
+    
+        setProfile(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching profile data: ', error);
       }
     };
     handleRetrieve();
-  }, [storedToken]); 
+  }, []); 
 
   const handleProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setProfilePic(event.target.files[0]);
     }
   };
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setProfile((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-  
 
   const handleBack = () => {
     navigate(-1);
@@ -129,9 +103,9 @@ export const ProfileMain = () => {
                   <input
                     className="bg-[#656262] rounded-[20px] p-2 text-white"
                     type="text"
-                    placeholder="First Name"
-                    value={profile.userFirstName}
-                    onChange={handleInputChange}
+                    placeholder={profile[0]?.firstName || "First Name"}
+                    value={firstName}
+                    onChange={(e)=>setFirstName(e.target.value)}
                     name="userFirstName"
                   />
                 </div>
@@ -140,9 +114,9 @@ export const ProfileMain = () => {
                   <input
                     className="bg-[#656262] rounded-[20px] p-2 text-white"
                     type="text"
-                    placeholder="Last Name"
-                    value={profile.userLastName}
-                    onChange={handleInputChange}
+                    placeholder={profile[0]?.lastName || "Last Name"}
+                    value={lastName}
+                    onChange={(e)=>setLastName(e.target.value)}
                     name="userLastName"
                   />
                 </div>
@@ -152,9 +126,9 @@ export const ProfileMain = () => {
                 <input
                   className="bg-[#656262] rounded-[20px] p-2 text-white"
                   type="email"
-                  placeholder="email@domain.com"
-                  value={profile.userEmail}
-                  onChange={handleInputChange}
+                  placeholder={profile[0]?.email || "example@domain.com"}
+                  value={email}
+                  onChange={(e)=>setEmail(e.target.value)}
                   name="userEmail"
                 />
               </div>
@@ -163,9 +137,9 @@ export const ProfileMain = () => {
                 <input
                   className="bg-[#656262] rounded-[20px] p-2 text-white"
                   type="password"
-                  placeholder="********"
-                  value={profile.userPassword}
-                  onChange={handleInputChange}
+                  placeholder={profile[0]?.userPassword || "********"}
+                  value={userPassword}
+                    onChange={(e)=>setUserPassword(e.target.value)}
                   name="userPassword"
                 />
               </div>
@@ -173,9 +147,9 @@ export const ProfileMain = () => {
                 <label className="text-sm font-bold">Profile Bio</label>
                 <textarea
                   className="bg-[#656262] rounded-[20px] p-2 text-white"
-                  placeholder="Add a bio"
-                  value={profile.userBio}
-                  onChange={handleInputChange}
+                  placeholder={profile[0]?.bio || "Add a bio"}
+                  value={bio}
+                    onChange={(e)=>setBio(e.target.value)}
                   name="userBio"
                 />
               </div>
@@ -185,9 +159,9 @@ export const ProfileMain = () => {
                   <input
                     className="bg-[#656262] rounded-[20px] p-2 text-white"
                     type="text"
-                    placeholder="MM"
-                    value={profile.userBirthMonth}
-                    onChange={handleInputChange}
+                    placeholder={profile[0]?.dateOfBirth || "MM"}
+                    value={dateOfBirth}
+                    onChange={(e)=>setDateOfBirth(e.target.value)}
                     name="userBirthMonth"
                   />
                 </div>
@@ -196,9 +170,9 @@ export const ProfileMain = () => {
                   <input
                     className="bg-[#656262] rounded-[20px] p-2 text-white"
                     type="text"
-                    placeholder="DD"
-                    value={profile.userBirthDay}
-                    onChange={handleInputChange}
+                    placeholder={profile[0]?.dateOfBirth || "DD"}
+                    value={dateOfBirth}
+                    onChange={(e)=>setDateOfBirth(e.target.value)}
                     name="userBirthDay"
 
                   />
@@ -208,9 +182,9 @@ export const ProfileMain = () => {
                   <input
                     className="bg-[#656262] rounded-[20px] p-2 text-white"
                     type="text"
-                    placeholder="YYYY"
-                    value={profile.userBirthYear}
-                    onChange={handleInputChange}
+                    placeholder={profile[0]?.dateOfBirth || "YYYY"}
+                    value={dateOfBirth}
+                    onChange={(e)=>setDateOfBirth(e.target.value)}
                     name="userBirthYear"
                   />
                 </div>
