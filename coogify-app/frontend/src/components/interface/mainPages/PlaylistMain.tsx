@@ -91,6 +91,59 @@ export const PlaylistMain = () => {
   const storedToken = localStorage.getItem('sessionToken');
   const { playlistName } = useParams<{ playlistName: string }>(); // Get the albumName parameter from the URL
 
+  // FETCH SONGS BACKEND CALL
+  useEffect(() => {
+    const fetchSongs = async () => {
+      try {
+        const response = await axios.get(
+          `${backendBaseUrl}/api/search/fetchSongs`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        //console.log(response.data);
+        setSearchSongs(response.data);
+      } catch (error) {
+        console.error('Error fetching songs:', error);
+      }
+    };
+
+    fetchSongs();
+  }, []);
+
+  // FETCH SONGS BACKEND CALL
+  const handleAddSong = async () => {
+    console.log(
+      JSON.stringify({
+        selectedSong,
+      })
+    );
+    if (selectedSong) {
+      console.log('playlistID: ', songs[0].playlistID);
+      console.log('trackID: ', selectedSong.trackID);
+      try {
+        const response = await axios.post(
+          `${backendBaseUrl}/api/playlist/addSong`,
+          {
+            playlistID: songs[0].playlistID,
+            trackID: selectedSong?.trackID,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+      } catch (error) {
+        console.error('Error adding song (frontend):', error);
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchPlaylistSongs = async () => {
       try {
@@ -115,30 +168,7 @@ export const PlaylistMain = () => {
     };
 
     fetchPlaylistSongs();
-  }, [playlistName]);
-
-  // FETCH SONGS BACKEND CALL
-  useEffect(() => {
-    const fetchSongs = async () => {
-      try {
-        const response = await axios.get(
-          `${backendBaseUrl}/api/search/fetchSongs`,
-          {
-            headers: {
-              Authorization: `Bearer ${storedToken}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        //console.log(response.data);
-        setSearchSongs(response.data);
-      } catch (error) {
-        console.error('Error fetching songs:', error);
-      }
-    };
-
-    fetchSongs();
-  }, []);
+  }, [playlistName, handleAddSong]);
 
   const filteredSongs = searchSongs.filter((song) => {
     const songName = song.songName
@@ -233,11 +263,11 @@ export const PlaylistMain = () => {
               ))}
             </div>
           ) : null}
-          <div className="w-full flex justify-center mb-5">
+          <div className="w-full flex justify-center">
             <input
               type="text"
               placeholder="Looking for something specific?"
-              className="w-full max-w-4xl bg-[#292828] rounded-full text-center px-4 py-3 text-2xl focus:outline-none hover:ring hover:ring-[#9E67E4]"
+              className="w-full max-w-4xl bg-[#292828] rounded-full text-center px-1 py-3 text-xl focus:outline-none hover:ring hover:ring-[#9E67E4]"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
             />
@@ -314,6 +344,7 @@ export const PlaylistMain = () => {
               className="hover:bg-[#656262] text-xs m-2 px-3"
               onClick={() => {
                 console.log('add to playlist button clicked');
+                handleAddSong();
                 setHideSongCard(true);
               }}
             >
