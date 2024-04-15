@@ -115,7 +115,7 @@ export const PlaylistMain = () => {
     };
 
     fetchPlaylistSongs();
-  }, [playlistName, addSongToPlaylist]);
+  }, [playlistName]);
 
   // FETCH SONGS BACKEND CALL
   useEffect(() => {
@@ -167,7 +167,7 @@ export const PlaylistMain = () => {
             className="cursor-pointer"
           />
         </div>
-        <div className="w-full rounded-xl  h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5 ">
+        <div className="w-full rounded-xl  md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5 ">
           {/* Album information */}
           {songs.length > 0 && (
             <div className="flex flex-col items-center gap-3">
