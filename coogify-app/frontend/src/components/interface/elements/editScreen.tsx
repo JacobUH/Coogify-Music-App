@@ -294,7 +294,7 @@ export const EditScreenPopUp: React.FC<handleCloseEdit> = ({
                 )}
             </div>
           </div>
-            <div className="w-full flex items-center justify-between mt-5">
+            <div className="w-full flex items-center justify-between mt-10">
               <div
                 className="bg-[#212020] hover:bg-[#5e5c5c] text-white font-bold py-2 px-4 rounded cursor-pointer"
                 onClick={handleNo}
