@@ -189,11 +189,13 @@ export const ProfileMain = () => {
               <div className="flex flex-col mt-4">
                 <label className="text-sm font-bold">Profile Bio</label>
                 <textarea
-                  className="bg-[#656262] rounded-[20px] p-2 text-white"
+                  className="bg-[#656262] rounded-[20px] p-2 text-white  readOnly:text-white input-disabled"
                   placeholder={profile[0]?.bio || "Add a bio"}
                   value={bio}
                   name="userBio"
+                  
                   disabled
+                  style={{ color: 'white', opacity: 1 }}
                 />
               </div>
               <div className="flex flex-row mt-4 gap-4">
