@@ -36,12 +36,15 @@ export const HomeMain = () => {
   useEffect(() => {
     const fetchUserCredentials = async () => {
       try {
-        const response = await axios.get(`${backendBaseUrl}/api/user`, {
-          headers: {
-            Authorization: `Bearer ${storedToken}`,
-            'Content-Type': 'application/json',
-          },
-        });
+        const response = await axios.get(
+          `${backendBaseUrl}/api/user/userCredentials`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
         setUserCreds(response.data);
         //console.log(response.data);
       } catch (err) {
@@ -80,7 +83,7 @@ export const HomeMain = () => {
               userCreds[0].isAdmin === 0 && (
                 <Link to="/subscription">
                   <button className="bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
-                    Subscriptions
+                    Subscription
                   </button>
                 </Link>
               )}

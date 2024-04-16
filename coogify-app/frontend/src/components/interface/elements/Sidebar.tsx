@@ -129,12 +129,15 @@ export const Sidebar = () => {
   useEffect(() => {
     const fetchUserCredentials = async () => {
       try {
-        const response = await axios.get(`${backendBaseUrl}/api/user`, {
-          headers: {
-            Authorization: `Bearer ${storedToken}`,
-            'Content-Type': 'application/json',
-          },
-        });
+        const response = await axios.get(
+          `${backendBaseUrl}/api/user/userCredentials`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
         setUserCreds(response.data);
         //localStorage.setItem('artist?', response.data[0].isArtist);
         //localStorage.setItem('artist?', response.data[0].isArtist);

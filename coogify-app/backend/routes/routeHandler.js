@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { jsonParser, authenticate } from '../middlewares/middleware.js';
 import { register, login, logout} from './specificRoutes/loginRegRoutes.js';
-import { getCredentials } from './specificRoutes/userRoutes.js'
+import { getUserCredentials, getSubCredentials } from './specificRoutes/userRoutes.js'
 import { uploadPlaylist, uploadSongsWithAlbum } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
@@ -13,6 +13,7 @@ import { makePayment } from './specificRoutes/subscriptionRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
 import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
 import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
+import { addCard, getPurchaseHistory } from './specificRoutes/cardRoutes.js';
 import { uploadPlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist } from './specificRoutes/playlistRoutes.js'
 import { fetchUserProfile, updateProfile } from './specificRoutes/profileRoutes.js';
 
@@ -22,7 +23,10 @@ const handlers = {
     register: register, 
     login: login, 
     logout: logout, 
-    user: getCredentials,
+    user: {
+      userCredentials: getUserCredentials,
+      subscriptionCredentials: getSubCredentials
+    },
     song: {
       likeSong: likeSong,
       addSong: (req, res) => 'addSongToPlaylist',
@@ -64,6 +68,11 @@ const handlers = {
       fetchRockSongs: fetchRockSongs,
       fetchUserLikedSongs: fetchUserLikedSongs,
     },
+    card: {
+      addCard: addCard,
+      PrevTransactions: getPurchaseHistory,
+    },
+
     admin: {
       music: retrieveAllSongs,
       users: retrieveAllUsers,
