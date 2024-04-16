@@ -108,6 +108,8 @@ export const ProfileMain = () => {
             className="cursor-pointer"
           />
         </div>
+        <div className="flex-col">
+          <div>
         <div className="flex-col text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
           Profile
         </div>
@@ -219,15 +221,19 @@ export const ProfileMain = () => {
                     value={birthYear}
                     // onChange={(e)=>setDateOfBirth(e.target.value)}
                     name="userBirthYear"
-                    disabled
+                    readOnly
+                    disabled={dateOfBirthHasValue}
                   />
                 </div>
+                </div>
+                <div className="text-center mt-6">
                 {!isEditMode && (
-                  <button onClick={handleEdit} className="button-class">
+                  <button onClick={handleEdit} className="bg-[#875ABE] hover:bg-[#5f3c8b] rounded-[20px] text-white font-bold py-2 px-20">
                     Edit
                   </button>
                 )}
-
+                </div>
+                </div>
                 {/* Save Button */}
                 {isEditMode && (
                   <button onClick={() => setIsEditMode(false)} className="button-class">
