@@ -20,12 +20,14 @@ export async function fetchUserProfile(req, res) {
 // Handler to update user profile data
 // Function to update user profile data based on userID and provided data
 // Handler to update user profile data
+// Handler to update user profile data
 export async function updateProfile(req, res) {
   try {
     const userID = await extractUserID(req);
-    // Assuming 'userID' is not expected to be part of the body, remove it from the destructuring assignment
+    // You need to get the updates without including the userID from the request body
     const updates = req.body;
 
+    // Now we pass only the updates, not the userID since it's already a separate variable
     const result = await updateUserProfile(userID, updates);
     if (result) {
       res.writeHead(200, { 'Content-Type': 'application/json' });

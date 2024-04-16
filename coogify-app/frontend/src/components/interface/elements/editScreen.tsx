@@ -24,6 +24,7 @@ export const EditScreenPopUp: React.FC<handleCloseEdit> = ({
     const navigate = useNavigate();
     const [profilePic, setProfilePic] = useState<File | null>(null);
     const [profile, setProfile] = useState<Profile[]>([]);
+    const [originalProfile, setOriginalProfile] = useState<Profile>({});
   
     const [email, setEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
@@ -32,6 +33,8 @@ export const EditScreenPopUp: React.FC<handleCloseEdit> = ({
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [profileImage, setProfileImage] = useState('');
     const [bio, setBio] = useState('');
+
+    const [reload, setReload] = useState(0);
   
     const dateOfBirthHasValue = profile.length > 0 && profile[0].dateOfBirth !== '';
    // Assuming profile[0].dateOfBirth is something like "2001-07-28T05:00:00.000Z"
@@ -42,30 +45,39 @@ export const EditScreenPopUp: React.FC<handleCloseEdit> = ({
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [isLoading, setIsLoading] = useState(false);  
+    
   
     const storedToken = localStorage.getItem('sessionToken'); // Assuming you store the token in localStorage
+
+    function refreshPage() {
+        window.location.reload();
+      }
+    
   
     useEffect(() => {
-      const handleRetrieve = async () => {
-        try {
-          const response = await axios.get(
-            `${backendBaseUrl}/api/profile/fetchProfile`,
-            {
+        const fetchProfile = async () => {
+          setIsLoading(true);
+          try {
+            const response = await axios.get(`${backendBaseUrl}/api/profile/fetchProfile`, {
               headers: {
-                Authorization: `Bearer ${storedToken}`,
+                Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
                 'Content-Type': 'application/json',
               },
-            }
-          );
-      
-          setProfile(response.data);
-          console.log(response.data);
-        } catch (error) {
-          console.error('Error fetching profile data: ', error);
-        }
-      };
-      handleRetrieve();
-    }, []); 
+            });
+            setProfile(response.data);
+            setOriginalProfile(response.data);
+            console.log("respone:", response.data);
+            console.log(originalProfile);
+          } catch (error) {
+            console.error('Error fetching profile data: ', error);
+          } finally {
+            setIsLoading(false);
+          }
+        };
+    
+        fetchProfile();
+      }, [reload]);
+  
   
     const handleProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.files) {
@@ -76,42 +88,59 @@ export const EditScreenPopUp: React.FC<handleCloseEdit> = ({
     const handleBack = () => {
       navigate(-1);
     };
-  
-    const handleSave = async () => {
-      setIsLoading(true);
-      try {
-        // Construct a payload object with only the updated fields
-        let payload : Profile = {};
-        if (email !== profile[0]?.email) payload.email = email;
-        if (userPassword) payload.userPassword = userPassword; // Add condition for checking if password is not empty or has been changed
-        if (firstName !== profile[0]?.firstName) payload.firstName = firstName;
-        if (lastName !== profile[0]?.lastName) payload.lastName = lastName;
-        if (profileImage !== profile[0]?.profileImage) payload.profileImage = profileImage;
-        if (bio !== profile[0]?.bio) payload.bio = bio;
-        // Do not include dateOfBirth since it's not being updated
-    
-        console.log(payload);
-        const response = await axios.post(
-          `${backendBaseUrl}/api/profile/updateProfile`,
-          payload,
-          {
+
+     // Updates profile state with only changed values
+     const handleSave = async () => {
+        setIsLoading(true);
+      
+        // Create an object with the updates
+        const updates = {
+            email: email ? email : originalProfile.email,
+            userPassword: userPassword ? userPassword : originalProfile.userPassword,
+            firstName: firstName ? firstName : originalProfile.firstName,
+            lastName: lastName ? lastName : originalProfile.lastName,
+            bio: bio ? bio : originalProfile.bio,
+            // ... add other fields similarly
+          };
+          
+
+          const filteredUpdates = Object.entries(updates).reduce((acc, [key, val]) => {
+            if (val !== undefined) {
+              acc[key] = val;
+            }
+            return acc;
+          }, {});
+
+        console.log(updates);
+        // Check if there are changes
+        if (Object.keys(updates).length === 0) {
+          console.error('No changes detected.');
+          setIsLoading(false);
+          return;
+        }
+      
+        // Proceed with the API call to update the profile
+        try {
+          const response = await axios.post(`${backendBaseUrl}/api/profile/updateProfile`, updates, {
             headers: {
-              Authorization: `Bearer ${storedToken}`,
+              Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
               'Content-Type': 'application/json',
             },
-          }
-        );
-        console.log(response);
-        // Update the local profile state to reflect the changes
-        setProfile(prevProfile => ({ ...prevProfile, ...payload }));
-        setIsEditMode(false);
-        alert('Profile updated successfully.'); // Or use a more user-friendly notification system
-      } catch (error) {
-        alert('Failed to update profile. Please try again.'); // Or use a more user-friendly notification system
-        console.error('Error updating profile data: ', error.response || error);
-      }
-      setIsLoading(false);
-    };
+          });
+      
+        
+            // Update local state to reflect changes
+            setOriginalProfile(prev => ({ ...prev, ...updates }));
+            setIsEditMode(false);
+            setReload(prev => prev + 1);
+            refreshPage();
+          
+        } catch (error) {
+          console.error('Error updating profile data: ', error.response || error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
   
     const handleNo = () => {
       onClose();

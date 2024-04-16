@@ -20,29 +20,32 @@ export async function selectUserProfile(userID) {
   }
   
   // Function to update user profile data based on userID and provided data
-// Function to update user profile data based on userID and provided data
-export async function updateUserProfile(userID, payload) {
-  const fieldsToUpdate = Object.entries(payload)
-    .filter(([_, value]) => value !== undefined)
-    .map(([key, value]) => `${key} = ?`);
-
-  if (fieldsToUpdate.length === 0) {
-    throw new Error("No updates provided");
+  export async function updateUserProfile(userID, payload) {
+    const updates = [];
+    const values = [];
+  
+    Object.entries(payload).forEach(([key, value]) => {
+      if (value !== undefined) {
+        updates.push(`${key} = ?`);
+        values.push(value);
+      }
+    });
+  
+    if (updates.length === 0) {
+      throw new Error("No updates provided");
+    }
+  
+    const query = `UPDATE USER SET ${updates.join(', ')} WHERE userID = ?`;
+    values.push(userID);
+  
+    try {
+      const [result] = await pool.query(query, values);
+      console.log('Profile updated successfully', result);
+      return true;
+    } catch (error) {
+      console.error('Error updating profile', error);
+      throw error; // It's good practice to re-throw the error for the caller to handle.
+    }
   }
+  
 
-  const valuesToUpdate = Object.values(payload).filter(value => value !== undefined);
-  
-  const query = `UPDATE USER SET ${fieldsToUpdate.join(', ')} WHERE userID = ?`;
-  
-  try {
-    await pool.query(query, [...valuesToUpdate, userID]);
-    console.log('Profile updated successfully');
-    return true;
-  } catch (error) {
-    console.error('Error updating profile', error);
-    return false;
-  }
-}
-
-  
-  

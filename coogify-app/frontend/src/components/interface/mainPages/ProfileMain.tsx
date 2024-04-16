@@ -21,6 +21,7 @@ export const ProfileMain = () => {
   const navigate = useNavigate();
   const [profilePic, setProfilePic] = useState<File | null>(null);
   const [profile, setProfile] = useState<Profile[]>([]);
+  const [originalProfile, setOriginalProfile] = useState<Profile>({});
 
   const [email, setEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
@@ -42,27 +43,34 @@ export const ProfileMain = () => {
 
   const storedToken = localStorage.getItem('sessionToken'); // Assuming you store the token in localStorage
 
-  useEffect(() => {
-    const handleRetrieve = async () => {
-      try {
-        const response = await axios.get(
-          `${backendBaseUrl}/api/profile/fetchProfile`,
-          {
+     // Function to handle profile field updates
+    const handleInputChange = (field: keyof Profile) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setProfile({ ...profile, [field]: event.target.value });
+    };
+
+    useEffect(() => {
+      const fetchProfile = async () => {
+        setIsLoading(true);
+        try {
+          const response = await axios.get(`${backendBaseUrl}/api/profile/fetchProfile`, {
             headers: {
-              Authorization: `Bearer ${storedToken}`,
+              Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
               'Content-Type': 'application/json',
             },
-          }
-        );
+          });
+          setProfile(response.data);
+          setOriginalProfile(response.data);
+        } catch (error) {
+          console.error('Error fetching profile data: ', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+  
+      fetchProfile();
+    }, []);
+
     
-        setProfile(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error('Error fetching profile data: ', error);
-      }
-    };
-    handleRetrieve();
-  }, []); 
 
   const handleProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -73,43 +81,7 @@ export const ProfileMain = () => {
   const handleBack = () => {
     navigate(-1);
   };
-
-  const handleSave = async () => {
-    setIsLoading(true);
-    try {
-      // Construct a payload object with only the updated fields
-      let payload : Profile = {};
-      if (email !== profile[0]?.email) payload.email = email;
-      if (userPassword) payload.userPassword = userPassword; // Add condition for checking if password is not empty or has been changed
-      if (firstName !== profile[0]?.firstName) payload.firstName = firstName;
-      if (lastName !== profile[0]?.lastName) payload.lastName = lastName;
-      if (profileImage !== profile[0]?.profileImage) payload.profileImage = profileImage;
-      if (bio !== profile[0]?.bio) payload.bio = bio;
-      // Do not include dateOfBirth since it's not being updated
   
-      console.log(payload);
-      const response = await axios.post(
-        `${backendBaseUrl}/api/profile/updateProfile`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${storedToken}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      console.log(response);
-      // Update the local profile state to reflect the changes
-      setProfile(prevProfile => ({ ...prevProfile, ...payload }));
-      setIsEditMode(false);
-      alert('Profile updated successfully.'); // Or use a more user-friendly notification system
-    } catch (error) {
-      alert('Failed to update profile. Please try again.'); // Or use a more user-friendly notification system
-      console.error('Error updating profile data: ', error.response || error);
-    }
-    setIsLoading(false);
-  };
-
   const [showPopUp, setShowPopUp] = useState(false);
 
   const handleEdit = () => {
@@ -163,9 +135,9 @@ export const ProfileMain = () => {
                     type="text"
                     placeholder={profile[0]?.firstName || "First Name"}
                     value={firstName}
-                    onChange={(e)=>setFirstName(e.target.value)}
                     name="userFirstName"
-                    disabled={!isEditMode}
+                    readOnly
+                    disabled
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -175,9 +147,8 @@ export const ProfileMain = () => {
                     type="text"
                     placeholder={profile[0]?.lastName || "Last Name"}
                     value={lastName}
-                    onChange={(e)=>setLastName(e.target.value)}
                     name="userLastName"
-                    disabled={!isEditMode}
+                    disabled
                   />
                 </div>
               </div>
@@ -188,9 +159,8 @@ export const ProfileMain = () => {
                   type="email"
                   placeholder={profile[0]?.email || "example@domain.com"}
                   value={email}
-                  onChange={(e)=>setEmail(e.target.value)}
                   name="userEmail"
-                  disabled={!isEditMode}
+                  disabled
                 />
               </div>
               <div className="flex flex-col mt-4">
@@ -200,9 +170,8 @@ export const ProfileMain = () => {
                   type="password"
                   placeholder={"********"}
                   value={userPassword}
-                    onChange={(e)=>setUserPassword(e.target.value)}
                   name="userPassword"
-                  disabled={!isEditMode}
+                  disabled
                 />
               </div>
               <div className="flex flex-col mt-4">
@@ -211,9 +180,8 @@ export const ProfileMain = () => {
                   className="bg-[#656262] rounded-[20px] p-2 text-white"
                   placeholder={profile[0]?.bio || "Add a bio"}
                   value={bio}
-                    onChange={(e)=>setBio(e.target.value)}
                   name="userBio"
-                  disabled={!isEditMode}
+                  disabled
                 />
               </div>
               <div className="flex flex-row mt-4 gap-4">
@@ -226,8 +194,8 @@ export const ProfileMain = () => {
                     value={birthMonth}
                     // onChange={(e)=>setDateOfBirth(e.target.value)}
                     name="userBirthMonth"
-                    readOnly
-                    disabled={dateOfBirthHasValue}
+                    disabled
+                    
                   />
                 </div>
                 <div className="flex flex-col w-1/3">
@@ -239,8 +207,7 @@ export const ProfileMain = () => {
                     value={birthDay}
                     // onChange={(e)=>setDateOfBirth(e.target.value)}
                     name="userBirthDay"
-                    readOnly
-                    disabled={dateOfBirthHasValue}
+                    disabled
                   />
                 </div>
                 <div className="flex flex-col w-1/3">
@@ -252,8 +219,7 @@ export const ProfileMain = () => {
                     value={birthYear}
                     // onChange={(e)=>setDateOfBirth(e.target.value)}
                     name="userBirthYear"
-                    readOnly
-                    disabled={dateOfBirthHasValue}
+                    disabled
                   />
                 </div>
                 {!isEditMode && (
@@ -263,11 +229,6 @@ export const ProfileMain = () => {
                 )}
 
                 {/* Save Button */}
-                {isEditMode && (
-                  <button onClick={handleSave} className="button-class" disabled={isLoading}>
-                    {isLoading ? 'Saving...' : 'Save'}
-                  </button>
-                )}
                 {isEditMode && (
                   <button onClick={() => setIsEditMode(false)} className="button-class">
                     Cancel
