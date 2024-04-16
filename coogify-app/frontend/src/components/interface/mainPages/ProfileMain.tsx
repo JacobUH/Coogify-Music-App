@@ -1,18 +1,102 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import ProfileIcon from '/images/Profile Icon.svg';
 import BackButton from '/images/Back Button.svg';
 import { useNavigate } from 'react-router-dom';
+import backendBaseUrl from '../../../apiConfig';
+import { EditScreenPopUp } from '../elements/editScreen';
+
+interface Profile {
+  email?: string;
+  userPassword?: string;
+  firstName?: string;
+  lastName?: string;
+  dateOfBirth?: string;
+  profileImage?: string;
+  bio?: string;
+}
+
 
 export const ProfileMain = () => {
   const navigate = useNavigate();
+  const [profilePic, setProfilePic] = useState<File | null>(null);
+  const [profile, setProfile] = useState<Profile[]>([]);
+  const [originalProfile, setOriginalProfile] = useState<Profile>({});
+
+  const [email, setEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [profileImage, setProfileImage] = useState('');
+  const [bio, setBio] = useState('');
+
+  const dateOfBirthHasValue = profile.length > 0 && profile[0].dateOfBirth !== '';
+ // Assuming profile[0].dateOfBirth is something like "2001-07-28T05:00:00.000Z"
+  const [birthYear, birthMonth, birthDay] = profile.length > 0 && profile[0].dateOfBirth
+  ? profile[0].dateOfBirth.split('T')[0].split('-') // Split at 'T' to ignore time, then split the date
+  : ['', '', ''];
+
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);  
+
+  const storedToken = localStorage.getItem('sessionToken'); // Assuming you store the token in localStorage
+
+     // Function to handle profile field updates
+    const handleInputChange = (field: keyof Profile) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setProfile({ ...profile, [field]: event.target.value });
+    };
+
+    useEffect(() => {
+      const fetchProfile = async () => {
+        setIsLoading(true);
+        try {
+          const response = await axios.get(`${backendBaseUrl}/api/profile/fetchProfile`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
+              'Content-Type': 'application/json',
+            },
+          });
+          setProfile(response.data);
+          setOriginalProfile(response.data);
+        } catch (error) {
+          console.error('Error fetching profile data: ', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+  
+      fetchProfile();
+    }, []);
+
+    
+
+  const handleProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setProfilePic(event.target.files[0]);
+    }
+  };
 
   const handleBack = () => {
     navigate(-1);
   };
+  
+  const [showPopUp, setShowPopUp] = useState(false);
+
+  const handleEdit = () => {
+    setShowPopUp(true);
+  };
+
+  const handleCloseEdit = () => {
+    setShowPopUp(false);
+  };
+  
+  
 
   return (
     <div
-      className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5"
+      className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5 flex-grow"
       style={{ maxHeight: 'calc(100vh - 211px)' }}
     >
       <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto relative">
@@ -24,20 +108,24 @@ export const ProfileMain = () => {
             className="cursor-pointer"
           />
         </div>
+        <div className="flex-col">
+          <div>
         <div className="flex-col text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
           Profile
         </div>
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
           {/* Work in here */}
-          <div className="w-full max-w-4xl mx-auto  rounded-xl p-8 flex flex-col md:flex-row gap-6">
+          <div className="w-full max-w-6xl mx-auto  rounded-xl p-8 flex flex-col md:flex-row gap-6 items-center">
             {/* Profile Image */}
-            <div className="md:w-48 md:h-48 w-32 h-32 bg-[#656262] rounded-full flex items-center justify-center overflow-hidden">
-              <img
-                src={ProfileIcon}
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <label className="w-[250px] h-[250px] bg-[#656262] rounded-lg flex justify-center items-center cursor-pointer mb-4">
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="image/jpeg, image/jpg, image/png, image/svg+xml"
+                    onChange={handleProfilePicChange}
+                  />
+                  <div>Profile Picture</div>
+                </label>
 
             {/* Profile Form */}
             <div className="flex flex-col gap-4 w-full">
@@ -47,7 +135,11 @@ export const ProfileMain = () => {
                   <input
                     className="bg-[#656262] rounded-[20px] p-2 text-white"
                     type="text"
-                    placeholder="Travis"
+                    placeholder={profile[0]?.firstName || "First Name"}
+                    value={firstName}
+                    name="userFirstName"
+                    readOnly
+                    disabled
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -55,7 +147,10 @@ export const ProfileMain = () => {
                   <input
                     className="bg-[#656262] rounded-[20px] p-2 text-white"
                     type="text"
-                    placeholder="Scott"
+                    placeholder={profile[0]?.lastName || "Last Name"}
+                    value={lastName}
+                    name="userLastName"
+                    disabled
                   />
                 </div>
               </div>
@@ -64,7 +159,10 @@ export const ProfileMain = () => {
                 <input
                   className="bg-[#656262] rounded-[20px] p-2 text-white"
                   type="email"
-                  placeholder="travisscott@cactusjack.com"
+                  placeholder={profile[0]?.email || "example@domain.com"}
+                  value={email}
+                  name="userEmail"
+                  disabled
                 />
               </div>
               <div className="flex flex-col mt-4">
@@ -72,14 +170,20 @@ export const ProfileMain = () => {
                 <input
                   className="bg-[#656262] rounded-[20px] p-2 text-white"
                   type="password"
-                  placeholder="********"
+                  placeholder={"********"}
+                  value={userPassword}
+                  name="userPassword"
+                  disabled
                 />
               </div>
               <div className="flex flex-col mt-4">
                 <label className="text-sm font-bold">Profile Bio</label>
                 <textarea
                   className="bg-[#656262] rounded-[20px] p-2 text-white"
-                  placeholder="CACTUS JACK, IT'S LITTTTTTTTTTSDSDSA"
+                  placeholder={profile[0]?.bio || "Add a bio"}
+                  value={bio}
+                  name="userBio"
+                  disabled
                 />
               </div>
               <div className="flex flex-row mt-4 gap-4">
@@ -88,7 +192,12 @@ export const ProfileMain = () => {
                   <input
                     className="bg-[#656262] rounded-[20px] p-2 text-white"
                     type="text"
-                    placeholder="04"
+                    placeholder={profile[0]?.dateOfBirth || "MM"}
+                    value={birthMonth}
+                    // onChange={(e)=>setDateOfBirth(e.target.value)}
+                    name="userBirthMonth"
+                    disabled
+                    
                   />
                 </div>
                 <div className="flex flex-col w-1/3">
@@ -96,7 +205,11 @@ export const ProfileMain = () => {
                   <input
                     className="bg-[#656262] rounded-[20px] p-2 text-white"
                     type="text"
-                    placeholder="30"
+                    placeholder={profile[0]?.dateOfBirth || "DD"}
+                    value={birthDay}
+                    // onChange={(e)=>setDateOfBirth(e.target.value)}
+                    name="userBirthDay"
+                    disabled
                   />
                 </div>
                 <div className="flex flex-col w-1/3">
@@ -104,13 +217,34 @@ export const ProfileMain = () => {
                   <input
                     className="bg-[#656262] rounded-[20px] p-2 text-white"
                     type="text"
-                    placeholder="1991"
+                    placeholder={profile[0]?.dateOfBirth || "YYYY"}
+                    value={birthYear}
+                    // onChange={(e)=>setDateOfBirth(e.target.value)}
+                    name="userBirthYear"
+                    readOnly
+                    disabled={dateOfBirthHasValue}
                   />
                 </div>
+                </div>
+                <div className="text-center mt-6">
+                {!isEditMode && (
+                  <button onClick={handleEdit} className="bg-[#875ABE] hover:bg-[#5f3c8b] rounded-[20px] text-white font-bold py-2 px-20">
+                    Edit
+                  </button>
+                )}
+                </div>
+                </div>
+                {/* Save Button */}
+                {isEditMode && (
+                  <button onClick={() => setIsEditMode(false)} className="button-class">
+                    Cancel
+                  </button>
+                )}
               </div>
             </div>
           </div>
         </div>
+        {showPopUp && <EditScreenPopUp onClose={handleCloseEdit} />}
       </div>
     </div>
   );

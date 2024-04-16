@@ -14,6 +14,7 @@ import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specif
 import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
 import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
 import { uploadPlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist } from './specificRoutes/playlistRoutes.js'
+import { fetchUserProfile, updateProfile } from './specificRoutes/profileRoutes.js';
 
 // Define the handlers object
 const handlers = {
@@ -74,6 +75,10 @@ const handlers = {
     },
     notifications: {
       daysToPay: (req, res) => 'pay',
+    },
+    profile: {
+      fetchProfile: fetchUserProfile,
+      updateProfile: updateProfile,
     },
   },
 };

@@ -16,7 +16,7 @@ export async function testQuery(id) {
 
 export async function getUserFromSession(session_promise) {
   const session = await session_promise;
-
+  console.log(session);
   try {
     const [rows] = await pool.query(
       `
@@ -26,6 +26,7 @@ export async function getUserFromSession(session_promise) {
     `,
       [session]
     );
+    console.log(rows);
     if (rows.length > 0) {
       return rows[0].user_id;
     } else {
