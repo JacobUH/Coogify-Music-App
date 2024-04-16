@@ -12,6 +12,16 @@ import LibraryIconHover from '/images/LibraryIconHover.svg';
 import backendBaseUrl from '../../../apiConfig';
 import axios from 'axios';
 
+interface User {
+  userID: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  isArtist: number;
+  isAdmin: number;
+  dateCreated: string;
+}
+
 interface Song {
   songName: string;
   coverArtURL: string;
@@ -46,6 +56,7 @@ export const Sidebar = () => {
       isHovered: false,
     },
   ]);
+
   const [currentHoveredItem, setCurrentHoveredItem] = useState<string | null>(
     null
   );
@@ -113,6 +124,53 @@ export const Sidebar = () => {
     fetchUserLikedSongs();
   }, []);
 
+  const [userCreds, setUserCreds] = useState<User[]>([]);
+
+  useEffect(() => {
+    const fetchUserCredentials = async () => {
+      try {
+        const response = await axios.get(
+          `${backendBaseUrl}/api/user/userCredentials`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        setUserCreds(response.data);
+        //localStorage.setItem('artist?', response.data[0].isArtist);
+        //localStorage.setItem('artist?', response.data[0].isArtist);
+
+        // Check if userCreds meet the conditions to hide the "Upload" sidebar item
+        if (
+          response.data.length > 0 &&
+          response.data[0].isArtist === 0 &&
+          response.data[0].isAdmin === 0
+        ) {
+          // Filter out the "Upload" item from the sidebarItems array
+          setSidebarItems((prevItems) =>
+            prevItems.filter((item) => item.title !== 'Upload')
+          );
+        }
+
+        console.log(response.data);
+      } catch (err) {
+        console.error('Error fetching new songs:', err);
+      }
+    };
+    fetchUserCredentials();
+  }, []);
+
+  const userStyles = {
+    maxHeight: 'calc(100vh - 267px)',
+  };
+
+  const artistStyles = {
+    // Add your special styles here
+    maxHeight: 'calc(100vh - 330px)',
+  };
+
   return (
     <div
       className="md:h-screen h-fit md:w-[400px] z-30 w-full md:absolute block md:left-0 top-0 p-5 hide-scrollbar overflow-clip  "
@@ -121,33 +179,50 @@ export const Sidebar = () => {
       {/* Sidebar Icons on top */}
       <div className="bg-[#3E3C3C] rounded-md overflow-hidden p-4">
         <div className="w-full flex flex-col gap-7">
-          {sidebarItems.map((item) => (
-            <Link to={item.link} key={item.title}>
-              <div
-                className={`flex item-center gap-3 cursor-pointer ${
-                  item.isHovered ? 'text-[#9E67E4]' : ''
-                }`}
-                onMouseEnter={() => handleMouseEnter(item.title)}
-                onMouseLeave={handleMouseLeave}
-              >
-                <img
-                  className="w-[38px] h-[32px]"
-                  src={item.isHovered ? item.hoverIcon : item.icon}
-                  alt={item.title}
-                />
-                <span className="pt-1 font-medium text-[20px]">
-                  {item.title}
-                </span>
-              </div>
-            </Link>
-          ))}
+          {sidebarItems.map(
+            (item) =>
+              // Only render the sidebar item if it should be displayed
+              (item.title !== 'Upload' ||
+                !(
+                  userCreds.length > 0 &&
+                  userCreds[0].isArtist === 0 &&
+                  userCreds[0].isAdmin === 0
+                )) && (
+                <Link to={item.link} key={item.title}>
+                  <div
+                    className={`flex item-center gap-3 cursor-pointer ${
+                      item.isHovered ? 'text-[#9E67E4]' : ''
+                    }`}
+                    onMouseEnter={() => handleMouseEnter(item.title)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <img
+                      className="w-[38px] h-[32px]"
+                      src={item.isHovered ? item.hoverIcon : item.icon}
+                      alt={item.title}
+                    />
+                    <span className="pt-1 font-medium text-[20px]">
+                      {item.title}
+                    </span>
+                  </div>
+                </Link>
+              )
+          )}
         </div>
       </div>
 
       {/* Scrollable Sidebar */}
+
       <div
-        className="bg-[#3E3C3C] rounded-md overflow-auto py-5 my-5"
-        style={{ maxHeight: 'calc(100vh - 330px)' }}
+        className="bg-[#3E3C3C] md:h-[calc(100vh-140px)] rounded-md overflow-auto py-5 my-5"
+        style={{
+          ...userStyles,
+          ...(userCreds.length > 0 &&
+          userCreds[0].isArtist === 1 &&
+          userCreds[0].isAdmin === 0
+            ? artistStyles
+            : {}),
+        }}
       >
         <div className="w-full flex flex-col gap-7 px-4">
           {/* Library Icon */}

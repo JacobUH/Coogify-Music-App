@@ -1,6 +1,19 @@
 import React from 'react';
 import BackButton from '/images/Back Button.svg';
 import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { SubscriptionScreen } from '../elements/SubscriptionScreen';
+import backendBaseUrl from '../../../apiConfig';
+import axios from 'axios';
+
+interface Subscription {
+  subscriptionID: number;
+  cardID: number;
+  subscriptionType: string;
+  startDate: string;
+  endDate: string;
+  renewDate: string;
+}
 
 export const SubscriptionMain = () => {
   const navigate = useNavigate();
@@ -8,6 +21,47 @@ export const SubscriptionMain = () => {
   const handleBack = () => {
     navigate(-1);
   };
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [subscriptionType, setSubscriptionType] = useState('');
+  const [price, setPrice] = useState('');
+  const [subColor, setSubColor] = useState('');
+
+  const handlePurchase = (subscriptionType, price, subColor) => {
+    setShowPopup(true);
+    setSubscriptionType(subscriptionType);
+    setPrice(price);
+    setSubColor(subColor);
+  };
+
+  const HandleClose = () => {
+    setShowPopup(false);
+  };
+
+  const storedToken = localStorage.getItem('sessionToken');
+  const [subCreds, setSubCreds] = useState<Subscription[]>([]);
+
+  useEffect(() => {
+    const fetchUserLikedSongs = async () => {
+      try {
+        const response = await axios.get(
+          `${backendBaseUrl}/api/user/subscriptionCredentials`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        //console.log(response.data);
+        setSubCreds(response.data);
+      } catch (error) {
+        console.error('Error fetching new songs:', error);
+      }
+    };
+
+    fetchUserLikedSongs();
+  }, []);
 
   return (
     <div
@@ -31,43 +85,141 @@ export const SubscriptionMain = () => {
           {/* Subscription Main here: */}
           <div className="w-full flex flex-col md:flex-row items-center justify-center md:gap-40">
             <div className="text-2xl flex flex-col gap-4 items-center sm:w-96 md:w-96">
-              <Link to="">Subscription Plans</Link>
-              <div className="text-white w-full h-30 py-9 rounded-lg text-4xl pl-7 font-bold mb-4 bg-[#656262] shadow-md shadow-[#313131] cursor-pointer">
-                Free
-                <div className="text-lg font-normal">$0.00/per month</div>
-              </div>
-              <div className="text-[#A263F2] w-full h-30 py-9 rounded-lg text-4xl pl-7 font-bold mb-4 bg-[#656262] shadow-md shadow-[#313131] cursor-pointer">
-                <Link to="">
-                  Premium
-                  <div className="text-white text-lg font-normal">
-                    $10.99/per month
-                  </div>
-                </Link>
-              </div>
-              <div className="text-[#FFFF00] w-full h-30 py-9 rounded-lg text-4xl pl-7 font-bold bg-[#656262] shadow-md shadow-[#313131] cursor-pointer">
-                <Link to="">
-                  Student
-                  <div className="text-white text-lg font-normal">
-                    $5.99/per month
-                  </div>
-                </Link>
-              </div>
-            </div>
-            <div className="text-2xl flex flex-col gap-4 items-center sm:mt-10 md:w-96">
-              Current Plan
-              <div className="bg-[#656262] w-full h-96 px-9 py-9 rounded-lg pl-7 font-normal">
-                <div className="mb-24">
-                  <h1 className="text-center text-[#FFFF00] text-5xl font-extrabold mb-5">
-                    Student
-                  </h1>
-                  <h1 className="text-center">Start Date:</h1>
-                  <h1 className="text-center">End Date:</h1>
-                  <h1 className="text-center">Renewal Date:</h1>
+              <span>Subscription Plans</span>
+
+              <button
+                className="text-white w-full py-9 rounded-lg pl-7 mb-4 bg-[#656262] shadow-md shadow-[#313131] text-left"
+                onClick={() =>
+                  handlePurchase('Free', '$0.00/per month', 'text-white')
+                }
+              >
+                <div className="text-4xl font-bold">Free</div>
+                <div className="text-white text-lg font-normal">
+                  $0.00/per month
                 </div>
-                <div className="text-center">
-                  <button className="hover:bg-[#3f3f3f] bg-[#2d2c2c] text-white font-bold py-2 px-4 rounded ">
-                    Cancel Subscription
-                  </button>
+              </button>
+              <button
+                className="text-[#A263F2] w-full py-9 rounded-lg pl-7 mb-4 bg-[#656262] shadow-md shadow-[#313131] text-left"
+                onClick={() =>
+                  handlePurchase('Premium', '$10.99/per month', '#A263F2')
+                }
+              >
+                <div className="text-4xl font-bold">Premium</div>
+                <div className=" text-white text-lg font-normal">
+                  {' '}
+                  $10.99/per month
+                </div>
+              </button>
+              <button
+                className="text-[#FFFF00] w-full py-9 rounded-lg pl-7 mb-4 bg-[#656262] shadow-md shadow-[#313131] text-left"
+                onClick={() =>
+                  handlePurchase('Student', '$5.99/per month', '#FFFF00')
+                }
+              >
+                <div className="text-4xl font-bold">Student</div>
+                <div className="text-white text-lg font-normal">
+                  $5.99/per month
+                </div>
+              </button>
+            </div>
+            {showPopup && (
+              <SubscriptionScreen
+                onClose={HandleClose}
+                subscriptionType={subscriptionType} // Pass subscription type as prop
+                price={price} // Pass price as prop
+                subColor={subColor}
+              />
+            )}{' '}
+            <div className="text-2xl text-center gap-4 items-center sm:mt-10 md:w-96">
+              Current Plan
+              <div className="bg-[#656262] w-full h-96 px-9 py-9 rounded-lg pl-7 font-normal flex flex-col mt-5">
+                <div className="flex-grow">
+                  <h1 className="text-center text-5xl font-extrabold mb-5 ">
+                    {subCreds.length > 0 &&
+                      subCreds[0].subscriptionType &&
+                      subCreds[0].subscriptionType === 'Free' && (
+                        <span className="text-white">Free</span>
+                      )}
+                    {subCreds.length > 0 &&
+                      subCreds[0].subscriptionType &&
+                      subCreds[0].subscriptionType === 'Paid' && (
+                        <span className="text-[#A263F2]">Premium</span>
+                      )}
+                    {subCreds.length > 0 &&
+                      subCreds[0].subscriptionType &&
+                      subCreds[0].subscriptionType === 'Student' && (
+                        <span className="text-[#FFFF00]">Student</span>
+                      )}
+                  </h1>
+                </div>
+                {subCreds.length > 0 &&
+                  subCreds[0].subscriptionType &&
+                  subCreds[0].subscriptionType !== 'Free' && (
+                    <>
+                      <h1 className="text-center mb-4">
+                        Start Date<span className="pr-1">: </span>
+                        {new Date(subCreds[0].startDate).toLocaleDateString(
+                          'en-US'
+                        )}
+                      </h1>
+                      {subCreds[0].endDate === null && (
+                        <>
+                          <h1 className="text-center mb-4">
+                            Renewal Date<span className="pr-1">: </span>
+                            {new Date(subCreds[0].renewDate).toLocaleDateString(
+                              'en-US'
+                            )}
+                          </h1>
+                        </>
+                      )}
+                      {subCreds[0].endDate !== null && (
+                        <>
+                          <h1 className="text-center mb-4">
+                            Subscription End Date
+                            <span className="pr-1">: </span>
+                            {new Date(subCreds[0].endDate).toLocaleDateString(
+                              'en-US'
+                            )}
+                          </h1>
+                        </>
+                      )}
+                    </>
+                  )}
+
+                {subCreds.length > 0 &&
+                  subCreds[0].subscriptionType &&
+                  subCreds[0].subscriptionType == 'Free' && (
+                    <>
+                      <h1 className="text-center text-[#A263F2] font-extrabold mb-4">
+                        Purchase A Subscription
+                      </h1>
+                      <h1 className="text-center text-sm mb-4">
+                        Lossless Audio, Offline Listening and More
+                      </h1>
+                    </>
+                  )}
+                <div className="flex-grow"></div>
+                <div className="text-center flex flex-col">
+                  {subCreds.length > 0 &&
+                    subCreds[0].subscriptionType &&
+                    subCreds[0].subscriptionType !== 'Free' &&
+                    subCreds[0].endDate === null && (
+                      <>
+                        <button className="hover:bg-[#3f3f3f] bg-[#2d2c2c] text-white font-bold py-2 px-4 rounded">
+                          Cancel Subscription
+                        </button>
+                      </>
+                    )}
+                  {subCreds.length > 0 &&
+                    subCreds[0].subscriptionType &&
+                    subCreds[0].subscriptionType !== 'Free' &&
+                    subCreds[0].endDate !== null && (
+                      <>
+                        <button className="hover:bg-[#3f3f3f] bg-[#2d2c2c] text-white font-bold py-2 px-4 rounded">
+                          Restore Subscription
+                        </button>
+                      </>
+                    )}
                 </div>
               </div>
             </div>

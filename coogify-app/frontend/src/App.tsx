@@ -32,7 +32,6 @@ import { RockSongs } from './pages/RockSongs';
 import { AddCard } from './pages/AddCard';
 import { PrevTransactions } from './pages/PrevTransactions';
 
-
 import React from 'react';
 
 function App() {
@@ -50,7 +49,7 @@ function App() {
           <Route path="/album/:albumName" element={<AlbumPage />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/library" element={<Library />} />
-          <Route path="/playlist:playlistName" element={<Playlist />} />
+          <Route path="/playlist/:playlistName" element={<Playlist />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/payment" element={<Payment />} />
@@ -60,15 +59,14 @@ function App() {
           <Route path="/topSongs" element={<TopSongs />} />
           <Route path="/rapSongs" element={<RapSongs />} />
           <Route path="/rbSongs" element={<RBSongs />} />
-          <Route path="/popSongs" element={<PopSongs />} /> 
-          <Route path="/kpopSongs" element={<KPopSongs />} /> 
-          <Route path="/LatinSongs" element={<LatinSongs />} /> 
+          <Route path="/popSongs" element={<PopSongs />} />
+          <Route path="/kpopSongs" element={<KPopSongs />} />
+          <Route path="/LatinSongs" element={<LatinSongs />} />
           <Route path="/AlternativeSongs" element={<AlternativeSongs />} />
           <Route path="/ClassicalSongs" element={<ClassicalSongs />} />
           <Route path="/JazzSongs" element={<JazzSongs />} />
           <Route path="/ElectronicSongs" element={<ElectronicSongs />} />
           <Route path="/CountrySongs" element={<CountrySongs />} />
-          <Route path="/HipHopSongs" element={<HipHopSongs />} />
           <Route path="/RockSongs" element={<RockSongs />} />
           <Route path="/AddCard" element={<AddCard />} />
           <Route path="/PrevTransactions" element={<PrevTransactions />} />

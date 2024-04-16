@@ -257,26 +257,6 @@ export async function selectCountrySongs() {
   }
 }
 
-export async function selectHipHopSongs() {
-  try {
-    const query = `
-    SELECT t.trackID, t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
-    FROM TRACK t
-    INNER JOIN ARTIST a ON t.artistID = a.artistID
-    INNER JOIN GENRE g ON t.genreID = g.genreID
-    WHERE g.genreName = 'Hip Hop'
-    ORDER BY RAND()
-    LIMIT 10;    
-    `;
-    const [rows] = await pool.query(query);
-    //console.log(rows);
-    return rows;
-  } catch (error) {
-    console.error('Error fetching hip hop songs:', error);
-    return false;
-  }
-}
-
 export async function selectRockSongs() {
   try {
     const query = `

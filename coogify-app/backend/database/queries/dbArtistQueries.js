@@ -57,7 +57,8 @@ export async function selectArtistIDfromUserID(userID) {
       `SELECT artistID FROM ARTIST WHERE userID = ?`,
       [userID]
     );
-    if (rows.length > 0) {
+    console.log("artistID", rows);
+    if (rows.length >= 0) {
       return rows[0].artistID; // Return the artistID if found
     } else {
       console.log(`No artist found for userID ${userID}`);

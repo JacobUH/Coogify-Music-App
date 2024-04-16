@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import DefaultPlaylist from '../../../../public/images/DefaultPlaylist.svg';
 import axios from 'axios';
 import backendBaseUrl from '../../../apiConfig';
 
@@ -11,18 +12,34 @@ interface ConfirmationScreenProps {
 export const CreatePlaylistScreen: React.FC<ConfirmationScreenProps> = ({
   onClose,
 }) => {
+  const defaultPlaylistName = 'My Playlist'; // Define the default playlist name
+  const defaultCoverArtURL = DefaultPlaylist; // URL of the default SVG image
+
   const [error, setError] = useState('');
-  const [playlistName, setPlaylistName] = useState('');
+  const [playlistName, setPlaylistName] = useState(defaultPlaylistName);
   const [playlistDes, setPlaylistDes] = useState('');
-  const [coverArtURL, setCoverArtURL] = useState('');
+  const [coverArtURL, setCoverArtURL] = useState<File | string | null>(
+    defaultCoverArtURL
+  );
 
   const handleInputClick = () => {
     const inputDiv = document.getElementById('playlistName');
     inputDiv?.focus();
   };
 
-  const handleInputChange = (event) => {
-    setPlaylistName(event.target.textContent);
+  const handleInputChange = (e) => {
+    const newName = e.target.textContent.trim(); // Trim any leading or trailing whitespace
+    setPlaylistName(newName || defaultPlaylistName); // If newName is empty, use defaultPlaylistName
+    setError(''); // Clear error whenever the playlist name content changes
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      setCoverArtURL(file);
+    } else {
+      setCoverArtURL(defaultCoverArtURL);
+    }
   };
 
   const navigate = useNavigate();
@@ -31,14 +48,19 @@ export const CreatePlaylistScreen: React.FC<ConfirmationScreenProps> = ({
   const handleYes = async () => {
     console.log(
       JSON.stringify({
+        playlistName,
+        playlistDes,
+        coverArtURL,
         storedToken,
       })
     );
-    /*
     try {
       const response = await axios.post(
-        `${backendBaseUrl}/api/upload/uploadPlaylist`, // Use backendBaseUrl here
+        `${backendBaseUrl}/api/playlist/uploadPlaylistEntry`, // Use backendBaseUrl here
         {
+          playlistName: playlistName,
+          playlistDescription: playlistDes,
+          coverArtURL: coverArtURL,
           sessionToken: storedToken,
         },
         {
@@ -48,19 +70,17 @@ export const CreatePlaylistScreen: React.FC<ConfirmationScreenProps> = ({
           },
         }
       );
-    
+
       console.log('Response:', response);
 
       if (response.status !== 200) {
         throw new Error(response.data.message);
       }
-      */
 
-    navigate(`/playlist/${playlistName}`);
-    /*
+      navigate(`/playlist/${playlistName}`);
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        setError('unable to logout and remove stored token.');
+        setError('unable to create playlist.');
       } else if (
         error.response &&
         error.response.data &&
@@ -69,7 +89,6 @@ export const CreatePlaylistScreen: React.FC<ConfirmationScreenProps> = ({
         setError(error.response.data.error);
       }
     }
-    */
   };
 
   const handleNo = () => {
@@ -93,8 +112,7 @@ export const CreatePlaylistScreen: React.FC<ConfirmationScreenProps> = ({
                   type="file"
                   id="coverArtURL"
                   name="coverArtURL"
-                  value={coverArtURL}
-                  onChange={(e) => setCoverArtURL(e.target.value)}
+                  onChange={handleFileChange}
                   accept="image/jpeg, image/jpg, image/png, image/svg+xml"
                   required
                   title="Please enter a cover art."
@@ -121,6 +139,7 @@ export const CreatePlaylistScreen: React.FC<ConfirmationScreenProps> = ({
                 >
                   {playlistName || 'My Playlist'}
                 </div>
+                {error && <div className="text-red-500 mb-4">{error}</div>}
               </div>
             </div>
           </div>
