@@ -17,6 +17,8 @@ interface Music {
   duration: string;
   releaseDate: string;
   songURL: string;
+  likes: number;
+  plays: number;
 }
 
 export const AlbumMain = () => {
@@ -123,7 +125,11 @@ export const AlbumMain = () => {
               <div className="flex flex-col flex-grow">
                 <div className="text-lg">Title</div>
               </div>
-              <div className="text-sm text-gray-400">Duration</div>
+              <div className="text-md text-gray-400 mr-24">Plays</div>
+
+              <div className="text-md text-gray-400 mr-16">Likes</div>
+
+              <div className="text-md text-gray-400">Duration</div>
             </div>
             <div className="border-b border-gray-300"></div>
 
@@ -140,7 +146,9 @@ export const AlbumMain = () => {
                     {song.artistName}
                   </div>
                 </div>
-                <div className="text-sm text-gray-400">
+                <div className="text-md text-gray-400 mr-32">{song.plays}</div>
+                <div className="text-md text-gray-400 mr-24">{song.likes}</div>
+                <div className="text-md text-gray-400">
                   {formatDuration(song.duration)}
                 </div>
               </div>

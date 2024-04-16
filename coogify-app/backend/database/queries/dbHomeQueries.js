@@ -116,3 +116,164 @@ export async function selectUserLikedSongs(userID) {
     return false;
   }
 }
+
+export async function selectKPopSongs() {
+  try {
+    const query = `
+    SELECT t.trackID, t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
+    FROM TRACK t
+    INNER JOIN ARTIST a ON t.artistID = a.artistID
+    INNER JOIN GENRE g ON t.genreID = g.genreID
+    WHERE g.genreName = 'Kpop'
+    ORDER BY RAND()
+    LIMIT 10;    
+    `;
+    const [rows] = await pool.query(query);
+    //console.log(rows);
+    return rows;
+  } catch (error) {
+    console.error('Error fetching kpop songs:', error);
+    return false;
+  }
+}
+
+export async function selectLatinSongs() {
+  try {
+    const query = `
+    SELECT t.trackID, t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
+    FROM TRACK t
+    INNER JOIN ARTIST a ON t.artistID = a.artistID
+    INNER JOIN GENRE g ON t.genreID = g.genreID
+    WHERE g.genreName = 'Latin'
+    ORDER BY RAND()
+    LIMIT 10;    
+    `;
+    const [rows] = await pool.query(query);
+    //console.log(rows);
+    return rows;
+  } catch (error) {
+    console.error('Error fetching latin songs:', error);
+    return false;
+  }
+}
+
+export async function selectAlternativeSongs() {
+  try {
+    const query = `
+    SELECT t.trackID, t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
+    FROM TRACK t
+    INNER JOIN ARTIST a ON t.artistID = a.artistID
+    INNER JOIN GENRE g ON t.genreID = g.genreID
+    WHERE g.genreName = 'Alternative'
+    ORDER BY RAND()
+    LIMIT 10;    
+    `;
+    const [rows] = await pool.query(query);
+    //console.log(rows);
+    return rows;
+  } catch (error) {
+    console.error('Error fetching alternative songs:', error);
+    return false;
+  }
+}
+
+export async function selectClassicalSongs() {
+  try {
+    const query = `
+    SELECT t.trackID, t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
+    FROM TRACK t
+    INNER JOIN ARTIST a ON t.artistID = a.artistID
+    INNER JOIN GENRE g ON t.genreID = g.genreID
+    WHERE g.genreName = 'Classical'
+    ORDER BY RAND()
+    LIMIT 10;    
+    `;
+    const [rows] = await pool.query(query);
+    //console.log(rows);
+    return rows;
+  } catch (error) {
+    console.error('Error fetching Classical songs:', error);
+    return false;
+  }
+}
+
+export async function selectJazzSongs() {
+  try {
+    const query = `
+    SELECT t.trackID, t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
+    FROM TRACK t
+    INNER JOIN ARTIST a ON t.artistID = a.artistID
+    INNER JOIN GENRE g ON t.genreID = g.genreID
+    WHERE g.genreName = 'Jazz'
+    ORDER BY RAND()
+    LIMIT 10;    
+    `;
+    const [rows] = await pool.query(query);
+    //console.log(rows);
+    return rows;
+  } catch (error) {
+    console.error('Error fetching Jazz songs:', error);
+    return false;
+  }
+}
+
+export async function selectElectronicSongs() {
+  try {
+    const query = `
+    SELECT t.trackID, t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
+    FROM TRACK t
+    INNER JOIN ARTIST a ON t.artistID = a.artistID
+    INNER JOIN GENRE g ON t.genreID = g.genreID
+    WHERE g.genreName = 'Electronic'
+    ORDER BY RAND()
+    LIMIT 10;    
+    `;
+    const [rows] = await pool.query(query);
+    //console.log(rows);
+    return rows;
+  } catch (error) {
+    console.error('Error fetching Electronic songs:', error);
+    return false;
+  }
+}
+
+export async function selectCountrySongs() {
+  try {
+    const query = `
+    SELECT t.trackID, t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
+    FROM TRACK t
+    INNER JOIN ARTIST a ON t.artistID = a.artistID
+    INNER JOIN GENRE g ON t.genreID = g.genreID
+    WHERE g.genreName = 'Country'
+    ORDER BY RAND()
+    LIMIT 10;    
+    `;
+    const [rows] = await pool.query(query);
+    //console.log(rows);
+    return rows;
+  } catch (error) {
+    console.error('Error fetching Country songs:', error);
+    return false;
+  }
+}
+
+export async function selectRockSongs() {
+  try {
+    const query = `
+    SELECT t.trackID, t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
+    FROM TRACK t
+    INNER JOIN ARTIST a ON t.artistID = a.artistID
+    INNER JOIN GENRE g ON t.genreID = g.genreID
+    WHERE g.genreName = 'Rock'
+    ORDER BY RAND()
+    LIMIT 10;    
+    `;
+    const [rows] = await pool.query(query);
+    //console.log(rows);
+    return rows;
+  } catch (error) {
+    console.error('Error fetching Rock songs:', error);
+    return false;
+  }
+}
+

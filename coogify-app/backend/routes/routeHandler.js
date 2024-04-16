@@ -3,17 +3,18 @@ import fs from 'fs';
 import path from 'path';
 import { jsonParser, authenticate } from '../middlewares/middleware.js';
 import { register, login, logout} from './specificRoutes/loginRegRoutes.js';
+import { getCredentials } from './specificRoutes/userRoutes.js'
 import { uploadPlaylist, uploadSongsWithAlbum } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
-import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs, fetchPopSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
+import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs, fetchPopSongs, fetchUserLikedSongs, fetchKPopSongs, fetchLatinSongs, fetchAlternativeSongs, fetchClassicalSongs, fetchJazzSongs, fetchElectronicSongs, fetchCountrySongs, fetchRockSongs } from './specificRoutes/homeRoutes.js';
 import { likeSong } from './specificRoutes/songRoutes.js';
 import { makePayment } from './specificRoutes/subscriptionRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
 import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
 import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
+import { uploadPlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist } from './specificRoutes/playlistRoutes.js'
 import { fetchUserProfile, updateProfile } from './specificRoutes/profileRoutes.js';
-
 
 // Define the handlers object
 const handlers = {
@@ -21,12 +22,19 @@ const handlers = {
     register: register, 
     login: login, 
     logout: logout, 
+    user: getCredentials,
     song: {
       likeSong: likeSong,
       addSong: (req, res) => 'addSongToPlaylist',
       removeSong: (req, res) => 'removeSongFromPlaylist',
     },
     album: fetchAlbumSongs,
+    playlist: {
+      uploadPlaylistEntry: uploadPlaylistEntry,
+      fetchPlaylists: fetchPlaylists,
+      fetchPlaylistSongs: fetchPlaylistSongs,
+      addSong: addSongToPlaylist
+    },
     fetch: {
       song: getSong,
       album: (req, res) => 'info of album and image url',
@@ -46,6 +54,14 @@ const handlers = {
       fetchRapSongs: fetchRapSongs,
       fetchRBSongs: fetchRBSongs,
       fetchPopSongs: fetchPopSongs,
+      fetchKPopSongs: fetchKPopSongs,
+      fetchLatinSongs: fetchLatinSongs,
+      fetchAlternativeSongs: fetchAlternativeSongs,
+      fetchClassicalSongs: fetchClassicalSongs,
+      fetchJazzSongs: fetchJazzSongs,
+      fetchElectronicSongs: fetchElectronicSongs,
+      fetchCountrySongs: fetchCountrySongs,
+      fetchRockSongs: fetchRockSongs,
       fetchUserLikedSongs: fetchUserLikedSongs,
     },
     admin: {

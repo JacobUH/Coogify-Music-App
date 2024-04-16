@@ -70,7 +70,7 @@ export async function authenticate(req, res, next) {
 
   // Check if the request path is not login or register
   if (path !== '/api/login' && path !== '/api/register') {
-    console.log('not in login or register');
+    //console.log('not in login or register');
 
     // Check if the Authorization header is present
     const authHeader = req.headers['authorization'];

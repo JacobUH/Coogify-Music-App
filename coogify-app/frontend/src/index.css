@@ -37,3 +37,7 @@ body {
 .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  .custom-smaller-text {
+    font-size: 0.780rem; /* Adjust the font size as needed */
+  }

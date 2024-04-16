@@ -9,6 +9,7 @@ import { Search } from './pages/Search';
 import { AlbumPage } from './pages/AlbumPage';
 import { Upload } from './pages/Upload';
 import { Library } from './pages/Library';
+import { Playlist } from './pages/Playlist';
 import { Profile } from './pages/Profile';
 import { Subscription } from './pages/Subscription';
 import { Payment } from './pages/Payment';
@@ -19,6 +20,15 @@ import { TopSongs } from './pages/TopSongs';
 import { RapSongs } from './pages/RapSongs';
 import { RBSongs } from './pages/RBSongs';
 import { PopSongs } from './pages/PopSongs';
+import { KPopSongs } from './pages/KPopSongs';
+import { LatinSongs } from './pages/LatinSongs';
+import { AlternativeSongs } from './pages/AlternativeSongs';
+import { ClassicalSongs } from './pages/ClassicalSongs';
+import { JazzSongs } from './pages/JazzSongs';
+import { ElectronicSongs } from './pages/ElectronicSongs';
+import { CountrySongs } from './pages/CountrySongs';
+import { HipHopSongs } from './pages/HipHopSongs';
+import { RockSongs } from './pages/RockSongs';
 
 import React from 'react';
 
@@ -37,6 +47,7 @@ function App() {
           <Route path="/album/:albumName" element={<AlbumPage />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/library" element={<Library />} />
+          <Route path="/playlist/:playlistName" element={<Playlist />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/payment" element={<Payment />} />
@@ -46,7 +57,15 @@ function App() {
           <Route path="/topSongs" element={<TopSongs />} />
           <Route path="/rapSongs" element={<RapSongs />} />
           <Route path="/rbSongs" element={<RBSongs />} />
-          <Route path="/popSongs" element={<PopSongs />} /> 
+          <Route path="/popSongs" element={<PopSongs />} />
+          <Route path="/kpopSongs" element={<KPopSongs />} />
+          <Route path="/LatinSongs" element={<LatinSongs />} />
+          <Route path="/AlternativeSongs" element={<AlternativeSongs />} />
+          <Route path="/ClassicalSongs" element={<ClassicalSongs />} />
+          <Route path="/JazzSongs" element={<JazzSongs />} />
+          <Route path="/ElectronicSongs" element={<ElectronicSongs />} />
+          <Route path="/CountrySongs" element={<CountrySongs />} />
+          <Route path="/RockSongs" element={<RockSongs />} />
         </Routes>
       </div>
     </>

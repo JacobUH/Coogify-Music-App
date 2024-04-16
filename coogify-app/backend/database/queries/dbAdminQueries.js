@@ -5,11 +5,10 @@ import pool from '../dbConnection.js';
 
 export async function selectAllSongs() {
   const [rows] = await pool.query(`
-  SELECT t.trackID, t.artistID, a.artistName, t.genreID, g.genreName, t.albumName, t.songName, t.duration, t.releaseDate
+  SELECT t.trackID, t.artistID, a.artistName, t.genreID, g.genreName, t.albumName, t.songName, t.duration, t.releaseDate, t.likes, t.plays
   FROM TRACK t
   INNER JOIN ARTIST a on t.artistID = a.artistID
   INNER JOIN GENRE g on t.genreID = g.genreID
-  
   `);
   console.log(rows);
   return rows;
@@ -17,7 +16,7 @@ export async function selectAllSongs() {
 
 export async function selectAllUsers() {
   const [rows] = await pool.query(
-    `SELECT userID, email, userPassword, firstName, lastName, dateOfBirth, isArtist, isAdmin
+    `SELECT userID, email, userPassword, firstName, lastName, dateOfBirth, isArtist, isAdmin, dateCreated
      FROM USER`);
   return rows;
 }

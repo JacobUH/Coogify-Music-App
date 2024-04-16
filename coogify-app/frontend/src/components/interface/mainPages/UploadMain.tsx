@@ -5,6 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import backendBaseUrl from '../../../apiConfig';
 
 export const UploadMain = () => {
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   const [albumName, setAlbumName] = useState('');
   const [genreName, setGenreName] = useState('');
   const [coverArt, setCoverArt] = useState<File | null>(null);
@@ -48,6 +54,8 @@ export const UploadMain = () => {
       formData.append('mp3Files', mp3File);
     });
 
+    console.log(formData);
+
     fetch(`${backendBaseUrl}/api/upload/uploadSongs`, {
       method: 'POST',
       body: formData,
@@ -69,12 +77,6 @@ export const UploadMain = () => {
       .catch((error) => {
         console.error('Error uploading songs:', error);
       });
-  };
-
-  const navigate = useNavigate();
-
-  const handleBack = () => {
-    navigate(-1);
   };
 
   return (

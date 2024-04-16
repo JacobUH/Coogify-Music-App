@@ -4,11 +4,23 @@ import pool from '../dbConnection.js';
 export async function insertLikedSong(trackID, userID) {
   console.log('Inserting liked song into DB');
   try {
-    const [rows] = await pool.query(
+    await pool.query(
       `INSERT INTO TRACK_LIKED 
             (userID, trackID, dateLiked)
             VALUES (?, ?, NOW())`,
       [userID, trackID]
+    );
+
+    // Update the likes count for the track in the TRACK table
+    await pool.query(
+      `UPDATE TRACK
+      SET likes = (
+          SELECT COUNT(*)
+          FROM TRACK_LIKED
+          WHERE trackID = ?
+      )
+      WHERE trackID = ?`,
+      [trackID, trackID]
     );
 
     // Return true to indicate successful insertion

@@ -79,18 +79,17 @@ export async function insertPayment(userID_promise) {
   }
 }
 
-// export async function registerUser(params) {
-//   const { email, userPassword, firstName, lastName, dateOfBirth } = params;
-//   console.log(params);
-//   try {
-//     const [rows] = await pool.query(
-//       `INSERT INTO USER
-//     (email, userPassword, firstName, lastName, dateOfBirth)
-//      VALUES (?, ?, ?, ?, ?)`,
-//       [email, userPassword, firstName, lastName, dateOfBirth]
-//     );
-//     console.log('User inserted successfully');
-//   } catch (err) {
-//     console.error(err.message);
-//   }
-// }
+export async function selectCredentials(userID){
+  try {
+    const query = `
+    SELECT userID, email, firstName, lastName, isArtist, isAdmin, dateCreated
+    FROM USER
+    WHERE userID = ?
+    `;
+    const [rows] = await pool.query(query, [userID]);
+    console.log('user credentials retrieved successfully');
+    return rows;
+  } catch (err){
+    console.error(err.message);
+  }
+}
