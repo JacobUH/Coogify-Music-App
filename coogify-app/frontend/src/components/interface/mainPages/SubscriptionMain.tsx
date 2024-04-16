@@ -80,8 +80,9 @@ export const SubscriptionMain = () => {
         <div className="text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
           Subscription
         </div>
-        <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
+        <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5 overflow-auto">
           {/* Work in here */}
+          {/* Subscription Main here: */}
           <div className="w-full flex flex-col md:flex-row items-center justify-center md:gap-40">
             <div className="text-2xl flex flex-col gap-4 items-center sm:w-96 md:w-96">
               <span>Subscription Plans</span>
@@ -223,8 +224,9 @@ export const SubscriptionMain = () => {
               </div>
             </div>
           </div>
+           
         </div>
       </div>
-    </div>
+      </div>
   );
 };

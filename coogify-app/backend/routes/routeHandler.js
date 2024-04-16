@@ -13,6 +13,7 @@ import { makePayment } from './specificRoutes/subscriptionRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
 import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
 import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
+import { addCard, getPurchaseHistory } from './specificRoutes/cardRoutes.js';
 import { uploadPlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist } from './specificRoutes/playlistRoutes.js'
 import { fetchUserProfile, updateProfile } from './specificRoutes/profileRoutes.js';
 
@@ -67,6 +68,11 @@ const handlers = {
       fetchRockSongs: fetchRockSongs,
       fetchUserLikedSongs: fetchUserLikedSongs,
     },
+    card: {
+      addCard: addCard,
+      PrevTransactions: getPurchaseHistory,
+    },
+
     admin: {
       music: retrieveAllSongs,
       users: retrieveAllUsers,

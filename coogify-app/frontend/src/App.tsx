@@ -29,6 +29,8 @@ import { ElectronicSongs } from './pages/ElectronicSongs';
 import { CountrySongs } from './pages/CountrySongs';
 import { HipHopSongs } from './pages/HipHopSongs';
 import { RockSongs } from './pages/RockSongs';
+import { AddCard } from './pages/AddCard';
+import { PrevTransactions } from './pages/PrevTransactions';
 
 import React from 'react';
 
@@ -66,6 +68,8 @@ function App() {
           <Route path="/ElectronicSongs" element={<ElectronicSongs />} />
           <Route path="/CountrySongs" element={<CountrySongs />} />
           <Route path="/RockSongs" element={<RockSongs />} />
+          <Route path="/AddCard" element={<AddCard />} />
+          <Route path="/PrevTransactions" element={<PrevTransactions />} />
         </Routes>
       </div>
     </>
