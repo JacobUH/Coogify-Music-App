@@ -79,7 +79,7 @@ export async function insertPayment(userID_promise) {
   }
 }
 
-export async function selectCredentials(userID){
+export async function selectUserCredentials(userID){
   try {
     const query = `
     SELECT userID, email, firstName, lastName, isArtist, isAdmin, dateCreated
@@ -88,6 +88,20 @@ export async function selectCredentials(userID){
     `;
     const [rows] = await pool.query(query, [userID]);
     console.log('user credentials retrieved successfully');
+    return rows;
+  } catch (err){
+    console.error(err.message);
+  }
+}
+export async function selectSubCredentials(userID){
+  try {
+    const query = `
+    SELECT subscriptionID, userID, cardID, subscriptionType, startDate, endDate, renewDate
+    FROM SUBSCRIPTION
+    WHERE userID = ?
+    `;
+    const [rows] = await pool.query(query, [userID]);
+    console.log('subscription credentials retrieved successfully');
     return rows;
   } catch (err){
     console.error(err.message);
