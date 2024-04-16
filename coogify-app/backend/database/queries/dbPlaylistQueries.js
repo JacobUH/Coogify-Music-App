@@ -2,6 +2,17 @@ import pool from '../dbConnection.js';
 
 export async function createPlaylist(userID, playlistName, playlistDescription, coverArtURL) {
     try {
+        // Check if the playlist already exists
+        const [existingPlaylistRows] = await pool.query(
+          'SELECT * FROM PLAYLIST WHERE userID = ? AND playlistName = ?',
+          [userID, playlistName]
+      );
+
+      if (existingPlaylistRows.length > 0) {
+          // If the playlist already exists, return an error response
+          return { success: false, message: 'Playlist with the same name already exists.' };
+      }
+      
         const [rows] = await pool.query(
         `INSERT INTO PLAYLIST 
         (userID, playlistName, playlistDescription, playlistArt)

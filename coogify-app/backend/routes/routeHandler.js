@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { jsonParser, authenticate } from '../middlewares/middleware.js';
 import { register, login, logout} from './specificRoutes/loginRegRoutes.js';
+import { getCredentials } from './specificRoutes/userRoutes.js'
 import { uploadPlaylist, uploadSongsWithAlbum } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
@@ -20,6 +21,7 @@ const handlers = {
     register: register, 
     login: login, 
     logout: logout, 
+    user: getCredentials,
     song: {
       likeSong: likeSong,
       addSong: (req, res) => 'addSongToPlaylist',
