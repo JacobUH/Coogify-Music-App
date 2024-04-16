@@ -15,6 +15,8 @@ interface Profile {
     dateOfBirth?: string;
     profileImage?: string;
     bio?: string;
+    artistName?: string;
+    isArtist?: number;
   }
   
 
@@ -33,6 +35,7 @@ export const EditScreenPopUp: React.FC<handleCloseEdit> = ({
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [profileImage, setProfileImage] = useState('');
     const [bio, setBio] = useState('');
+    const [artistName, setArtistName] = useState('');
 
     const [reload, setReload] = useState(0);
   
@@ -54,29 +57,37 @@ export const EditScreenPopUp: React.FC<handleCloseEdit> = ({
       }
     
   
-    useEffect(() => {
+      useEffect(() => {
         const fetchProfile = async () => {
-          setIsLoading(true);
-          try {
-            const response = await axios.get(`${backendBaseUrl}/api/profile/fetchProfile`, {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
-                'Content-Type': 'application/json',
-              },
-            });
-            setProfile(response.data);
-            setOriginalProfile(response.data);
-            console.log("respone:", response.data);
-            console.log(originalProfile);
-          } catch (error) {
-            console.error('Error fetching profile data: ', error);
-          } finally {
-            setIsLoading(false);
-          }
+            setIsLoading(true);
+            try {
+                const response = await axios.get(`${backendBaseUrl}/api/profile/fetchProfile`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                // Assuming the response data structure includes the user's profile data directly
+                if (response.data) {
+                    setProfile([response.data]); // Ensure this is an array if your state expects it
+                    setOriginalProfile(response.data);
+                    console.log("response:", response.data);
+    
+                    // Only handle the artistName setup here if the response actually includes the isArtist flag
+                    if (response.data.isArtist) {
+                        setArtistName(response.data.artistName || '');
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching profile data: ', error);
+            } finally {
+                setIsLoading(false);
+            }
         };
     
         fetchProfile();
-      }, [reload]);
+    }, [reload, storedToken, backendBaseUrl]);
+    
   
   
     const handleProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,6 +111,7 @@ export const EditScreenPopUp: React.FC<handleCloseEdit> = ({
             firstName: firstName ? firstName : originalProfile.firstName,
             lastName: lastName ? lastName : originalProfile.lastName,
             bio: bio ? bio : originalProfile.bio,
+            ...(profile[0].isArtist === 1 && { artistName: artistName }),
             // ... add other fields similarly
           };
           
@@ -151,7 +163,7 @@ export const EditScreenPopUp: React.FC<handleCloseEdit> = ({
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
           <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-60"></div>
           {/* Increased z-index to 60 */}
-          <div className="md:ml-[400px] bg-[#3E3C3C] text-white rounded-lg p-5 w-[1100px] h-[600px] shadow-md z-50 flex flex-col items-center">
+          <div className="md:ml-[400px] bg-[#3E3C3C] text-white rounded-lg p-5 w-[1100px] h-[700px] shadow-md z-50 flex flex-col items-center">
             <div className="w-full flex items-center justify-between mb-5">
               <span className="text-[22px]">Edit Profile</span>
             </div>
@@ -168,7 +180,7 @@ export const EditScreenPopUp: React.FC<handleCloseEdit> = ({
                 </label>
 
             {/* Profile Form */}
-            <div className="flex flex-col gap-4 w-full">
+            <div className="flex flex-col gap-4 w-full flex-grow">
               <div className="flex flex-row gap-4">
                 <div className="flex flex-col w-full">
                   <label className="text-sm font-bold">First Name</label>
@@ -265,7 +277,21 @@ export const EditScreenPopUp: React.FC<handleCloseEdit> = ({
                     disabled={dateOfBirthHasValue}
                   />
                 </div>
+                {/* Conditional artistName input field */}
+                
               </div>
+              {profile[0] && profile[0].isArtist === 1 && (
+                  <div className="flex flex-col mt-4">
+                    <label className="text-sm font-bold">Artist Name</label>
+                    <input
+                      className="bg-[#656262] rounded-[20px] p-2 text-white"
+                      type="text"
+                      placeholder="Artist Name"
+                      value={artistName}
+                      onChange={(e) => setArtistName(e.target.value)}
+                    />
+                  </div>
+                )}
             </div>
           </div>
             <div className="w-full flex items-center justify-between mt-5">
