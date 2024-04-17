@@ -22,8 +22,8 @@ export const PaymentMain = () => {
     navigate(-1);
   };
 
-  const [cardDetails, setCardDetails] = useState<Card[]>([]); // cardDetails store an array of cards
-  const [selectCard, setSelectCard] = useState<Card | null>(null); // either user chooses card, or not
+  const [cardDetails, setCardDetails] = useState<Card[]>([]);
+  const [selectCard, setSelectCard] = useState<Card | null>(null);
 
   const [cvv, setCvv] = useState('');
   const [cardType, setCardType] = useState('');
@@ -34,48 +34,61 @@ export const PaymentMain = () => {
     card: Card,
     event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    event?.stopPropagation(); // Prevent event propagation if event exists
-    setSelectCard(card); // Update the selected card
+    event?.stopPropagation();
+    setSelectCard(card);
     setCardType(card.cardType || '');
     setCardNumber(card.cardNumber || '');
     setExpDate(card.cardExpiration || '');
     console.log(card);
   };
 
-  // API - GET
-useEffect(() => {
-  const fetchCards = async () => {
-    try {
-      const response = await axios.get(
-        `${backendBaseUrl}/api/card/fetchCardDetails`, // endpoint
-        {
-          headers: {
-            Authorization: `Bearer ${storedToken}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      const cards = response.data.map((card: Card) => {
-        // Split the date and take only the MM/YY part
-        const expDateParts = (card.cardExpiration || '').split('T')[0].split('-');
-        const expMonth = expDateParts[1];
-        const expYear = expDateParts[0].substring(2); // Take the last two digits of the year
-        const expDateFormatted = `${expMonth}/${expYear}`;
-        return {
-          ...card,
-          cardExpiration: expDateFormatted,
-        };
-      });
-      setCardDetails(cards);
-      console.log(cards);
-    } catch (error) {
-      console.error('Error fetching cards:', error);
-    }
+  useEffect(() => {
+    const fetchCards = async () => {
+      try {
+        const response = await axios.get(
+          `${backendBaseUrl}/api/card/fetchCardDetails`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        const cards = response.data.map((card: Card) => {
+          const expDateParts = (card.cardExpiration || '').split('T')[0].split('-');
+          const expMonth = expDateParts[1];
+          const expYear = expDateParts[0].substring(2);
+          const expDateFormatted = `${expMonth}/${expYear}`;
+          return {
+            ...card,
+            cardExpiration: expDateFormatted,
+          };
+        });
+        setCardDetails(cards);
+        console.log(cards);
+      } catch (error) {
+        console.error('Error fetching cards:', error);
+      }
+    };
+    fetchCards();
+  }, []);
+
+  const handleConfirmChanges = () => {
+    const updatedCard: Card = {
+      cardType,
+      cardNumber,
+      cardExpiration: expDate,
+      cardSecurity: cvv,
+      // firstName and lastName if needed
+    };
+
+    if (!selectCard) return;
+
+    const updatedCards = cardDetails.map(card =>
+      card === selectCard ? { ...updatedCard } : card
+    );
+    setCardDetails(updatedCards);
   };
-  fetchCards();
-}, []);
-
-
 
   const handlePayNow = async () => {
     const storedToken = localStorage.getItem('sessionToken');
@@ -95,7 +108,6 @@ useEffect(() => {
         throw new Error('Network response was not ok');
       }
 
-      // Handle successful response here, if needed
       console.log('Payment successful');
     } catch (error) {
       console.error('Error making payment:', error);
@@ -122,7 +134,6 @@ useEffect(() => {
         </div>
         <div className="rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col gap-5 px-8 md:py-5 pb-20 pt-5">
           <div className="flex flex-row justify-center gap-5">
-            {/* Payment Method */}
             <div className="flex flex-col items-start">
               <div className="font-bold flex items-left px-2 mb-2">
                 Payment Method
@@ -135,7 +146,6 @@ useEffect(() => {
                   />
                 </div>
               </div>
-              {/* PAYMENT METHOD */}
               <div className="flex flex-col h-fit w-[300px] p-2 rounded-md bg-[#212020]">
                 {cardDetails.map((card: Card) => (
                   <button onClick={(e) => handleCardClick(card, e)} key={card.cardNumber}>
@@ -168,11 +178,9 @@ useEffect(() => {
                           height="40"
                         />
                       )}
-                      {/* if cardType === Visa, cardType === MasterCard, cardType === American Express, cardType === Discover */}
                       <div className="ml-8 text-left">
                         <div className=""> {card.cardType} </div>
-                        <div className=""> {card.cardNumber} </div>{' '}
-                        {/* Card.cardNumber */}
+                        <div className=""> {card.cardNumber} </div>
                       </div>
                     </div>
                   </button>
@@ -180,11 +188,9 @@ useEffect(() => {
               </div>
             </div>
             
-            {/* Previous Transactions */}
             <div className="flex flex-col items-start">
               <div className="font-bold px-2 mb-2">Previous Transactions</div>
               <div className="h-[380px] w-[500px] bg-[#212020] text-white rounded-xl px-5 py-2 overflow-y-auto">
-                {/* MAPPING */}
                 <div className="grid grid-cols-2 gap-y-1 gap-x-6">
                   <div className="border-b border-gray-400 py-3">
                     Transaction 4
@@ -223,7 +229,6 @@ useEffect(() => {
               </div>
             </div>
           </div>
-          {/* Change Card Details */}
           <div className="flex flex-row justify-center">
             <div className="items-center mb-12">
               <div className="font-bold px-4 mb-2">Change Card Details</div>
@@ -235,7 +240,7 @@ useEffect(() => {
                     id="cardType"
                     name="cardType"
                     value={cardType}
-                    onChange={(e) => setCardType(e.target.value)} // on change call function to be created for validating input
+                    onChange={(e) => setCardType(e.target.value)}
                     title="Please select a card type."
                   >
                     <option value="" disabled selected hidden>Select Card Type</option>
@@ -286,7 +291,7 @@ useEffect(() => {
                   ></input>
 
                   <div className="flex flex-row"></div>
-                  <button className="mt-8 ml-32 hover:bg-[#434242] bg-[#9E67E4] shadow-lg shadow-[#313131] px-5 py-2 mb-3 text-center rounded-full">
+                  <button className="mt-8 ml-32 hover:bg-[#434242] bg-[#9E67E4] shadow-lg shadow-[#313131] px-5 py-2 mb-3 text-center rounded-full" onClick={handleConfirmChanges}>
                     Confirm Changes
                   </button>
                 </div>
