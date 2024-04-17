@@ -17,6 +17,29 @@ export async function createCard(userID, cardType, cardNumber, cardExpiration, c
     }
 }
 
+
+
+export async function getCardDetails(userID) {
+    try {
+        const [rows] = await pool.query(
+            `SELECT c.cardType, c.cardNumber, c.cardExpiration, c.cardSecurity, u.firstName, u.lastName
+             FROM CARD c
+             INNER JOIN USER u ON c.userID = u.userID
+             WHERE c.userID = ?`, 
+             [userID]
+        );
+
+        console.log('Card details retrieved successfully');
+        return rows;
+
+    } catch (error) {
+        console.error('Error fetching card details', error);
+        return false;
+    }
+}
+
+
+
 export async function retrievePurchaseHistory(userID) {
     try {
         const [rows] = await pool.query(

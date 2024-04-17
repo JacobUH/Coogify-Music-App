@@ -27,6 +27,8 @@ export const SubscriptionMain = () => {
   const [price, setPrice] = useState('');
   const [subColor, setSubColor] = useState('');
 
+
+  // handlePurchase shows all this info wherever you call it
   const handlePurchase = (subscriptionType, price, subColor) => {
     setShowPopup(true);
     setSubscriptionType(subscriptionType);
@@ -41,6 +43,7 @@ export const SubscriptionMain = () => {
   const storedToken = localStorage.getItem('sessionToken');
   const [subCreds, setSubCreds] = useState<Subscription[]>([]);
 
+  // API - GET
   useEffect(() => {
     const fetchUserLikedSongs = async () => {
       try {
@@ -87,17 +90,19 @@ export const SubscriptionMain = () => {
             <div className="text-2xl flex flex-col gap-4 items-center sm:w-96 md:w-96">
               <span>Subscription Plans</span>
 
-              <button
+              <button 
                 className="text-white w-full py-9 rounded-lg pl-7 mb-4 bg-[#656262] shadow-md shadow-[#313131] text-left"
                 onClick={() =>
                   handlePurchase('Free', '$0.00/per month', 'text-white')
                 }
-              >
+                > 
+
                 <div className="text-4xl font-bold">Free</div>
                 <div className="text-white text-lg font-normal">
                   $0.00/per month
                 </div>
               </button>
+
               <button
                 className="text-[#A263F2] w-full py-9 rounded-lg pl-7 mb-4 bg-[#656262] shadow-md shadow-[#313131] text-left"
                 onClick={() =>
@@ -228,5 +233,6 @@ export const SubscriptionMain = () => {
         </div>
       </div>
       </div>
+
   );
 };
