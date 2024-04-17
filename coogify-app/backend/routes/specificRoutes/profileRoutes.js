@@ -18,17 +18,17 @@ export async function fetchUserProfile(req, res) {
 }
 
 // Handler to update user profile data
-// Function to update user profile data based on userID and provided data
-// Handler to update user profile data
-// Handler to update user profile data
 export async function updateProfile(req, res) {
   try {
     const userID = await extractUserID(req);
     // You need to get the updates without including the userID from the request body
     const updates = req.body;
 
+    const isArtist = req.body.isArtist;
+    const result = await updateUserProfile(userID, updates, isArtist);
+
     // Now we pass only the updates, not the userID since it's already a separate variable
-    const result = await updateUserProfile(userID, updates);
+    // const result = await updateUserProfile(userID, updates);
     if (result) {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: 'Profile updated successfully' }));

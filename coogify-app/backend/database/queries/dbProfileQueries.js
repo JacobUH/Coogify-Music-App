@@ -1,51 +1,73 @@
 import pool from '../dbConnection.js';
 
 export async function selectUserProfile(userID) {
-  console.log(userID);
-    try {
-      const [rows] = await pool.query(
-        `SELECT email, userPassword, firstName, lastName, dateOfBirth, profileImage, bio 
-         FROM USER 
-         WHERE userID = ?`,
-        [userID]
-      );
+  try {
+    const [rows] = await pool.query(
+      `SELECT u.email, u.userPassword, u.firstName, u.lastName, u.dateOfBirth, u.profileImage, u.bio, u.isArtist, a.artistName
+       FROM USER u
+       LEFT JOIN ARTIST a ON u.userID = a.userID
+       WHERE u.userID = ?`,
+      [userID]
+    );
   
-      console.log('profile retrieved successfully');
-      return rows;
-  
-      }   catch (error) {
-          console.error('Error retrieving profile', error);
-          return false;
-      }
+    console.log('profile retrieved successfully');
+    return rows[0]; // Assuming that there will always be one or no user profile per userID.
+  } catch (error) {
+    console.error('Error retrieving profile', error);
+    return false;
   }
+}
+
   
   // Function to update user profile data based on userID and provided data
   export async function updateUserProfile(userID, payload) {
-    const updates = [];
-    const values = [];
+    const userUpdates = [];
+    const userValues = [];
+    const artistUpdates = [];
+    const artistValues = [];
   
-    Object.entries(payload).forEach(([key, value]) => {
+    // Separate updates for user and artist
+    for (const [key, value] of Object.entries(payload)) {
       if (value !== undefined) {
-        updates.push(`${key} = ?`);
-        values.push(value);
+        if (key === 'artistName') {
+          artistUpdates.push(`${key} = ?`);
+          artistValues.push(value);
+        } else {
+          userUpdates.push(`${key} = ?`);
+          userValues.push(value);
+        }
       }
-    });
+    }
   
-    if (updates.length === 0) {
+    if (userUpdates.length === 0 && artistUpdates.length === 0) {
       throw new Error("No updates provided");
     }
   
-    const query = `UPDATE USER SET ${updates.join(', ')} WHERE userID = ?`;
-    values.push(userID);
-  
     try {
-      const [result] = await pool.query(query, values);
-      console.log('Profile updated successfully', result);
+      await pool.query('START TRANSACTION');
+  
+      // Update USER table
+      if (userUpdates.length > 0) {
+        const userQuery = `UPDATE USER SET ${userUpdates.join(', ')} WHERE userID = ?`;
+        userValues.push(userID);
+        await pool.query(userQuery, userValues);
+      }
+  
+      // Update ARTIST table if there are artist updates
+      if (artistUpdates.length > 0) {
+        const artistQuery = `UPDATE ARTIST SET ${artistUpdates.join(', ')} WHERE userID = ?`;
+        artistValues.push(userID);
+        await pool.query(artistQuery, artistValues);
+      }
+  
+      await pool.query('COMMIT');
       return true;
     } catch (error) {
-      console.error('Error updating profile', error);
-      throw error; // It's good practice to re-throw the error for the caller to handle.
+      await pool.query('ROLLBACK');
+      throw error;
     }
   }
+  
+  
   
 

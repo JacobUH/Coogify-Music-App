@@ -14,6 +14,9 @@ interface Profile {
   dateOfBirth?: string;
   profileImage?: string;
   bio?: string;
+  isArtist?: number;
+  isAdmin?: number;
+  artistName?: string;
 }
 
 
@@ -30,6 +33,7 @@ export const ProfileMain = () => {
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [profileImage, setProfileImage] = useState('');
   const [bio, setBio] = useState('');
+  const [artistName, setArtistName] = useState('');
 
   const dateOfBirthHasValue = profile.length > 0 && profile[0].dateOfBirth !== '';
  // Assuming profile[0].dateOfBirth is something like "2001-07-28T05:00:00.000Z"
@@ -50,26 +54,32 @@ export const ProfileMain = () => {
 
     useEffect(() => {
       const fetchProfile = async () => {
+        if (!storedToken) return;
+    
         setIsLoading(true);
         try {
           const response = await axios.get(`${backendBaseUrl}/api/profile/fetchProfile`, {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
+              Authorization: `Bearer ${storedToken}`,
               'Content-Type': 'application/json',
             },
           });
-          setProfile(response.data);
-          setOriginalProfile(response.data);
+    
+          const profileData = Array.isArray(response.data) ? response.data : [response.data];
+          setProfile(profileData);
+    
+          if (profileData.length > 0 && profileData[0].isArtist) {
+            setArtistName(profileData[0].artistName || '');
+          }
         } catch (error) {
           console.error('Error fetching profile data: ', error);
         } finally {
           setIsLoading(false);
         }
       };
-  
+    
       fetchProfile();
-    }, []);
-
+    }, [storedToken, backendBaseUrl]);
     
 
   const handleProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -179,11 +189,13 @@ export const ProfileMain = () => {
               <div className="flex flex-col mt-4">
                 <label className="text-sm font-bold">Profile Bio</label>
                 <textarea
-                  className="bg-[#656262] rounded-[20px] p-2 text-white"
+                  className="bg-[#656262] rounded-[20px] p-2 text-white  readOnly:text-white input-disabled"
                   placeholder={profile[0]?.bio || "Add a bio"}
                   value={bio}
                   name="userBio"
+                  
                   disabled
+                  style={{ color: 'white', opacity: 1 }}
                 />
               </div>
               <div className="flex flex-row mt-4 gap-4">
@@ -226,7 +238,24 @@ export const ProfileMain = () => {
                   />
                 </div>
                 </div>
+                {
+                  profile.length > 0 && profile[0].isArtist === 1 && (
+                    <div className="flex flex-col mt-4">
+                      <label className="text-sm font-bold">Artist Name</label>
+                      <input
+                        className="bg-[#656262] rounded-[20px] p-2 text-white"
+                        type="text"
+                        placeholder="Artist Name"
+                        value={artistName}
+                        disabled
+                        // If in edit mode, allow changes to the artist name
+                        onChange={isEditMode ? (e) => setArtistName(e.target.value) : undefined}
+                      />
+                    </div>
+                  )
+                }
                 <div className="text-center mt-6">
+                
                 {!isEditMode && (
                   <button onClick={handleEdit} className="bg-[#875ABE] hover:bg-[#5f3c8b] rounded-[20px] text-white font-bold py-2 px-20">
                     Edit
