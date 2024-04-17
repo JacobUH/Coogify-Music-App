@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import DefaultPlaylist from '../../../../public/images/DefaultPlaylist.svg';
@@ -8,6 +8,17 @@ import backendBaseUrl from '../../../apiConfig';
 interface HandleClose {
   onClose: () => void; // Specify the type of onClose prop
 }
+
+interface Card {
+  cardType?: string;
+  cardNumber?: string;
+  cardExpiration?: string;
+  cardSecurity?: string;
+  firstName?: string;
+  lastName?: string;
+}
+
+
 
 export const SubscriptionScreen: React.FC<
   HandleClose & { subscriptionType: string; price: string; subColor: string }
@@ -21,6 +32,26 @@ export const SubscriptionScreen: React.FC<
   const [coverArtURL, setCoverArtURL] = useState<File | string | null>(
     defaultCoverArtURL
   );
+
+  const [cardDetails, setCardDetails] = useState<Card[]>([]); // cardDetails store an array of cards
+  const [selectCard, setSelectCard] = useState<Card[]>([]); // either user chooses card, or not
+  const [cvv, setCvv] = useState('');
+
+  // handleCardClick should show all the info of a card
+  const handleCardClick = (
+    card: Card,
+    event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event?.stopPropagation(); // Prevent event propagation if event exists
+    setSelectCard([card]);
+    console.log(card);
+  };
+  
+  const handleSubmit = () => {
+    //{cvv && cvv === selectCard[0].cardSecurity && (
+      // api to input the subscription
+    //)} 
+  }
 
   const handleInputClick = () => {
     const inputDiv = document.getElementById('playlistName');
@@ -44,6 +75,28 @@ export const SubscriptionScreen: React.FC<
 
   const navigate = useNavigate();
   const storedToken = localStorage.getItem('sessionToken');
+
+   // API - GET
+   useEffect(() => {
+    const fetchCards = async () => {
+      try {
+        const response = await axios.get(
+          `${backendBaseUrl}/api/card/fetchCardDetails`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        setCardDetails(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error('Error fetching new songs:', error);
+      }
+    };
+    fetchCards();
+  }, []);
 
   const handleYes = async () => {
     console.log(
@@ -95,6 +148,8 @@ export const SubscriptionScreen: React.FC<
     onClose();
   };
 
+
+
   return (
     <>
       <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
@@ -109,38 +164,55 @@ export const SubscriptionScreen: React.FC<
               <input
                 className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"
                 title="Please enter a card type."
-              ></input>
+                value={selectCard[0]?.cardType || ''}
+                onChange={(e) => handleInputChange(e.target.value)}
+                disabled
+              />
 
               <div className="">Card Number</div>
               <input
                 className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"
                 title="Please enter a card number."
-              ></input>
+                value={selectCard[0]?.cardNumber || ''}
+                onChange={(e) => handleInputChange(e.target.value)}
+                disabled
+              />
 
               <div className="">Expiration Date</div>
               <input
                 className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"
                 title="Please enter a expiration date."
-              ></input>
+                value={selectCard[0]?.cardExpiration || ''}
+                onChange={(e) => handleInputChange(e.target.value)}
+                disabled
+              />
 
-              <div className="">CVV</div>
+              <div className="">Card Security</div>
               <input
                 className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"
-                title="Please enter a CVV."
-              ></input>
+                title="Please enter a cardSecurity."
+                value={cvv}
+                onChange={(e) => handleInputChange(e.target.value)}
+              />
             </div>
             <div className="flex flex-col p-10">
               <div className="pt-8">First Name</div>
               <input
                 className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"
-                title="Please enter your first name."
-              ></input>
+                title="Please enter a first name."
+                value={selectCard[0]?.firstName || ''}
+                onChange={(e) => handleInputChange(e.target.value)}
+                disabled
+              />
 
               <div className="">Last Name</div>
-              <input
+              <input 
                 className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"
-                title="Please enter your last name."
-              ></input>
+                title="Please enter a last name."
+                value={selectCard[0]?.lastName || ''}
+                onChange={(e) => handleInputChange(e.target.value)} 
+                disabled
+              />
             </div>
           </div>
 
@@ -150,21 +222,48 @@ export const SubscriptionScreen: React.FC<
               Your Cards
             </div>
             <div className="flex flex-col h-fit w-[300px] p-2 rounded-md bg-[#4d4949]">
-              <button>
+              {cardDetails.map((card:Card)=>(
+                <button onClick={(e) => handleCardClick(card, e)} >
                 <div className="flex flex-row items-center rounded-md py-1 pl-1 hover:bg-[#5b5656]">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png"
-                    width="100"
-                    height="50"
+                  {card.cardType && card.cardType === "Visa" && (
+                    <img className="ml-2"
+                    src="https://static-00.iconduck.com/assets.00/visa-icon-2048x1313-o6hi8q5l.png"
+                    width="90"
+                    height="40"
                   />
+                  )}
+                  {card.cardType && card.cardType === "Discover" && (
+                    <img className="ml-2"
+                    src="https://www.shutterstock.com/image-vector/west-java-indonesia-oktober-13-600nw-2374385743.jpg"
+                    width="90"
+                    height="40"
+                  />
+                  )} 
+                  {card.cardType && card.cardType === "Mastercard" && (
+                    <img className="ml-2"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/2560px-MasterCard_Logo.svg.png"
+                    width="90"
+                    height="40"
+                  />
+                  )}
+                  {card.cardType && card.cardType === "American Express" && (
+                    <img className="ml-2"
+                    src="https://www.svgrepo.com/show/266068/american-express.svg"
+                    width="90"
+                    height="40"
+                  />
+                  )}
+                
                   {/* if cardType === Visa, cardType === MasterCard, cardType === American Express, cardType === Discover */}
-                  <div className="ml-8">
-                    <div className="mr-16">Visa Card</div> {/* Card.cardType */}
-                    <div className="">**** **** **** 4567</div>{' '}
+                  <div className="ml-8 text-left">
+                    <div className=""> {card.cardType} </div>
+                    <div className=""> {card.cardNumber} </div>{' '}
                     {/* Card.cardNumber */}
                   </div>
                 </div>
               </button>
+              ))}
+              
             </div>
             {/* Space in between */}
             <div className="flex flex-grow"></div>
@@ -181,7 +280,7 @@ export const SubscriptionScreen: React.FC<
             <div className="flex flex-col items-center">
               <span className="mb-3 ">Proceed With Transaction?</span>
               <div className="flex flex-row justify-center">
-                <button className="bg-[#9E67E4] w-[75px] h-[50px] px-[23px] py-[15px] rounded-3xl mr-4">
+                <button className="bg-[#9E67E4] w-[75px] h-[50px] px-[23px] py-[15px] rounded-3xl mr-4" onClick={handleSubmit}>
                   Yes
                 </button>
 

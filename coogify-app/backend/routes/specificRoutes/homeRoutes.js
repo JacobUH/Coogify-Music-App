@@ -194,7 +194,7 @@ export async function fetchCountrySongs(req, res) {
 export async function fetchRockSongs(req, res) {
   try {
     const userID = await extractUserID(req);
-    const songs = await selectCountrySongs(userID);
+    const songs = await selectRockSongs(userID);
     if (songs !== false) {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(songs));
