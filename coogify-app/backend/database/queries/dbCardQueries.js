@@ -43,13 +43,16 @@ export async function getCardDetails(userID) {
 export async function retrievePurchaseHistory(userID) {
     try {
         const [rows] = await pool.query(
-        `SELECT subscriptionType, startDate
-         FROM subscription
-         WHERE userID = ?`,
+            `SELECT t.transactionID, t.subscriptionID, t.transactionAmount, s.subscriptionType, s.startDate, s.endDate, u.email, u.firstName, u.LastName, c.cardType, c.cardNumber
+            FROM TRANSACTION t
+            INNER JOIN SUBSCRIPTION s ON t.subscriptionID = s.subscriptionID
+            INNER JOIN CARD c ON s.cardID = c.cardID
+            INNER JOIN USER u ON c.userID = u.userID
+            WHERE u.userID = ?`,
         [userID]
-    );
-    console.log('history retrieved successfully');
-    return rows;
+        );
+        console.log('history retrieved successfully');
+        return rows;
 
     }   catch (error) {
         console.error('Error retrieving history', error);
@@ -57,21 +60,30 @@ export async function retrievePurchaseHistory(userID) {
     }
 }
 
-export async function updateUserSub(userID, cardID, subscriptionType){
+export async function createTicket(userID, transactionAmount) {
     try {
-        const currentDate = new Date();
-        const renewDate = new Date();
-        renewDate.setMonth(renewDate.getMonth() + 1);
-        
-        const sql = `
-            UPDATE SUBSCRIPTION
-            SET cardID = ?, subscriptionType = ?, subcriptionActive = 1, startDate = ?, renewDate = ?
-            WHERE userID = ?
-        `;
-        await pool.query(sql, [cardID, subscriptionType, currentDate, renewDate, userID]);
-        return true;
+        const [subscriptionRows] = await pool.query(
+            `SELECT s.subscriptionID
+            FROM SUBSCRIPTION s
+            WHERE s.userID = ?`,
+            [userID]
+        );
+
+        // Check if a subscriptionID was found
+        if (subscriptionRows.length > 0) {
+            const subscriptionID = subscriptionRows[0].subscriptionID;
+
+            // Insert the transaction with the retrieved subscriptionID
+            await pool.query(
+                `INSERT INTO TRANSACTION (subscriptionID, transactionAmount)
+                VALUES (?, ?)`,
+                [subscriptionID, transactionAmount]
+            );
+            console.log('transaction inputted successfully');
+
+        }   
     } catch (error) {
-        console.error('Error updating subscription in database', error);
+        console.error('Error creating transaction', error);
         return false;
     }
 }

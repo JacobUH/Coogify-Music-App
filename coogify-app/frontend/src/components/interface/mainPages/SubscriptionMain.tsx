@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { SubscriptionScreen } from '../elements/SubscriptionScreen';
 import { SubscriptionActive } from '../elements/SubscriptionActiveScreen';
 import { SchoolEmail } from '../elements/SchoolEmail';
+import { ConfirmCancelScreen } from '../elements/ConfirmCancelScreen';
 import backendBaseUrl from '../../../apiConfig';
 import axios from 'axios';
 
@@ -96,6 +97,51 @@ export const SubscriptionMain = () => {
 
     fetchUserLikedSongs();
   }, []);
+
+  const cancelSubscription = async () => {
+    try {
+      const response = await axios.get(
+        `${backendBaseUrl}/api/subscription/cancelSubscription`,
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error cancelling subscription:', error);
+    }
+  };
+
+  const restoreSubscription = async () => {
+    try {
+      const response = await axios.get(
+        `${backendBaseUrl}/api/subscription/restoreSubscription`,
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error restoring subscription:', error);
+    }
+  };
+
+  const [showCancel, setShowCancel] = useState(false);
+  const [showRestore, setShowRestore] = useState(false);
+
+  const handleCancel = () => {
+    setShowCancel(true);
+  };
+
+  const handleRestore = () => {
+    setShowRestore(true);
+  };
 
   return (
     <div
@@ -236,9 +282,19 @@ export const SubscriptionMain = () => {
                     subCreds[0].subscriptionType !== 'Free' &&
                     subCreds[0].endDate === null && (
                       <>
-                        <button className="hover:bg-[#3f3f3f] bg-[#2d2c2c] text-white font-bold py-2 px-4 rounded">
+                        <button
+                          className="hover:bg-[#3f3f3f] bg-[#2d2c2c] text-white font-bold py-2 px-4 rounded"
+                          onClick={handleCancel}
+                        >
                           Cancel Subscription
                         </button>
+                        {/* Render ConfirmCancelScreen component if showCancel state is true */}
+                        {showCancel && (
+                          <ConfirmCancelScreen
+                            onClose={() => setShowCancel(false)}
+                            condition="cancel"
+                          />
+                        )}
                       </>
                     )}
                   {subCreds.length > 0 &&
@@ -246,9 +302,19 @@ export const SubscriptionMain = () => {
                     subCreds[0].subscriptionType !== 'Free' &&
                     subCreds[0].endDate !== null && (
                       <>
-                        <button className="hover:bg-[#3f3f3f] bg-[#2d2c2c] text-white font-bold py-2 px-4 rounded">
+                        <button
+                          className="hover:bg-[#3f3f3f] bg-[#2d2c2c] text-white font-bold py-2 px-4 rounded"
+                          onClick={handleRestore}
+                        >
                           Restore Subscription
                         </button>
+                        {/* Render ConfirmCancelScreen component if showRestore state is true */}
+                        {showRestore && (
+                          <ConfirmCancelScreen
+                            onClose={() => setShowRestore(false)}
+                            condition="restore"
+                          />
+                        )}
                       </>
                     )}
                 </div>

@@ -27,6 +27,7 @@ export const SubscriptionScreen: React.FC<
     subColor: string;
   }
 > = ({ onClose, subscriptionType, price, subColor }) => {
+  console.log(price);
   const [error, setError] = useState('');
   const [cardDetails, setCardDetails] = useState<Card[]>([]); // cardDetails store an array of cards
   const [selectCard, setSelectCard] = useState<Card[]>([]); // either user chooses card, or not
@@ -45,8 +46,8 @@ export const SubscriptionScreen: React.FC<
   const handleSubmit = async () => {
     if (cvv === selectCard[0]?.cardSecurity) {
       try {
-        const response = await axios.post(
-          `${backendBaseUrl}/api/card/updateSubscription`,
+        await axios.post(
+          `${backendBaseUrl}/api/subscription/updateSubscription`,
           {
             cardID: selectCard[0].cardID,
             subscriptionType: subscriptionType,
@@ -58,9 +59,27 @@ export const SubscriptionScreen: React.FC<
             },
           }
         );
+        const priceNumeric = parseFloat(price.replace(/[^\d.]/g, ''));
+        // Convert numerical value to decimal with two decimal places
+        const decimalPrice = priceNumeric.toFixed(2);
+        await axios.post(
+          `${backendBaseUrl}/api/card/createTransaction`,
+          {
+            transactionAmount: decimalPrice,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
         navigate('/PrevTransactions');
       } catch (error) {
-        console.error('Error fetching new songs:', error);
+        console.error(
+          'Error updating subscription and creating transaction:',
+          error
+        );
       }
     } else if (cvv === '') {
       setError('Please enter a CVV.');
@@ -97,37 +116,6 @@ export const SubscriptionScreen: React.FC<
     };
     fetchCards();
   }, []);
-
-  const handleYes = async () => {
-    try {
-      const response = await axios.post(
-        `${backendBaseUrl}/api/playlist/uploadPlaylistEntry`, // Use backendBaseUrl here
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${storedToken}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      console.log('Response:', response);
-
-      if (response.status !== 200) {
-        throw new Error(response.data.message);
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        setError('unable to create playlist.');
-      } else if (
-        error.response &&
-        error.response.data &&
-        error.response.data.error
-      ) {
-        setError(error.response.data.error);
-      }
-    }
-  };
 
   const handleNo = () => {
     onClose();
@@ -286,14 +274,14 @@ export const SubscriptionScreen: React.FC<
               <span className="mb-3 ">Proceed With Transaction?</span>
               <div className="flex flex-row justify-center">
                 <button
-                  className="bg-[#9E67E4] w-[75px] h-[50px] px-[23px] py-[15px] rounded-3xl mr-4"
+                  className="hover:bg-[#9E67E4] bg-[#683f9c] w-[75px] h-[50px] px-[23px] py-[15px] rounded-3xl mr-4"
                   onClick={handleSubmit}
                 >
                   Yes
                 </button>
 
                 <button
-                  className="bg-[#2d2c2c] w-[75px] h-[50px] px-[26px] py-[15px] rounded-3xl"
+                  className="hover:bg-[#494747] bg-[#2d2c2c] w-[75px] h-[50px] px-[26px] py-[15px] rounded-3xl"
                   onClick={handleNo}
                 >
                   No

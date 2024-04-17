@@ -1,4 +1,4 @@
-import { createCard, getCardDetails, retrievePurchaseHistory, updateUserSub } from "../../database/queries/dbCardQueries.js";
+import { createCard, getCardDetails, retrievePurchaseHistory, createTicket } from "../../database/queries/dbCardQueries.js";
 import { extractUserID, errorMessage } from '../../util/utilFunctions.js';
 
 export async function addCard(req, res) {
@@ -56,22 +56,20 @@ export async function getPurchaseHistory(req, res) {
     }    
   }
 
-  export async function updateSubscription(req, res) {
-    const { cardID, subscriptionType } = req.body;
-    const userID = await extractUserID(req); //authorization
-    try {
-      const updateSubscription = await updateUserSub(userID, cardID, subscriptionType);
-      if (updateSubscription !== false) {
-          console.log(updateSubscription);
-          res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.end(
-            JSON.stringify({ message: 'subscription updated successfully'})
-          );  
-        } else {
-          errorMessage(res, 'Error updating subscription', 'Error');
-        }
-  } catch(error) {
-      errorMessage(res, error, 'Error updating subscription');
-  
-  }    
-  }
+  export async function createTransaction(req, res) {
+    const { transactionAmount } = req.body;
+    const userID = await extractUserID(req);
+      try {
+        const createTransaction = await createTicket(userID, transactionAmount);
+        if (createTransaction !== false) {
+            console.log(createTransaction);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(createTransaction));
+          } else {
+            errorMessage(res, 'Error creating transaction', 'Error');
+          }
+    } catch(error) {
+        errorMessage(res, error, 'Error creating transaction');
+    
+    }    
+  } 
