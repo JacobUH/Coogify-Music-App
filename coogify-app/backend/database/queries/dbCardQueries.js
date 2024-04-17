@@ -40,7 +40,7 @@ export async function getCardDetails(userID) {
 
 
 
-export async function retrievePurchaseHistory(userID) {
+export async function getSubDetails(userID) {
     try {
         const [rows] = await pool.query(
         `SELECT subscriptionType, startDate

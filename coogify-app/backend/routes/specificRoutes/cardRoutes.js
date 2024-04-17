@@ -1,4 +1,4 @@
-import { createCard, getCardDetails, retrievePurchaseHistory } from "../../database/queries/dbCardQueries.js";
+import { createCard, getCardDetails, getSubDetails } from "../../database/queries/dbCardQueries.js";
 import { extractUserID, errorMessage } from '../../util/utilFunctions.js';
 
 export async function addCard(req, res) {
@@ -38,11 +38,11 @@ export async function fetchCardDetails(req, res) {
       }    
 }
 
-export async function getPurchaseHistory(req, res) {
+export async function fetchSubDetails(req, res) {
     const userID = await extractUserID(req); //authorization
       //console.log(req.body);
       try {
-        const receiveInformation = await retrievePurchaseHistory(userID);
+        const receiveInformation = await getSubDetails(userID);
         if (receiveInformation !== false) {
             console.log(receiveInformation);
             res.writeHead(200, { 'Content-Type': 'application/json' });

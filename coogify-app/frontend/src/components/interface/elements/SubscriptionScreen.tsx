@@ -19,7 +19,6 @@ interface Card {
 }
 
 
-
 export const SubscriptionScreen: React.FC<
   HandleClose & { subscriptionType: string; price: string; subColor: string }
 > = ({ onClose, subscriptionType, price, subColor }) => {
@@ -47,11 +46,11 @@ export const SubscriptionScreen: React.FC<
     console.log(card);
   };
   
-  const handleSubmit = () => {
+  //const handleSubmit = () => {
     //{cvv && cvv === selectCard[0].cardSecurity && (
       // api to input the subscription
-    //)} 
-  }
+    //)}
+  //}
 
   const handleInputClick = () => {
     const inputDiv = document.getElementById('playlistName');
@@ -81,7 +80,7 @@ export const SubscriptionScreen: React.FC<
     const fetchCards = async () => {
       try {
         const response = await axios.get(
-          `${backendBaseUrl}/api/card/fetchCardDetails`,
+          `${backendBaseUrl}/api/card/fetchCardDetails`,  // endpoint
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,
@@ -92,7 +91,7 @@ export const SubscriptionScreen: React.FC<
         setCardDetails(response.data);
         console.log(response.data)
       } catch (error) {
-        console.error('Error fetching new songs:', error);
+        console.error('Error fetching cards:', error);
       }
     };
     fetchCards();

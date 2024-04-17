@@ -13,7 +13,7 @@ import { makePayment } from './specificRoutes/subscriptionRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
 import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
 import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
-import { addCard, fetchCardDetails, getPurchaseHistory } from './specificRoutes/cardRoutes.js';
+import { addCard, fetchCardDetails, fetchSubDetails } from './specificRoutes/cardRoutes.js';
 import { uploadPlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist } from './specificRoutes/playlistRoutes.js'
 import { fetchUserProfile, updateProfile } from './specificRoutes/profileRoutes.js';
 
@@ -70,8 +70,8 @@ const handlers = {
     },
     card: {
       addCard: addCard,
-      PrevTransactions: getPurchaseHistory,
       fetchCardDetails:fetchCardDetails,
+      fetchSubDetails:fetchSubDetails,
     },
 
     admin: {

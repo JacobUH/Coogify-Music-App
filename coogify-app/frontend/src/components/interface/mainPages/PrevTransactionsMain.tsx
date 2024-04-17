@@ -27,7 +27,7 @@ export const PrevTransactionsMain = () => {
     const handleRetrieve = async () => {
       try {
         const response = await axios.get(
-          `${backendBaseUrl}/api/card/PrevTransactions`,
+          `${backendBaseUrl}/api/card/fetchSubHistory`,
 
           {
             headers: {
