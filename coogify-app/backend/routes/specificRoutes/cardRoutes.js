@@ -57,10 +57,10 @@ export async function getPurchaseHistory(req, res) {
   }
 
   export async function createTransaction(req, res) {
-    const { transactionAmount } = req.body;
+    const { transactionAmount, subscriptionType } = req.body;
     const userID = await extractUserID(req);
       try {
-        const createTransaction = await createTicket(userID, transactionAmount);
+        const createTransaction = await createTicket(userID, transactionAmount, subscriptionType);
         if (createTransaction !== false) {
             console.log(createTransaction);
             res.writeHead(200, { 'Content-Type': 'application/json' });

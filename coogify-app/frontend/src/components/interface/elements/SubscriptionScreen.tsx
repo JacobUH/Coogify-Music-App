@@ -66,6 +66,7 @@ export const SubscriptionScreen: React.FC<
           `${backendBaseUrl}/api/card/createTransaction`,
           {
             transactionAmount: decimalPrice,
+            subscriptionType: subscriptionType,
           },
           {
             headers: {

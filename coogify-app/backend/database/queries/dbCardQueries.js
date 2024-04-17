@@ -43,7 +43,7 @@ export async function getCardDetails(userID) {
 export async function retrievePurchaseHistory(userID) {
     try {
         const [rows] = await pool.query(
-            `SELECT t.transactionID, t.subscriptionID, t.transactionAmount, s.subscriptionType, s.startDate, s.endDate, u.email, u.firstName, u.LastName, c.cardType, c.cardNumber
+            `SELECT t.transactionID, t.subscriptionID, t.transactionAmount, t.subscriptionType, s.startDate, s.endDate, u.email, u.firstName, u.LastName, c.cardType, c.cardNumber
             FROM TRANSACTION t
             INNER JOIN SUBSCRIPTION s ON t.subscriptionID = s.subscriptionID
             INNER JOIN CARD c ON s.cardID = c.cardID
@@ -60,7 +60,7 @@ export async function retrievePurchaseHistory(userID) {
     }
 }
 
-export async function createTicket(userID, transactionAmount) {
+export async function createTicket(userID, transactionAmount, subscriptionType) {
     try {
         const [subscriptionRows] = await pool.query(
             `SELECT s.subscriptionID
@@ -75,9 +75,9 @@ export async function createTicket(userID, transactionAmount) {
 
             // Insert the transaction with the retrieved subscriptionID
             await pool.query(
-                `INSERT INTO TRANSACTION (subscriptionID, transactionAmount)
-                VALUES (?, ?)`,
-                [subscriptionID, transactionAmount]
+                `INSERT INTO TRANSACTION (subscriptionID, transactionAmount, subscriptionType)
+                VALUES (?, ?, ?)`,
+                [subscriptionID, transactionAmount, subscriptionType]
             );
             console.log('transaction inputted successfully');
 

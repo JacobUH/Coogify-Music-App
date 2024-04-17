@@ -10,6 +10,10 @@ import { useNavigate, Link } from 'react-router-dom';
 interface Transaction {
   subscriptionType: string;
   startDate: string;
+  transactionAmount: number;
+  email: string;
+  cardType: string;
+  cardNumber: string;
 }
 
 export const PrevTransactionsMain = () => {
@@ -64,26 +68,67 @@ export const PrevTransactionsMain = () => {
 
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
           {/* Work in here */}
-          <div className="flex grid-cols-2 h-[380px] w-[500px] bg-[#656262] text-white rounded-xl overflow-y-auto">
-            <div>
-              <div className="pl-16 pt-12"> Purchase History </div>
-              <div className="pl-16 pt-12">
-              { transactions.map((index: Transaction) => (
-                <div className="border-b border-white py-3 text-center">
-                  {index.subscriptionType}
-                </div>
-              ))}
+          <div className="flex flex-row p-12 space-x-24 bg-[#656262] text-white rounded-xl overflow-y-auto text-center">
+            <div className="flex flex-col">
+              <span className="text-2xl"> Subscription Type</span>
+              <div className="pt-12">
+                {transactions.map((index: Transaction) => (
+                  <div className="border-b border-white py-3">
+                    {index.subscriptionType}
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div>
-              <div className="pl-28 pt-12"> Purchase Date </div>
-              <div className="pl-28 pt-12 text-center">
-              { transactions.map((index: Transaction) => (
-                <div className="border-b border-white py-3">
-                  {new Date(index.startDate).toLocaleDateString('en-US')}
-                </div>
-              ))}
+            <div className="flex flex-col">
+              <span className="text-2xl"> Purchase Date </span>
+              <div className="pt-12">
+                {transactions.map((index: Transaction) => (
+                  <div className="border-b border-white py-3">
+                    {new Date(index.startDate).toLocaleDateString('en-US')}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-2xl">Purchase Price</span>
+              <div className="pt-12">
+                {transactions.map((index: Transaction) => (
+                  <div className="border-b border-white py-3">
+                    {index.transactionAmount}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-2xl">Email Linked</span>
+              <div className="pt-12">
+                {transactions.map((index: Transaction) => (
+                  <div className="border-b border-white py-3">
+                    {index.email}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col">
+              <span className="text-2xl">Card Type</span>
+              <div className="pt-12">
+                {transactions.map((index: Transaction) => (
+                  <div className="border-b border-white py-3">
+                    {index.cardType}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-2xl">Card Number</span>
+              <div className="pt-12">
+                {transactions.map((index: Transaction) => (
+                  <div className="border-b border-white py-3 justify-center flex flex-row">
+                    <p className="mr-2">****</p> {index.cardNumber.slice(-4)}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
