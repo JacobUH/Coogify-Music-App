@@ -66,7 +66,10 @@ export const LikedMusicRows = ({ title }: Props) => {
     <div className="w-full flex flex-col md:gap-4 gap-6 px-2">
       <div className="w-full flex items-center justify-between">
         <span className="text-[22px]">{title}</span>
-        <a href="#" className="text-[#9E67E4] text-[15px] font-medium">
+        <a
+          href="/likedSongs"
+          className="text-[#9E67E4] text-[15px] font-medium"
+        >
           See More
         </a>
       </div>

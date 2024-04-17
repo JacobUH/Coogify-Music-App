@@ -3,6 +3,9 @@ import BackButton from '/images/Back Button.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { SubscriptionScreen } from '../elements/SubscriptionScreen';
+import { SubscriptionActive } from '../elements/SubscriptionActiveScreen';
+import { SchoolEmail } from '../elements/SchoolEmail';
+import { ConfirmCancelScreen } from '../elements/ConfirmCancelScreen';
 import backendBaseUrl from '../../../apiConfig';
 import axios from 'axios';
 
@@ -22,25 +25,57 @@ export const SubscriptionMain = () => {
     navigate(-1);
   };
 
+  const [subCreds, setSubCreds] = useState<Subscription[]>([]);
   const [showPopup, setShowPopup] = useState(false);
+  const [showActive, setShowActive] = useState(false);
+  const [showSchool, setShowSchool] = useState(false);
   const [subscriptionType, setSubscriptionType] = useState('');
   const [price, setPrice] = useState('');
   const [subColor, setSubColor] = useState('');
 
   const handlePurchase = (subscriptionType, price, subColor) => {
-    setShowPopup(true);
-    setSubscriptionType(subscriptionType);
-    setPrice(price);
-    setSubColor(subColor);
+    if (
+      subCreds[0].subscriptionType === 'Student' ||
+      subCreds[0].subscriptionType === 'Paid'
+    ) {
+      setShowActive(true);
+    } else {
+      setShowPopup(true);
+      setSubscriptionType(subscriptionType);
+      setPrice(price);
+      setSubColor(subColor);
+    }
   };
 
-  const HandleClose = () => {
+  const handleSchool = (subscriptionType, price, subColor) => {
+    if (
+      subCreds[0].subscriptionType === 'Student' ||
+      subCreds[0].subscriptionType === 'Paid'
+    ) {
+      setShowActive(true);
+    } else {
+      setShowSchool(true);
+      setSubscriptionType(subscriptionType);
+      setPrice(price);
+      setSubColor(subColor);
+    }
+  };
+
+  const HandleClosePopup = () => {
     setShowPopup(false);
   };
 
-  const storedToken = localStorage.getItem('sessionToken');
-  const [subCreds, setSubCreds] = useState<Subscription[]>([]);
+  const HandleCloseActive = () => {
+    setShowActive(false);
+  };
 
+  const HandleCloseSchool = () => {
+    setShowSchool(false);
+  };
+
+  const storedToken = localStorage.getItem('sessionToken');
+
+  // API - GET
   useEffect(() => {
     const fetchUserLikedSongs = async () => {
       try {
@@ -63,6 +98,51 @@ export const SubscriptionMain = () => {
     fetchUserLikedSongs();
   }, []);
 
+  const cancelSubscription = async () => {
+    try {
+      const response = await axios.get(
+        `${backendBaseUrl}/api/subscription/cancelSubscription`,
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error cancelling subscription:', error);
+    }
+  };
+
+  const restoreSubscription = async () => {
+    try {
+      const response = await axios.get(
+        `${backendBaseUrl}/api/subscription/restoreSubscription`,
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error restoring subscription:', error);
+    }
+  };
+
+  const [showCancel, setShowCancel] = useState(false);
+  const [showRestore, setShowRestore] = useState(false);
+
+  const handleCancel = () => {
+    setShowCancel(true);
+  };
+
+  const handleRestore = () => {
+    setShowRestore(true);
+  };
+
   return (
     <div
       className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5 "
@@ -84,24 +164,12 @@ export const SubscriptionMain = () => {
           {/* Work in here */}
           {/* Subscription Main here: */}
           <div className="w-full flex flex-col md:flex-row items-center justify-center md:gap-40">
-            <div className="text-2xl flex flex-col gap-4 items-center sm:w-96 md:w-96">
+            <div className="text-2xl flex flex-col gap-4 items-center sm:w-96 md:w-96 mt-16">
               <span>Subscription Plans</span>
-
-              <button
-                className="text-white w-full py-9 rounded-lg pl-7 mb-4 bg-[#656262] shadow-md shadow-[#313131] text-left"
-                onClick={() =>
-                  handlePurchase('Free', '$0.00/per month', 'text-white')
-                }
-              >
-                <div className="text-4xl font-bold">Free</div>
-                <div className="text-white text-lg font-normal">
-                  $0.00/per month
-                </div>
-              </button>
               <button
                 className="text-[#A263F2] w-full py-9 rounded-lg pl-7 mb-4 bg-[#656262] shadow-md shadow-[#313131] text-left"
                 onClick={() =>
-                  handlePurchase('Premium', '$10.99/per month', '#A263F2')
+                  handlePurchase('Paid', '$10.99/per month', '#A263F2')
                 }
               >
                 <div className="text-4xl font-bold">Premium</div>
@@ -113,7 +181,7 @@ export const SubscriptionMain = () => {
               <button
                 className="text-[#FFFF00] w-full py-9 rounded-lg pl-7 mb-4 bg-[#656262] shadow-md shadow-[#313131] text-left"
                 onClick={() =>
-                  handlePurchase('Student', '$5.99/per month', '#FFFF00')
+                  handleSchool('Student', '$5.99/per month', '#FFFF00')
                 }
               >
                 <div className="text-4xl font-bold">Student</div>
@@ -122,14 +190,23 @@ export const SubscriptionMain = () => {
                 </div>
               </button>
             </div>
+            {showActive && <SubscriptionActive onClose={HandleCloseActive} />}
             {showPopup && (
               <SubscriptionScreen
-                onClose={HandleClose}
+                onClose={HandleClosePopup}
                 subscriptionType={subscriptionType} // Pass subscription type as prop
                 price={price} // Pass price as prop
                 subColor={subColor}
               />
-            )}{' '}
+            )}
+            {showSchool && (
+              <SchoolEmail
+                onClose={HandleCloseSchool}
+                subscriptionType={subscriptionType} // Pass subscription type as prop
+                price={price} // Pass price as prop
+                subColor={subColor}
+              />
+            )}
             <div className="text-2xl text-center gap-4 items-center sm:mt-10 md:w-96">
               Current Plan
               <div className="bg-[#656262] w-full h-96 px-9 py-9 rounded-lg pl-7 font-normal flex flex-col mt-5">
@@ -205,9 +282,19 @@ export const SubscriptionMain = () => {
                     subCreds[0].subscriptionType !== 'Free' &&
                     subCreds[0].endDate === null && (
                       <>
-                        <button className="hover:bg-[#3f3f3f] bg-[#2d2c2c] text-white font-bold py-2 px-4 rounded">
+                        <button
+                          className="hover:bg-[#3f3f3f] bg-[#2d2c2c] text-white font-bold py-2 px-4 rounded"
+                          onClick={handleCancel}
+                        >
                           Cancel Subscription
                         </button>
+                        {/* Render ConfirmCancelScreen component if showCancel state is true */}
+                        {showCancel && (
+                          <ConfirmCancelScreen
+                            onClose={() => setShowCancel(false)}
+                            condition="cancel"
+                          />
+                        )}
                       </>
                     )}
                   {subCreds.length > 0 &&
@@ -215,18 +302,27 @@ export const SubscriptionMain = () => {
                     subCreds[0].subscriptionType !== 'Free' &&
                     subCreds[0].endDate !== null && (
                       <>
-                        <button className="hover:bg-[#3f3f3f] bg-[#2d2c2c] text-white font-bold py-2 px-4 rounded">
+                        <button
+                          className="hover:bg-[#3f3f3f] bg-[#2d2c2c] text-white font-bold py-2 px-4 rounded"
+                          onClick={handleRestore}
+                        >
                           Restore Subscription
                         </button>
+                        {/* Render ConfirmCancelScreen component if showRestore state is true */}
+                        {showRestore && (
+                          <ConfirmCancelScreen
+                            onClose={() => setShowRestore(false)}
+                            condition="restore"
+                          />
+                        )}
                       </>
                     )}
                 </div>
               </div>
             </div>
           </div>
-           
         </div>
       </div>
-      </div>
+    </div>
   );
 };

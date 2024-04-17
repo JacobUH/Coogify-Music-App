@@ -70,7 +70,7 @@ export const HomeMain = () => {
           <div className="flex flex-row justify-between items-center overflow-x-auto ml-5">
             <Link to="/likedSongs">
               <button className="bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
-                Your Liked Songs
+                Your Liked Music
               </button>
             </Link>
             <Link to="/library">

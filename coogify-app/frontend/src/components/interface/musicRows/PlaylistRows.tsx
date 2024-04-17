@@ -82,10 +82,6 @@ export const PlaylistRows = ({ title }: Props) => {
             />
           </div>
         </div>
-
-        <a href="#" className="text-[#9E67E4] text-[15px] font-medium">
-          See More
-        </a>
       </div>
       <div className="w-full flex items-center overflow-x-auto overflow-y-auto md:pb-0 pb-5">
         <div className="flex items-center gap-2">

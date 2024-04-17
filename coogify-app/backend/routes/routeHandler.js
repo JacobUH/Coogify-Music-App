@@ -9,13 +9,13 @@ import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
 import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs, fetchPopSongs, fetchUserLikedSongs, fetchKPopSongs, fetchLatinSongs, fetchAlternativeSongs, fetchClassicalSongs, fetchJazzSongs, fetchElectronicSongs, fetchCountrySongs, fetchRockSongs } from './specificRoutes/homeRoutes.js';
 import { likeSong } from './specificRoutes/songRoutes.js';
-import { makePayment } from './specificRoutes/subscriptionRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
 import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
 import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
-import { addCard, getPurchaseHistory } from './specificRoutes/cardRoutes.js';
+import { addCard, fetchCardDetails, getPurchaseHistory, createTransaction } from './specificRoutes/cardRoutes.js';
 import { uploadPlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist } from './specificRoutes/playlistRoutes.js'
 import { fetchUserProfile, updateProfile } from './specificRoutes/profileRoutes.js';
+import { makePayment, updateSubscription, cancelSubscription, restoreSubscription} from './specificRoutes/subscriptionRoutes.js'
 
 // Define the handlers object
 const handlers = {
@@ -71,8 +71,14 @@ const handlers = {
     card: {
       addCard: addCard,
       PrevTransactions: getPurchaseHistory,
+      createTransaction: createTransaction,
+      fetchCardDetails:fetchCardDetails,
     },
-
+    subscription: {
+      updateSubscription: updateSubscription,
+      cancelSubscription: cancelSubscription,
+      restoreSubscription: restoreSubscription
+    },
     admin: {
       music: retrieveAllSongs,
       users: retrieveAllUsers,
