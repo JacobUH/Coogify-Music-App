@@ -22,7 +22,7 @@ export async function createCard(userID, cardType, cardNumber, cardExpiration, c
 export async function getCardDetails(userID) {
     try {
         const [rows] = await pool.query(
-            `SELECT c.cardType, c.cardNumber, c.cardExpiration, c.cardSecurity, u.firstName, u.lastName
+            `SELECT c.cardID, c.cardType, c.cardNumber, c.cardExpiration, c.cardSecurity, u.firstName, u.lastName
              FROM CARD c
              INNER JOIN USER u ON c.userID = u.userID
              WHERE c.userID = ?`, 
@@ -53,6 +53,25 @@ export async function retrievePurchaseHistory(userID) {
 
     }   catch (error) {
         console.error('Error retrieving history', error);
+        return false;
+    }
+}
+
+export async function updateUserSub(userID, cardID, subscriptionType){
+    try {
+        const currentDate = new Date();
+        const renewDate = new Date();
+        renewDate.setMonth(renewDate.getMonth() + 1);
+        
+        const sql = `
+            UPDATE SUBSCRIPTION
+            SET cardID = ?, subscriptionType = ?, subcriptionActive = 1, startDate = ?, renewDate = ?
+            WHERE userID = ?
+        `;
+        await pool.query(sql, [cardID, subscriptionType, currentDate, renewDate, userID]);
+        return true;
+    } catch (error) {
+        console.error('Error updating subscription in database', error);
         return false;
     }
 }

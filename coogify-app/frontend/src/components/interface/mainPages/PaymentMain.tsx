@@ -4,8 +4,7 @@ import BackButton from '/images/Back Button.svg';
 import AddIcon from '/images/AddIcon.svg';
 import backendBaseUrl from '../../../apiConfig';
 
-export const PaymentMain = () => 
-  {
+export const PaymentMain = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -53,28 +52,25 @@ export const PaymentMain = () =>
           />
         </div>
 
-
         <div className="text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
           Payment
         </div>
-
 
         <div className="rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col gap-5 px-8 md:py-5 pb-20 pt-5">
           {/* Work in here */}
           <div className="flex flex-row justify-center">
             <div className="items-center">
-              
               <div className="font-bold flex items-center px-2 mb-2">
                 Payment Method
                 {/* <Link to="/AddCardPage"> */}
-                  <div className="px-2">
-                    <img
-                      src={AddIcon}
-                      alt="Back"
-                      onClick={() => navigate('/AddCard')}
-                      className="cursor-pointer h-6 w-6"
-                      />
-                  </div>
+                <div className="px-2">
+                  <img
+                    src={AddIcon}
+                    alt="Back"
+                    onClick={() => navigate('/AddCard')}
+                    className="cursor-pointer h-6 w-6"
+                  />
+                </div>
                 {/* </Link> */}
               </div>
 
@@ -186,16 +182,16 @@ export const PaymentMain = () =>
                   </div>
                 </div>
 
-                {/* <Link to=""> */} 
+                {/* <Link to=""> */}
                 <div>
-                  <button className="mt-24 ml-44 justify-center hover:bg-[#434242] bg-[#9E67E4] shadow-lg shadow-[#313131] px-6 py-3 mb-3 text-center rounded-full" 
-                  onClick={() => navigate('/PrevTransactions')}>
+                  <button
+                    className="mt-24 ml-44 justify-center hover:bg-[#434242] bg-[#9E67E4] shadow-lg shadow-[#313131] px-6 py-3 mb-3 text-center rounded-full"
+                    onClick={() => navigate('/PrevTransactions')}
+                  >
                     View All
                   </button>
-                  
                 </div>
-                {/* </Link> */} 
-
+                {/* </Link> */}
               </div>
             </div>
           </div>
@@ -226,24 +222,14 @@ export const PaymentMain = () =>
                   <div className="px-1">CVV</div>
                   <input className=" hover:bg-[#434242] bg-[#656262] shadow-md shadow-[#313131] h-[35px] w-[400px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"></input>
 
-                  <div className="px-1">Set Card as Default?</div>
-                    <div>
-                      <button className="hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[40px] w-[60px] px-2 py-2 text-center rounded-full mr-4">
-                        Yes
-                      </button>
-                      <button className="hover:bg-[#434242] bg-[#656262] shadow-lg shadow-[#313131] h-[40px] w-[60px] px-2 py-2 text-center rounded-full">
-                        No
-                      </button>  
-                    </div>
-                  <button className="mt-8 hover:bg-[#434242] bg-[#9E67E4] shadow-lg shadow-[#313131] px-5 py-2 mb-3 text-center rounded-full">
+                  <div className="flex flex-row"></div>
+                  <button className="mt-8 ml-32 hover:bg-[#434242] bg-[#9E67E4] shadow-lg shadow-[#313131] px-5 py-2 mb-3 text-center rounded-full">
                     Confirm Changes
-                  </button>               
+                  </button>
                 </div>
-  
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

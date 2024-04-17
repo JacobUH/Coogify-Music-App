@@ -3,6 +3,8 @@ import BackButton from '/images/Back Button.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { SubscriptionScreen } from '../elements/SubscriptionScreen';
+import { SubscriptionActive } from '../elements/SubscriptionActiveScreen';
+import { SchoolEmail } from '../elements/SchoolEmail';
 import backendBaseUrl from '../../../apiConfig';
 import axios from 'axios';
 
@@ -22,26 +24,55 @@ export const SubscriptionMain = () => {
     navigate(-1);
   };
 
+  const [subCreds, setSubCreds] = useState<Subscription[]>([]);
   const [showPopup, setShowPopup] = useState(false);
+  const [showActive, setShowActive] = useState(false);
+  const [showSchool, setShowSchool] = useState(false);
   const [subscriptionType, setSubscriptionType] = useState('');
   const [price, setPrice] = useState('');
   const [subColor, setSubColor] = useState('');
 
-
-  // handlePurchase shows all this info wherever you call it
   const handlePurchase = (subscriptionType, price, subColor) => {
-    setShowPopup(true);
-    setSubscriptionType(subscriptionType);
-    setPrice(price);
-    setSubColor(subColor);
+    if (
+      subCreds[0].subscriptionType === 'Student' ||
+      subCreds[0].subscriptionType === 'Paid'
+    ) {
+      setShowActive(true);
+    } else {
+      setShowPopup(true);
+      setSubscriptionType(subscriptionType);
+      setPrice(price);
+      setSubColor(subColor);
+    }
   };
 
-  const HandleClose = () => {
+  const handleSchool = (subscriptionType, price, subColor) => {
+    if (
+      subCreds[0].subscriptionType === 'Student' ||
+      subCreds[0].subscriptionType === 'Paid'
+    ) {
+      setShowActive(true);
+    } else {
+      setShowSchool(true);
+      setSubscriptionType(subscriptionType);
+      setPrice(price);
+      setSubColor(subColor);
+    }
+  };
+
+  const HandleClosePopup = () => {
     setShowPopup(false);
   };
 
+  const HandleCloseActive = () => {
+    setShowActive(false);
+  };
+
+  const HandleCloseSchool = () => {
+    setShowSchool(false);
+  };
+
   const storedToken = localStorage.getItem('sessionToken');
-  const [subCreds, setSubCreds] = useState<Subscription[]>([]);
 
   // API - GET
   useEffect(() => {
@@ -87,26 +118,12 @@ export const SubscriptionMain = () => {
           {/* Work in here */}
           {/* Subscription Main here: */}
           <div className="w-full flex flex-col md:flex-row items-center justify-center md:gap-40">
-            <div className="text-2xl flex flex-col gap-4 items-center sm:w-96 md:w-96">
+            <div className="text-2xl flex flex-col gap-4 items-center sm:w-96 md:w-96 mt-16">
               <span>Subscription Plans</span>
-
-              <button 
-                className="text-white w-full py-9 rounded-lg pl-7 mb-4 bg-[#656262] shadow-md shadow-[#313131] text-left"
-                onClick={() =>
-                  handlePurchase('Free', '$0.00/per month', 'text-white')
-                }
-                > 
-
-                <div className="text-4xl font-bold">Free</div>
-                <div className="text-white text-lg font-normal">
-                  $0.00/per month
-                </div>
-              </button>
-
               <button
                 className="text-[#A263F2] w-full py-9 rounded-lg pl-7 mb-4 bg-[#656262] shadow-md shadow-[#313131] text-left"
                 onClick={() =>
-                  handlePurchase('Premium', '$10.99/per month', '#A263F2')
+                  handlePurchase('Paid', '$10.99/per month', '#A263F2')
                 }
               >
                 <div className="text-4xl font-bold">Premium</div>
@@ -118,7 +135,7 @@ export const SubscriptionMain = () => {
               <button
                 className="text-[#FFFF00] w-full py-9 rounded-lg pl-7 mb-4 bg-[#656262] shadow-md shadow-[#313131] text-left"
                 onClick={() =>
-                  handlePurchase('Student', '$5.99/per month', '#FFFF00')
+                  handleSchool('Student', '$5.99/per month', '#FFFF00')
                 }
               >
                 <div className="text-4xl font-bold">Student</div>
@@ -127,14 +144,23 @@ export const SubscriptionMain = () => {
                 </div>
               </button>
             </div>
+            {showActive && <SubscriptionActive onClose={HandleCloseActive} />}
             {showPopup && (
               <SubscriptionScreen
-                onClose={HandleClose}
+                onClose={HandleClosePopup}
                 subscriptionType={subscriptionType} // Pass subscription type as prop
                 price={price} // Pass price as prop
                 subColor={subColor}
               />
-            )}{' '}
+            )}
+            {showSchool && (
+              <SchoolEmail
+                onClose={HandleCloseSchool}
+                subscriptionType={subscriptionType} // Pass subscription type as prop
+                price={price} // Pass price as prop
+                subColor={subColor}
+              />
+            )}
             <div className="text-2xl text-center gap-4 items-center sm:mt-10 md:w-96">
               Current Plan
               <div className="bg-[#656262] w-full h-96 px-9 py-9 rounded-lg pl-7 font-normal flex flex-col mt-5">
@@ -229,10 +255,8 @@ export const SubscriptionMain = () => {
               </div>
             </div>
           </div>
-           
         </div>
       </div>
-      </div>
-
+    </div>
   );
 };

@@ -5,11 +5,13 @@ import DefaultPlaylist from '../../../../public/images/DefaultPlaylist.svg';
 import axios from 'axios';
 import backendBaseUrl from '../../../apiConfig';
 
-interface HandleClose {
+interface HandleClosePopup {
   onClose: () => void; // Specify the type of onClose prop
 }
 
 interface Card {
+  userID: number;
+  cardID: number;
   cardType?: string;
   cardNumber?: string;
   cardExpiration?: string;
@@ -18,21 +20,14 @@ interface Card {
   lastName?: string;
 }
 
-
-
 export const SubscriptionScreen: React.FC<
-  HandleClose & { subscriptionType: string; price: string; subColor: string }
+  HandleClosePopup & {
+    subscriptionType: string;
+    price: string;
+    subColor: string;
+  }
 > = ({ onClose, subscriptionType, price, subColor }) => {
-  const defaultPlaylistName = 'My Playlist'; // Define the default playlist name
-  const defaultCoverArtURL = DefaultPlaylist; // URL of the default SVG image
-
   const [error, setError] = useState('');
-  const [playlistName, setPlaylistName] = useState(defaultPlaylistName);
-  const [playlistDes, setPlaylistDes] = useState('');
-  const [coverArtURL, setCoverArtURL] = useState<File | string | null>(
-    defaultCoverArtURL
-  );
-
   const [cardDetails, setCardDetails] = useState<Card[]>([]); // cardDetails store an array of cards
   const [selectCard, setSelectCard] = useState<Card[]>([]); // either user chooses card, or not
   const [cvv, setCvv] = useState('');
@@ -46,38 +41,43 @@ export const SubscriptionScreen: React.FC<
     setSelectCard([card]);
     console.log(card);
   };
-  
-  const handleSubmit = () => {
-    //{cvv && cvv === selectCard[0].cardSecurity && (
-      // api to input the subscription
-    //)} 
-  }
 
-  const handleInputClick = () => {
-    const inputDiv = document.getElementById('playlistName');
-    inputDiv?.focus();
-  };
-
-  const handleInputChange = (e) => {
-    const newName = e.target.textContent.trim(); // Trim any leading or trailing whitespace
-    setPlaylistName(newName || defaultPlaylistName); // If newName is empty, use defaultPlaylistName
-    setError(''); // Clear error whenever the playlist name content changes
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
-    if (file) {
-      setCoverArtURL(file);
+  const handleSubmit = async () => {
+    if (cvv === selectCard[0]?.cardSecurity) {
+      try {
+        const response = await axios.post(
+          `${backendBaseUrl}/api/card/updateSubscription`,
+          {
+            cardID: selectCard[0].cardID,
+            subscriptionType: subscriptionType,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        navigate('/PrevTransactions');
+      } catch (error) {
+        console.error('Error fetching new songs:', error);
+      }
+    } else if (cvv === '') {
+      setError('Please enter a CVV.');
     } else {
-      setCoverArtURL(defaultCoverArtURL);
+      setError('Please enter the correct CVV.');
     }
+  };
+
+  const handleCVVChange = (value) => {
+    setCvv(value);
   };
 
   const navigate = useNavigate();
   const storedToken = localStorage.getItem('sessionToken');
 
-   // API - GET
-   useEffect(() => {
+  // API - GET
+  useEffect(() => {
     const fetchCards = async () => {
       try {
         const response = await axios.get(
@@ -90,7 +90,7 @@ export const SubscriptionScreen: React.FC<
           }
         );
         setCardDetails(response.data);
-        console.log(response.data)
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching new songs:', error);
       }
@@ -99,23 +99,10 @@ export const SubscriptionScreen: React.FC<
   }, []);
 
   const handleYes = async () => {
-    console.log(
-      JSON.stringify({
-        playlistName,
-        playlistDes,
-        coverArtURL,
-        storedToken,
-      })
-    );
     try {
       const response = await axios.post(
         `${backendBaseUrl}/api/playlist/uploadPlaylistEntry`, // Use backendBaseUrl here
-        {
-          playlistName: playlistName,
-          playlistDescription: playlistDes,
-          coverArtURL: coverArtURL,
-          sessionToken: storedToken,
-        },
+        {},
         {
           headers: {
             Authorization: `Bearer ${storedToken}`,
@@ -129,8 +116,6 @@ export const SubscriptionScreen: React.FC<
       if (response.status !== 200) {
         throw new Error(response.data.message);
       }
-
-      navigate(`/playlist/${playlistName}`);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         setError('unable to create playlist.');
@@ -148,8 +133,6 @@ export const SubscriptionScreen: React.FC<
     onClose();
   };
 
-
-
   return (
     <>
       <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
@@ -162,55 +145,67 @@ export const SubscriptionScreen: React.FC<
               <div className="text-lg font-semibold">Review Details</div>
               <div className="mt-3">Card Type</div>
               <input
-                className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"
+                className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full text-center"
                 title="Please enter a card type."
                 value={selectCard[0]?.cardType || ''}
-                onChange={(e) => handleInputChange(e.target.value)}
                 disabled
               />
 
-              <div className="">Card Number</div>
+              <span>Card Number</span>
               <input
-                className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"
+                className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full text-center"
                 title="Please enter a card number."
-                value={selectCard[0]?.cardNumber || ''}
-                onChange={(e) => handleInputChange(e.target.value)}
+                value={
+                  selectCard[0]?.cardNumber
+                    ? '**** ' + selectCard[0].cardNumber.slice(-4)
+                    : ''
+                }
                 disabled
               />
 
-              <div className="">Expiration Date</div>
+              <span>Expiration Date</span>
               <input
-                className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"
+                className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full text-center"
                 title="Please enter a expiration date."
-                value={selectCard[0]?.cardExpiration || ''}
-                onChange={(e) => handleInputChange(e.target.value)}
+                value={
+                  selectCard[0]?.cardExpiration
+                    ? `${selectCard[0].cardExpiration.slice(
+                        5,
+                        7
+                      )}/${selectCard[0].cardExpiration.slice(2, 4)}`
+                    : ''
+                }
                 disabled
               />
 
-              <div className="">Card Security</div>
+              <span>Card Security</span>
               <input
-                className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"
-                title="Please enter a cardSecurity."
+                className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full text-center"
+                title="Please enter a card Security."
                 value={cvv}
-                onChange={(e) => handleInputChange(e.target.value)}
+                onChange={(e) => handleCVVChange(e.target.value)}
               />
+              {error && error === 'Please enter a CVV.' && (
+                <p className="text-[#b074ff] text-bold">{error}</p>
+              )}
+              {error && error === 'Please enter the correct CVV.' && (
+                <p className="text-red-500 text-bold">{error}</p>
+              )}
             </div>
             <div className="flex flex-col p-10">
-              <div className="pt-8">First Name</div>
+              <span className="pt-8">First Name</span>
               <input
-                className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"
+                className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full text-center"
                 title="Please enter a first name."
                 value={selectCard[0]?.firstName || ''}
-                onChange={(e) => handleInputChange(e.target.value)}
                 disabled
               />
 
-              <div className="">Last Name</div>
-              <input 
-                className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full transition duration-200 ease-in-out"
+              <span>Last Name</span>
+              <input
+                className="bg-[#858181] shadow-md shadow-[#313131] h-[35px] w-[180px] px-2 py-2 pb-2 mb-3 rounded-full text-center"
                 title="Please enter a last name."
                 value={selectCard[0]?.lastName || ''}
-                onChange={(e) => handleInputChange(e.target.value)} 
                 disabled
               />
             </div>
@@ -222,48 +217,58 @@ export const SubscriptionScreen: React.FC<
               Your Cards
             </div>
             <div className="flex flex-col h-fit w-[300px] p-2 rounded-md bg-[#4d4949]">
-              {cardDetails.map((card:Card)=>(
-                <button onClick={(e) => handleCardClick(card, e)} >
-                <div className="flex flex-row items-center rounded-md py-1 pl-1 hover:bg-[#5b5656]">
-                  {card.cardType && card.cardType === "Visa" && (
-                    <img className="ml-2"
-                    src="https://static-00.iconduck.com/assets.00/visa-icon-2048x1313-o6hi8q5l.png"
-                    width="90"
-                    height="40"
-                  />
-                  )}
-                  {card.cardType && card.cardType === "Discover" && (
-                    <img className="ml-2"
-                    src="https://www.shutterstock.com/image-vector/west-java-indonesia-oktober-13-600nw-2374385743.jpg"
-                    width="90"
-                    height="40"
-                  />
-                  )} 
-                  {card.cardType && card.cardType === "Mastercard" && (
-                    <img className="ml-2"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/2560px-MasterCard_Logo.svg.png"
-                    width="90"
-                    height="40"
-                  />
-                  )}
-                  {card.cardType && card.cardType === "American Express" && (
-                    <img className="ml-2"
-                    src="https://www.svgrepo.com/show/266068/american-express.svg"
-                    width="90"
-                    height="40"
-                  />
-                  )}
-                
-                  {/* if cardType === Visa, cardType === MasterCard, cardType === American Express, cardType === Discover */}
-                  <div className="ml-8 text-left">
-                    <div className=""> {card.cardType} </div>
-                    <div className=""> {card.cardNumber} </div>{' '}
-                    {/* Card.cardNumber */}
+              {cardDetails.map((card: Card) => (
+                <button
+                  key={card.cardID}
+                  onClick={(e) => handleCardClick(card, e)}
+                >
+                  <div className="flex flex-row items-center rounded-md py-1 pl-1 hover:bg-[#5b5656]">
+                    {card.cardType && card.cardType === 'Visa' && (
+                      <img
+                        className="ml-2"
+                        src="https://static-00.iconduck.com/assets.00/visa-icon-2048x1313-o6hi8q5l.png"
+                        width="90"
+                        height="40"
+                      />
+                    )}
+                    {card.cardType && card.cardType === 'Discover' && (
+                      <img
+                        className="ml-2"
+                        src="https://www.shutterstock.com/image-vector/west-java-indonesia-oktober-13-600nw-2374385743.jpg"
+                        width="90"
+                        height="40"
+                      />
+                    )}
+                    {card.cardType && card.cardType === 'Mastercard' && (
+                      <img
+                        className="ml-2"
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/2560px-MasterCard_Logo.svg.png"
+                        width="90"
+                        height="40"
+                      />
+                    )}
+                    {card.cardType && card.cardType === 'American Express' && (
+                      <img
+                        className="ml-2"
+                        src="https://www.svgrepo.com/show/266068/american-express.svg"
+                        width="90"
+                        height="40"
+                      />
+                    )}
+
+                    {/* if cardType === Visa, cardType === MasterCard, cardType === American Express, cardType === Discover */}
+                    <div className="ml-8 text-left">
+                      <div className="text-lg"> {card.cardType} </div>
+                      {card.cardNumber && (
+                        <div className="text-base flex items-center">
+                          <p className="mt-1.5">****</p>
+                          <p className="ml-1">{card.cardNumber.slice(-4)}</p>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </button>
+                </button>
               ))}
-              
             </div>
             {/* Space in between */}
             <div className="flex flex-grow"></div>
@@ -280,7 +285,10 @@ export const SubscriptionScreen: React.FC<
             <div className="flex flex-col items-center">
               <span className="mb-3 ">Proceed With Transaction?</span>
               <div className="flex flex-row justify-center">
-                <button className="bg-[#9E67E4] w-[75px] h-[50px] px-[23px] py-[15px] rounded-3xl mr-4" onClick={handleSubmit}>
+                <button
+                  className="bg-[#9E67E4] w-[75px] h-[50px] px-[23px] py-[15px] rounded-3xl mr-4"
+                  onClick={handleSubmit}
+                >
                   Yes
                 </button>
 
