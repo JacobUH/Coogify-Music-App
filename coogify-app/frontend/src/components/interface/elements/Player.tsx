@@ -56,7 +56,7 @@ export const Player = () => {
             </span>
             <span className="text-[13px] text-[#BA85FE]">Eyedress</span>
           </div>
-          <button onClick={handleLikeClick}>
+          {/*<button onClick={handleLikeClick}>
             {liked ? (
               <img
                 className="w-[30px] ml-10"
@@ -70,7 +70,7 @@ export const Player = () => {
                 alt="LikeButton"
               />
             )}
-          </button>
+          </button>*/}
         </div>
       </div>
       <div className="flex items-center gap-4">
