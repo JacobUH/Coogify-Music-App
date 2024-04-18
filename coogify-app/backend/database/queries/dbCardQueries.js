@@ -40,16 +40,19 @@ export async function getCardDetails(userID) {
 
 
 
-export async function getSubDetails(userID) {
+export async function retrievePurchaseHistory(userID) {
     try {
         const [rows] = await pool.query(
-        `SELECT subscriptionType, startDate
-         FROM subscription
-         WHERE userID = ?`,
+            `SELECT t.transactionID, t.subscriptionID, t.transactionAmount, t.subscriptionType, s.startDate, s.endDate, u.email, u.firstName, u.LastName, c.cardType, c.cardNumber
+            FROM TRANSACTION t
+            INNER JOIN SUBSCRIPTION s ON t.subscriptionID = s.subscriptionID
+            INNER JOIN CARD c ON s.cardID = c.cardID
+            INNER JOIN USER u ON c.userID = u.userID
+            WHERE u.userID = ?`,
         [userID]
-    );
-    console.log('history retrieved successfully');
-    return rows;
+        );
+        console.log('history retrieved successfully');
+        return rows;
 
     }   catch (error) {
         console.error('Error retrieving history', error);

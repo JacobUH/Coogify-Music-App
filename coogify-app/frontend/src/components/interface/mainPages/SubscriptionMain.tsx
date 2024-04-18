@@ -59,10 +59,10 @@ export const SubscriptionMain = () => {
         //console.log(response.data);
         setSubCreds(response.data);
       } catch (error) {
-        console.error('Error fetching new songs:', error);
+        console.error('Error fetching sub credentials:', error);
       }
     };
-
+ 
     fetchUserLikedSongs();
   }, []);
 

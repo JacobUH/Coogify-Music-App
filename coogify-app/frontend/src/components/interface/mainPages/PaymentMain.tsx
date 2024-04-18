@@ -13,22 +13,28 @@ interface Card {
   firstName?: string;
   lastName?: string;
 }
+interface Transaction {
+  subscriptionType: string;
+  startDate: string;
+  transactionAmount: string;
+}
 
 export const PaymentMain = () => {
   const navigate = useNavigate();
   const storedToken = localStorage.getItem('sessionToken');
-
   const handleBack = () => {
     navigate(-1);
   };
-
   const [cardDetails, setCardDetails] = useState<Card[]>([]);
   const [selectCard, setSelectCard] = useState<Card | null>(null);
-
+  const [changesMade, setChangesMade] = useState(false);
   const [cvv, setCvv] = useState('');
   const [cardType, setCardType] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expDate, setExpDate] = useState('');
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [successMessage, setSuccessMessage] = useState('');
+
 
   const handleCardClick = (
     card: Card,
@@ -42,6 +48,7 @@ export const PaymentMain = () => {
     console.log(card);
   };
 
+  // function/API
   useEffect(() => {
     const fetchCards = async () => {
       try {
@@ -73,23 +80,64 @@ export const PaymentMain = () => {
     fetchCards();
   }, []);
 
-  const handleConfirmChanges = () => {
+  //API GET
+  useEffect(() => {
+    const handleRetrieve = async () => {
+      try {
+        const response = await axios.get(
+          `${backendBaseUrl}/api/card/PrevTransactions`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        setTransactions(response.data);
+      } catch (error) {
+        console.error('error fetching previous transaction history: ', error);
+      }
+    };
+    handleRetrieve();
+  }, []);
+
+
+  // function/API
+  const handleConfirmation = () => {
     const updatedCard: Card = {
       cardType,
       cardNumber,
       cardExpiration: expDate,
       cardSecurity: cvv,
-      // firstName and lastName if needed
-    };
-
+    }; 
     if (!selectCard) return;
 
-    const updatedCards = cardDetails.map(card =>
+    const isCardNumberValid = cardNumber.length === 16;
+    const isCvvValid = cvv.length === 4;
+    const isExpDateValid = /^\d{2}\/\d{2}$/.test(expDate);
+  
+    if (isCardNumberValid && isCvvValid && isExpDateValid) 
+    {
+      setChangesMade(true);
+      setSuccessMessage('Card details updated successfully.');
+      const updatedCards = cardDetails.map((card) =>
+        card === selectCard ? { ...updatedCard } : card
+      );
+      setCardDetails(updatedCards);
+    } 
+    else 
+    {
+      setSuccessMessage('Please check card details.');
+    }
+
+    const updatedCards = cardDetails.map((card) =>
       card === selectCard ? { ...updatedCard } : card
     );
     setCardDetails(updatedCards);
+    setChangesMade(true); // ????
   };
 
+  // function/API
   const handlePayNow = async () => {
     const storedToken = localStorage.getItem('sessionToken');
     if (!storedToken) {
@@ -128,6 +176,8 @@ export const PaymentMain = () => {
             className="cursor-pointer"
           />
         </div>
+
+
 
         <div className="text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
           Payment
@@ -188,39 +238,34 @@ export const PaymentMain = () => {
               </div>
             </div>
             
-            <div className="flex flex-col items-start">
+
+
+            <div className="flex flex-col">
               <div className="font-bold px-2 mb-2">Previous Transactions</div>
-              <div className="h-[380px] w-[500px] bg-[#212020] text-white rounded-xl px-5 py-2 overflow-y-auto">
-                <div className="grid grid-cols-2 gap-y-1 gap-x-6">
-                  <div className="border-b border-gray-400 py-3">
-                    Transaction 4
-                  </div>
-                  <div className="border-b border-gray-400 py-3">
-                    2024-03-18
-                  </div>
+              <div className="bg-[#212020] text-white rounded-xl overflow-y-auto">
+                  
+                    <div className="flex flex-row space-x-3 text-center items-center">
+                      <div className="flex flex-col">
+                        <span className="">Transaction</span>
+                        {transactions.slice(-4).map((transaction) => (
+                          <div>{transaction.subscriptionType}</div>
+                        ))}
+                      </div>
 
-                  <div className="border-b border-gray-400 py-3">
-                    Transaction 3
-                  </div>
-                  <div className="border-b border-gray-400 py-3">
-                    2024-02-11
-                  </div>
+                      <div className="flex flex-col">
+                        <span className="">Price</span>
+                        {transactions.slice(-4).map((transaction) => (
+                          <div>{transaction.transactionAmount}</div>
+                        ))}
+                      </div>
 
-                  <div className="border-b border-gray-400 py-3">
-                    Transaction 2
-                  </div>
-                  <div className="border-b border-gray-400 py-3">
-                    2024-02-09
-                  </div>
-
-                  <div className="border-b border-gray-400 py-3">
-                    Transaction 1
-                  </div>
-                  <div className="border-b border-gray-400 py-3">
-                    2024-01-11
-                  </div>
-                </div>
-
+                      <div className="flex flex-col">
+                        <span className="">Date</span>
+                        {transactions.slice(-4).map((transaction) => (
+                          <div>{new Date(transaction.startDate).toLocaleDateString("en-US")}</div>
+                        ))}
+                      </div>
+                    </div>
                 <div>
                   <button className="mt-24 ml-44 justify-center hover:bg-[#434242] bg-[#9E67E4] shadow-lg shadow-[#313131] px-6 py-3 mb-3 text-center rounded-full" onClick={() => navigate('/PrevTransactions')}>
                     View All
@@ -229,6 +274,9 @@ export const PaymentMain = () => {
               </div>
             </div>
           </div>
+
+
+
           <div className="flex flex-row justify-center">
             <div className="items-center mb-12">
               <div className="font-bold px-4 mb-2">Change Card Details</div>
@@ -243,7 +291,7 @@ export const PaymentMain = () => {
                     onChange={(e) => setCardType(e.target.value)}
                     title="Please select a card type."
                   >
-                    <option value="" disabled selected hidden>Select Card Type</option>
+                    <option value="" disabled selected hidden>Select Card Type</option> 
                     <option value="Visa">Visa</option>
                     <option value="Mastercard">Mastercard</option>
                     <option value="Discover">Discover</option>
@@ -291,10 +339,13 @@ export const PaymentMain = () => {
                   ></input>
 
                   <div className="flex flex-row"></div>
-                  <button className="mt-8 ml-32 hover:bg-[#434242] bg-[#9E67E4] shadow-lg shadow-[#313131] px-5 py-2 mb-3 text-center rounded-full" onClick={handleConfirmChanges}>
-                    Confirm Changes
+                  <button className="mt-8 ml-32 hover:bg-[#434242] bg-[#9E67E4] shadow-lg shadow-[#313131] px-5 py-2 mb-3 text-center rounded-full" 
+                      onClick={handleConfirmation}>
+                      Confirm Changes
+                      {successMessage && <div className="text-[#d7c4ef]">{successMessage}</div>}
                   </button>
                 </div>
+                
               </div>
             </div>
           </div>

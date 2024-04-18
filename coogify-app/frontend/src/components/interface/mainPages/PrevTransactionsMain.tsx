@@ -14,7 +14,6 @@ interface Transaction {
 
 export const PrevTransactionsMain = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-
   const navigate = useNavigate();
   const handleBack = () => {
     navigate(-1);
@@ -64,26 +63,31 @@ export const PrevTransactionsMain = () => {
 
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
           {/* Work in here */}
+
           <div className="flex grid-cols-2 h-[380px] w-[500px] bg-[#656262] text-white rounded-xl overflow-y-auto">
             <div>
               <div className="pl-16 pt-12"> Purchase History </div>
               <div className="pl-16 pt-12">
+
               { transactions.map((index: Transaction) => (
                 <div className="border-b border-white py-3 text-center">
                   {index.subscriptionType}
                 </div>
               ))}
+
               </div>
             </div>
 
             <div>
               <div className="pl-28 pt-12"> Purchase Date </div>
               <div className="pl-28 pt-12 text-center">
+
               { transactions.map((index: Transaction) => (
                 <div className="border-b border-white py-3">
                   {new Date(index.startDate).toLocaleDateString('en-US')}
                 </div>
               ))}
+
               </div>
             </div>
           </div>

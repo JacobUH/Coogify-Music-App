@@ -1,4 +1,4 @@
-import { createCard, getCardDetails, getSubDetails } from "../../database/queries/dbCardQueries.js";
+import { createCard, getCardDetails, retrievePurchaseHistory} from "../../database/queries/dbCardQueries.js";
 import { extractUserID, errorMessage } from '../../util/utilFunctions.js';
 
 export async function addCard(req, res) {
@@ -20,6 +20,26 @@ export async function addCard(req, res) {
     }   
 }
 
+export async function updateCard(req, res) {
+  const { cardType, cardNumber, cardExpiration, cardSecurity }  = req.body;
+  const userID = await extractUserID(req);
+    //console.log(req.body);
+    try {
+        const cardUpdate = await cardUpdate(cardType, cardNumber, cardExpiration, cardSecurity);
+        if (cardUpdate !== false) {
+            console.log(cardUpdate);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(cardUpdate));
+          } else {
+            errorMessage(res, 'Error updating card', 'Error');
+          }
+    } catch(error) {
+        errorMessage(res, error, 'Error updating card');
+
+    }   
+}
+
+
 export async function fetchCardDetails(req, res) {
   const userID = await extractUserID(req); //authorization
       try {
@@ -38,11 +58,11 @@ export async function fetchCardDetails(req, res) {
       }    
 }
 
-export async function fetchSubDetails(req, res) {
+export async function getPurchaseHistory(req, res) {
     const userID = await extractUserID(req); //authorization
       //console.log(req.body);
       try {
-        const receiveInformation = await getSubDetails(userID);
+        const receiveInformation = await retrievePurchaseHistory(userID);
         if (receiveInformation !== false) {
             console.log(receiveInformation);
             res.writeHead(200, { 'Content-Type': 'application/json' });
