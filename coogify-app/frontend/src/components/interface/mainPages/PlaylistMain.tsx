@@ -16,6 +16,7 @@ interface Playlist_Song {
   playlistDescription: string;
   playlistArt: string;
   trackID: number;
+  albumName: string;
   songName: string;
   coverArtURL: string;
   songURL: string;
@@ -37,11 +38,17 @@ interface Song {
 
 export const PlaylistMain = () => {
   const [songs, setSongs] = useState<Playlist_Song[]>([]);
+  const [playlistSong, setPlaylistSongs] = useState<Playlist_Song | null>(
+    songs.length > 0 ? songs[0] : null
+  );
+  const [hidePlaylistSongCard, setHidePlaylistSongCard] =
+    useState<boolean>(true);
+
   const [searchInput, setSearchInput] = useState('');
   const [searchSongs, setSearchSongs] = useState<Song[]>([]);
-
   const [selectedSong, setSelectedSong] = useState<Song | null>(null);
   const [hideSongCard, setHideSongCard] = useState<boolean>(true);
+
   const [clickPosition, setClickPosition] = useState<{
     x: number;
     y: number;
@@ -55,6 +62,19 @@ export const PlaylistMain = () => {
 
   const handleMouseSongLeave = () => {
     setHideSongCard(true); // Hide the card when mouse leaves the song card
+  };
+
+  const handleMousePlaylistSongLeave = () => {
+    setHidePlaylistSongCard(true); // Hide the card when mouse leaves the song card
+  };
+
+  const handlePlaylistSongClick = (
+    song: Playlist_Song,
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    setPlaylistSongs(song);
+    setClickPosition({ x: event.clientX, y: event.clientY });
+    setHidePlaylistSongCard(false); // Reset the hide flag when a song is clicked
   };
 
   const handleSongClick = (
@@ -144,6 +164,86 @@ export const PlaylistMain = () => {
     }
   };
 
+  // REMOVE SONG BACKEND CALL
+  const handleRemoveSong = async () => {
+    console.log(
+      JSON.stringify({
+        selectedSong,
+      })
+    );
+    if (playlistSong) {
+      console.log('playlistID: ', songs[0].playlistID);
+      console.log('trackID: ', playlistSong.trackID);
+      try {
+        const response = await axios.post(
+          `${backendBaseUrl}/api/playlist/removeSong`,
+          {
+            playlistID: songs[0].playlistID,
+            trackID: playlistSong?.trackID,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+      } catch (error) {
+        console.error('Error adding song (frontend):', error);
+      }
+    }
+  };
+
+  // LIKE SONG BACKEND CALL
+  const handleLikeSearchSong = async () => {
+    if (selectedSong) {
+      try {
+        await axios.post(
+          `${backendBaseUrl}/api/song/likeSong`,
+          {
+            trackID: selectedSong.trackID,
+            sessionToken: storedToken,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Song liked successfully');
+        // You can perform additional actions after liking the song here
+      } catch (error) {
+        console.error('Error liking the song:', error);
+      }
+    }
+  };
+
+  // LIKE SONG BACKEND CALL
+  const handleLikePlaylistSong = async () => {
+    if (playlistSong) {
+      try {
+        await axios.post(
+          `${backendBaseUrl}/api/song/likeSong`,
+          {
+            trackID: playlistSong.trackID,
+            sessionToken: storedToken,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Song liked successfully');
+        // You can perform additional actions after liking the song here
+      } catch (error) {
+        console.error('Error liking the song:', error);
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchPlaylistSongs = async () => {
       try {
@@ -168,7 +268,7 @@ export const PlaylistMain = () => {
     };
 
     fetchPlaylistSongs();
-  }, [playlistName, handleAddSong]);
+  }, [playlistName, handleAddSong, handleRemoveSong]);
 
   const filteredSongs = searchSongs.filter((song) => {
     const songName = song.songName
@@ -182,6 +282,10 @@ export const PlaylistMain = () => {
       .includes(searchInput.toLowerCase());
     return songName || albumName || artistName;
   });
+
+  function refreshPage() {
+    window.location.reload();
+  }
 
   return (
     <div
@@ -243,6 +347,7 @@ export const PlaylistMain = () => {
                 <div
                   key={index}
                   className="flex items-center gap-3 rounded-lg px-14 py-4 hover:bg-[#656262] cursor-pointer"
+                  onClick={(e) => handlePlaylistSongClick(song, e)}
                 >
                   <div className="w-12 md:w-16 text-lg">{index + 1}</div>
                   <img
@@ -316,6 +421,16 @@ export const PlaylistMain = () => {
             <button
               className="hover:bg-[#656262] text-xs m-2 px-3"
               onClick={() => {
+                console.log('add to playlist button clicked');
+                handleAddSong();
+                setHideSongCard(true);
+              }}
+            >
+              Add to Playlist
+            </button>
+            <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
                 console.log('view song button clicked');
                 navigate(`/album/${selectedSong.albumName}`);
               }}
@@ -335,7 +450,50 @@ export const PlaylistMain = () => {
               className="hover:bg-[#656262] text-xs m-2 px-3"
               onClick={() => {
                 console.log('like button clicked');
+                handleLikeSearchSong();
                 setHideSongCard(true);
+                refreshPage();
+              }}
+            >
+              Like Song
+            </button>
+          </div>
+        </div>
+      )}
+      {playlistSong && clickPosition && !hidePlaylistSongCard && (
+        <div
+          className="absolute"
+          style={{ top: clickPosition.y - 195, left: clickPosition.x - 5 }}
+        >
+          <div
+            className="text-center font-color-red-500 w-[100px] h-[200px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
+            onMouseLeave={handleMousePlaylistSongLeave}
+          >
+            <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('view song button clicked');
+                navigate(`/album/${playlistSong.albumName}`);
+              }}
+            >
+              View Song
+            </button>
+            <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('play button clicked');
+                setHidePlaylistSongCard(true);
+              }}
+            >
+              Play Song
+            </button>
+            <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('like button clicked');
+                handleLikePlaylistSong();
+                setHidePlaylistSongCard(true);
+                refreshPage();
               }}
             >
               Like Song
@@ -343,12 +501,12 @@ export const PlaylistMain = () => {
             <button
               className="hover:bg-[#656262] text-xs m-2 px-3"
               onClick={() => {
-                console.log('add to playlist button clicked');
-                handleAddSong();
-                setHideSongCard(true);
+                console.log('remove song button clicked');
+                handleRemoveSong();
+                setHidePlaylistSongCard(true);
               }}
             >
-              Add to Playlist
+              Remove Song
             </button>
           </div>
         </div>

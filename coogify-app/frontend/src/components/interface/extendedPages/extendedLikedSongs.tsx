@@ -42,9 +42,33 @@ export const ExtendedLikedSongs = ({ title }: Props) => {
 
   const storedToken = localStorage.getItem('sessionToken');
 
+  // UNLIKE SONG BACKEND CALL
+  const handleUnlikeSong = async () => {
+    if (selectedSong) {
+      try {
+        await axios.post(
+          `${backendBaseUrl}/api/song/unlikeSong`,
+          {
+            trackID: selectedSong.trackID,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Song unliked successfully');
+        // You can perform additional actions after liking the song here
+      } catch (error) {
+        console.error('Error unliking the song:', error);
+      }
+    }
+  };
+
   // FETCH NEW SONGS BACKEND CALL
   useEffect(() => {
-    const fetchNewestSongs = async () => {
+    const fetchUserLikedSongs = async () => {
       try {
         const response = await axios.get(
           `${backendBaseUrl}/api/home/fetchUserLikedSongs`,
@@ -62,39 +86,8 @@ export const ExtendedLikedSongs = ({ title }: Props) => {
       }
     };
 
-    fetchNewestSongs();
-  }, []);
-
-  // LIKE SONG BACKEND CALL
-  const handleLikeSong = async () => {
-    console.log(
-      JSON.stringify({
-        selectedSong,
-      })
-    );
-    if (selectedSong) {
-      console.log('trackID: ', selectedSong.trackID);
-      console.log('storedToken: ', storedToken);
-      try {
-        await axios.post(
-          `${backendBaseUrl}/api/song/likeSong`,
-          {
-            trackID: selectedSong.trackID,
-            sessionToken: storedToken,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${storedToken}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        console.log('Song liked successfully');
-      } catch (error) {
-        console.error('Error liking the song:', error);
-      }
-    }
-  };
+    fetchUserLikedSongs();
+  }, [handleUnlikeSong]);
 
   function refreshPage() {
     window.location.reload();
@@ -169,10 +162,11 @@ export const ExtendedLikedSongs = ({ title }: Props) => {
               className="hover:bg-[#656262] text-xs m-2 px-3"
               onClick={() => {
                 console.log('like button clicked');
+                handleUnlikeSong();
                 setHideCard(true);
               }}
             >
-              Like Song
+              Unlike Song
             </button>
             <button
               className="hover:bg-[#656262] text-xs m-2 px-3"

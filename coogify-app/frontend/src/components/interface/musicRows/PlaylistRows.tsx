@@ -29,10 +29,6 @@ export const PlaylistRows = ({ title }: Props) => {
 
   const [currentHoveredItem, setCurrentHoveredItem] = useState(false);
 
-  const handleMouseLeave = () => {
-    setCurrentHoveredItem(null);
-  };
-
   const toggleShowScreen = () => {
     setShowPopup(true);
   };

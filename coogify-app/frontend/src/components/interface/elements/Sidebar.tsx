@@ -23,6 +23,7 @@ interface User {
 }
 
 interface Song {
+  trackID: number;
   songName: string;
   coverArtURL: string;
   songURL: string;
@@ -102,6 +103,61 @@ export const Sidebar = () => {
 
   const storedToken = localStorage.getItem('sessionToken');
 
+  // LIKE SONG BACKEND CALL
+  const handleLikeSong = async () => {
+    console.log(
+      JSON.stringify({
+        selectedSong,
+      })
+    );
+    if (selectedSong) {
+      console.log('trackID: ', selectedSong.trackID);
+      console.log('storedToken: ', storedToken);
+      try {
+        await axios.post(
+          `${backendBaseUrl}/api/song/likeSong`,
+          {
+            trackID: selectedSong.trackID,
+            sessionToken: storedToken,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Song liked successfully');
+      } catch (error) {
+        console.error('Error liking the song:', error);
+      }
+    }
+  };
+
+  // UNLIKE SONG BACKEND CALL
+  const handleUnlikeSong = async () => {
+    if (selectedSong) {
+      try {
+        await axios.post(
+          `${backendBaseUrl}/api/song/unlikeSong`,
+          {
+            trackID: selectedSong.trackID,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Song unliked successfully');
+        // You can perform additional actions after liking the song here
+      } catch (error) {
+        console.error('Error unliking the song:', error);
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchUserLikedSongs = async () => {
       try {
@@ -122,7 +178,7 @@ export const Sidebar = () => {
     };
 
     fetchUserLikedSongs();
-  }, []);
+  }, [handleUnlikeSong, handleLikeSong]);
 
   const [userCreds, setUserCreds] = useState<User[]>([]);
 
@@ -254,42 +310,44 @@ export const Sidebar = () => {
               </div>
             </Link>
           </div>
-
           {/* Every Song Icon */}
-          {likedSongs.map((song: Song) => {
-            return (
-              <div
-                key={song.songName}
-                className="w-full flex items-center justify-between cursor-pointer hover:bg-[#494646]"
-                onClick={(e) => handleSongClick(song, e)}
-              >
-                <div className="flex items-center gap-3">
-                  <img
-                    src={song.coverArtURL}
-                    alt={song.songName}
-                    className="rounded-md w-[60px]"
-                  />
-                  <div className="flex flex-col justify-center items-start">
-                    <span className="font-medium text-white text-[16px]">
-                      {song.songName}
-                    </span>
-                    <span className="font-medium text-[#9E67E4] text-[14px]">
-                      {song.artistName}
-                    </span>
+          {likedSongs
+            .slice()
+            .reverse()
+            .map((song: Song) => {
+              return (
+                <div
+                  key={song.songName}
+                  className="w-full flex items-center justify-between cursor-pointer hover:bg-[#494646]"
+                  onClick={(e) => handleSongClick(song, e)}
+                >
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={song.coverArtURL}
+                      alt={song.songName}
+                      className="rounded-md w-[60px]"
+                    />
+                    <div className="flex flex-col justify-center items-start">
+                      <span className="font-medium text-white text-[16px]">
+                        {song.songName}
+                      </span>
+                      <span className="font-medium text-[#9E67E4] text-[14px]">
+                        {song.artistName}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </div>
       {selectedSong && clickPosition && !hideCard && (
         <div
           className="absolute z-60"
-          style={{ top: clickPosition.y - 145, left: clickPosition.x - 5 }}
+          style={{ top: clickPosition.y - 195, left: clickPosition.x - 5 }}
         >
           <div
-            className="text-center font-color-red-500 w-[100px] h-[150px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
+            className="text-center font-color-red-500 w-[100px] h-[200px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
             onMouseLeave={handleSongMouseLeave}
           >
             <button
@@ -310,7 +368,16 @@ export const Sidebar = () => {
             >
               Play Song
             </button>
-
+            <button
+              className="hover:bg-[#656262] text-xs m-2  px-3"
+              onClick={() => {
+                console.log('like button clicked');
+                handleUnlikeSong();
+                setHideCard(true);
+              }}
+            >
+              Unlike Song
+            </button>
             <button
               className="hover:bg-[#656262] text-xs m-2  px-3"
               onClick={() => {

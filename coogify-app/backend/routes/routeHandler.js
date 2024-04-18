@@ -8,12 +8,12 @@ import { uploadPlaylist, uploadSongsWithAlbum } from './specificRoutes/uploadsRo
 import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
 import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs, fetchPopSongs, fetchUserLikedSongs, fetchKPopSongs, fetchLatinSongs, fetchAlternativeSongs, fetchClassicalSongs, fetchJazzSongs, fetchElectronicSongs, fetchCountrySongs, fetchRockSongs } from './specificRoutes/homeRoutes.js';
-import { likeSong } from './specificRoutes/songRoutes.js';
+import { likeSong, unlikeSong } from './specificRoutes/songRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
 import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
 import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
 import { addCard, fetchCardDetails, getPurchaseHistory, createTransaction } from './specificRoutes/cardRoutes.js';
-import { uploadPlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist } from './specificRoutes/playlistRoutes.js'
+import { uploadPlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist, removeSongFromPlaylist } from './specificRoutes/playlistRoutes.js'
 import { fetchUserProfile, updateProfile } from './specificRoutes/profileRoutes.js';
 import { makePayment, updateSubscription, cancelSubscription, restoreSubscription} from './specificRoutes/subscriptionRoutes.js'
 
@@ -29,15 +29,15 @@ const handlers = {
     },
     song: {
       likeSong: likeSong,
-      addSong: (req, res) => 'addSongToPlaylist',
-      removeSong: (req, res) => 'removeSongFromPlaylist',
+      unlikeSong: unlikeSong
     },
     album: fetchAlbumSongs,
     playlist: {
       uploadPlaylistEntry: uploadPlaylistEntry,
       fetchPlaylists: fetchPlaylists,
       fetchPlaylistSongs: fetchPlaylistSongs,
-      addSong: addSongToPlaylist
+      addSong: addSongToPlaylist,
+      removeSong: removeSongFromPlaylist
     },
     fetch: {
       song: getSong,

@@ -165,7 +165,6 @@ export const JazzMusicRows = ({ title }: Props) => {
                 console.log('like button clicked');
                 handleLikeSong();
                 setHideCard(true);
-                refreshPage();
               }}
             >
               Like Song

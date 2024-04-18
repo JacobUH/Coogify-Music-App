@@ -173,7 +173,6 @@ export const TopMusicRows = ({ title }: Props) => {
                 console.log('like button clicked');
                 handleLikeSong();
                 setHideCard(true);
-                refreshPage();
               }}
             >
               Like Song

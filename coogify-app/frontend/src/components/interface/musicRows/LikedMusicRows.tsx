@@ -2,8 +2,10 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import backendBaseUrl from '../../../apiConfig';
+import { useNavigate } from 'react-router-dom';
 
 interface Song {
+  trackID: number;
   songName: string;
   coverArtURL: string;
   songURL: string;
@@ -40,6 +42,30 @@ export const LikedMusicRows = ({ title }: Props) => {
 
   const storedToken = localStorage.getItem('sessionToken');
 
+  // UNLIKE SONG BACKEND CALL
+  const handleUnlikeSong = async () => {
+    if (selectedSong) {
+      try {
+        await axios.post(
+          `${backendBaseUrl}/api/song/unlikeSong`,
+          {
+            trackID: selectedSong.trackID,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Song unliked successfully');
+        // You can perform additional actions after liking the song here
+      } catch (error) {
+        console.error('Error unliking the song:', error);
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchNewestSongs = async () => {
       try {
@@ -60,7 +86,13 @@ export const LikedMusicRows = ({ title }: Props) => {
     };
 
     fetchNewestSongs();
-  }, []);
+  }, [handleUnlikeSong]);
+
+  const navigate = useNavigate();
+
+  function refreshPage() {
+    window.location.reload();
+  }
 
   return (
     <div className="w-full flex flex-col md:gap-4 gap-6 px-2">
@@ -117,6 +149,15 @@ export const LikedMusicRows = ({ title }: Props) => {
             onMouseLeave={handleMouseLeave}
           >
             <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('view song button clicked');
+                navigate(`/album/${selectedSong.albumName}`);
+              }}
+            >
+              View Song
+            </button>
+            <button
               className="hover:bg-[#656262] text-xs m-2  px-3"
               onClick={() => setHideCard(true)}
             >
@@ -124,9 +165,13 @@ export const LikedMusicRows = ({ title }: Props) => {
             </button>
             <button
               className="hover:bg-[#656262] text-xs m-2  px-3"
-              onClick={() => setHideCard(true)}
+              onClick={() => {
+                console.log('like button clicked');
+                handleUnlikeSong();
+                setHideCard(true);
+              }}
             >
-              Like Song
+              Unlike Song
             </button>
             <button
               className="hover:bg-[#656262] text-xs m-2  px-3"

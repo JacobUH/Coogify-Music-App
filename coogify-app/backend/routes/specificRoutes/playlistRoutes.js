@@ -1,8 +1,8 @@
-import { createPlaylist, selectPlaylists, selectPlaylistSongs, addTrackToPlaylist } from "../../database/queries/dbPlaylistQueries.js";
+import { createPlaylist, selectPlaylists, selectPlaylistSongs, addTrackToPlaylist, removeTrackFromPlaylist } from "../../database/queries/dbPlaylistQueries.js";
 import { extractUserID, errorMessage } from '../../util/utilFunctions.js';
 
 export async function uploadPlaylistEntry(req, res) {
-    const { playlistName, playlistDescription, coverArtURL, sessionToken}  = req.body;
+    const { playlistName, playlistDescription, coverArtURL }  = req.body;
     const userID = await extractUserID(req);
 
     try {
@@ -73,6 +73,25 @@ export async function addSongToPlaylist(req, res) {
     }
   } catch(error) {
   errorMessage(res, error, 'Error adding song to playlist');
+
+  }
+ }
+
+ export async function removeSongFromPlaylist(req, res) {
+  const { playlistID, trackID } = req.body;
+  
+  try {
+    const addSong = await removeTrackFromPlaylist (playlistID, trackID);
+    if (addSong !== false) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(              
+        JSON.stringify({ message: 'song removed from playlist successful'})
+      );
+    } else {
+      errorMessage(res, 'Error removing song from playlist', 'Error');
+    }
+  } catch(error) {
+  errorMessage(res, error, 'Error removing song from playlist');
 
   }
  }
