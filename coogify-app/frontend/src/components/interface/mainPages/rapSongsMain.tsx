@@ -15,8 +15,8 @@ export const RapSongsMain = () => {
       className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5"
       style={{ maxHeight: 'calc(100vh - 211px)' }}
     >
-      <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto relative">
-        <div className="absolute top-10 left-10">
+      <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto">
+        <div className="fixed ml-10 mt-10 z-10">
           <img
             src={BackButton}
             alt="Back"

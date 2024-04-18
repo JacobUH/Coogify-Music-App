@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import HomeIcon from '/images/HomeIcon.svg';
 import HomeIconHover from '/images/HomeIconHover.svg';
 import SearchIcon from '/images/SearchIcon.svg';
@@ -171,6 +171,8 @@ export const Sidebar = () => {
     maxHeight: 'calc(100vh - 330px)',
   };
 
+  const navigate = useNavigate();
+
   return (
     <div
       className="md:h-screen h-fit md:w-[400px] z-30 w-full md:absolute block md:left-0 top-0 p-5 hide-scrollbar overflow-clip  "
@@ -284,14 +286,23 @@ export const Sidebar = () => {
       {selectedSong && clickPosition && !hideCard && (
         <div
           className="absolute z-60"
-          style={{ top: clickPosition.y, left: clickPosition.x - 50 }}
+          style={{ top: clickPosition.y - 145, left: clickPosition.x - 5 }}
         >
           <div
-            className="flex flex-row text-center font-color-red-500 bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
+            className="text-center font-color-red-500 w-[100px] h-[150px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
             onMouseLeave={handleSongMouseLeave}
           >
             <button
-              className="hover:bg-[#656262] text-xs m-2 p-1"
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('view song button clicked');
+                navigate(`/album/${selectedSong.albumName}`);
+              }}
+            >
+              View Song
+            </button>
+            <button
+              className="hover:bg-[#656262] text-xs m-2  px-3"
               onClick={() => {
                 console.log('play button clicked');
                 setHideCard(true);
@@ -299,8 +310,9 @@ export const Sidebar = () => {
             >
               Play Song
             </button>
+
             <button
-              className="hover:bg-[#656262] text-xs m-2 p-1"
+              className="hover:bg-[#656262] text-xs m-2  px-3"
               onClick={() => {
                 console.log('add to playlist button clicked');
                 setHideCard(true);

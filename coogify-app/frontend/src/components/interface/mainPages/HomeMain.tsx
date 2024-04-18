@@ -117,17 +117,17 @@ export const HomeMain = () => {
           <div className="w-full flex flex-col gap-8">
             <NewMusicRows title="Newest Songs" />
             <TopMusicRows title="Top Songs" />
-            <PopMusicRows title="Pop Party" />
+            <PopMusicRows title="Pop Pulse" />
             <RapMusicRows title="Rap Mix" />
-            <KPopMusicRows title="K-Pop Songs" />
-            <LatinMusicRows title="Latin Mix" />
-            <AlternativeMusicRows title="Alternative Songs" />
-            <ClassicalMusicRows title="Classical Songs" />
-            <ElectronicMusicRows title="Electronic Songs" />
-            <CountryMusicRows title="Country Songs" />
-            <RockMusicRows title="Rock Songs" />
+            <ElectronicMusicRows title="Electronic Beats" />
+            <KPopMusicRows title="K-Pop Kicks" />
+            <RBMusicRows title="R&B Hits" />
+            <AlternativeMusicRows title="Alternative Anthems" />
+            <CountryMusicRows title="Country Melodies" />
+            <LatinMusicRows title="Latin Vibes" />
+            <RockMusicRows title="Rock Jams" />
             <div className="mb-8">
-              <RBMusicRows title="Smooth R&B" />
+              <ClassicalMusicRows title="Classical Cadence" />
             </div>
           </div>
         </div>

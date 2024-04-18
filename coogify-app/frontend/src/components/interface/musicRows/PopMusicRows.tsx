@@ -2,9 +2,10 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import backendBaseUrl from '../../../apiConfig';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-interface Song {   // Everything regarding a song in a music row
+interface Song {
+  // Everything regarding a song in a music row
   trackID: number;
   songName: string;
   coverArtURL: string;
@@ -14,21 +15,23 @@ interface Song {   // Everything regarding a song in a music row
   isPopular: boolean;
 }
 
-interface Props {   // ??
+interface Props {
+  // ??
   title: string;
 }
 
 export const PopMusicRows = ({ title }: Props) => {
   const [popSongs, setPopSongs] = useState<Song[]>([]); // stores an array of songs ([])
   const [selectedSong, setSelectedSong] = useState<Song | null>(null); // stores currently selected song or null if a song is not selected
-  const [clickPosition, setClickPosition] = useState<{ // stores the coordinates of the click, or null if no click event 
+  const [clickPosition, setClickPosition] = useState<{
+    // stores the coordinates of the click, or null if no click event
     x: number;
     y: number;
-  } | null>(null); 
+  } | null>(null);
   const [hideCard, setHideCard] = useState<boolean>(true); // sets to false if song is clicked, otherwise true
 
   // This function runs when a song is clicked - update selectedSong to the clicked song, clickPosition to coords, and hideCard to false
-  const handleSongClick = ( 
+  const handleSongClick = (
     song: Song,
     event: React.MouseEvent<HTMLDivElement>
   ) => {
@@ -38,7 +41,8 @@ export const PopMusicRows = ({ title }: Props) => {
   };
 
   // This function runs when the mouse leaves the song - update hideCard to true
-  const handleMouseLeave = () => { // 
+  const handleMouseLeave = () => {
+    //
     setHideCard(true); // Hide the card when mouse leaves the song card
   };
 
@@ -47,8 +51,10 @@ export const PopMusicRows = ({ title }: Props) => {
   useEffect(() => {
     // Fetch data from backend API for rap songs
     const fetchPopSongs = async () => {
-      try {  // GET request made to backend
-        const response = await axios.get(   // API - what is happening inside?
+      try {
+        // GET request made to backend
+        const response = await axios.get(
+          // API - what is happening inside?
           `${backendBaseUrl}/api/home/fetchPopSongs`, // endpoint
           {
             headers: {
@@ -64,7 +70,7 @@ export const PopMusicRows = ({ title }: Props) => {
       }
     };
 
-    fetchPopSongs(); // API call 
+    fetchPopSongs(); // API call
   }, []);
 
   // LIKE SONG BACKEND CALL
@@ -74,11 +80,14 @@ export const PopMusicRows = ({ title }: Props) => {
         selectedSong,
       })
     );
-    if (selectedSong) {  // If selectedSong is not null or undefined
-      console.log('trackID: ', selectedSong.trackID);  // log trackID and stored Token to console
+    if (selectedSong) {
+      // If selectedSong is not null or undefined
+      console.log('trackID: ', selectedSong.trackID); // log trackID and stored Token to console
       console.log('storedToken: ', storedToken);
-      try {  // POST request made to backend for 
-        await axios.post(    // API - what is happening inside? 
+      try {
+        // POST request made to backend for
+        await axios.post(
+          // API - what is happening inside?
           `${backendBaseUrl}/api/song/likeSong`,
           {
             trackID: selectedSong.trackID,
@@ -101,6 +110,8 @@ export const PopMusicRows = ({ title }: Props) => {
   function refreshPage() {
     window.location.reload();
   }
+
+  const navigate = useNavigate();
 
   return (
     <div className="w-full flex flex-col md:gap-4 gap-6 px-2">
@@ -143,12 +154,21 @@ export const PopMusicRows = ({ title }: Props) => {
       {selectedSong && clickPosition && !hideCard && (
         <div
           className="absolute"
-          style={{ top: clickPosition.y - 10, left: clickPosition.x - 50 }}
+          style={{ top: clickPosition.y - 195, left: clickPosition.x - 5 }}
         >
           <div
-            className="text-center font-color-red-500 w-[100px] h-[150px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
+            className="text-center font-color-red-500 w-[100px] h-[200px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
             onMouseLeave={handleMouseLeave}
           >
+            <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('view song button clicked');
+                navigate(`/album/${selectedSong.albumName}`);
+              }}
+            >
+              View Song
+            </button>
             <button
               className="hover:bg-[#656262] text-xs m-2  px-3"
               onClick={() => {

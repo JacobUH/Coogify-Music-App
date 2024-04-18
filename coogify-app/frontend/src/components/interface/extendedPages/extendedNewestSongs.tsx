@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import backendBaseUrl from '../../../apiConfig';
+import { useNavigate } from 'react-router-dom';
 
 interface Song {
   trackID: number;
@@ -99,6 +100,8 @@ export const ExtendedNewestSongs = ({ title }: Props) => {
     window.location.reload();
   }
 
+  const navigate = useNavigate();
+
   return (
     <div className="w-full flex flex-col md:gap-4 gap-6 px-2">
       <div className="w-full flex items-center overflow-x-auto overflow-y-auto md:pb-0 pb-5">
@@ -138,14 +141,23 @@ export const ExtendedNewestSongs = ({ title }: Props) => {
       {selectedSong && clickPosition && !hideCard && (
         <div
           className="absolute"
-          style={{ top: clickPosition.y - 255, left: clickPosition.x - 405 }}
+          style={{ top: clickPosition.y - 195, left: clickPosition.x - 5 }}
         >
           <div
-            className="text-center font-color-red-500 w-[100px] h-[150px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
+            className="text-center font-color-red-500 w-[100px] h-[200px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
             onMouseLeave={handleMouseLeave}
           >
             <button
-              className="hover:bg-[#656262] text-xs m-2  px-3"
+              className="hover:bg-[#656262] text-xs m-2 px-3"
+              onClick={() => {
+                console.log('view song button clicked');
+                navigate(`/album/${selectedSong.albumName}`);
+              }}
+            >
+              View Song
+            </button>
+            <button
+              className="hover:bg-[#656262] text-xs m-2 px-3"
               onClick={() => {
                 console.log('play button clicked');
                 setHideCard(true);
@@ -154,18 +166,16 @@ export const ExtendedNewestSongs = ({ title }: Props) => {
               Play Song
             </button>
             <button
-              className="hover:bg-[#656262] text-xs m-2  px-3"
+              className="hover:bg-[#656262] text-xs m-2 px-3"
               onClick={() => {
                 console.log('like button clicked');
-                handleLikeSong();
                 setHideCard(true);
-                refreshPage();
               }}
             >
               Like Song
             </button>
             <button
-              className="hover:bg-[#656262] text-xs m-2  px-3"
+              className="hover:bg-[#656262] text-xs m-2 px-3"
               onClick={() => {
                 console.log('add to playlist button clicked');
                 setHideCard(true);
