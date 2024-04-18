@@ -233,7 +233,6 @@ export const AlbumMain = () => {
                   console.log('like button clicked');
                   handleLikeSong();
                   setHideCard(true);
-                  refreshPage();
                 }}
               >
                 Like Song

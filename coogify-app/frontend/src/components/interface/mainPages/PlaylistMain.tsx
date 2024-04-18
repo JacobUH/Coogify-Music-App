@@ -452,7 +452,6 @@ export const PlaylistMain = () => {
                 console.log('like button clicked');
                 handleLikeSearchSong();
                 setHideSongCard(true);
-                refreshPage();
               }}
             >
               Like Song
