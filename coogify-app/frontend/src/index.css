@@ -41,3 +41,8 @@ body {
   .custom-smaller-text {
     font-size: 0.780rem; /* Adjust the font size as needed */
   }
+
+  input:disabled, textarea:disabled {
+    color: white !important; /* Overriding color */
+    opacity: 1 !important; /* Overriding opacity if needed */
+  }
