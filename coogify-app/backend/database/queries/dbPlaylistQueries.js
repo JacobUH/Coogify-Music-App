@@ -27,6 +27,29 @@ export async function createPlaylist(userID, playlistName, playlistDescription, 
         return false;
     }
   }
+  
+export async function deletePlaylist(userID, playlistID) {
+  try {
+    // Step 1: Delete playlist tracks from PLAYLIST_TRACK
+    await pool.query(
+      `DELETE FROM PLAYLIST_TRACK WHERE playlistID = ?`,
+      [playlistID]
+    );
+
+    // Step 2: Delete playlist from PLAYLIST
+    await pool.query(
+      `DELETE FROM PLAYLIST WHERE playlistID = ? AND userID = ?`,
+      [playlistID, userID]
+    );
+
+    // If no errors occurred, playlist and its tracks are deleted successfully
+    console.log(`Playlist with ID: ${playlistID} deleted successfully.`);
+  } catch (err) {
+    console.error('Error deleting playlist:', err.message);
+    throw err;
+  }
+}
+
 
   export async function selectPlaylists(userID) {
     try {

@@ -46,3 +46,8 @@ body {
     color: white !important; /* Overriding color */
     opacity: 1 !important; /* Overriding opacity if needed */
   }
+
+  select option:hover {
+    background-color: #9E67E4;
+    color: white; /* Optionally change text color */
+  }

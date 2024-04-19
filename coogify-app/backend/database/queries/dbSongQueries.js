@@ -43,10 +43,28 @@ export async function removeLikedSong(trackID, userID) {
     return true;
   } catch (err) {
     console.error('Database error:', err.message);
-    // Throw error for further handling
     throw err;
   }
 }
+
+export async function isSongLiked(trackID, userID) {
+  console.log('Checking if the song is liked by the user');
+  try {
+    const [rows] = await pool.query(
+      `SELECT * 
+      FROM TRACK_LIKED
+      WHERE trackID = ? AND userID = ?`,
+      [trackID, userID]
+    );
+
+    // If rows are returned, it means the song is liked
+    return rows.length > 0;
+  } catch (err) {
+    console.error('Database error:', err.message);
+    throw err;
+  }
+}
+
 
 export async function updatePlaylist(
   playlistName,

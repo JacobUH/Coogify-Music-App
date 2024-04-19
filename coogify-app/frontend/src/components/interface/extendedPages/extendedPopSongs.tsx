@@ -46,8 +46,12 @@ export const ExtendedPopSongs = ({ title }: Props) => {
   useEffect(() => {
     const fetchPopSongs = async () => {
       try {
-        const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchPopSongs`,
+        const response = await axios.post(
+          `${backendBaseUrl}/api/home/fetchSongs`,
+          {
+            genre: 'Pop',
+            count: 100,
+          },
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,
@@ -58,7 +62,7 @@ export const ExtendedPopSongs = ({ title }: Props) => {
         //console.log(response.data);
         setPopSongs(response.data);
       } catch (error) {
-        console.error('Error fetching new songs:', error);
+        console.error('Error fetching pop songs:', error);
       }
     };
 

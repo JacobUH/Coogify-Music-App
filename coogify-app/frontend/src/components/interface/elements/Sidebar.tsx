@@ -11,6 +11,7 @@ import LibraryIcon from '/images/LibraryIcon.svg';
 import LibraryIconHover from '/images/LibraryIconHover.svg';
 import backendBaseUrl from '../../../apiConfig';
 import axios from 'axios';
+import { SelectPlaylistPopup } from './selectPlaylistPopup';
 
 interface User {
   userID: number;
@@ -179,6 +180,7 @@ export const Sidebar = () => {
 
     fetchUserLikedSongs();
   }, [handleUnlikeSong, handleLikeSong]);
+  //}, []);
 
   const [userCreds, setUserCreds] = useState<User[]>([]);
 
@@ -217,6 +219,15 @@ export const Sidebar = () => {
     };
     fetchUserCredentials();
   }, []);
+
+  const [showPlaylistPopup, setShowPlaylistPopup] = useState(false);
+  const handleAddSong = () => {
+    setShowPlaylistPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPlaylistPopup(false);
+  };
 
   const userStyles = {
     maxHeight: 'calc(100vh - 267px)',
@@ -382,6 +393,7 @@ export const Sidebar = () => {
               className="hover:bg-[#656262] text-xs m-2  px-3"
               onClick={() => {
                 console.log('add to playlist button clicked');
+                handleAddSong();
                 setHideCard(true);
               }}
             >
@@ -389,6 +401,12 @@ export const Sidebar = () => {
             </button>
           </div>
         </div>
+      )}
+      {showPlaylistPopup && (
+        <SelectPlaylistPopup
+          onClose={handleClosePopup}
+          selectedSong={selectedSong}
+        />
       )}
     </div>
   );

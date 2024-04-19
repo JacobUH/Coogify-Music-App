@@ -42,12 +42,16 @@ export const ExtendedCountrySongs = ({ title }: Props) => {
 
   const storedToken = localStorage.getItem('sessionToken');
 
-  // FETCH TOP SONGS BACKEND CALL
+  // FETCH SONGS BACKEND CALL
   useEffect(() => {
     const fetchCountrySongs = async () => {
       try {
-        const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchCountrySongs`,
+        const response = await axios.post(
+          `${backendBaseUrl}/api/home/fetchSongs`,
+          {
+            genre: 'Country',
+            count: 100,
+          },
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,

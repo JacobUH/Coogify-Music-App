@@ -46,8 +46,12 @@ export const ExtendedRBSongs = ({ title }: Props) => {
   useEffect(() => {
     const fetchRBSongs = async () => {
       try {
-        const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchRBSongs`,
+        const response = await axios.post(
+          `${backendBaseUrl}/api/home/fetchSongs`,
+          {
+            genre: 'R&B',
+            count: 100,
+          },
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,

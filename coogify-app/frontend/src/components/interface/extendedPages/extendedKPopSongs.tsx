@@ -46,8 +46,12 @@ export const ExtendedKPopSongs = ({ title }: Props) => {
   useEffect(() => {
     const fetchKPopSongs = async () => {
       try {
-        const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchKPopSongs`,
+        const response = await axios.post(
+          `${backendBaseUrl}/api/home/fetchSongs`,
+          {
+            genre: 'Kpop',
+            count: 100,
+          },
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,
@@ -58,7 +62,7 @@ export const ExtendedKPopSongs = ({ title }: Props) => {
         //console.log(response.data);
         setKPopSongs(response.data);
       } catch (error) {
-        console.error('Error fetching new songs:', error);
+        console.error('Error fetching kpop songs:', error);
       }
     };
 

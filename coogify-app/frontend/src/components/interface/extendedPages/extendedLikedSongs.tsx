@@ -99,36 +99,39 @@ export const ExtendedLikedSongs = ({ title }: Props) => {
     <div className="w-full flex flex-col md:gap-4 gap-6 px-2">
       <div className="w-full flex items-center overflow-x-auto overflow-y-auto md:pb-0 pb-5">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-          {newestSongs.map((song: Song) => {
-            return (
-              <div
-                key={song.songName}
-                className="flex flex-col items-center gap-[6px] cursor-pointer"
-                style={{ minWidth: '200px' }}
-                onClick={(e) => handleSongClick(song, e)}
-              >
-                <div className="bg-[#656262] rounded-lg p-5 bg-center bg-cover relative">
-                  {song.isPopular ? (
-                    <div className="absolute bottom-1 right-1 w-3 h-3 bg-blue-500 rounded-full"></div>
-                  ) : null}
-                  <img
-                    className="w-[140px] h-[140px] rounded-xl"
-                    src={song.coverArtURL}
-                    alt={song.songName}
-                  />
+          {newestSongs
+            .slice()
+            .reverse()
+            .map((song: Song) => {
+              return (
+                <div
+                  key={song.songName}
+                  className="flex flex-col items-center gap-[6px] cursor-pointer"
+                  style={{ minWidth: '200px' }}
+                  onClick={(e) => handleSongClick(song, e)}
+                >
+                  <div className="bg-[#656262] rounded-lg p-5 bg-center bg-cover relative">
+                    {song.isPopular ? (
+                      <div className="absolute bottom-1 right-1 w-3 h-3 bg-blue-500 rounded-full"></div>
+                    ) : null}
+                    <img
+                      className="w-[140px] h-[140px] rounded-xl"
+                      src={song.coverArtURL}
+                      alt={song.songName}
+                    />
 
-                  <div className="pt-2 text-white text-[15px] font-medium whitespace-nowrap">
-                    {song.songName.length > 20
-                      ? song.songName.slice(0, 17) + '...'
-                      : song.songName}
-                  </div>
-                  <div className="pt-1 text-[#BA85FE] text-[13px]">
-                    {song.artistName}
+                    <div className="pt-2 text-white text-[15px] font-medium whitespace-nowrap">
+                      {song.songName.length > 20
+                        ? song.songName.slice(0, 17) + '...'
+                        : song.songName}
+                    </div>
+                    <div className="pt-1 text-[#BA85FE] text-[13px]">
+                      {song.artistName}
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </div>
       {selectedSong && clickPosition && !hideCard && (

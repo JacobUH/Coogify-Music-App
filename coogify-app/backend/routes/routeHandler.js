@@ -7,13 +7,13 @@ import { getUserCredentials, getSubCredentials } from './specificRoutes/userRout
 import { uploadPlaylist, uploadSongsWithAlbum } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName } from './specificRoutes/artistRoutes.js';
-import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs, fetchPopSongs, fetchUserLikedSongs, fetchKPopSongs, fetchLatinSongs, fetchAlternativeSongs, fetchClassicalSongs, fetchJazzSongs, fetchElectronicSongs, fetchCountrySongs, fetchRockSongs } from './specificRoutes/homeRoutes.js';
-import { likeSong, unlikeSong } from './specificRoutes/songRoutes.js';
+import { fetchNewestSongs, fetchTopSongs, fetchHomeSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
+import { likeSong, unlikeSong, checkSongLiked } from './specificRoutes/songRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
 import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
 import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
 import { addCard, fetchCardDetails, getPurchaseHistory, createTransaction } from './specificRoutes/cardRoutes.js';
-import { uploadPlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist, removeSongFromPlaylist } from './specificRoutes/playlistRoutes.js'
+import { uploadPlaylistEntry, deletePlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist, selectAddSongPlaylist, removeSongFromPlaylist } from './specificRoutes/playlistRoutes.js'
 import { fetchUserProfile, updateProfile } from './specificRoutes/profileRoutes.js';
 import { makePayment, updateSubscription, cancelSubscription, restoreSubscription} from './specificRoutes/subscriptionRoutes.js'
 
@@ -29,14 +29,17 @@ const handlers = {
     },
     song: {
       likeSong: likeSong,
-      unlikeSong: unlikeSong
+      unlikeSong: unlikeSong,
+      checkSongLiked: checkSongLiked
     },
     album: fetchAlbumSongs,
     playlist: {
       uploadPlaylistEntry: uploadPlaylistEntry,
+      deletePlaylistEntry: deletePlaylistEntry,
       fetchPlaylists: fetchPlaylists,
       fetchPlaylistSongs: fetchPlaylistSongs,
       addSong: addSongToPlaylist,
+      selectAddSong: selectAddSongPlaylist,
       removeSong: removeSongFromPlaylist
     },
     fetch: {
@@ -53,20 +56,10 @@ const handlers = {
       fetchAlbums: fetchAlbums
     },
     home: {
-      fetchNewSongs: fetchNewestSongs,
-      fetchTopSongs: fetchTopSongs,
-      fetchRapSongs: fetchRapSongs,
-      fetchRBSongs: fetchRBSongs,
-      fetchPopSongs: fetchPopSongs,
-      fetchKPopSongs: fetchKPopSongs,
-      fetchLatinSongs: fetchLatinSongs,
-      fetchAlternativeSongs: fetchAlternativeSongs,
-      fetchClassicalSongs: fetchClassicalSongs,
-      fetchJazzSongs: fetchJazzSongs,
-      fetchElectronicSongs: fetchElectronicSongs,
-      fetchCountrySongs: fetchCountrySongs,
-      fetchRockSongs: fetchRockSongs,
-      fetchUserLikedSongs: fetchUserLikedSongs,
+      fetchNewSongs: fetchNewestSongs, // GET
+      fetchTopSongs: fetchTopSongs, // GET
+      fetchSongs: fetchHomeSongs, // POST
+      fetchUserLikedSongs: fetchUserLikedSongs, // GET
     },
     card: {
       addCard: addCard,

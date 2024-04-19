@@ -1,4 +1,4 @@
-import { createPlaylist, selectPlaylists, selectPlaylistSongs, addTrackToPlaylist, removeTrackFromPlaylist } from "../../database/queries/dbPlaylistQueries.js";
+import { createPlaylist, deletePlaylist, selectPlaylists, selectPlaylistSongs, addTrackToPlaylist, removeTrackFromPlaylist } from "../../database/queries/dbPlaylistQueries.js";
 import { extractUserID, errorMessage } from '../../util/utilFunctions.js';
 
 export async function uploadPlaylistEntry(req, res) {
@@ -20,6 +20,28 @@ export async function uploadPlaylistEntry(req, res) {
         errorMessage(res, error, 'Error fetching playlist songs');
 
     }
+}
+
+
+export async function deletePlaylistEntry(req, res) {
+  const { playlistID }  = req.body;
+  const userID = await extractUserID(req);
+
+  try {
+      const playlistDeletion = await deletePlaylist(userID, playlistID);
+      if (playlistDeletion !== false) {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(
+            JSON.stringify({ message: 'playlist deletion successful'})
+          );  
+        } else {
+          errorMessage(res, 'Error deleting playlists', 'Error');
+
+        }
+  } catch(error) {
+      errorMessage(res, error, 'Error deleting playlist songs');
+
+  }
 }
 
 export async function fetchPlaylists(req, res) {
@@ -71,6 +93,24 @@ export async function addSongToPlaylist(req, res) {
     } else {
       errorMessage(res, 'Error adding song to playlist', 'Error');
     }
+  } catch(error) {
+  errorMessage(res, error, 'Error adding song to playlist');
+
+  }
+ }
+
+ export async function selectAddSongPlaylist(req, res) { // FIX THIS
+  const { playlistID, trackID } = req.body;
+  
+  try {
+    const addSong = await addTrackToPlaylist (playlistID, trackID);
+    if (addSong !== false) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(              
+        JSON.stringify({ message: 'Song added to playlist successfully!'})
+      );
+    } else {
+      JSON.stringify({ message: 'Error adding song to playlist'})    }
   } catch(error) {
   errorMessage(res, error, 'Error adding song to playlist');
 

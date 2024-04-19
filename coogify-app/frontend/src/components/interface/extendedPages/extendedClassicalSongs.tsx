@@ -42,12 +42,16 @@ export const ExtendedClassicalSongs = ({ title }: Props) => {
 
   const storedToken = localStorage.getItem('sessionToken');
 
-  // FETCH TOP SONGS BACKEND CALL
+  // FETCH SONGS BACKEND CALL
   useEffect(() => {
     const fetchClassicalSongs = async () => {
       try {
-        const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchClassicalSongs`,
+        const response = await axios.post(
+          `${backendBaseUrl}/api/home/fetchSongs`,
+          {
+            genre: 'Classical',
+            count: 100,
+          },
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,

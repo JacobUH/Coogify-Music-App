@@ -46,8 +46,11 @@ export const ExtendedTopSongs = ({ title }: Props) => {
   useEffect(() => {
     const fetchTopSongs = async () => {
       try {
-        const response = await axios.get(
+        const response = await axios.post(
           `${backendBaseUrl}/api/home/fetchTopSongs`,
+          {
+            count: 100,
+          },
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,
@@ -58,7 +61,7 @@ export const ExtendedTopSongs = ({ title }: Props) => {
         //console.log(response.data);
         setTopSongs(response.data);
       } catch (error) {
-        console.error('Error fetching new songs:', error);
+        console.error('Error fetching top songs:', error);
       }
     };
 

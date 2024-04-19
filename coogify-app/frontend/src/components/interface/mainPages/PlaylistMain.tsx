@@ -81,7 +81,8 @@ export const PlaylistMain = () => {
     song: Song,
     event: React.MouseEvent<HTMLDivElement>
   ) => {
-    setSelectedSong(song);
+    console.log('Clicked song:', song); // Verify if the correct song is being clicked
+    setSelectedSong(song); // Ensure that selectedSong is being set correctly
     setClickPosition({ x: event.clientX, y: event.clientY });
     setHideSongCard(false); // Reset the hide flag when a song is clicked
   };
@@ -202,7 +203,30 @@ export const PlaylistMain = () => {
           `${backendBaseUrl}/api/song/likeSong`,
           {
             trackID: selectedSong.trackID,
-            sessionToken: storedToken,
+            sessionToken: localStorage.getItem('sessionToken'),
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Song liked successfully');
+      } catch (error) {
+        console.error('Error liking the song:', error);
+      }
+    }
+  };
+
+  // UNLIKE SONG BACKEND CALL
+  const handleUnlikeSearchSong = async () => {
+    if (selectedSong) {
+      try {
+        await axios.post(
+          `${backendBaseUrl}/api/song/unlikeSong`,
+          {
+            trackID: selectedSong.trackID,
           },
           {
             headers: {
@@ -211,13 +235,49 @@ export const PlaylistMain = () => {
             },
           }
         );
-        console.log('Song liked successfully');
+        console.log('Song unliked successfully');
         // You can perform additional actions after liking the song here
       } catch (error) {
-        console.error('Error liking the song:', error);
+        console.error('Error unliking the song:', error);
       }
     }
   };
+
+  const [searchSongIsLiked, setSearchSongIsLiked] = useState(false);
+
+  useEffect(() => {
+    const checkSearchSongLiked = async () => {
+      if (selectedSong) {
+        try {
+          const response = await axios.post(
+            `${backendBaseUrl}/api/song/checkSongLiked`,
+            {
+              trackID: selectedSong.trackID,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${storedToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+
+          // Assuming response.data is a boolean value
+          console.log('search song is: ', response.data);
+
+          const isSearchSongLiked = response.data;
+
+          // Set the state based on the response
+          setSearchSongIsLiked(isSearchSongLiked);
+        } catch (error) {
+          console.error('Error checking the song:', error);
+          // Handle error, maybe show a notification to the user
+        }
+      }
+    };
+
+    checkSearchSongLiked();
+  }, [selectedSong, storedToken]);
 
   // LIKE SONG BACKEND CALL
   const handleLikePlaylistSong = async () => {
@@ -227,7 +287,30 @@ export const PlaylistMain = () => {
           `${backendBaseUrl}/api/song/likeSong`,
           {
             trackID: playlistSong.trackID,
-            sessionToken: storedToken,
+            sessionToken: localStorage.getItem('sessionToken'),
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('playlist song liked successfully');
+      } catch (error) {
+        console.error('Error liking the playlist song:', error);
+      }
+    }
+  };
+
+  // UNLIKE SONG BACKEND CALL
+  const handleUnlikePlaylistSong = async () => {
+    if (playlistSong) {
+      try {
+        await axios.post(
+          `${backendBaseUrl}/api/song/unlikeSong`,
+          {
+            trackID: playlistSong.trackID,
           },
           {
             headers: {
@@ -236,13 +319,48 @@ export const PlaylistMain = () => {
             },
           }
         );
-        console.log('Song liked successfully');
+        console.log('playlist song unliked successfully');
         // You can perform additional actions after liking the song here
       } catch (error) {
-        console.error('Error liking the song:', error);
+        console.error('Error unliking the playlist song:', error);
       }
     }
   };
+
+  const [playlistSongIsLiked, setPlaylistSongIsLiked] = useState(false);
+
+  useEffect(() => {
+    const checkPlaylistSongLiked = async () => {
+      if (playlistSong) {
+        try {
+          const response = await axios.post(
+            `${backendBaseUrl}/api/song/checkSongLiked`,
+            {
+              trackID: playlistSong.trackID,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${storedToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+
+          // Assuming response.data is a boolean value
+          console.log('playlist song is: ', response.data);
+          const isPlaylistSongLiked = response.data;
+
+          // Set the state based on the response
+          setPlaylistSongIsLiked(isPlaylistSongLiked);
+        } catch (error) {
+          console.error('Error checking the playlist song:', error);
+          // Handle error, maybe show a notification to the user
+        }
+      }
+    };
+
+    checkPlaylistSongLiked();
+  }, [playlistSong, storedToken]);
 
   useEffect(() => {
     const fetchPlaylistSongs = async () => {
@@ -385,7 +503,10 @@ export const PlaylistMain = () => {
                     key={song.songName}
                     className="flex flex-col items-center gap-[6px] cursor-pointer"
                     style={{ minWidth: '150px' }}
-                    onClick={(e) => handleSongClick(song, e)}
+                    onClick={(e) => {
+                      handleSongClick(song, e);
+                      setSelectedSong(song); // Update selectedSong state
+                    }}
                   >
                     <div className="bg-[#656262] text-center rounded-lg p-5 bg-center bg-cover relative">
                       <img
@@ -442,20 +563,37 @@ export const PlaylistMain = () => {
               onClick={() => {
                 console.log('play button clicked');
                 setHideSongCard(true);
+                localStorage.setItem(
+                  'selectedSong',
+                  JSON.stringify(selectedSong)
+                );
               }}
             >
               Play Song
             </button>
-            <button
-              className="hover:bg-[#656262] text-xs m-2 px-3"
-              onClick={() => {
-                console.log('like button clicked');
-                handleLikeSearchSong();
-                setHideSongCard(true);
-              }}
-            >
-              Like Song
-            </button>
+            {searchSongIsLiked ? (
+              <button
+                className="hover:bg-[#656262] text-xs m-2 px-3"
+                onClick={() => {
+                  console.log('unlike button clicked');
+                  handleUnlikeSearchSong();
+                  setHideSongCard(true);
+                }}
+              >
+                Unlike Song
+              </button>
+            ) : (
+              <button
+                className="hover:bg-[#656262] text-xs m-2 px-3"
+                onClick={() => {
+                  console.log('like button clicked');
+                  handleLikeSearchSong();
+                  setHideSongCard(true);
+                }}
+              >
+                Like Song
+              </button>
+            )}
           </div>
         </div>
       )}
@@ -482,21 +620,37 @@ export const PlaylistMain = () => {
               onClick={() => {
                 console.log('play button clicked');
                 setHidePlaylistSongCard(true);
+                localStorage.setItem(
+                  'selectedSong',
+                  JSON.stringify(playlistSong)
+                );
               }}
             >
               Play Song
             </button>
-            <button
-              className="hover:bg-[#656262] text-xs m-2 px-3"
-              onClick={() => {
-                console.log('like button clicked');
-                handleLikePlaylistSong();
-                setHidePlaylistSongCard(true);
-                refreshPage();
-              }}
-            >
-              Like Song
-            </button>
+            {playlistSongIsLiked ? (
+              <button
+                className="hover:bg-[#656262] text-xs m-2 px-3"
+                onClick={() => {
+                  console.log('unlike button clicked');
+                  handleUnlikePlaylistSong();
+                  setHidePlaylistSongCard(true);
+                }}
+              >
+                Unlike Song
+              </button>
+            ) : (
+              <button
+                className="hover:bg-[#656262] text-xs m-2 px-3"
+                onClick={() => {
+                  console.log('like button clicked');
+                  handleLikePlaylistSong();
+                  setHidePlaylistSongCard(true);
+                }}
+              >
+                Like Song
+              </button>
+            )}
             <button
               className="hover:bg-[#656262] text-xs m-2 px-3"
               onClick={() => {

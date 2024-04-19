@@ -46,8 +46,11 @@ export const ExtendedNewestSongs = ({ title }: Props) => {
   useEffect(() => {
     const fetchNewestSongs = async () => {
       try {
-        const response = await axios.get(
+        const response = await axios.post(
           `${backendBaseUrl}/api/home/fetchNewSongs`,
+          {
+            count: 100,
+          },
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,

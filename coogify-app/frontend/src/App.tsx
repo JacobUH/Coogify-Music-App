@@ -62,12 +62,12 @@ function App() {
           <Route path="/popSongs" element={<PopSongs />} />
           <Route path="/kpopSongs" element={<KPopSongs />} />
           <Route path="/LatinSongs" element={<LatinSongs />} />
-          <Route path="/AlternativeSongs" element={<AlternativeSongs />} />
-          <Route path="/ClassicalSongs" element={<ClassicalSongs />} />
-          <Route path="/JazzSongs" element={<JazzSongs />} />
-          <Route path="/ElectronicSongs" element={<ElectronicSongs />} />
-          <Route path="/CountrySongs" element={<CountrySongs />} />
-          <Route path="/RockSongs" element={<RockSongs />} />
+          <Route path="/alternativeSongs" element={<AlternativeSongs />} />
+          <Route path="/classicalSongs" element={<ClassicalSongs />} />
+          <Route path="/jazzSongs" element={<JazzSongs />} />
+          <Route path="/electronicSongs" element={<ElectronicSongs />} />
+          <Route path="/countrySongs" element={<CountrySongs />} />
+          <Route path="/rockSongs" element={<RockSongs />} />
           <Route path="/AddCard" element={<AddCard />} />
           <Route path="/PrevTransactions" element={<PrevTransactions />} />
         </Routes>
