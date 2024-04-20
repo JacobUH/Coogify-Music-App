@@ -1,6 +1,6 @@
-import { deleteSession } from '../database/queries/dbAuthQueries.js';
-import jsonParserMiddleware from '../middlewares/jsonParser.js';
-import authenticateMiddleware from '../middlewares/authenticate.js';
+import { deleteSession } from '../backend_util/database/queries/dbAuthQueries.js';
+import jsonParserMiddleware from '../backend_util/middlewares/jsonParser.js';
+import authenticateMiddleware from '../backend_util/middlewares/authenticate.js';
 
 export async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {

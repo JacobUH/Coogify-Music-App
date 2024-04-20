@@ -1,9 +1,9 @@
-import * as logregq from '../database/queries/dbLoginRegQueries.js';
-import { createSession } from '../Session/sessionManager.js';
-import { getUserFromEmail } from '../database/queries/dbUserQueries.js';
-import jsonParserMiddleware from '../middlewares/jsonParser.js';
-import hashPasswordMiddleware from '../middlewares/hashPassword.js';
-import authenticateMiddleware from '../middlewares/authenticate.js';
+import * as logregq from '../backend_util/database/queries/dbLoginRegQueries.js';
+import { createSession } from '../backend_util/Session/sessionManager.js';
+import { getUserFromEmail } from '../backend_util/database/queries/dbUserQueries.js';
+import jsonParserMiddleware from '../backend_util/middlewares/jsonParser.js';
+import hashPasswordMiddleware from '../backend_util/middlewares/hashPassword.js';
+import authenticateMiddleware from '../backend_util/middlewares/authenticate.js';
 
 export default async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {
