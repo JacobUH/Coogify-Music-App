@@ -7,7 +7,7 @@ import {
 import { extractArtistID } from '../../backend_util/util/utilFunctions.js';
 import { insertSongWithCover } from '../../backend_util/database/queries/dbFileQueries.js';
 import jsonParserMiddleware from '../../backend_util/middlewares/jsonParser.js';
-import authenticateMiddleware from '../../middlewares/authenticate.js';
+import authenticateMiddleware from '../../backend_util/middlewares/authenticate.js';
 
 dotenv.config();
 

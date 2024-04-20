@@ -7,7 +7,7 @@ import {
 import { extractUserID } from '../../backend_util/util/utilFunctions.js';
 import { insertPlaylist } from '../../backend_util/database/queries/dbFileQueries.js';
 import jsonParserMiddleware from '../../backend_util/middlewares/jsonParser.js';
-import authenticateMiddleware from '../../middlewares/authenticate.js';
+import authenticateMiddleware from '../../backend_util/middlewares/authenticate.js';
 
 dotenv.config();
 
