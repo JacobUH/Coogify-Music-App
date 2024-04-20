@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "npx nodemon app.js",
     "start": "node app.js",
-    "build": "echo 'Building...'"
+    "build": "mkdir -p public"
   },
   "keywords": [],
   "author": "",
