@@ -1,7 +1,6 @@
-import { selectSong } from '../../database/queries/dbFileQueries.js';
-import jsonParserMiddleware from '../../middlewares/jsonParser.js';
-import hashPasswordMiddleware from '../../middlewares/hashPassword.js';
-import authenticateMiddleware from '../../middlewares/authenticate.js';
+import { selectSong } from '../../backend_util/database/queries/dbFileQueries.js';
+import jsonParserMiddleware from '../../backend_util/middlewares/jsonParser.js';
+import authenticateMiddleware from '../../backend_util/middlewares/authenticate.js';
 
 export default async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {

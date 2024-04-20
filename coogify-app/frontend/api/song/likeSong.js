@@ -1,5 +1,7 @@
-import { getUserFromSession } from '../../database/queries/dbAuthQueries.js';
-import { insertLikedSong } from '../../database/queries/dbSongQueries.js';
+import { getUserFromSession } from '../../backend_util/database/queries/dbAuthQueries.js';
+import { insertLikedSong } from '../../backend_util/database/queries/dbSongQueries.js';
+import jsonParserMiddleware from '../../backend_util/middlewares/jsonParser.js';
+import authenticateMiddleware from '../../backend_util/middlewares/authenticate.js';
 
 export default async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {

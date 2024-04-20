@@ -1,13 +1,32 @@
 import multer from 'multer';
-import { baseURL, storage, upload } from '../../util/uploadUtilFunctions.js';
-import { extractUserID, extractArtistID } from '../../util/utilFunctions.js';
 import {
-  insertSongWithCover,
-  insertPlaylist,
-} from '../../database/queries/dbFileQueries.js';
-import jsonParserMiddleware from '../../middlewares/jsonParser.js';
-import hashPasswordMiddleware from '../../middlewares/hashPassword.js';
+  baseURL,
+  storage,
+  upload,
+} from '../../backend_util/util/uploadUtilFunctions.js';
+import { extractUserID } from '../../backend_util/util/utilFunctions.js';
+import { insertPlaylist } from '../../backend_util/database/queries/dbFileQueries.js';
+import jsonParserMiddleware from '../../backend_util/middlewares/jsonParser.js';
 import authenticateMiddleware from '../../middlewares/authenticate.js';
+import backendBaseUrl from '../../src/apiConfig.js';
+
+dotenv.config();
+
+// Define the base URL where files will be served
+const baseURL = backendBaseUrl;
+
+// Define storage configuration for multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.resolve('./uploads')); // Define the destination directory for file uploads
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Define the filename for uploaded files
+  },
+});
+
+// Initialize multer with the storage configuration
+const upload = multer({ storage: storage });
 
 export default async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {

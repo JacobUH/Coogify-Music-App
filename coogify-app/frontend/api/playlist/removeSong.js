@@ -1,28 +1,24 @@
 import jsonParserMiddleware from '../../backend_util/middlewares/jsonParser.js';
 import authenticateMiddleware from '../../backend_util/middlewares/authenticate.js';
 import { errorMessage } from '../../backend_util/util/utilFunctions.js';
-import { selectTopSongs } from '../../backend_util/database/queries/dbHomeQueries.js';
+import { removeTrackFromPlaylist } from '../../backend_util/database/queries/dbPlaylistQueries.js';
 
 export async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {
     authenticateMiddleware(req, res, async () => {
-      const { count } = req.body;
+      const { playlistID, trackID } = req.body;
       try {
-        var songs;
-        if (count === undefined) {
-          console.log('undefined count');
-          songs = await selectTopSongs(10);
-        } else {
-          songs = await selectTopSongs(count);
-        }
-        if (songs !== false) {
+        const addSong = await removeTrackFromPlaylist(playlistID, trackID);
+        if (addSong !== false) {
           res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify(songs));
+          res.end(
+            JSON.stringify({ message: 'song removed from playlist successful' })
+          );
         } else {
-          errorMessage(res, 'Error fetching top songs', 'Error');
+          errorMessage(res, 'Error removing song from playlist', 'Error');
         }
       } catch (error) {
-        errorMessage(res, error, 'Error fetching top songs');
+        errorMessage(res, error, 'Error removing song from playlist');
       }
     });
   });
