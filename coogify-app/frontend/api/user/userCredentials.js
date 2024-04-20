@@ -1,6 +1,6 @@
 import { selectUserCredentials } from '../../backend_util/database/queries/dbUserQueries.js';
 import { jsonParserMiddleware } from '../../backend_util/middlewares/jsonParser.js';
-import { authenticateMiddleware } from '../../backend_util/middlewares/authenticate.js';
+import authenticateMiddleware from '../../backend_util/middlewares/authenticate.js';
 import {
   errorMessage,
   extractUserID,
