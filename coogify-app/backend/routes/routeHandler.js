@@ -6,14 +6,14 @@ import { register, login, logout} from './specificRoutes/loginRegRoutes.js';
 import { getUserCredentials, getSubCredentials } from './specificRoutes/userRoutes.js'
 import { uploadPlaylist, uploadSongsWithAlbum } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
-import { addArtistName } from './specificRoutes/artistRoutes.js';
-import { fetchNewestSongs, fetchTopSongs, fetchRapSongs, fetchRBSongs, fetchPopSongs, fetchUserLikedSongs, fetchKPopSongs, fetchLatinSongs, fetchAlternativeSongs, fetchClassicalSongs, fetchJazzSongs, fetchElectronicSongs, fetchCountrySongs, fetchRockSongs } from './specificRoutes/homeRoutes.js';
-import { likeSong } from './specificRoutes/songRoutes.js';
+import { addArtistName, artistCredentials, artistTopSongs } from './specificRoutes/artistRoutes.js';
+import { fetchNewestSongs, fetchTopSongs, fetchHomeSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
+import { likeSong, unlikeSong, checkSongLiked } from './specificRoutes/songRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
 import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
 import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
 import { addCard, fetchCardDetails, getPurchaseHistory, createTransaction } from './specificRoutes/cardRoutes.js';
-import { uploadPlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist } from './specificRoutes/playlistRoutes.js'
+import { uploadPlaylistEntry, deletePlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist, selectAddSongPlaylist, removeSongFromPlaylist } from './specificRoutes/playlistRoutes.js'
 import { fetchUserProfile, updateProfile } from './specificRoutes/profileRoutes.js';
 import { makePayment, updateSubscription, cancelSubscription, restoreSubscription} from './specificRoutes/subscriptionRoutes.js'
 
@@ -29,15 +29,18 @@ const handlers = {
     },
     song: {
       likeSong: likeSong,
-      addSong: (req, res) => 'addSongToPlaylist',
-      removeSong: (req, res) => 'removeSongFromPlaylist',
+      unlikeSong: unlikeSong,
+      checkSongLiked: checkSongLiked
     },
     album: fetchAlbumSongs,
     playlist: {
       uploadPlaylistEntry: uploadPlaylistEntry,
+      deletePlaylistEntry: deletePlaylistEntry,
       fetchPlaylists: fetchPlaylists,
       fetchPlaylistSongs: fetchPlaylistSongs,
-      addSong: addSongToPlaylist
+      addSong: addSongToPlaylist,
+      selectAddSong: selectAddSongPlaylist,
+      removeSong: removeSongFromPlaylist
     },
     fetch: {
       song: getSong,
@@ -53,20 +56,10 @@ const handlers = {
       fetchAlbums: fetchAlbums
     },
     home: {
-      fetchNewSongs: fetchNewestSongs,
-      fetchTopSongs: fetchTopSongs,
-      fetchRapSongs: fetchRapSongs,
-      fetchRBSongs: fetchRBSongs,
-      fetchPopSongs: fetchPopSongs,
-      fetchKPopSongs: fetchKPopSongs,
-      fetchLatinSongs: fetchLatinSongs,
-      fetchAlternativeSongs: fetchAlternativeSongs,
-      fetchClassicalSongs: fetchClassicalSongs,
-      fetchJazzSongs: fetchJazzSongs,
-      fetchElectronicSongs: fetchElectronicSongs,
-      fetchCountrySongs: fetchCountrySongs,
-      fetchRockSongs: fetchRockSongs,
-      fetchUserLikedSongs: fetchUserLikedSongs,
+      fetchNewSongs: fetchNewestSongs, // GET
+      fetchTopSongs: fetchTopSongs, // GET
+      fetchSongs: fetchHomeSongs, // POST
+      fetchUserLikedSongs: fetchUserLikedSongs, // GET
     },
     card: {
       addCard: addCard,
@@ -85,8 +78,9 @@ const handlers = {
       artists: retrieveAllArtists,
     },
     artist: {
-      artistProfile: (req, res) => 'artistProfile',
       artistSetup: addArtistName,
+      artistCredentials: artistCredentials,
+      artistTopSongs: artistTopSongs
     },
     notifications: {
       daysToPay: (req, res) => 'pay',
@@ -103,7 +97,9 @@ function serveFile(req, res) {
   const currentUrl = new URL(import.meta.url);
   const currentPath = decodeURI(currentUrl.pathname);
   const currentDirectory = path.dirname(currentPath);
-  const filePath = path.join(currentDirectory, '..', req.url); // Adjust the path as needed
+  const decodedUrl = decodeURIComponent(req.url); // Decode URI component to replace %20 with spaces
+  const filePath = path.join(currentDirectory, '..', decodedUrl); // Adjust the path as needed
+  console.log('filepath: ', filePath);
   fs.readFile(filePath, (err, data) => {
     if (err) {
       console.error('Error reading file:', err);

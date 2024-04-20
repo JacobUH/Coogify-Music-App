@@ -46,8 +46,12 @@ export const ExtendedJazzSongs = ({ title }: Props) => {
     // Fetch data from backend API for rap songs
     const fetchJazzSongs = async () => {
       try {
-        const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchJazzSongs`,
+        const response = await axios.post(
+          `${backendBaseUrl}/api/home/fetchSongs`,
+          {
+            genre: 'Jazz',
+            count: 100,
+          },
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,

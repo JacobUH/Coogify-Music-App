@@ -46,8 +46,12 @@ export const ExtendedRapSongs = ({ title }: Props) => {
   useEffect(() => {
     const fetchRapSongs = async () => {
       try {
-        const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchRapSongs`,
+        const response = await axios.post(
+          `${backendBaseUrl}/api/home/fetchSongs`,
+          {
+            genre: 'Hip Hop',
+            count: 100,
+          },
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,

@@ -46,8 +46,12 @@ export const ExtendedRockSongs = ({ title }: Props) => {
   useEffect(() => {
     const fetchRockSongs = async () => {
       try {
-        const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchRockSongs`,
+        const response = await axios.post(
+          `${backendBaseUrl}/api/home/fetchSongs`,
+          {
+            genre: 'Rock',
+            count: 100,
+          },
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,

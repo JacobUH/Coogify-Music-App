@@ -98,7 +98,7 @@ export const CreatePlaylistScreen: React.FC<ConfirmationScreenProps> = ({
   return (
     <>
       <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
-        <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-60"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-black opacity-70 z-60"></div>
         {/* Increased z-index to 60 */}
         <div className="md:ml-[400px] bg-[#3E3C3C] text-white rounded-lg p-5 w-[1100px] h-[480px] shadow-md z-50 flex flex-col items-center">
           <div className="w-full flex items-center justify-between mb-5">

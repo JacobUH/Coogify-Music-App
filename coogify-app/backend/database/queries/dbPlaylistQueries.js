@@ -10,7 +10,7 @@ export async function createPlaylist(userID, playlistName, playlistDescription, 
 
       if (existingPlaylistRows.length > 0) {
           // If the playlist already exists, return an error response
-          return { success: false, message: 'Playlist with the same name already exists.' };
+          return
       }
       
         const [rows] = await pool.query(
@@ -27,6 +27,29 @@ export async function createPlaylist(userID, playlistName, playlistDescription, 
         return false;
     }
   }
+  
+export async function deletePlaylist(userID, playlistID) {
+  try {
+    // Step 1: Delete playlist tracks from PLAYLIST_TRACK
+    await pool.query(
+      `DELETE FROM PLAYLIST_TRACK WHERE playlistID = ?`,
+      [playlistID]
+    );
+
+    // Step 2: Delete playlist from PLAYLIST
+    await pool.query(
+      `DELETE FROM PLAYLIST WHERE playlistID = ? AND userID = ?`,
+      [playlistID, userID]
+    );
+
+    // If no errors occurred, playlist and its tracks are deleted successfully
+    console.log(`Playlist with ID: ${playlistID} deleted successfully.`);
+  } catch (err) {
+    console.error('Error deleting playlist:', err.message);
+    throw err;
+  }
+}
+
 
   export async function selectPlaylists(userID) {
     try {
@@ -47,7 +70,7 @@ export async function createPlaylist(userID, playlistName, playlistDescription, 
   export async function selectPlaylistSongs(userID, playlistName) {
     try {
       const query = `
-      SELECT p.playlistID, p.userID, u.firstName,u.lastName, p.playlistName, p.playlistDescription, p.playlistArt, t.trackID, t.songName, t.coverArtURL , t.songURL, t.duration, a.artistName, pt.dateAdded
+      SELECT p.playlistID, p.userID, u.firstName,u.lastName, p.playlistName, p.playlistDescription, p.playlistArt, t.trackID, t.albumName, t.songName, t.coverArtURL , t.songURL, t.duration, a.artistName, pt.dateAdded
         FROM PLAYLIST p
         LEFT JOIN PLAYLIST_TRACK pt ON p.playlistID = pt.playlistID
         LEFT JOIN TRACK t ON pt.trackID = t.trackID
@@ -84,3 +107,19 @@ export async function createPlaylist(userID, playlistName, playlistDescription, 
       return false;
     }
   }
+
+  export async function removeTrackFromPlaylist(playlistID, trackID) {
+    try {
+      const [rows] = await pool.query(
+        `DELETE FROM PLAYLIST_TRACK 
+         WHERE playlistID = ? AND trackID = ?`,
+        [playlistID, trackID]
+      );
+      console.log('Track removed from playlist successfully');
+      return true;
+    } catch (error) {
+      console.error('Error removing track from playlist:', error);
+      return false;
+    }
+  }
+  

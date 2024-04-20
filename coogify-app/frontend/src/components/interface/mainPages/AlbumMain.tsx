@@ -223,6 +223,10 @@ export const AlbumMain = () => {
                 onClick={() => {
                   console.log('play button clicked');
                   setHideCard(true);
+                  localStorage.setItem(
+                    'selectedSong',
+                    JSON.stringify(selectedSong)
+                  );
                 }}
               >
                 Play Song
@@ -233,7 +237,6 @@ export const AlbumMain = () => {
                   console.log('like button clicked');
                   handleLikeSong();
                   setHideCard(true);
-                  refreshPage();
                 }}
               >
                 Like Song

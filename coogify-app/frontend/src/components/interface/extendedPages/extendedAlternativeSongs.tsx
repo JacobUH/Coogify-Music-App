@@ -42,12 +42,15 @@ export const ExtendedAlternativeSongs = ({ title }: Props) => {
 
   const storedToken = localStorage.getItem('sessionToken');
 
-  // FETCH TOP SONGS BACKEND CALL
+  // FETCH NEW SONGS BACKEND CALL
   useEffect(() => {
-    const fetchAlternativeSongs = async () => {
+    const fetchNewestSongs = async () => {
       try {
-        const response = await axios.get(
-          `${backendBaseUrl}/api/home/fetchAlternativeSongs`,
+        const response = await axios.post(
+          `${backendBaseUrl}/api/home/fetchSongs`,
+          {
+            genre: 'Alternative',
+          },
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,
@@ -62,7 +65,7 @@ export const ExtendedAlternativeSongs = ({ title }: Props) => {
       }
     };
 
-    fetchAlternativeSongs();
+    fetchNewestSongs();
   }, []);
 
   // LIKE SONG BACKEND CALL

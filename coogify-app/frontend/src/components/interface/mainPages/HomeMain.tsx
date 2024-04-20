@@ -1,17 +1,5 @@
 import React from 'react';
-import { NewMusicRows } from '../musicRows/NewMusicRows';
-import { TopMusicRows } from '../musicRows/TopMusicRows';
-import { PopMusicRows } from '../musicRows/PopMusicRows';
-import { RapMusicRows } from '../musicRows/RapMusicRows';
-import { RBMusicRows } from '../musicRows/RBMusicRows';
-import { KPopMusicRows } from '../musicRows/KPopMusicRows';
-import { LatinMusicRows } from '../musicRows/LatinMusicRows';
-import { AlternativeMusicRows } from '../musicRows/AlternativeMusicRows';
-import { ClassicalMusicRows } from '../musicRows/ClassicalMusicRows';
-import { JazzMusicRows } from '../musicRows/JazzMusicRows';
-import { ElectronicMusicRows } from '../musicRows/ElectronicMusicRows';
-import { CountryMusicRows } from '../musicRows/CountryMusicRows';
-import { RockMusicRows } from '../musicRows/RockMusicRows';
+import { MusicRows } from '../musicRows/MusicRows';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import backendBaseUrl from '../../../apiConfig';
@@ -26,6 +14,16 @@ interface User {
   isArtist: number;
   isAdmin: number;
   dateCreated: string;
+}
+
+interface Song {
+  trackID: number;
+  songName: string;
+  coverArtURL: string;
+  songURL: string;
+  albumName: string;
+  artistName: string;
+  isPopular: boolean;
 }
 
 export const HomeMain = () => {
@@ -54,8 +52,6 @@ export const HomeMain = () => {
     fetchUserCredentials();
   }, []);
 
-  console.log('outside', userCreds); // Log inside the component
-
   return (
     <div
       className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5"
@@ -69,12 +65,12 @@ export const HomeMain = () => {
           </span>
           <div className="flex flex-row justify-between items-center overflow-x-auto ml-5">
             <Link to="/likedSongs">
-              <button className="bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
+              <button className="hover:bg-[#9E67E4] bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
                 Your Liked Music
               </button>
             </Link>
             <Link to="/library">
-              <button className="bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
+              <button className="hover:bg-[#9E67E4] bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
                 Your Library
               </button>
             </Link>
@@ -82,7 +78,7 @@ export const HomeMain = () => {
               userCreds[0].isArtist === 0 &&
               userCreds[0].isAdmin === 0 && (
                 <Link to="/subscription">
-                  <button className="bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
+                  <button className="hover:bg-[#9E67E4] bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
                     Subscription
                   </button>
                 </Link>
@@ -91,7 +87,7 @@ export const HomeMain = () => {
               userCreds[0].isArtist === 0 &&
               userCreds[0].isAdmin === 1 && (
                 <Link to="/reports">
-                  <button className="bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
+                  <button className="hover:bg-[#9E67E4] bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
                     Data Reports
                   </button>
                 </Link>
@@ -99,15 +95,15 @@ export const HomeMain = () => {
             {userCreds[0] &&
               userCreds[0].isArtist === 1 &&
               userCreds[0].isAdmin === 0 && (
-                <Link to="/reports">
-                  <button className="bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
+                <Link to="/analytics">
+                  <button className="hover:bg-[#9E67E4] bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
                     Analytics
                   </button>
                 </Link>
               )}
 
             <Link to="/payment">
-              <button className="bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
+              <button className="hover:bg-[#9E67E4] bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
                 Payments
               </button>
             </Link>
@@ -115,19 +111,86 @@ export const HomeMain = () => {
         </div>
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
           <div className="w-full flex flex-col gap-8">
-            <NewMusicRows title="Newest Songs" />
-            <TopMusicRows title="Top Songs" />
-            <PopMusicRows title="Pop Pulse" />
-            <RapMusicRows title="Rap Mix" />
-            <ElectronicMusicRows title="Electronic Beats" />
-            <KPopMusicRows title="K-Pop Kicks" />
-            <RBMusicRows title="R&B Hits" />
-            <AlternativeMusicRows title="Alternative Anthems" />
-            <CountryMusicRows title="Country Melodies" />
-            <LatinMusicRows title="Latin Vibes" />
-            <RockMusicRows title="Rock Jams" />
+            <MusicRows
+              title="New Songs"
+              apiEndpoint="/api/home/fetchNewSongs"
+              extendedPage="/newestSongs"
+              songGenre=" "
+            />
+            <MusicRows
+              title="Top Songs"
+              apiEndpoint="/api/home/fetchTopSongs"
+              extendedPage="/topSongs"
+              songGenre=" "
+            />
+            <MusicRows
+              title="Pop Pulse"
+              apiEndpoint="/api/home/fetchSongs"
+              extendedPage="/popSongs"
+              songGenre="Pop"
+            />
+            <MusicRows
+              title="Rap Mix"
+              apiEndpoint="/api/home/fetchSongs"
+              extendedPage="/rapSongs"
+              songGenre="Hip Hop"
+            />
+            <MusicRows
+              title="Electronic Beats"
+              apiEndpoint="/api/home/fetchSongs"
+              extendedPage="/electronicSongs"
+              songGenre="Electronic"
+            />
+            <MusicRows
+              title="R&B Hits"
+              apiEndpoint="/api/home/fetchSongs"
+              extendedPage="/rbSongs"
+              songGenre="R&B"
+            />
+            <MusicRows
+              title="K-Pop Kicks"
+              apiEndpoint="/api/home/fetchSongs"
+              extendedPage="/kpopSongs"
+              songGenre="KPop"
+            />
+            <MusicRows
+              title="Alternative Anthems"
+              apiEndpoint="/api/home/fetchSongs"
+              extendedPage="/alternativeSongs"
+              songGenre="Alternative"
+            />
+            <MusicRows
+              title="Jazz Songs"
+              apiEndpoint="/api/home/fetchSongs"
+              extendedPage="/jazzSongs"
+              songGenre="Jazz"
+            />
+            <MusicRows
+              title="Country Melodies"
+              apiEndpoint="/api/home/fetchSongs"
+              extendedPage="/countrySongs"
+              songGenre="Country"
+            />
+            <MusicRows
+              title="Latin Vibes"
+              apiEndpoint="/api/home/fetchSongs"
+              extendedPage="/latinSongs"
+              songGenre="Latin"
+            />
+            <MusicRows
+              title="Classical Cadences"
+              apiEndpoint="/api/home/fetchSongs"
+              extendedPage="/classicalSongs"
+              songGenre="Classical"
+            />
+
             <div className="mb-8">
-              <ClassicalMusicRows title="Classical Cadence" />
+              <MusicRows
+                title="Rock Jams"
+                apiEndpoint="/api/home/fetchSongs"
+                extendedPage="/rockSongs"
+                songGenre="Rock"
+              />
             </div>
           </div>
         </div>

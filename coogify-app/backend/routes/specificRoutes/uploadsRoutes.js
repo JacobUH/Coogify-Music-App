@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
 // Initialize multer with the storage configuration
 const upload = multer({ storage: storage });
 
-export async function uploadPlaylist(req, res, next) {
+export async function uploadPlaylist(req, res) {
   upload.single('imageFile')(req, res, async (err) => {
     if (err instanceof multer.MulterError) {
       console.error('Multer error: ', err);

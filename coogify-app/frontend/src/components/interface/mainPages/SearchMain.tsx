@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import BackButton from '/images/Back Button.svg';
 import axios from 'axios';
 import backendBaseUrl from '../../../apiConfig';
+import { SelectPlaylistPopup } from '../elements/selectPlaylistPopup';
 
 interface Music {
   trackID: number;
@@ -64,6 +65,88 @@ export const SearchMain = () => {
     setHideAlbumCard(true); // Hide the card when mouse leaves the song card
   };
 
+  // LIKE SONG BACKEND CALL
+  const handleLikeSong = async () => {
+    if (selectedSong) {
+      try {
+        await axios.post(
+          `${backendBaseUrl}/api/song/likeSong`,
+          {
+            trackID: selectedSong.trackID,
+            sessionToken: localStorage.getItem('sessionToken'),
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Song liked successfully');
+      } catch (error) {
+        console.error('Error liking the song:', error);
+      }
+    }
+  };
+
+  // UNLIKE SONG BACKEND CALL
+  const handleUnlikeSong = async () => {
+    if (selectedSong) {
+      try {
+        await axios.post(
+          `${backendBaseUrl}/api/song/unlikeSong`,
+          {
+            trackID: selectedSong.trackID,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Song unliked successfully');
+        // You can perform additional actions after liking the song here
+      } catch (error) {
+        console.error('Error unliking the song:', error);
+      }
+    }
+  };
+
+  const [songIsLiked, setSongIsLiked] = useState(false);
+
+  useEffect(() => {
+    const checkSongLiked = async () => {
+      if (selectedSong) {
+        try {
+          const response = await axios.post(
+            `${backendBaseUrl}/api/song/checkSongLiked`,
+            {
+              trackID: selectedSong.trackID,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${storedToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+
+          // Assuming response.data is a boolean value
+          const isLiked = response.data;
+
+          // Set the state based on the response
+          setSongIsLiked(isLiked);
+        } catch (error) {
+          console.error('Error checking the song:', error);
+          // Handle error, maybe show a notification to the user
+        }
+      }
+    };
+
+    checkSongLiked();
+  }, [selectedSong, storedToken]);
+
   // FETCH SONGS BACKEND CALL
   useEffect(() => {
     const fetchSongs = async () => {
@@ -109,6 +192,16 @@ export const SearchMain = () => {
 
     fetchAlbums();
   }, []);
+
+  const [showPlaylistPopup, setShowPlaylistPopup] = useState(false);
+
+  const handleAddSong = () => {
+    setShowPlaylistPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPlaylistPopup(false);
+  };
 
   const filteredSongs = songs.filter((song) => {
     const songName = song.songName
@@ -271,23 +364,42 @@ export const SearchMain = () => {
               onClick={() => {
                 console.log('play button clicked');
                 setHideSongCard(true);
+                localStorage.setItem(
+                  'selectedSong',
+                  JSON.stringify(selectedSong)
+                );
               }}
             >
               Play Song
             </button>
-            <button
-              className="hover:bg-[#656262] text-xs m-2 px-3"
-              onClick={() => {
-                console.log('like button clicked');
-                setHideSongCard(true);
-              }}
-            >
-              Like Song
-            </button>
+            {songIsLiked ? (
+              <button
+                className="hover:bg-[#656262] text-xs m-2 px-3"
+                onClick={() => {
+                  console.log('unlike button clicked');
+                  handleUnlikeSong();
+                  setHideSongCard(true);
+                }}
+              >
+                Unlike Song
+              </button>
+            ) : (
+              <button
+                className="hover:bg-[#656262] text-xs m-2 px-3"
+                onClick={() => {
+                  console.log('like button clicked');
+                  handleLikeSong();
+                  setHideSongCard(true);
+                }}
+              >
+                Like Song
+              </button>
+            )}
             <button
               className="hover:bg-[#656262] text-xs m-2 px-3"
               onClick={() => {
                 console.log('add to playlist button clicked');
+                handleAddSong();
                 setHideSongCard(true);
               }}
             >
@@ -299,10 +411,10 @@ export const SearchMain = () => {
       {selectedAlbum && clickPosition && !hideAlbumCard && (
         <div
           className="absolute"
-          style={{ top: clickPosition.y - 115, left: clickPosition.x - 5 }}
+          style={{ top: clickPosition.y - 55, left: clickPosition.x - 5 }}
         >
           <div
-            className="text-center font-color-red-500 w-[100px] h-[120px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
+            className="text-center font-color-red-500 w-[100px] h-[57px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
             onMouseLeave={handleMouseAlbumLeave}
           >
             <button
@@ -315,17 +427,14 @@ export const SearchMain = () => {
             >
               View Album
             </button>
-            <button
-              className="hover:bg-[#656262] text-xs m-2 px-3"
-              onClick={() => {
-                console.log('play random song button clicked');
-                setHideAlbumCard(true);
-              }}
-            >
-              Play Random Song
-            </button>
           </div>
         </div>
+      )}
+      {showPlaylistPopup && (
+        <SelectPlaylistPopup
+          onClose={handleClosePopup}
+          selectedSong={selectedSong}
+        />
       )}
     </div>
   );
