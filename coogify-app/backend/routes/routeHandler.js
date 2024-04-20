@@ -44,7 +44,6 @@ const handlers = {
     },
     fetch: {
       song: getSong,
-      album: (req, res) => 'info of album and image url',
     },
     payment: makePayment,
     upload: {
