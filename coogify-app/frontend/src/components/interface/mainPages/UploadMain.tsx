@@ -18,9 +18,17 @@ export const UploadMain = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [successPrompt, setSuccessPrompt] = useState(false); // State for success prompt
 
+  //  const handleCoverArtChange = (
+  //    event: React.ChangeEvent<HTMLInputElement>
+  //  ) => {
+  //    if (event.target.files) {
+  //      setCoverArt(event.target.files[0]);
+  //    }
+  //  };
   const handleCoverArtChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setCoverArt(event.target.files[0]);
+      console.log('Cover Art File Path:', event.target.files[0]?.name);
     }
   };
 
@@ -88,47 +96,6 @@ export const UploadMain = () => {
         console.error('Error uploading songs:', error);
       });
   };
-
-  // const handleSubmit = async (event: React.FormEvent) => {
-  //   event.preventDefault();
-  //   const storedToken = localStorage.getItem('sessionToken');
-  //   if (!storedToken) {
-  //     console.error('Session token not found');
-  //     return;
-  //   }
-
-  //   const formData = new FormData();
-  //   formData.append('albumName', albumName);
-  //   formData.append('genreName', genreName);
-  //   formData.append('imageFile', imageFile as Blob);
-  //   mp3Files.forEach((mp3File) => {
-  //     formData.append('mp3Files', mp3File);
-  //   });
-  //   console.log(imageFile);
-  //   console.log(formData);
-
-  //   fetch(`${backendBaseUrl}/api/upload/uploadSongs`, {
-  //     method: 'POST',
-  //     body: formData,
-  //     headers: {
-  //       Authorization: `Bearer ${storedToken}`,
-  //     },
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error('Network response was not ok');
-  //       }
-  //       return response.text();
-  //     })
-  //     .then((data) => {
-  //       console.log('Response:', data);
-  //       setSuccessPrompt(true); // Set success prompt to true on successful upload
-  //       setTimeout(() => setSuccessPrompt(false), 3000); // Hide success prompt after 3 seconds
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error uploading songs:', error);
-  //     });
-  // };
 
   return (
     <div
