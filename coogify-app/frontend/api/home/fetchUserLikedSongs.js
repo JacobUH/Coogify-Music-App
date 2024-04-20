@@ -1,6 +1,9 @@
 import jsonParserMiddleware from '../../backend_util/middlewares/jsonParser.js';
 import authenticateMiddleware from '../../backend_util/middlewares/authenticate.js';
-import { errorMessage } from '../../backend_util/util/utilFunctions.js';
+import {
+  errorMessage,
+  extractUserID,
+} from '../../backend_util/util/utilFunctions.js';
 import { selectUserLikedSongs } from '../../backend_util/database/queries/dbHomeQueries.js';
 
 export default async function handler(req, res) {

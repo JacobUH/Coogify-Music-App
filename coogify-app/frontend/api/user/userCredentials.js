@@ -4,9 +4,9 @@ import { authenticateMiddleware } from '../../backend_util/middlewares/authentic
 import {
   errorMessage,
   extractUserID,
-} from '../../backend_util/utilFunctions.js';
+} from '../../backend_util/util/utilFunctions.js';
 
-export default async function handler(req, res) {
+export async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {
     authenticateMiddleware(req, res, async () => {
       const userID = await extractUserID(req);

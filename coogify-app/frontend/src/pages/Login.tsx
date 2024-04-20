@@ -17,37 +17,35 @@ export const Login = () => {
     e.preventDefault();
     const formData = JSON.stringify({ email, password });
     try {
-      // const response = await axios.post(
-      //   `${backendBaseUrl}/api/login`, // Use backendBaseUrl here
-      //   {
-      //     email,
-      //     password,
-      //   },
-      //   {
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //   }
-      // );
-
-      const response = await fetch(`${backendBaseUrl}/api/login`, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await axios.post(
+        `${backendBaseUrl}/api/login`, // Use backendBaseUrl here
+        {
+          email,
+          password,
         },
-      });
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
-      const res = await response.json();
+      // const response = await fetch(`${backendBaseUrl}/api/login`, {
+      //   method: 'POST',
+      //   body: formData,
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      // });
 
       console.log('Response:', response);
 
       if (response.status !== 200) {
-        throw new Error(res);
+        throw new Error(response.data.message);
       }
 
       // Assuming successful login, you can handle the session token here
-      const storedToken = res.sessionID;
+      const storedToken = response.data.sessionID;
       if (storedToken) {
         console.log('new token is: ', storedToken);
       }
