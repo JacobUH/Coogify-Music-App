@@ -15,35 +15,39 @@ export const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(
-      JSON.stringify({
-        email,
-        password,
-      })
-    );
-
+    const formData = JSON.stringify({ email, password });
     try {
-      const response = await axios.post(
-        `${backendBaseUrl}/api/login`, // Use backendBaseUrl here
-        {
-          email,
-          password,
+      // const response = await axios.post(
+      //   `${backendBaseUrl}/api/login`, // Use backendBaseUrl here
+      //   {
+      //     email,
+      //     password,
+      //   },
+      //   {
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //   }
+      // );
+
+      const response = await fetch(`${backendBaseUrl}/api/login`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Content-Type': 'product/json',
         },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      });
+
+      const res = await response.json();
 
       console.log('Response:', response);
 
       if (response.status !== 200) {
-        throw new Error(response.data.message);
+        throw new Error(res);
       }
 
       // Assuming successful login, you can handle the session token here
-      const storedToken = response.data.sessionID;
+      const storedToken = res.sessionID;
       if (storedToken) {
         console.log('new token is: ', storedToken);
       }
