@@ -57,7 +57,7 @@ export const UploadMain = () => {
     const formData = new FormData();
     formData.append('albumName', albumName);
     formData.append('genreName', genreName);
-    formData.append('coverArt', coverArt as Blob);
+    formData.append('imageFile', coverArt as Blob);
     mp3Files.forEach((mp3File) => {
       formData.append('mp3Files', mp3File);
     });
