@@ -34,7 +34,7 @@ export const Login = () => {
         method: 'POST',
         body: formData,
         headers: {
-          'Content-Type': 'product/json',
+          'Content-Type': 'application/json',
         },
       });
 
