@@ -3,7 +3,7 @@ import { isSongLiked } from '../../backend_util/database/queries/dbSongQueries.j
 import jsonParserMiddleware from '../../backend_util/middlewares/jsonParser.js';
 import authenticateMiddleware from '../../backend_util/middlewares/authenticate.js';
 
-export async function handler(req, res) {
+export default async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {
     authenticateMiddleware(req, res, async () => {
       const { trackID } = req.body;

@@ -6,7 +6,7 @@ import {
 } from '../../../backend/util/utilFunctions.js';
 import { selectPlaylists } from '../../backend_util/database/queries/dbPlaylistQueries.js';
 
-export async function handler(req, res) {
+export default async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {
     authenticateMiddleware(req, res, async () => {
       const userID = await extractUserID(req);

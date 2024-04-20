@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 // for serving files in uploads folder
-export async function handler(req, res) {
+export default async function handler(req, res) {
   const currentUrl = new URL(import.meta.url);
   const currentPath = decodeURI(currentUrl.pathname);
   const currentDirectory = path.dirname(currentPath);

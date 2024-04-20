@@ -2,7 +2,7 @@ import jsonParserMiddleware from '../../backend_util/middlewares/jsonParser.js';
 import authenticateMiddleware from '../../backend_util/middlewares/authenticate.js';
 import { selectAllSongs } from '../../backend_util/database/queries/dbAdminQueries.js';
 
-export async function handler(req, res) {
+export default async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {
     authenticateMiddleware(req, res, async () => {
       try {

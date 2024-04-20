@@ -4,7 +4,7 @@ import { errorMessage } from '../../backend_util/util/utilFunctions.js';
 import { retrievePurchaseHistory } from '../../backend_util/database/queries/dbCardQueries.js';
 import { extractUserID } from '../../backend_util/util/utilFunctions.js';
 
-export async function handler(req, res) {
+export default async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {
     authenticateMiddleware(req, res, async () => {
       const userID = await extractUserID(req);

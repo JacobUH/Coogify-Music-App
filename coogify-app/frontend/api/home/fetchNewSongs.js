@@ -3,7 +3,7 @@ import authenticateMiddleware from '../../backend_util/middlewares/authenticate.
 import { errorMessage } from '../../backend_util/util/utilFunctions.js';
 import { selectNewestSongs } from '../../backend_util/database/queries/dbHomeQueries.js';
 
-export async function handler(req, res) {
+export default async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {
     authenticateMiddleware(req, res, async () => {
       const { count } = req.body;

@@ -4,7 +4,7 @@ import { errorMessage } from '../../backend_util/util/utilFunctions.js';
 import { extractSessionId } from '../../backend_util/util/utilFunctions.js';
 import { insertArtist } from '../../backend_util/database/queries/dbArtistQueries.js';
 
-export async function handler(req, res) {
+export default async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {
     authenticateMiddleware(req, res, async () => {
       const { artistName } = req.body;

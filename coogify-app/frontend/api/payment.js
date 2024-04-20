@@ -3,7 +3,7 @@ import authenticateMiddleware from '../backend_util/middlewares/authenticate.js'
 import { extractUserID } from '../backend_util/util/utilFunctions.js';
 import { insertPayment } from '../backend_util/database/queries/dbUserQueries.js';
 
-export async function handler(req, res) {
+export default async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {
     authenticateMiddleware(req, res, async () => {
       try {
