@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import * as logregq from '../backend_util/database/queries/dbLoginRegQueries.js';
 import { getUserFromEmail } from '../backend_util/database/queries/dbUserQueries.js';
-import { createSession } from '../backend_util/Session/sessionManager.js';
+import { createSession } from '../backend_util/util/sessionManager.js';
 import { deleteSession } from '../backend_util/database/queries/dbAuthQueries.js';
 import jsonParserMiddleware from '../backend_util/middlewares/jsonParser.js';
 
