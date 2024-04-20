@@ -11,19 +11,6 @@ import authenticateMiddleware from '../../middlewares/authenticate.js';
 
 dotenv.config();
 
-// Define storage configuration for multer
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.resolve('./uploads')); // Define the destination directory for file uploads
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname); // Define the filename for uploaded files
-  },
-});
-
-// Initialize multer with the storage configuration
-const upload = multer({ storage: storage });
-
 export default async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {
     authenticateMiddleware(req, res, async () => {
