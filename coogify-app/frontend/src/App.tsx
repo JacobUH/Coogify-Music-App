@@ -32,6 +32,8 @@ import { RockSongs } from './pages/RockSongs';
 import { AddCard } from './pages/AddCard';
 import { PrevTransactions } from './pages/PrevTransactions';
 
+import { Analytics } from './pages/Analytics';
+
 import React from 'react';
 
 function App() {
@@ -70,6 +72,7 @@ function App() {
           <Route path="/rockSongs" element={<RockSongs />} />
           <Route path="/AddCard" element={<AddCard />} />
           <Route path="/PrevTransactions" element={<PrevTransactions />} />
+          <Route path="/Analytics" element={<Analytics />} />
         </Routes>
       </div>
     </>

@@ -179,8 +179,8 @@ export const Sidebar = () => {
     };
 
     fetchUserLikedSongs();
-  }, [handleUnlikeSong, handleLikeSong]);
-  //}, []);
+    //}, [handleUnlikeSong, handleLikeSong]);
+  }, []);
 
   const [userCreds, setUserCreds] = useState<User[]>([]);
 
@@ -212,7 +212,7 @@ export const Sidebar = () => {
           );
         }
 
-        console.log(response.data);
+        //console.log(response.data);
       } catch (err) {
         console.error('Error fetching new songs:', err);
       }

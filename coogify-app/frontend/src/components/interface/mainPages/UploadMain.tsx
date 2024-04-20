@@ -53,7 +53,7 @@ export const UploadMain = () => {
     mp3Files.forEach((mp3File) => {
       formData.append('mp3Files', mp3File);
     });
-
+    console.log(imageFile);
     console.log(formData);
 
     fetch(`${backendBaseUrl}/api/upload/uploadSongs`, {

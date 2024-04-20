@@ -1,17 +1,4 @@
 import React from 'react';
-import { NewMusicRows } from '../musicRows/NewMusicRows';
-import { TopMusicRows } from '../musicRows/TopMusicRows';
-import { PopMusicRows } from '../musicRows/PopMusicRows';
-import { RapMusicRows } from '../musicRows/RapMusicRows';
-import { RBMusicRows } from '../musicRows/RBMusicRows';
-import { KPopMusicRows } from '../musicRows/KPopMusicRows';
-import { LatinMusicRows } from '../musicRows/LatinMusicRows';
-import { AlternativeMusicRows } from '../musicRows/AlternativeMusicRows';
-import { ClassicalMusicRows } from '../musicRows/ClassicalMusicRows';
-import { JazzMusicRows } from '../musicRows/JazzMusicRows';
-import { ElectronicMusicRows } from '../musicRows/ElectronicMusicRows';
-import { CountryMusicRows } from '../musicRows/CountryMusicRows';
-import { RockMusicRows } from '../musicRows/RockMusicRows';
 import { MusicRows } from '../musicRows/MusicRows';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -78,12 +65,12 @@ export const HomeMain = () => {
           </span>
           <div className="flex flex-row justify-between items-center overflow-x-auto ml-5">
             <Link to="/likedSongs">
-              <button className="bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
+              <button className="hover:bg-[#9E67E4] bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
                 Your Liked Music
               </button>
             </Link>
             <Link to="/library">
-              <button className="bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
+              <button className="hover:bg-[#9E67E4] bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
                 Your Library
               </button>
             </Link>
@@ -91,7 +78,7 @@ export const HomeMain = () => {
               userCreds[0].isArtist === 0 &&
               userCreds[0].isAdmin === 0 && (
                 <Link to="/subscription">
-                  <button className="bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
+                  <button className="hover:bg-[#9E67E4] bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
                     Subscription
                   </button>
                 </Link>
@@ -100,7 +87,7 @@ export const HomeMain = () => {
               userCreds[0].isArtist === 0 &&
               userCreds[0].isAdmin === 1 && (
                 <Link to="/reports">
-                  <button className="bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
+                  <button className="hover:bg-[#9E67E4] bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
                     Data Reports
                   </button>
                 </Link>
@@ -108,15 +95,15 @@ export const HomeMain = () => {
             {userCreds[0] &&
               userCreds[0].isArtist === 1 &&
               userCreds[0].isAdmin === 0 && (
-                <Link to="/reports">
-                  <button className="bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
+                <Link to="/analytics">
+                  <button className="hover:bg-[#9E67E4] bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
                     Analytics
                   </button>
                 </Link>
               )}
 
             <Link to="/payment">
-              <button className="bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
+              <button className="hover:bg-[#9E67E4] bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
                 Payments
               </button>
             </Link>

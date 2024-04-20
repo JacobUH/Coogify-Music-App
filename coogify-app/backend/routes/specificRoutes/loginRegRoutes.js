@@ -7,10 +7,9 @@ import { extractUserID } from '../../util/utilFunctions.js';
 
 export async function register(req, res) {
   const { firstName, lastName, email, password } = req.body;
-  const hashedInput = await hashPassword(password);
   if (
     email === undefined ||
-    hashedInput === undefined ||
+    password === undefined ||
     firstName === undefined ||
     lastName === undefined
   ) {
@@ -21,16 +20,20 @@ export async function register(req, res) {
     res.end(JSON.stringify({ error: 'One or more parameters are missing.' }));
     return;
   }
+  const hPassword = await hashPassword(password);
 
   try {
     const registered = await logregq.registerUser(
       email,
-      hashedInput,
+      hPassword,
       firstName,
       lastName
     );
     if (registered) {
       const session = await createSession(getUserFromEmail(email));
+      const hashedPasswordFromDB = await logregq.getPasswordByEmail(email);
+      console.log('db hashed password: ', hashedPasswordFromDB);
+      console.log('og hashed password: ', hPassword);
       res.statusCode = 200;
       res.end(
         JSON.stringify({
@@ -40,7 +43,11 @@ export async function register(req, res) {
       );
     } else {
       res.statusCode = 409;
-      res.end(JSON.stringify({ error: 'Email already exists for another account.' }));
+      res.end(
+        JSON.stringify({
+          error: 'Email already exists for another account.',
+        })
+      );
     }
   } catch (error) {
     console.error('Error registering user:', error);
@@ -54,44 +61,35 @@ export async function login(req, res) {
   const { email, password } = req.body;
 
   try {
-    // Retrieve hashed password from the database based on the provided email
     const hashedPasswordFromDB = await logregq.getPasswordByEmail(email);
 
-    // If no hashed password found or any other error, return error response
     if (hashedPasswordFromDB === null) {
       res.writeHead(401, { 'Content-Type': 'text/plain' });
       res.end('Invalid email or password');
       return;
     }
 
-    // Compare the provided password with the hashed password from the database
-    const hashedInput = await hashPassword(password);
-    const isPasswordMatch = bcrypt.compare(hashedInput, hashedPasswordFromDB);
+    const isPasswordMatch = await bcrypt.compare(
+      password,
+      hashedPasswordFromDB
+    );
 
     if (!isPasswordMatch) {
-      // If passwords do not match, return error response
       res.writeHead(401, { 'Content-Type': 'text/plain' });
       res.end('Invalid email or password');
       return;
     }
 
     // Passwords match, user successfully authenticated
-    try {
-      console.log('Destroying session...');
-      await destroySession(getUserFromEmail(email));
-      console.log('Sessions destroyed successfully.');
+    const user = getUserFromEmail(email);
+    await destroySession(user);
+    const session = await createSession(user);
+    console.log('Session created:', session);
 
-      console.log('Creating new session...');
-      const session = await createSession(getUserFromEmail(email));
-      console.log('New session created successfully:', session);
-      
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(
-        JSON.stringify({ message: 'Login successful', sessionID: session })
-      );
-    } catch (err) {
-      console.error('failed to update session during login');
-    }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(
+      JSON.stringify({ message: 'Login successful', sessionID: session })
+    );
   } catch (error) {
     console.error('Error during login:', error);
     res.writeHead(500, { 'Content-Type': 'text/plain' });
@@ -102,7 +100,6 @@ export async function login(req, res) {
 export async function logout(req, res) {
   console.log('this is inside the req: ', req);
   try {
-
     // If user is missing, return an error response
     if (!req) {
       res.writeHead(400, { 'Content-Type': 'text/plain' });
@@ -110,7 +107,7 @@ export async function logout(req, res) {
       console.log('Session token is required.');
       return;
     }
-  
+
     // Delete the session associated with the provided session token
     const deletedSession = await destroySession(extractUserID(req));
 
@@ -129,4 +126,3 @@ export async function logout(req, res) {
     res.end('Internal server error.');
   }
 }
-

@@ -6,7 +6,7 @@ export async function getUserCredentials(req, res) {
     try {
          const credentials = await selectUserCredentials(userID);
          if (credentials !== false) {
-             console.log(credentials);
+             //console.log(credentials);
              res.writeHead(200, { 'Content-Type': 'application/json' });
              res.end(JSON.stringify(credentials));
            } else {
@@ -22,7 +22,7 @@ export async function getUserCredentials(req, res) {
     try {
          const credentials = await selectSubCredentials(userID);
          if (credentials !== false) {
-             console.log(credentials);
+            // console.log(credentials);
              res.writeHead(200, { 'Content-Type': 'application/json' });
              res.end(JSON.stringify(credentials));
            } else {

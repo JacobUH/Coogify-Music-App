@@ -6,7 +6,7 @@ import { register, login, logout} from './specificRoutes/loginRegRoutes.js';
 import { getUserCredentials, getSubCredentials } from './specificRoutes/userRoutes.js'
 import { uploadPlaylist, uploadSongsWithAlbum } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
-import { addArtistName } from './specificRoutes/artistRoutes.js';
+import { addArtistName, artistCredentials, artistTopSongs } from './specificRoutes/artistRoutes.js';
 import { fetchNewestSongs, fetchTopSongs, fetchHomeSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
 import { likeSong, unlikeSong, checkSongLiked } from './specificRoutes/songRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
@@ -78,8 +78,9 @@ const handlers = {
       artists: retrieveAllArtists,
     },
     artist: {
-      artistProfile: (req, res) => 'artistProfile',
       artistSetup: addArtistName,
+      artistCredentials: artistCredentials,
+      artistTopSongs: artistTopSongs
     },
     notifications: {
       daysToPay: (req, res) => 'pay',
@@ -96,7 +97,9 @@ function serveFile(req, res) {
   const currentUrl = new URL(import.meta.url);
   const currentPath = decodeURI(currentUrl.pathname);
   const currentDirectory = path.dirname(currentPath);
-  const filePath = path.join(currentDirectory, '..', req.url); // Adjust the path as needed
+  const decodedUrl = decodeURIComponent(req.url); // Decode URI component to replace %20 with spaces
+  const filePath = path.join(currentDirectory, '..', decodedUrl); // Adjust the path as needed
+  console.log('filepath: ', filePath);
   fs.readFile(filePath, (err, data) => {
     if (err) {
       console.error('Error reading file:', err);
