@@ -1,4 +1,5 @@
 import multer from 'multer';
+import dotenv from 'dotenv'
 import {
   baseURL,
   storage,
