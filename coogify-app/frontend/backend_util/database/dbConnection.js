@@ -12,4 +12,6 @@ const pool = mysql
   })
   .promise();
 
+console.log('Host:', process.env.MYSQL_HOST);
+
 export default pool;
