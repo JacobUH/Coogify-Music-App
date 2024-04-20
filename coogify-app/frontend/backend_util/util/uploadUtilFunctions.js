@@ -1,12 +1,10 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import multer from 'multer';
-import { backendBaseUrl } from '../../src/apiConfig';
 
 dotenv.config();
 
-// export const baseURL = `http://${process.env.MYSQL_HOST}:${process.env.SERVER_PORT}/uploads/`;
-export const baseURL = `${backendBaseUrl}/uploads/`;
+export const baseURL = `$https://coogify-frontend.vercel.app/uploads/`;
 
 // Define storage configuration for multer
 export const storage = multer.diskStorage({
