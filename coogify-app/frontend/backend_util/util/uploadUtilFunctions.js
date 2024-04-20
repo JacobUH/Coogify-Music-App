@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import multer from 'multer';
-import { backendBaseUrl } from '../../src/apiConfig.ts';
+import { backendBaseUrl } from '../../src/apiConfig';
 
 dotenv.config();
 
