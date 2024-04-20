@@ -6,7 +6,7 @@ import { register, login, logout} from './specificRoutes/loginRegRoutes.js';
 import { getUserCredentials, getSubCredentials } from './specificRoutes/userRoutes.js'
 import { uploadPlaylist, uploadSongsWithAlbum } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
-import { addArtistName, artistCredentials, artistTopSongs } from './specificRoutes/artistRoutes.js';
+import { addArtistName, artistCredentials, artistTopSongs, artistReport, artistAlbums, artistSongsFromAlbum } from './specificRoutes/artistRoutes.js';
 import { fetchNewestSongs, fetchTopSongs, fetchHomeSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
 import { likeSong, unlikeSong, checkSongLiked } from './specificRoutes/songRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
@@ -80,7 +80,10 @@ const handlers = {
     artist: {
       artistSetup: addArtistName,
       artistCredentials: artistCredentials,
-      artistTopSongs: artistTopSongs
+      artistTopSongs: artistTopSongs,
+      artistReport: artistReport,
+      artistAlbums: artistAlbums,
+      artistSongsFromAlbum: artistSongsFromAlbum
     },
     notifications: {
       daysToPay: (req, res) => 'pay',

@@ -179,8 +179,15 @@ export const Sidebar = () => {
     };
 
     fetchUserLikedSongs();
-    //}, [handleUnlikeSong, handleLikeSong]);
+
+    // Refresh data every second
+    //const intervalId = setInterval(fetchUserLikedSongs, 1000);
+
+    // Cleanup function to clear the interval
+    // return () => clearInterval(intervalId);
   }, []);
+
+  //}, []);
 
   const [userCreds, setUserCreds] = useState<User[]>([]);
 
