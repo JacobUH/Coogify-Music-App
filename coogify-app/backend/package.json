@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "npx nodemon app.js",
     "start": "node app.js",
-    "build": "mkdir -p public"
+    "build": "cd frontend && npm install && npm run build && mv build ../public"
   },
   "keywords": [],
   "author": "",
