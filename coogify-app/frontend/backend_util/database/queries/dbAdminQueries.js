@@ -1,6 +1,3 @@
-// Contains database queries related to administrator functions, such as managing system settings,
-// performing administrative tasks, and accessing administrative data.
-
 import pool from '../dbConnection.js';
 
 export async function selectAllSongs() {
@@ -17,7 +14,8 @@ export async function selectAllSongs() {
 export async function selectAllUsers() {
   const [rows] = await pool.query(
     `SELECT userID, email, userPassword, firstName, lastName, dateOfBirth, isArtist, isAdmin, dateCreated
-     FROM USER`);
+     FROM USER`
+  );
   return rows;
 }
 

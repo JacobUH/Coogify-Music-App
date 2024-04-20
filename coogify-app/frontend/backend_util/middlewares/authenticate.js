@@ -1,5 +1,5 @@
 // authenticateMiddleware.js
-import { sessionExists } from '../Session/sessionManager.js';
+import { sessionExists } from '../util/sessionManager.js';
 
 export default async function authenticateMiddleware(request, response, next) {
   console.log('authenticating');
