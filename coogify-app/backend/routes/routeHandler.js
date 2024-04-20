@@ -2,35 +2,79 @@
 import fs from 'fs';
 import path from 'path';
 import { jsonParser, authenticate } from '../middlewares/middleware.js';
-import { register, login, logout} from './specificRoutes/loginRegRoutes.js';
-import { getUserCredentials, getSubCredentials } from './specificRoutes/userRoutes.js'
-import { uploadPlaylist, uploadSongsWithAlbum } from './specificRoutes/uploadsRoutes.js';
+import { register, login, logout } from './specificRoutes/loginRegRoutes.js';
+import {
+  getUserCredentials,
+  getSubCredentials,
+} from './specificRoutes/userRoutes.js';
+import {
+  uploadPlaylist,
+  uploadSongsWithAlbum,
+} from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
-import { addArtistName, artistCredentials, artistTopSongs } from './specificRoutes/artistRoutes.js';
-import { fetchNewestSongs, fetchTopSongs, fetchHomeSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
-import { likeSong, unlikeSong, checkSongLiked } from './specificRoutes/songRoutes.js';
-import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
-import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
-import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
-import { addCard, fetchCardDetails, getPurchaseHistory, createTransaction } from './specificRoutes/cardRoutes.js';
-import { uploadPlaylistEntry, deletePlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist, selectAddSongPlaylist, removeSongFromPlaylist } from './specificRoutes/playlistRoutes.js'
-import { fetchUserProfile, updateProfile } from './specificRoutes/profileRoutes.js';
-import { makePayment, updateSubscription, cancelSubscription, restoreSubscription} from './specificRoutes/subscriptionRoutes.js'
+import {
+  addArtistName,
+  artistCredentials,
+  artistTopSongs,
+} from './specificRoutes/artistRoutes.js';
+import {
+  fetchNewestSongs,
+  fetchTopSongs,
+  fetchHomeSongs,
+  fetchUserLikedSongs,
+} from './specificRoutes/homeRoutes.js';
+import {
+  likeSong,
+  unlikeSong,
+  checkSongLiked,
+} from './specificRoutes/songRoutes.js';
+import {
+  retrieveAllArtists,
+  retrieveAllUsers,
+  retrieveAllSongs,
+} from './specificRoutes/adminRoutes.js';
+import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js';
+import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js';
+import {
+  addCard,
+  fetchCardDetails,
+  getPurchaseHistory,
+  createTransaction,
+} from './specificRoutes/cardRoutes.js';
+import {
+  uploadPlaylistEntry,
+  deletePlaylistEntry,
+  fetchPlaylists,
+  fetchPlaylistSongs,
+  addSongToPlaylist,
+  selectAddSongPlaylist,
+  removeSongFromPlaylist,
+} from './specificRoutes/playlistRoutes.js';
+import {
+  fetchUserProfile,
+  updateProfile,
+} from './specificRoutes/profileRoutes.js';
+import {
+  makePayment,
+  updateSubscription,
+  cancelSubscription,
+  restoreSubscription,
+} from './specificRoutes/subscriptionRoutes.js';
 
 // Define the handlers object
 const handlers = {
   api: {
-    register: register, 
-    login: login, 
-    logout: logout, 
+    register: register,
+    login: login,
+    logout: logout,
     user: {
       userCredentials: getUserCredentials,
-      subscriptionCredentials: getSubCredentials
+      subscriptionCredentials: getSubCredentials,
     },
     song: {
       likeSong: likeSong,
       unlikeSong: unlikeSong,
-      checkSongLiked: checkSongLiked
+      checkSongLiked: checkSongLiked,
     },
     album: fetchAlbumSongs,
     playlist: {
@@ -40,7 +84,7 @@ const handlers = {
       fetchPlaylistSongs: fetchPlaylistSongs,
       addSong: addSongToPlaylist,
       selectAddSong: selectAddSongPlaylist,
-      removeSong: removeSongFromPlaylist
+      removeSong: removeSongFromPlaylist,
     },
     fetch: {
       song: getSong,
@@ -52,7 +96,7 @@ const handlers = {
     },
     search: {
       fetchSongs: fetchSongs,
-      fetchAlbums: fetchAlbums
+      fetchAlbums: fetchAlbums,
     },
     home: {
       fetchNewSongs: fetchNewestSongs, // GET
@@ -64,12 +108,12 @@ const handlers = {
       addCard: addCard,
       PrevTransactions: getPurchaseHistory,
       createTransaction: createTransaction,
-      fetchCardDetails:fetchCardDetails,
+      fetchCardDetails: fetchCardDetails,
     },
     subscription: {
       updateSubscription: updateSubscription,
       cancelSubscription: cancelSubscription,
-      restoreSubscription: restoreSubscription
+      restoreSubscription: restoreSubscription,
     },
     admin: {
       music: retrieveAllSongs,
@@ -79,7 +123,7 @@ const handlers = {
     artist: {
       artistSetup: addArtistName,
       artistCredentials: artistCredentials,
-      artistTopSongs: artistTopSongs
+      artistTopSongs: artistTopSongs,
     },
     notifications: {
       daysToPay: (req, res) => 'pay',

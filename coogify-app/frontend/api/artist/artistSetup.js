@@ -1,12 +1,12 @@
-import { insertArtist } from '../../database/queries/dbArtistQueries.js';
-import { extractSessionId, errorMessage } from '../../util/utilFunctions.js';
-import jsonParserMiddleware from '../../middlewares/jsonParser.js';
-import hashPasswordMiddleware from '../../middlewares/hashPassword.js';
-import authenticateMiddleware from '../../middlewares/authenticate.js';
+import jsonParserMiddleware from '../../backend_util/middlewares/jsonParser.js';
+import authenticateMiddleware from '../../backend_util/middlewares/authenticate.js';
+import { errorMessage } from '../../backend_util/util/utilFunctions.js';
+import { extractSessionId } from '../../backend_util/util/utilFunctions.js';
+import { insertArtist } from '../../backend_util/database/queries/dbArtistQueries.js';
 
-export default async function handler(req, res) {
+export async function handler(req, res) {
   jsonParserMiddleware(req, res, async () => {
-    await authenticateMiddleware(req, res, async () => {
+    authenticateMiddleware(req, res, async () => {
       const { artistName } = req.body;
       const sessionID = extractSessionId(req);
       if (sessionID !== null) {
