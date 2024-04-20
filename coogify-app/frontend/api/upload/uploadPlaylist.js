@@ -8,12 +8,8 @@ import { extractUserID } from '../../backend_util/util/utilFunctions.js';
 import { insertPlaylist } from '../../backend_util/database/queries/dbFileQueries.js';
 import jsonParserMiddleware from '../../backend_util/middlewares/jsonParser.js';
 import authenticateMiddleware from '../../middlewares/authenticate.js';
-import backendBaseUrl from '../../src/apiConfig.js';
 
 dotenv.config();
-
-// Define the base URL where files will be served
-const baseURL = backendBaseUrl;
 
 // Define storage configuration for multer
 const storage = multer.diskStorage({
