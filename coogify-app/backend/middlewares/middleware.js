@@ -76,6 +76,7 @@ export async function authenticate(req, res, next) {
     const authHeader = req.headers['authorization'];
     console.log(authHeader);
     if (!authHeader) {
+      console.log('no header');
       unauthorized(req, res);
       return;
     }
@@ -87,10 +88,12 @@ export async function authenticate(req, res, next) {
     try {
       const exists = await sessionExists(sessionID);
       if (!exists) {
+        console.log('session doesnt exist');
         unauthorized(req, res);
         return;
       }
     } catch (err) {
+      console.log(err);
       unauthorized(req, res);
       return;
     }
@@ -100,35 +103,7 @@ export async function authenticate(req, res, next) {
 }
 
 function unauthorized(req, res) {
+  console.log('unauthorized');
   res.writeHead(401, { 'Content-Type': 'text/plain' });
   res.end('Unauthorized');
 }
-
-// export function errorMessage(res, theError, message) {
-//   console.error(`${message}: ${theError}`);
-//   res.writeHead(500, { 'Content-Type': 'text/plain' });
-//   res.end('Internal server error');
-// }
-
-// export function extractSessionId(req) {
-//   // Check if the Authorization header exists
-//   if (req.headers && req.headers.authorization) {
-//     // Split the Authorization header value by space
-//     const parts = req.headers.authorization.split(' ');
-
-//     // Check if the Authorization header has two parts and the first part is "Bearer"
-//     if (parts.length === 2 && parts[0] === 'Bearer') {
-//       // Return the second part, which should be the session ID
-//       return parts[1];
-//     }
-//   }
-
-//   // If the Authorization header doesn't exist or is invalid, return null
-//   return null;
-// }
-
-// export async function extractUserID(req) {
-//   const session = extractSessionId(req);
-//   const userID = await getUserFromSession(session);
-//   return userID;
-// }
