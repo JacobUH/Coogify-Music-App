@@ -6,10 +6,11 @@ import {
   insertPlaylist,
 } from '../../database/queries/dbFileQueries.js';
 import { extractUserID, extractArtistID } from '../../util/utilFunctions.js';
+import busboy from 'busboy';
 dotenv.config();
 
 // Define the base URL where files will be served
-const baseURL = `http://${process.env.MYSQL_HOST}:${process.env.SERVER_PORT}/uploads/`;
+const baseURL = `http://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}/uploads/`;
 
 // Define storage configuration for multer
 const storage = multer.diskStorage({
@@ -89,6 +90,8 @@ export async function uploadSongsWithAlbum(req, res, next) {
     } else {
       console.log('Files uploaded successfully');
 
+      console.log(req.files);
+
       // Get the URLs of the uploaded files
       const mp3Files = req.files['mp3Files'];
       const imageFile = req.files['imageFile'][0];
@@ -146,4 +149,34 @@ export async function uploadSongsWithAlbum(req, res, next) {
       }
     }
   });
+}
+
+export function uploadMySong(req, res) {
+  const bb = busboy({ headers: req.headers });
+
+  bb.on('file', (name, file, info) => {
+    const { filename, encoding, mimeType } = info;
+    console.log(
+      `File [${name}]: filename: %j, encoding: %j, mimeType: %j`,
+      filename,
+      encoding,
+      mimeType
+    );
+    file
+      .on('data', (data) => {
+        console.log(`File [${name}] got ${data?.length} bytes`);
+      })
+      .on('close', () => {
+        console.log(`File [${name}] done`);
+      });
+  });
+  bb.on('field', (name, val, info) => {
+    console.log(`Field [${name}]: value: %j`, val);
+  });
+  bb.on('close', () => {
+    console.log('Done parsing form!');
+    res.status(200).send({ message: 'Done parsing form!' });
+  });
+
+  bb.end(req.body);
 }
