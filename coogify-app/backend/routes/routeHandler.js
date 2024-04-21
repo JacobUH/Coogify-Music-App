@@ -138,11 +138,12 @@ const handlers = {
 // Function to handle file serving
 function serveFile(req, res) {
   const currentUrl = new URL(import.meta.url);
+  console.log('current URL', currentUrl);
   const currentPath = decodeURI(currentUrl.pathname);
   const currentDirectory = path.dirname(currentPath);
   const decodedUrl = decodeURIComponent(req.url); // Decode URI component to replace %20 with spaces
   const filePath = path.join(currentDirectory, '..', decodedUrl); // Adjust the path as needed
-  console.log('filepath: ', filePath);
+  console.log('serving filepath: ', filePath);
   fs.readFile(filePath, (err, data) => {
     if (err) {
       console.error('Error reading file:', err);
@@ -166,6 +167,7 @@ export async function handleRequest(req, res) {
       return;
     }
     // Check if the request URL starts with '/uploads/'
+    console.log(req.url);
     if (req.url.startsWith('/uploads/')) {
       serveFile(req, res);
       return;
