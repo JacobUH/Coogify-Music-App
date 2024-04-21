@@ -1,7 +1,7 @@
 import * as logregq from '../../database/queries/dbLoginRegQueries.js';
 import bcrypt from 'bcrypt';
 import { hashPassword } from '../../middlewares/middleware.js';
-import { createSession, destroySession } from '../../Session/sessionManager.js';
+import { createSession, destroySession } from '../../util/sessionManager.js';
 import {
   getUserFromEmail,
   checkAdminVerification,
