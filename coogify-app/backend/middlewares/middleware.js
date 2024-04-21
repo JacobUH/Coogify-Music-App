@@ -65,7 +65,7 @@ export async function hashPassword(password) {
 
 export async function authenticate(req, res, next) {
   console.log('authenticating');
-  const path = new URL(req.url, `http://${process.env.MYSQL_HOST}`).pathname;
+  const path = new URL(req.url, `http://${process.env.SERVER_HOST}`).pathname;
   console.log(path);
 
   // Check if the request path is not login or register
