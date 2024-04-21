@@ -6,7 +6,7 @@ import gemini from '../../../public/images/4.png';
 
 const AlbumBar = () => {
   return (
-    <div className="flex flex-col justify-center h-screen  p-6 pl-64">
+    <div className="flex flex-col justify-center h-screen  p-6 pl-48">
       <img src={fatd} alt="FatD Album" className="max-w-full mb-4" />
       <img src={graduation} alt="Graduation" className="max-w-full mb-4" />
       <img src={simple} alt="Simple" className="max-w-full mb-4" />

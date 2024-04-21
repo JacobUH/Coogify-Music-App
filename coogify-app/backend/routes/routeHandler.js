@@ -10,7 +10,7 @@ import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName, artistCredentials, artistTopSongs, artistReport, artistAlbums, artistAllAlbums, artistSongsFromAlbum, addDeletedMusic } from './specificRoutes/artistRoutes.js';
 import { fetchNewestSongs, fetchTopSongs, fetchHomeSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
 import { likeSong, unlikeSong, checkSongLiked } from './specificRoutes/songRoutes.js';
-import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
+import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs, adminLogin,} from './specificRoutes/adminRoutes.js';
 import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
 import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
 import { addCard, fetchCardDetails, getPurchaseHistory, createTransaction } from './specificRoutes/cardRoutes.js';
@@ -84,6 +84,7 @@ const handlers = {
       restoreSubscription: restoreSubscription
     },
     admin: {
+      adminLogin: adminLogin,
       music: retrieveAllSongs,
       users: retrieveAllUsers,
       artists: retrieveAllArtists,

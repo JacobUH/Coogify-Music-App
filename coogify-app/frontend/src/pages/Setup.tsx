@@ -58,7 +58,7 @@ export const Setup = () => {
             }
           );
           console.log('Response:', response);
-          navigate(`/artistSetup`);
+          navigate('/artistSetup');
         } catch (error) {
           console.error('Error seting up as artist:', error);
         }

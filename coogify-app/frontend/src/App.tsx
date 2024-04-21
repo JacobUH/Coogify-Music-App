@@ -35,6 +35,7 @@ import { PrevTransactions } from './pages/PrevTransactions';
 import { Analytics } from './pages/Analytics';
 import { ArtistAlbum } from './pages/ArtistAlbum';
 import { EditAlbumPage } from './pages/EditAlbum';
+import { AdminLogin } from './pages/AdminLogin';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/adminLogin" element={<AdminLogin />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/setup" element={<Setup />} />
           <Route path="/artistSetup" element={<ArtistSetup />} />

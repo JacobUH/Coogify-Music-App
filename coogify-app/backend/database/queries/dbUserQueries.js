@@ -60,6 +60,26 @@ export async function getUserFromEmail(email_promise) {
     return null;
   }
 }
+export async function checkAdminVerification(userID) {
+  try {
+    const [rows] = await pool.query(
+      `SELECT userID, firstName
+      FROM USER
+      WHERE isAdmin = 1 AND userID = ?`,
+      [userID]
+    );
+    if (rows.length > 0) {
+      console.log("Admin verified");
+      return true;
+    }
+    return false; 
+  } catch (err) {
+    console.error(err.message);
+    throw err;
+  }
+}
+
+
 
 export async function insertPayment(userID_promise) {
   try {

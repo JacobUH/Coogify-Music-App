@@ -181,10 +181,10 @@ export const Sidebar = () => {
     fetchUserLikedSongs();
 
     // Refresh data every second
-    //const intervalId = setInterval(fetchUserLikedSongs, 1000);
+    const intervalId = setInterval(fetchUserLikedSongs, 1000);
 
     // Cleanup function to clear the interval
-    // return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId);
   }, []);
 
   //}, []);
@@ -381,6 +381,10 @@ export const Sidebar = () => {
               className="hover:bg-[#656262] text-xs m-2  px-3"
               onClick={() => {
                 console.log('play button clicked');
+                localStorage.setItem(
+                  'selectedSong',
+                  JSON.stringify(selectedSong)
+                );
                 setHideCard(true);
               }}
             >
