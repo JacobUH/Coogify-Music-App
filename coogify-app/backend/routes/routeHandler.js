@@ -159,6 +159,12 @@ function serveFile(req, res) {
 export async function handleRequest(req, res) {
   console.log('in routehandler');
   try {
+    // AWS Healthcheck url
+    if (req.url.startsWith('/api/healthCheck')) {
+      res.writeHead(200);
+      res.end();
+      return;
+    }
     // Check if the request URL starts with '/uploads/'
     if (req.url.startsWith('/uploads/')) {
       serveFile(req, res);
