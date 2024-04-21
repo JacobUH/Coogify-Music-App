@@ -1,7 +1,7 @@
 import * as logregq from '../../database/queries/dbLoginRegQueries.js';
 import bcrypt from 'bcrypt';
 import { hashPassword } from '../../middlewares/middleware.js';
-import { createSession, destroySession } from '../../Session/sessionManager.js';
+import { createSession, destroySession } from '../../util/sessionManager.js';
 import { getUserFromEmail } from '../../database/queries/dbUserQueries.js';
 import { extractUserID } from '../../util/utilFunctions.js';
 
@@ -82,7 +82,7 @@ export async function login(req, res) {
 
     // Passwords match, user successfully authenticated
     const user = getUserFromEmail(email);
-    await destroySession(user);
+    // await destroySession(user);
     const session = await createSession(user);
     console.log('Session created:', session);
 

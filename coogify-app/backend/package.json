@@ -4,11 +4,7 @@
   "description": "",
   "type": "module",
   "main": "app.js",
-  "scripts": {
-    "dev": "npx nodemon app.js",
-    "start": "node app.js",
-    "build": "echo 'Building...'"
-  },
+  "scripts": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
