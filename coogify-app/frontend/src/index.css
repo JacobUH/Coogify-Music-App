@@ -61,3 +61,7 @@ body {
   .animate-flash {
     animation: flash 1s infinite;
   }
+
+  .animate-flash-slow {
+    animation: flash 3s infinite;
+  }

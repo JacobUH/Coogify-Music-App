@@ -101,40 +101,53 @@ export const UploadMain = () => {
             className="flex items-center flex-col mt-[25px]"
             onSubmit={handleSubmit}
           >
-            <div className="flex flex-col mt-[-20px]">
-              <label>Cover Art</label>
-              <div className="flex flex-col justify-center items-center mb-4 mr-[75px]">
-                <label className="w-[250px] h-[250px] bg-[#656262] rounded-lg flex justify-center items-center cursor-pointer mb-4">
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept="image/jpeg, image/jpg, image/png, image/svg+xml"
-                    onChange={handleCoverArtChange}
-                  />
-                  <div>Upload Cover</div>
-                </label>
-              </div>
-            </div>
-            <div className="flex flex-row mt-[25px]">
+            <div className="flex flex-row mt-[25px] space-x-32">
               <div className="flex flex-col">
                 <label>Album</label>
                 <input
-                  className="bg-[#656262] rounded-[20px] p-2 text-white mb-3 w-[350px] h-[75px]"
+                  className="bg-[#656262] rounded-[20px] p-2 text-center text-white mb-3 w-[350px] h-[75px]"
                   type="text"
                   placeholder="Album Name"
                   value={albumName}
+                  required
                   onChange={(e) => setAlbumName(e.target.value)}
                 />
               </div>
               <div className="flex flex-col">
                 <label>Genre</label>
-                <input
-                  className="bg-[#656262] rounded-[20px] p-2 text-white mb-3 w-[350px] h-[75px]"
-                  type="text"
-                  placeholder="Genre"
+                <select
+                  className="bg-[#656262] rounded-[20px] p-2 text-center text-white mb-3 w-[350px] h-[75px]"
                   value={genreName}
+                  required
                   onChange={(e) => setGenreName(e.target.value)}
-                />
+                >
+                  <option
+                    value=""
+                    selected
+                    hidden
+                    disabled
+                    className="text-[#979797] text-left"
+                  >
+                    Select an genre
+                  </option>
+                  <option value="Rock">Rock</option>
+                  <option value="Pop">Pop</option>
+                  <option value="Hip Hop">Hip Hop</option>
+                  <option value="R&B">R&B</option>
+                  <option value="Country">Country</option>
+                  <option value="Electronic">Electronic</option>
+                  <option value="Jazz">Jazz</option>
+                  <option value="Classical">Classical</option>
+                  <option value="Blues">Blues</option>
+                  <option value="Reggae">Reggae</option>
+                  <option value="Metal">Metal</option>
+                  <option value="Indie">Indie</option>
+                  <option value="Folk">Folk</option>
+                  <option value="Alternative">Alternative</option>
+                  <option value="Kpop">Kpop</option>
+                  <option value="Latin">Latin</option>
+                  <option value="Other">Other</option>
+                </select>
               </div>
             </div>
             <div className="flex flex-col mr-[5px]">
@@ -144,6 +157,7 @@ export const UploadMain = () => {
                   className="bg-[#656262] rounded-[20px] p-2 mb-3 text-white flex-1 h-[75px] w-[1000px]"
                   type="text"
                   readOnly
+                  disabled
                   placeholder={`No song uploaded`}
                   value={
                     mp3Files.length > 0

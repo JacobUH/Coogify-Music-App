@@ -380,6 +380,10 @@ export const Sidebar = () => {
               className="hover:bg-[#656262] text-xs m-2  px-3"
               onClick={() => {
                 console.log('play button clicked');
+                localStorage.setItem(
+                  'selectedSong',
+                  JSON.stringify(selectedSong)
+                );
                 setHideCard(true);
               }}
             >
