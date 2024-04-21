@@ -21,6 +21,7 @@ interface Song {
   duration: string;
   likes: number;
   plays: number;
+  songStatus: string;
 }
 
 interface Album {
@@ -49,7 +50,7 @@ export const AnalyticsMain = () => {
   const [artistTable, setArtistTable] = useState<Table[]>([]);
 
   const handleBack = () => {
-    navigate(-1);
+    navigate('/home');
   };
 
   useEffect(() => {
@@ -162,7 +163,7 @@ export const AnalyticsMain = () => {
     const fetchArtistAlbums = async () => {
       try {
         const response = await axios.get(
-          `${backendBaseUrl}/api/artist/artistAlbums`,
+          `${backendBaseUrl}/api/artist/artistAllAlbums`,
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,
@@ -278,7 +279,9 @@ export const AnalyticsMain = () => {
               <div className="flex justify-center mt-3">
                 <button
                   className="bg-[#9E67E4] w-[250px] px-16 py-2 rounded-md text-lg"
-                  //onClick={handleSubmit()}
+                  onClick={() => {
+                    navigate('/artistAlbum');
+                  }}
                 >
                   Review Music
                 </button>
@@ -303,7 +306,7 @@ export const AnalyticsMain = () => {
                     disabled
                     className="text-[#979797] text-left"
                   >
-                    Select a genre
+                    Select an album
                   </option>
                   <option value="">Any</option>
                   {artistAlbums.map((album) => (
@@ -475,10 +478,10 @@ export const AnalyticsMain = () => {
                   <th className="border-black py-3 px-2 ">GENRE</th>
                   <th className="border-black py-3 px-1 ">PLAYS</th>
                   <th className="border-black py-3 px-1 ">LIKES</th>
-                  <th className="border-black py-3 px-2 ">DATE RELEASED</th>
                   <th className="border-black py-3 px-2 ">
                     TOTAL PLAYLISTS WITH SONG
                   </th>
+                  <th className="border-black py-3 px-2 ">DATE RELEASED</th>
                 </tr>
               </thead>
               {/* Row 1 */}
@@ -501,10 +504,10 @@ export const AnalyticsMain = () => {
                       {tuple.likes}
                     </td>
                     <td className="border-black bg-[#F1F3F4] py-3 px-6">
-                      {new Date(tuple.releaseDate).toLocaleDateString('en-US')}
+                      {tuple.totalPlaylists}
                     </td>
                     <td className="border-black bg-[#F1F3F4] py-3 px-6">
-                      {tuple.totalPlaylists}
+                      {new Date(tuple.releaseDate).toLocaleDateString('en-US')}
                     </td>
                   </tr>
                 ))}

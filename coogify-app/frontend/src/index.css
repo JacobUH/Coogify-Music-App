@@ -51,3 +51,13 @@ body {
     background-color: #9E67E4;
     color: white; /* Optionally change text color */
   }
+
+  @keyframes flash {
+    0% { color: white; }
+    50% { color: #9E67E4; }
+    100% { color: white; }
+  }
+  
+  .animate-flash {
+    animation: flash 1s infinite;
+  }

@@ -1,4 +1,4 @@
-import { insertArtist, getArtistCreds, getArtistTopSongs, createArtistReport, getArtistAlbums, getArtistSongs} from '../../database/queries/dbArtistQueries.js';
+import { insertArtist, getArtistCreds, getArtistTopSongs, createArtistReport, getArtistAlbums, getAllArtistAlbums, getArtistSongs, getAlbumsBack } from '../../database/queries/dbArtistQueries.js';
 import { extractSessionId, errorMessage, extractUserID } from '../../util/utilFunctions.js';
 
 export async function addArtistName(req, res) {
@@ -99,6 +99,27 @@ export async function artistAlbums(req, res) {
   }
 }
 
+
+export async function artistAllAlbums(req, res) {
+  const userID = await extractUserID(req);
+  if (userID !== null) {
+    try {
+      const artistAllAlbums = await getAllArtistAlbums(userID);
+      if (artistAllAlbums) {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end(JSON.stringify(artistAllAlbums));      
+      } else {
+        errorMessage(res, 'Could not get all artist albums', 'Error');
+      }
+    } catch (error) {
+      errorMessage(res, error, 'Error getting all artist albums');
+    }
+  } else {
+    errorMessage(res, 'Unable to get all artist albums', 'Error');
+  }
+}
+
+
 export async function artistSongsFromAlbum(req, res) {
   const { albumName } = req.body;
   if (albumName !== null) {
@@ -115,5 +136,24 @@ export async function artistSongsFromAlbum(req, res) {
     }
   } else {
     errorMessage(res, 'Unable to get artist songs from albums', 'Error');
+  }
+}
+
+
+export async function addDeletedMusic(req, res) {
+  const userID = await extractUserID(req);
+  if (userID !== null) {
+    try {
+      const addAlbumsBack = await getAlbumsBack(userID);
+      if (addAlbumsBack) {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+      } else {
+        errorMessage(res, 'Could not get albums back', 'Error');
+      }
+    } catch (error) {
+      errorMessage(res, error, 'Error getting albums back');
+    }
+  } else {
+    errorMessage(res, 'Unable to get albums back', 'Error');
   }
 }

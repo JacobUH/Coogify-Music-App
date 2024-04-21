@@ -6,6 +6,7 @@ export async function selectNewestSongs(count) {
     SELECT t.trackID, t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
     FROM TRACK t
     INNER JOIN ARTIST a ON t.artistID = a.artistID
+    WHERE t.activeSong = 1
     ORDER BY t.trackID DESC
     LIMIT ?
         `;
@@ -26,6 +27,7 @@ export async function selectTopSongs(count) {
       FROM TRACK t
       INNER JOIN ARTIST a ON t.artistID = a.artistID
       LEFT JOIN TRACK_LIKED tl ON t.trackID = tl.trackID
+      WHERE t.activeSong = 1
       GROUP BY t.trackID
       ORDER BY likeCount DESC
       LIMIT ?
@@ -46,7 +48,8 @@ export async function selectUserLikedSongs(userID) {
     FROM TRACK_LIKED tl
     INNER JOIN TRACK t ON tl.trackID = t.trackID
     INNER JOIN ARTIST a ON t.artistID = a.artistID
-    WHERE tl.userID = ?;
+    WHERE tl.userID = ? AND t.activeSong = 1
+    ;
     `;
     const [rows] = await pool.query(query, [userID]);
     //console.log(rows);
@@ -64,7 +67,7 @@ export async function selectSongsByGenre(genre, count) {
     FROM TRACK t
     INNER JOIN ARTIST a ON t.artistID = a.artistID
     INNER JOIN GENRE g ON t.genreID = g.genreID
-    WHERE g.genreName = ?
+    WHERE g.genreName = ? AND t.activeSong = 1
     ORDER BY RAND()
     LIMIT ?;    
     `;

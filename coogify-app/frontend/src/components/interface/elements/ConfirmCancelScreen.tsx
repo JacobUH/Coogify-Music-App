@@ -5,13 +5,40 @@ import backendBaseUrl from '../../../apiConfig';
 import { SubscriptionScreen } from './SubscriptionScreen';
 import Logo from '/images/Logo.svg';
 
+interface Song {
+  trackID: number;
+  genreID: number;
+  genreName: string;
+  artistID: number;
+  artistName: string;
+  albumName: string;
+  songName: string;
+  coverArtURL: string;
+  duration: string;
+  releaseDate: string;
+  songURL: string;
+  likes: number;
+  plays: number;
+}
+
+interface Album {
+  albumName: string;
+  coverArtURL: string;
+  artistName: string;
+  trackID: string;
+}
+
 interface HandleClose {
   onClose: () => void; // Specify the type of onClose prop
 }
 
 export const ConfirmCancelScreen: React.FC<
-  HandleClose & { condition: string }
-> = ({ onClose, condition }) => {
+  HandleClose & {
+    condition: string;
+    selectedSong: Song | null;
+    selectedAlbum: Album | null;
+  }
+> = ({ onClose, condition, selectedSong, selectedAlbum }) => {
   const handleNo = () => {
     onClose();
   };
@@ -21,6 +48,10 @@ export const ConfirmCancelScreen: React.FC<
       cancelSubscription();
     } else if (condition === 'restore') {
       restoreSubscription();
+    } else if (condition === 'deleteSong') {
+      deleteSong();
+    } else if (condition === 'deleteAlbum') {
+      deleteAlbum();
     }
     onClose();
   };
@@ -49,6 +80,48 @@ export const ConfirmCancelScreen: React.FC<
     try {
       const response = await axios.get(
         `${backendBaseUrl}/api/subscription/restoreSubscription`,
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response.data);
+      refreshPage();
+    } catch (error) {
+      console.error('Error restoring subscription:', error);
+    }
+  };
+
+  const deleteSong = async () => {
+    try {
+      const response = await axios.post(
+        `${backendBaseUrl}/api/update/deleteSong`,
+        {
+          trackID: selectedSong?.trackID,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response.data);
+      refreshPage();
+    } catch (error) {
+      console.error('Error restoring subscription:', error);
+    }
+  };
+
+  const deleteAlbum = async () => {
+    try {
+      const response = await axios.post(
+        `${backendBaseUrl}/api/update/deleteAlbum`,
+        {
+          albumName: selectedAlbum?.albumName,
+        },
         {
           headers: {
             Authorization: `Bearer ${storedToken}`,

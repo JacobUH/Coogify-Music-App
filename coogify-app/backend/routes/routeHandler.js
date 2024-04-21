@@ -4,9 +4,9 @@ import path from 'path';
 import { jsonParser, authenticate } from '../middlewares/middleware.js';
 import { register, login, logout} from './specificRoutes/loginRegRoutes.js';
 import { getUserCredentials, getSubCredentials } from './specificRoutes/userRoutes.js'
-import { uploadPlaylist, uploadSongsWithAlbum } from './specificRoutes/uploadsRoutes.js';
+import { uploadPlaylist, uploadSongsWithAlbum,  } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
-import { addArtistName, artistCredentials, artistTopSongs, artistReport, artistAlbums, artistSongsFromAlbum } from './specificRoutes/artistRoutes.js';
+import { addArtistName, artistCredentials, artistTopSongs, artistReport, artistAlbums, artistAllAlbums, artistSongsFromAlbum, addDeletedMusic } from './specificRoutes/artistRoutes.js';
 import { fetchNewestSongs, fetchTopSongs, fetchHomeSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
 import { likeSong, unlikeSong, checkSongLiked } from './specificRoutes/songRoutes.js';
 import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs,} from './specificRoutes/adminRoutes.js';
@@ -16,6 +16,7 @@ import { addCard, fetchCardDetails, getPurchaseHistory, createTransaction } from
 import { uploadPlaylistEntry, deletePlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist, selectAddSongPlaylist, removeSongFromPlaylist } from './specificRoutes/playlistRoutes.js'
 import { fetchUserProfile, updateProfile } from './specificRoutes/profileRoutes.js';
 import { makePayment, updateSubscription, cancelSubscription, restoreSubscription} from './specificRoutes/subscriptionRoutes.js'
+import { updateAlbumName, deleteSong, deleteAlbum } from './specificRoutes/updateRoutes.js'
 
 // Define the handlers object
 const handlers = {
@@ -33,6 +34,11 @@ const handlers = {
       checkSongLiked: checkSongLiked
     },
     album: fetchAlbumSongs,
+    update: {
+      updateAlbumName: updateAlbumName,
+      deleteSong: deleteSong,
+      deleteAlbum: deleteAlbum
+    },
     playlist: {
       uploadPlaylistEntry: uploadPlaylistEntry,
       deletePlaylistEntry: deletePlaylistEntry,
@@ -83,7 +89,9 @@ const handlers = {
       artistTopSongs: artistTopSongs,
       artistReport: artistReport,
       artistAlbums: artistAlbums,
-      artistSongsFromAlbum: artistSongsFromAlbum
+      artistAllAlbums: artistAllAlbums,
+      artistSongsFromAlbum: artistSongsFromAlbum,
+      addDeletedMusic: addDeletedMusic
     },
     notifications: {
       daysToPay: (req, res) => 'pay',

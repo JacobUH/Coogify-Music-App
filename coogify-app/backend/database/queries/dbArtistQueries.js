@@ -98,9 +98,9 @@ export async function getArtistTopSongs(userID) {
     SELECT trackID, songName, songURL, albumName, coverArtURL, duration, likes, plays
     FROM TRACK 
     JOIN ARTIST ON TRACK.artistID = ARTIST.artistID
-    WHERE ARTIST.userID = ?
+    WHERE ARTIST.userID = ? AND TRACK.activeSong = 1
     ORDER BY plays DESC 
-    LIMIT 5
+    LIMIT 4
     
     `, 
     [userID]
@@ -213,7 +213,7 @@ export async function createArtistReport(userID, albumName, songName, genreName,
 
 
     const [rows] = await pool.query(`
-      SELECT TRACK.albumName, TRACK.songName, TRACK.plays, TRACK.likes, GENRE.genreName, TRACK.releaseDate,  
+      SELECT TRACK.albumName, TRACK.songName, TRACK.plays, TRACK.likes, GENRE.genreName, TRACK.releaseDate,
       (SELECT COUNT(playlistID) FROM PLAYLIST_TRACK WHERE trackID = TRACK.trackID) AS totalPlaylists
       FROM ARTIST
       JOIN TRACK ON ARTIST.artistID = TRACK.artistID
@@ -240,7 +240,7 @@ export async function getArtistAlbums(userID) {
       SELECT DISTINCT albumName, coverArtURL
       FROM TRACK 
       JOIN ARTIST ON TRACK.artistID = ARTIST.artistID
-      WHERE ARTIST.userID = ?
+      WHERE ARTIST.userID = ? AND TRACK.activeSong = 1
       `;
       const [rows] = await pool.query(query,[userID]);
       console.log('artist albums retrieved successfully');
@@ -251,17 +251,18 @@ export async function getArtistAlbums(userID) {
     }
   }
 
-  export async function getArtistSongs(albumName) {
-    console.log(albumName);
+  export async function getAllArtistAlbums(userID) {
+    console.log(userID);
     try {
       // Retrieve user ID associated with the session ID
         const query= `
-        SELECT trackID, songName, albumName
+        SELECT DISTINCT albumName, coverArtURL
         FROM TRACK 
-        WHERE TRACK.albumName = ?
+        JOIN ARTIST ON TRACK.artistID = ARTIST.artistID
+        WHERE ARTIST.userID = ?
         `;
-        const [rows] = await pool.query(query,[albumName]);
-        console.log('artist songs from album retrieved successfully');
+        const [rows] = await pool.query(query,[userID]);
+        console.log('all artist albums retrieved successfully');
   
         return rows;
       } catch (err) {
@@ -269,10 +270,43 @@ export async function getArtistAlbums(userID) {
       }
     }
 
-    /*
-     SELECT TRACK.albumName, TRACK.songName, TRACK.plays, TRACK.likes, GENRE.genreName,TRACK.releaseDate
-    FROM ARTIST
-    JOIN TRACK ON ARTIST.artistID = TRACK.artistID
-    JOIN GENRE ON TRACK.genreID = GENRE.genreID
-    WHERE ARTIST.userID = ? 
-    */
+  export async function getArtistSongs(albumName) {
+    console.log(albumName);
+    try {
+      // Retrieve user ID associated with the session ID
+        const query= `
+        SELECT trackID, songName, albumName
+        FROM TRACK 
+        WHERE TRACK.albumName = ? AND TRACK.activeSong = 1
+        `;
+        const [rows] = await pool.query(query,[albumName]);
+        console.log(rows);
+  
+        return rows;
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+
+    export async function getAlbumsBack(userID) {
+      console.log(userID);
+      try {
+        // Execute the SQL query to update the TRACK table
+        await pool.query(
+          `
+          UPDATE TRACK
+          JOIN ARTIST ON TRACK.artistID = ARTIST.artistID
+          SET TRACK.activeSong = 1
+          WHERE ARTIST.userID = ? AND TRACK.activeSong = 0
+          `,
+          [userID]
+        );
+    
+        console.log('Albums added back successfully');
+        return true;
+      } catch (error) {
+        console.error('Error adding albums back', error);
+        return false;
+      }
+    }
+    

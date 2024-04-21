@@ -6,6 +6,7 @@ export async function selectSongs() {
       SELECT t.trackID, t.songName, t.songURL, t.albumName, t.coverArtURL, t.isPopular, a.artistName
       FROM TRACK t
       INNER JOIN ARTIST a ON t.artistID = a.artistID
+      WHERE t.activeSong = 1
       ORDER BY RAND();
           `;
       const [rows] = await pool.query(query);
@@ -27,6 +28,7 @@ export async function selectSongs() {
         ) AS unique_albums
         INNER JOIN TRACK t ON t.albumName = unique_albums.albumName
         INNER JOIN ARTIST a ON t.artistID = a.artistID
+        WHERE t.activeSong = 1
         ORDER BY RAND();
 
           `;
