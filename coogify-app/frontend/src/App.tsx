@@ -36,6 +36,12 @@ import { Analytics } from './pages/Analytics';
 import { ArtistAlbum } from './pages/ArtistAlbum';
 import { EditAlbumPage } from './pages/EditAlbum';
 import { AdminLogin } from './pages/AdminLogin';
+import { Admin } from './pages/Admin';
+import { AdminCreate } from './pages/AdminCreate';
+import { AdminSetup } from './pages/AdminSetup';
+import { AdminUserReport } from './pages/AdminUserReport';
+import { AdminFinanceReport } from './pages/AdminFinanceReport';
+import { AdminEditAccount } from './pages/AdminEditAccount';
 
 function App() {
   return (
@@ -44,7 +50,13 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/adminLogin" element={<AdminLogin />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/adminCreate" element={<AdminCreate />} />
+          <Route path="/adminSetup" element={<AdminSetup />} />
+          <Route path="/editAccount" element={<AdminEditAccount />} />
+          <Route path="/userReport" element={<AdminUserReport />} />
+          <Route path="/financialReport" element={<AdminFinanceReport />} />
+          {/*<Route path="/adminLogin" element={<AdminLogin />} />*/}
           <Route path="/signup" element={<Signup />} />
           <Route path="/setup" element={<Setup />} />
           <Route path="/artistSetup" element={<ArtistSetup />} />
