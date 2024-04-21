@@ -15,13 +15,7 @@ export const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(
-      JSON.stringify({
-        email,
-        password,
-      })
-    );
-
+    const formData = JSON.stringify({ email, password });
     try {
       const response = await axios.post(
         `${backendBaseUrl}/api/login`, // Use backendBaseUrl here
@@ -35,6 +29,14 @@ export const Login = () => {
           },
         }
       );
+
+      // const response = await fetch(`${backendBaseUrl}/api/login`, {
+      //   method: 'POST',
+      //   body: formData,
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      // });
 
       console.log('Response:', response);
 
