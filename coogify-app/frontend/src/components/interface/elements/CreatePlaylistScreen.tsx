@@ -45,6 +45,7 @@ export const CreatePlaylistScreen: React.FC<ConfirmationScreenProps> = ({
   const navigate = useNavigate();
   const storedToken = localStorage.getItem('sessionToken');
 
+  // CREATE PLAYLIST CALL
   const handleYes = async () => {
     console.log(
       JSON.stringify({

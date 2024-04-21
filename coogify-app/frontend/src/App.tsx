@@ -1,3 +1,4 @@
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { LandingPage } from './pages/LandingPage';
 import { Login } from './pages/Login';
@@ -31,10 +32,9 @@ import { HipHopSongs } from './pages/HipHopSongs';
 import { RockSongs } from './pages/RockSongs';
 import { AddCard } from './pages/AddCard';
 import { PrevTransactions } from './pages/PrevTransactions';
-
 import { Analytics } from './pages/Analytics';
-
-import React from 'react';
+import { ArtistAlbum } from './pages/ArtistAlbum';
+import { EditAlbumPage } from './pages/EditAlbum';
 
 function App() {
   return (
@@ -49,6 +49,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/album/:albumName" element={<AlbumPage />} />
+          <Route path="/album/edit/:albumName" element={<EditAlbumPage />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/library" element={<Library />} />
           <Route path="/playlist/:playlistName" element={<Playlist />} />
@@ -73,6 +74,7 @@ function App() {
           <Route path="/AddCard" element={<AddCard />} />
           <Route path="/PrevTransactions" element={<PrevTransactions />} />
           <Route path="/Analytics" element={<Analytics />} />
+          <Route path="/artistAlbum" element={<ArtistAlbum />} />
         </Routes>
       </div>
     </>

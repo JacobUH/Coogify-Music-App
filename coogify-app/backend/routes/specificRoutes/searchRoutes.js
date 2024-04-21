@@ -2,6 +2,7 @@ import {
   selectSongs,
   selectAlbums,
 } from '../../database/queries/dbSearchQueries.js';
+import { errorMessage } from '../../util/utilFunctions.js';
 
 export async function fetchSongs(req, res) {
   try {

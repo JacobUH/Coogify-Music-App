@@ -186,6 +186,8 @@ export const Sidebar = () => {
     return () => clearInterval(intervalId);
   }, []);
 
+  //}, []);
+
   const [userCreds, setUserCreds] = useState<User[]>([]);
 
   useEffect(() => {
