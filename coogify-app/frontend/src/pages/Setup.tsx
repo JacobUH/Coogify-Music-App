@@ -2,27 +2,67 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '/images/Logo.svg';
 import { Footer } from '../components/setup/Footer';
+import axios from 'axios';
+import backendBaseUrl from '../apiConfig';
 import React from 'react';
 
 export const Setup = () => {
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
   const [year, setYear] = useState('');
+  const [error, setError] = useState('');
 
   const navigate = useNavigate();
+  const storedToken = localStorage.getItem('sessionToken');
 
-  const handleSubmit = (userType: string) => {
+  const handleSubmit = async (userType: string) => {
     // Validate form data
     if (month && day && year) {
+      // Concatenate the values into a single string in "YYYY-MM-DD" format
+      const dateString = `${year}-${month.padStart(2, '0')}-${day.padStart(
+        2,
+        '0'
+      )}`;
       // Form is valid, navigate based on user type
       if (userType === 'listener') {
-        navigate('/home'); // Navigate to home page for listener
+        try {
+          const response = await axios.post(
+            `${backendBaseUrl}/api/setup/userSetup`,
+            {
+              dateOfBirth: dateString,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${storedToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+          console.log('Response:', response);
+          navigate('/home');
+        } catch (error) {
+          console.error('Error seting up as listener:', error);
+        }
       } else if (userType === 'artist') {
-        navigate('/artistSetup'); // Navigate to artist setup page
+        try {
+          const response = await axios.post(
+            `${backendBaseUrl}/api/setup/artistSetup`,
+            {
+              dateOfBirth: dateString,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${storedToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+          console.log('Response:', response);
+          navigate(`/artistSetup`);
+        } catch (error) {
+          console.error('Error seting up as artist:', error);
+        }
       }
-    } else {
-      // Form is not valid, display error message or handle accordingly
-      console.error('Please fill out all required fields');
     }
   };
 
@@ -32,7 +72,7 @@ export const Setup = () => {
       <h1 className="text-4xl text-white text-center mb-5 pt-16">
         Let's Setup Your Account
       </h1>
-      <form className="bg-[#3E3C3C] p-6 rounded-lg shadow-md md:w-[700px] mx-auto ">
+      <div className="bg-[#3E3C3C] p-6 rounded-lg shadow-md md:w-[700px] mx-auto ">
         <h1 className="text-xl text-white text-center pb-6">
           When's Your Birthday?
         </h1>
@@ -90,7 +130,7 @@ export const Setup = () => {
             Continue as Artist
           </button>
         </div>
-      </form>
+      </div>
       <div className="pt-44">
         <Footer />
       </div>

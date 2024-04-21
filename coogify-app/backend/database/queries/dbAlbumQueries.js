@@ -7,7 +7,7 @@ export async function selectAlbumSongs(albumName) {
         FROM TRACK t
         INNER JOIN ARTIST a on t.artistID = a.artistID
         INNER JOIN GENRE g on t.genreID = g.genreID
-        WHERE albumName = ?
+        WHERE albumName = ? AND t.activeSong = 1
         `;
         const [rows] = await pool.query(query, [albumName]);
        // console.log(rows);
