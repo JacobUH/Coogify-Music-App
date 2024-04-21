@@ -59,7 +59,6 @@ export async function register(req, res) {
 // Function to handle user login
 export async function login(req, res) {
   const { email, password } = req.body;
-
   try {
     const hashedPasswordFromDB = await logregq.getPasswordByEmail(email);
 
