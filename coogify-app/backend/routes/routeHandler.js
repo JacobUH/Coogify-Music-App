@@ -2,6 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { jsonParser, authenticate } from '../middlewares/middleware.js';
+import { userSetup, artistSetup  } from './specificRoutes/setupRoutes.js'
 import { register, login, logout} from './specificRoutes/loginRegRoutes.js';
 import { getUserCredentials, getSubCredentials } from './specificRoutes/userRoutes.js'
 import { uploadPlaylist, uploadSongsWithAlbum,  } from './specificRoutes/uploadsRoutes.js';
@@ -24,6 +25,10 @@ const handlers = {
     register: register, 
     login: login, 
     logout: logout, 
+    setup: {
+      userSetup: userSetup,
+      artistSetup: artistSetup,
+    },
     user: {
       userCredentials: getUserCredentials,
       subscriptionCredentials: getSubCredentials
