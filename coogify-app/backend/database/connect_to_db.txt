@@ -1,0 +1,1 @@
+mysql -h coogify-database.cj6qgki6g237.us-east-2.rds.amazonaws.com -u admin -p
