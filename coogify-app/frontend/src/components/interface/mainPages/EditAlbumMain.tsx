@@ -227,7 +227,7 @@ export const EditAlbumMain = () => {
                     {songs[0].albumName}
                   </div>
                   {error && (
-                    <div className={`error.className text-lg mb-4`}>
+                    <div className={`error ${error.className} text-lg mb-4`}>
                       {error.message}
                     </div>
                   )}

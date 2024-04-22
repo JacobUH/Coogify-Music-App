@@ -6,7 +6,7 @@ import axios from 'axios';
 import backendBaseUrl from '../apiConfig';
 import React from 'react';
 
-export const Setup = () => {
+export const AdminSetup = () => {
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
   const [year, setYear] = useState('');
@@ -24,10 +24,10 @@ export const Setup = () => {
         '0'
       )}`;
       // Form is valid, navigate based on user type
-      if (userType === 'listener') {
+      if (userType === 'admin') {
         try {
           const response = await axios.post(
-            `${backendBaseUrl}/api/setup/userSetup`,
+            `${backendBaseUrl}/api/setup/adminSetup`,
             {
               dateOfBirth: dateString,
             },
@@ -39,36 +39,16 @@ export const Setup = () => {
             }
           );
           console.log('Response:', response);
-          // Wait for 2 seconds before calling refreshPage()
           setError({
-            message: 'User Account created successfully',
+            message: 'Admin Account created successfully',
             className: 'text-[#9E67E4]',
           });
           // Wait for 2 seconds before calling refreshPage()
           setTimeout(() => {
-            navigate('/home');
+            navigate('/admin');
           }, 2000);
         } catch (error) {
-          console.error('Error seting up as listener:', error);
-        }
-      } else if (userType === 'artist') {
-        try {
-          const response = await axios.post(
-            `${backendBaseUrl}/api/setup/artistSetup`,
-            {
-              dateOfBirth: dateString,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${storedToken}`,
-                'Content-Type': 'application/json',
-              },
-            }
-          );
-          console.log('Response:', response);
-          navigate('/artistSetup');
-        } catch (error) {
-          console.error('Error seting up as artist:', error);
+          console.error('Error seting up as admin:', error);
         }
       }
     }
@@ -78,7 +58,7 @@ export const Setup = () => {
     <div className="w-full h-full absolute inset-0 bg-gradient-to-tr from-[#9E67E4] via-transparent to-[#212121] text-white overflow-hidden p-6">
       <img src={Logo} alt="Coogify Logo" className="mx-auto pb-20 w-[70px]" />
       <h1 className="text-4xl text-white text-center mb-5 pt-16">
-        Let's Setup Your Account
+        Admin Setup
       </h1>
       <div className="bg-[#3E3C3C] p-6 rounded-lg shadow-md md:w-[700px] mx-auto ">
         <h1 className="text-xl text-white text-center pb-6">
@@ -125,28 +105,21 @@ export const Setup = () => {
         <div className="space-y-4 pt-14">
           <button
             type="submit"
-            onClick={() => handleSubmit('listener')}
+            onClick={() => handleSubmit('admin')}
             className="w-full bg-[#6F4D9B] hover:bg-[#533976] rounded-[15px] text-2xl p-3 px-3 py-5"
           >
-            Continue as Listener
+            Complete Admin Creation
           </button>
-          <button
-            type="submit"
-            onClick={() => handleSubmit('artist')}
-            className="w-full bg-[#472670] hover:bg-[#361e55] rounded-[15px] text-2xl p-3 px-3 py-5"
-          >
-            Continue as Artist
-          </button>
-          {error && (
-            <div
-              className={`error ${error.className} text-center text-xl font-bold mt-5 mb-4`}
-            >
-              {error.message}
-            </div>
-          )}
         </div>
+        {error && (
+          <div
+            className={`error ${error.className} text-center text-xl font-bold mt-5 mb-4`}
+          >
+            {error.message}
+          </div>
+        )}
       </div>
-      <div className="pt-44">
+      <div className="pt-64">
         <Footer />
       </div>
     </div>

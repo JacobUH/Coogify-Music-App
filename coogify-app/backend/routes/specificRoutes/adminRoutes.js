@@ -7,11 +7,7 @@ import {
   checkAdminVerification,
 } from '../../database/queries/dbUserQueries.js';
 import { extractUserID } from '../../util/utilFunctions.js';
-import {
-  selectAllArtists,
-  selectAllSongs,
-  selectAllUsers,
-} from '../../database/queries/dbAdminQueries.js';
+import {selectAllArtists, selectAllSongs, selectAllUsers, createAdminUserReport} from '../../database/queries/dbAdminQueries.js';
 import { errorMessage } from '../../util/utilFunctions.js';
 
 export async function retrieveAllArtists(req, res) {
@@ -108,5 +104,26 @@ export async function adminLogin(req, res) {
     console.error('Error during login:', error);
     res.writeHead(500, { 'Content-Type': 'text/plain' });
     res.end('Internal server error');
+  }
+}
+
+export async function adminUserReport(req,res){
+  const { role, subscription, startDate, endDate, minTransaction, maxTransaction } = req.body;
+  const userID = await extractUserID(req);
+  if (userID !== null) {
+    try {
+      const userDetails = await createAdminUserReport(role, subscription, startDate, endDate, minTransaction, maxTransaction );
+      console.log(userDetails);
+      if (userDetails) {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end(JSON.stringify(userDetails));      
+      } else {
+        errorMessage(res, 'Could not get the user details', 'Error');
+      }
+    } catch (error) {
+      errorMessage(res, error, 'Error getting the selected user details');
+    }
+  } else {
+    errorMessage(res, 'Unable to get the selected user details', 'Error');
   }
 }

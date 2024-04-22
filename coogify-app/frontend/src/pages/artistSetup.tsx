@@ -8,6 +8,7 @@ import backendBaseUrl from '../apiConfig';
 export const ArtistSetup = () => {
   const [artistName, setArtistName] = useState('');
   const [error, setError] = useState('');
+  const [message, setMessage] = useState({ message: '', className: '' });
 
   const navigate = useNavigate();
   const storedToken = localStorage.getItem('sessionToken');
@@ -39,7 +40,14 @@ export const ArtistSetup = () => {
       }
 
       // Assuming successful signup, you can redirect the user to another page
-      navigate('/home');
+      setMessage({
+        message: 'Artist Account created successfully',
+        className: 'text-[#9E67E4]',
+      });
+      // Wait for 2 seconds before calling refreshPage()
+      setTimeout(() => {
+        navigate('/home');
+      }, 2000);
     } catch (error: unknown) {
       setError((error as Error).message);
     }
@@ -57,7 +65,7 @@ export const ArtistSetup = () => {
       >
         {error && <div className="text-red-500 mb-4">{error}</div>}
 
-        <div className="mb-4">
+        <div className="">
           <label htmlFor="firstName" className="block text-white">
             Artist Name
           </label>
@@ -72,6 +80,13 @@ export const ArtistSetup = () => {
             title="Please enter an artist name."
           />
         </div>
+        {message && (
+          <div
+            className={`message ${message.className} text-center text-xl font-bold mb-4`}
+          >
+            {message.message}
+          </div>
+        )}
 
         <button
           type="submit"

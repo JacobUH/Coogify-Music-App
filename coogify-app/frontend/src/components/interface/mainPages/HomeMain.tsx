@@ -86,12 +86,23 @@ export const HomeMain = () => {
             {userCreds[0] &&
               userCreds[0].isArtist === 0 &&
               userCreds[0].isAdmin === 1 && (
-                <Link to="/reports">
+                <Link to="/admin">
                   <button className="hover:bg-[#9E67E4] bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
-                    Data Reports
+                    Admin Portal
                   </button>
                 </Link>
               )}
+            {/*
+            {userCreds[0] &&
+              userCreds[0].isArtist === 0 &&
+              userCreds[0].isAdmin === 1 && (
+                <Link to="/reports">
+                  <button className="hover:bg-[#9E67E4] bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
+                    Admin
+                  </button>
+                </Link>
+              )}
+              */}
             {userCreds[0] &&
               userCreds[0].isArtist === 1 &&
               userCreds[0].isAdmin === 0 && (

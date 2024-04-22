@@ -71,26 +71,35 @@ export const AccountDropdown = () => {
             <div className="bg-[#3A3838] text-white rounded-lg text-right py-1">
               {/* Work Here */}
               <Link to="/profile">
-                <div className="block m-2 px-3 py-3 hover:bg-[#656262]">
+                <div className="hover:text-[#bf8fff] block m-2 px-3 py-3 hover:bg-[#656262]">
                   Profile
                 </div>
               </Link>
               {userCreds[0] &&
+                userCreds[0].isArtist === 0 &&
+                userCreds[0].isAdmin === 1 && (
+                  <Link to="/admin">
+                    <div className="hover:text-[#bf8fff] block m-2 px-3 py-3 hover:bg-[#656262]">
+                      Admin Portal
+                    </div>
+                  </Link>
+                )}
+              {userCreds[0] &&
                 userCreds[0].isArtist === 1 &&
                 userCreds[0].isAdmin === 0 && (
                   <Link to="/analytics">
-                    <div className="block m-2 px-3 py-3 hover:bg-[#656262]">
+                    <div className="hover:text-[#bf8fff] block m-2 px-3 py-3 hover:bg-[#656262]">
                       Analytics
                     </div>
                   </Link>
                 )}
               <Link to="/subscription">
-                <div className="block m-2 px-3 py-3 hover:bg-[#656262]">
+                <div className="hover:text-[#bf8fff] block m-2 px-3 py-3 hover:bg-[#656262]">
                   Subscription
                 </div>
               </Link>
               <Link to="/payment">
-                <div className="block m-2 px-3 py-3 hover:bg-[#656262] ">
+                <div className="hover:text-[#bf8fff] block m-2 px-3 py-3 hover:bg-[#656262] ">
                   Payment
                 </div>
               </Link>
@@ -98,13 +107,13 @@ export const AccountDropdown = () => {
                 userCreds[0].isArtist === 0 &&
                 userCreds[0].isAdmin === 1 && (
                   <Link to="/reports">
-                    <div className="block m-2 px-3 py-3 hover:bg-[#656262] border-b-2">
-                      Reports
+                    <div className="hover:text-[#bf8fff] block m-2 px-3 py-3 hover:bg-[#656262] border-b-2">
+                      Extended Search
                     </div>
                   </Link>
                 )}
               <div
-                className="block m-2 px-3 py-3 hover:bg-[#656262]"
+                className="hover:text-[#bf8fff] block m-2 px-3 py-3 hover:bg-[#656262]"
                 onClick={handleLogout} // here chatGPT
               >
                 Logout
