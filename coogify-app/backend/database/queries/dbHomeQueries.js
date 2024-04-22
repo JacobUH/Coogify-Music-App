@@ -96,9 +96,6 @@ export async function selectNotifications(userID) {
 }
 
 export async function insertReadNotifications(userID) {
-  console.log(
-    'read==============================================================================='
-  );
   try {
     const queryUpdate = `
         UPDATE NOTIFICATIONS

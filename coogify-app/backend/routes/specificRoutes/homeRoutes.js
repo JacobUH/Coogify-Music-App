@@ -109,9 +109,6 @@ export async function getNotifications(req, res) {
 
 // TODO
 export async function readNotifications(req, res) {
-  console.log(
-    'in route ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-  );
   try {
     const userID = await extractUserID(req);
     const notifications = await insertReadNotifications(userID);

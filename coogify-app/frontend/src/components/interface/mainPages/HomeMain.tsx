@@ -51,46 +51,8 @@ export const HomeMain = () => {
       }
     };
     fetchUserCredentials();
-
-    // Load notifications from localStorage if available
-    // const storedNotifications = localStorage.getItem('notifications');
-    // if (storedNotifications) {
-    //   const parsedNotifications = JSON.parse(storedNotifications);
-    //   setNotifications(parsedNotifications);
-    //   setShowNotifications(true);
-    //   // fetchNotificationsIfNeeded(parsedNotifications);
-    // } else {
-    //   fetchNotifications();
-    // }
     fetchNotifications();
   }, []);
-
-  // const fetchNotificationsIfNeeded = async (storedNotifications: any[]) => {
-  //   try {
-  //     const response = await axios.get(`${backendBaseUrl}/api/notifications`, {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
-  //     const newNotifications = response.data.filter(
-  //       (notification: any) =>
-  //         !storedNotifications.some(
-  //           (storedNotification) =>
-  //             storedNotification.notificationID === notification.notificationID
-  //         )
-  //     );
-  //     if (newNotifications.length > 0) {
-  //       setNotifications([...storedNotifications, ...newNotifications]);
-  //       localStorage.setItem(
-  //         'notifications',
-  //         JSON.stringify([...storedNotifications, ...newNotifications])
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching notifications:', error);
-  //   }
-  // };
 
   const fetchNotifications = async () => {
     try {
@@ -171,17 +133,6 @@ export const HomeMain = () => {
                   </button>
                 </Link>
               )}
-            {/*
-            {userCreds[0] &&
-              userCreds[0].isArtist === 0 &&
-              userCreds[0].isAdmin === 1 && (
-                <Link to="/reports">
-                  <button className="hover:bg-[#9E67E4] bg-[#656262] w-[270px] h-[100px] text-2xl rounded-xl mr-10 shadow-md">
-                    Admin
-                  </button>
-                </Link>
-              )}
-              */}
             {userCreds[0] &&
               userCreds[0].isArtist === 1 &&
               userCreds[0].isAdmin === 0 && (

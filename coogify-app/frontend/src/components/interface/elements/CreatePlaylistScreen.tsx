@@ -107,7 +107,7 @@ export const CreatePlaylistScreen: React.FC<ConfirmationScreenProps> = ({
           </div>
           <div className="w-full flex items-center justify-between">
             <div className="flex flex-col justify-center items-center mr-4">
-              <label className="w-[200px] h-[200px] bg-[#656262] rounded-lg flex justify-center items-center cursor-pointer mb-4">
+              {/* <label className="w-[200px] h-[200px] bg-[#656262] rounded-lg flex justify-center items-center cursor-pointer mb-4">
                 <input
                   className="hidden"
                   type="file"
@@ -119,7 +119,7 @@ export const CreatePlaylistScreen: React.FC<ConfirmationScreenProps> = ({
                   title="Please enter a cover art."
                 />
                 <div>Upload Cover</div>
-              </label>
+              </label> */}
             </div>
             <div className="flex flex-col flex-grow">
               <div className="mb-3">
