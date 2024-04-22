@@ -71,7 +71,7 @@ export const AdminMain = () => {
             className="w-full bg-[#575656] text-center text-white py-9 rounded-xl shadow-lg hover:bg-red-600 transition duration-300"
           >
             <span className="text-3xl font-semibold">
-              Financial Data Report
+              Daily Performance Data Report
             </span>
           </Link>
         </div>

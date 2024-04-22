@@ -4,6 +4,7 @@ import ProfileIcon from '/images/Profile Icon.svg';
 import BackButton from '/images/Back Button.svg';
 import axios from 'axios';
 import backendBaseUrl from '../../../apiConfig';
+import { SelectPlaylistPopup } from '../elements/selectPlaylistPopup';
 
 interface Music {
   trackID: number;
@@ -104,6 +105,49 @@ export const AlbumMain = () => {
     fetchAlbumData();
   }, [albumName]);
 
+  const [songIsLiked, setSongIsLiked] = useState(false);
+  const [showPlaylistPopup, setShowPlaylistPopup] = useState<boolean>(false);
+
+  const handleAddSong = () => {
+    setShowPlaylistPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPlaylistPopup(false);
+  };
+
+  useEffect(() => {
+    const checkSongLiked = async () => {
+      if (selectedSong) {
+        try {
+          const response = await axios.post(
+            `${backendBaseUrl}/api/song/checkSongLiked`,
+            {
+              trackID: selectedSong.trackID,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${storedToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+
+          // Assuming response.data is a boolean value
+          const isLiked = response.data;
+
+          // Set the state based on the response
+          setSongIsLiked(isLiked);
+        } catch (error) {
+          console.error('Error checking the song:', error);
+          // Handle error, maybe show a notification to the user
+        }
+      }
+    };
+
+    checkSongLiked();
+  }, [selectedSong, storedToken]);
+
   // LIKE SONG BACKEND CALL
   const handleLikeSong = async () => {
     if (selectedSong) {
@@ -126,6 +170,50 @@ export const AlbumMain = () => {
       } catch (error) {
         console.error('Error liking the song:', error);
       }
+    }
+  };
+
+  // UNLIKE SONG BACKEND CALL
+  const handleUnlikeSong = async () => {
+    if (selectedSong) {
+      try {
+        await axios.post(
+          `${backendBaseUrl}/api/song/unlikeSong`,
+          {
+            trackID: selectedSong.trackID,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Song unliked successfully');
+        // You can perform additional actions after liking the song here
+      } catch (error) {
+        console.error('Error unliking the song:', error);
+      }
+    }
+  };
+
+  const handleSongPlayed = async () => {
+    try {
+      const response = await axios.post(
+        `${backendBaseUrl}/api/song/playedSong`,
+        {
+          trackID: selectedSong?.trackID,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (err) {
+      console.log('song played could not be stored');
     }
   };
 
@@ -163,9 +251,6 @@ export const AlbumMain = () => {
                 <div className="text-2xl mt-3 text-[#BA85FE]">
                   {songs[0].artistName}
                 </div>
-                <div className="text-xl mt-1 text-[#BA85FE]">
-                  {songs.length} {songs.length === 1 ? 'song' : 'songs'}
-                </div>
               </div>
             </div>
           )}
@@ -180,9 +265,7 @@ export const AlbumMain = () => {
               </div>
               <div className="text-md text-gray-400 mr-24">Plays</div>
 
-              <div className="text-md text-gray-400 mr-16">Likes</div>
-
-              <div className="text-md text-gray-400">Duration</div>
+              <div className="text-md text-gray-400 mr-4">Likes</div>
             </div>
             <div className="border-b border-gray-300"></div>
 
@@ -201,10 +284,7 @@ export const AlbumMain = () => {
                   </div>
                 </div>
                 <div className="text-md text-gray-400 mr-32">{song.plays}</div>
-                <div className="text-md text-gray-400 mr-24">{song.likes}</div>
-                <div className="text-md text-gray-400">
-                  {formatDuration(song.duration)}
-                </div>
+                <div className="text-md text-gray-400 mr-6">{song.likes}</div>
               </div>
             ))}
           </div>
@@ -227,30 +307,51 @@ export const AlbumMain = () => {
                     'selectedSong',
                     JSON.stringify(selectedSong)
                   );
+                  handleSongPlayed();
                 }}
               >
                 Play Song
               </button>
+              {songIsLiked ? (
+                <button
+                  className="hover:bg-[#656262] text-xs m-2 px-3"
+                  onClick={() => {
+                    console.log('unlike button clicked');
+                    handleUnlikeSong();
+                    setHideCard(true);
+                  }}
+                >
+                  Unlike Song
+                </button>
+              ) : (
+                <button
+                  className="hover:bg-[#656262] text-xs m-2 px-3"
+                  onClick={() => {
+                    console.log('like button clicked');
+                    handleLikeSong();
+                    setHideCard(true);
+                  }}
+                >
+                  Like Song
+                </button>
+              )}
               <button
-                className="hover:bg-[#656262] text-xs m-2  px-3"
-                onClick={() => {
-                  console.log('like button clicked');
-                  handleLikeSong();
-                  setHideCard(true);
-                }}
-              >
-                Like Song
-              </button>
-              <button
-                className="hover:bg-[#656262] text-xs m-2  px-3"
+                className="hover:bg-[#656262] text-xs m-2 px-3"
                 onClick={() => {
                   console.log('add to playlist button clicked');
+                  setShowPlaylistPopup(true);
                   setHideCard(true);
                 }}
               >
                 Add to Playlist
               </button>
             </div>
+            {showPlaylistPopup && (
+              <SelectPlaylistPopup
+                onClose={handleClosePopup}
+                selectedSong={selectedSong}
+              />
+            )}
           </div>
         )}
       </div>

@@ -100,6 +100,84 @@ export const ExtendedElectronicSongs = ({ title }: Props) => {
     }
   };
 
+  // UNLIKE SONG BACKEND CALL
+  const handleUnlikeSong = async () => {
+    if (selectedSong) {
+      try {
+        await axios.post(
+          `${backendBaseUrl}/api/song/unlikeSong`,
+          {
+            trackID: selectedSong.trackID,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Song unliked successfully');
+        // You can perform additional actions after liking the song here
+      } catch (error) {
+        console.error('Error unliking the song:', error);
+      }
+    }
+  };
+
+  const [songIsLiked, setSongIsLiked] = useState(false);
+
+  useEffect(() => {
+    const checkSongLiked = async () => {
+      if (selectedSong) {
+        try {
+          const response = await axios.post(
+            `${backendBaseUrl}/api/song/checkSongLiked`,
+            {
+              trackID: selectedSong.trackID,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${storedToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+
+          // Assuming response.data is a boolean value
+          const isLiked = response.data;
+
+          // Set the state based on the response
+          setSongIsLiked(isLiked);
+        } catch (error) {
+          console.error('Error checking the song:', error);
+          // Handle error, maybe show a notification to the user
+        }
+      }
+    };
+
+    checkSongLiked();
+  }, [selectedSong, storedToken]);
+
+  const handleSongPlayed = async () => {
+    try {
+      const response = await axios.post(
+        `${backendBaseUrl}/api/song/playedSong`,
+        {
+          trackID: selectedSong?.trackID,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (err) {
+      console.log('song played could not be stored');
+    }
+  };
+
   function refreshPage() {
     window.location.reload();
   }
@@ -165,19 +243,38 @@ export const ExtendedElectronicSongs = ({ title }: Props) => {
               onClick={() => {
                 console.log('play button clicked');
                 setHideCard(true);
+                handleSongPlayed();
+                localStorage.setItem(
+                  'selectedSong',
+                  JSON.stringify(selectedSong)
+                );
               }}
             >
               Play Song
             </button>
-            <button
-              className="hover:bg-[#656262] text-xs m-2 px-3"
-              onClick={() => {
-                console.log('like button clicked');
-                setHideCard(true);
-              }}
-            >
-              Like Song
-            </button>
+            {songIsLiked ? (
+              <button
+                className="hover:bg-[#656262] text-xs m-2 px-3"
+                onClick={() => {
+                  console.log('unlike button clicked');
+                  handleUnlikeSong();
+                  setHideCard(true);
+                }}
+              >
+                Unlike Song
+              </button>
+            ) : (
+              <button
+                className="hover:bg-[#656262] text-xs m-2 px-3"
+                onClick={() => {
+                  console.log('like button clicked');
+                  handleLikeSong();
+                  setHideCard(true);
+                }}
+              >
+                Like Song
+              </button>
+            )}
             <button
               className="hover:bg-[#656262] text-xs m-2 px-3"
               onClick={() => {

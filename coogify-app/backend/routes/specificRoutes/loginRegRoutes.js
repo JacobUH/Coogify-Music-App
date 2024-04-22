@@ -82,7 +82,7 @@ export async function login(req, res) {
 
     // Passwords match, user successfully authenticated
     const user = getUserFromEmail(email);
-    await destroySession(user);
+   // await destroySession(user);
     const session = await createSession(user);
     console.log('Session created:', session);
 

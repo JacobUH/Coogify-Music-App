@@ -1,5 +1,5 @@
 import { getUserFromSession } from "../../database/queries/dbAuthQueries.js";
-import { insertLikedSong, removeLikedSong, isSongLiked } from "../../database/queries/dbSongQueries.js";
+import { insertLikedSong, removeLikedSong, isSongLiked, recordPlay } from "../../database/queries/dbSongQueries.js";
 import { extractUserID } from "../../util/utilFunctions.js";
 
 export async function likeSong(req, res) {
@@ -16,6 +16,24 @@ export async function likeSong(req, res) {
         }
     } catch (error) {
         console.error('Error during liking song:', error);
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('Internal server error.');
+    }
+}
+
+export async function playedSong(req, res) {
+    const { trackID } = req.body;
+    try {
+        const result = await recordPlay(trackID);
+        if (result) {
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end('played recorded');
+        } else {
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
+            res.end('played not recorded');
+        }
+    } catch (error) {
+        console.error('Error during recording play:', error);
         res.writeHead(500, { 'Content-Type': 'text/plain' });
         res.end('Internal server error.');
     }

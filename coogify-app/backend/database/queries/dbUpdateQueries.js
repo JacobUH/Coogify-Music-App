@@ -57,3 +57,23 @@ export async function newAlbumNameUpdate(userID, newAlbumName, albumName) {
       return false;
     }
   }
+
+  export async function songUpdating(songName, trackID) {
+    console.log("this is the trackID: ", trackID, " and songName: ", songName);
+    try {
+      const [rows] = await pool.query (
+        `
+        UPDATE TRACK
+        SET songName = ?
+        WHERE trackID = ?
+        `,
+        [songName, trackID]
+      );
+
+      console.log('song name changed');
+      return rows;
+    } catch (error) {
+      console.error('Error changing song name');
+      return false;
+    }
+  }

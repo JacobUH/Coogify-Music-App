@@ -187,8 +187,6 @@ export const Sidebar = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  //}, []);
-
   const [userCreds, setUserCreds] = useState<User[]>([]);
 
   useEffect(() => {
@@ -246,6 +244,26 @@ export const Sidebar = () => {
   };
 
   const navigate = useNavigate();
+
+  const handleSongPlayed = async () => {
+    try {
+      const response = await axios.post(
+        `${backendBaseUrl}/api/song/playedSong`,
+        {
+          trackID: selectedSong?.trackID,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (err) {
+      console.log('song played could not be stored');
+    }
+  };
 
   return (
     <div
@@ -386,6 +404,7 @@ export const Sidebar = () => {
                   JSON.stringify(selectedSong)
                 );
                 setHideCard(true);
+                handleSongPlayed();
               }}
             >
               Play Song

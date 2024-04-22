@@ -114,6 +114,26 @@ const SongContextMenu: React.FC<Props> = ({
 
   const navigate = useNavigate();
 
+  const handleSongPlayed = async () => {
+    try {
+      const response = await axios.post(
+        `${backendBaseUrl}/api/song/playedSong`,
+        {
+          trackID: selectedSong.trackID,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (err) {
+      console.log('song played could not be stored');
+    }
+  };
+
   return (
     <div
       className="absolute"
@@ -138,6 +158,7 @@ const SongContextMenu: React.FC<Props> = ({
             console.log('play button clicked');
             setHideCard(true);
             localStorage.setItem('selectedSong', JSON.stringify(selectedSong));
+            handleSongPlayed();
           }}
         >
           Play Song

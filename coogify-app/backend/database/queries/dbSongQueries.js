@@ -32,6 +32,24 @@ export async function insertLikedSong(trackID, userID) {
   }
 }
 
+export async function recordPlay(trackID) {
+  console.log("inside play query");
+  console.log(trackID);
+  try {
+    await pool.query(`
+    UPDATE TRACK
+    SET plays = plays + 1
+    WHERE trackID = ?
+    `
+    ,[trackID]  
+  );
+  console.log("track updated plays")
+  return true;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export async function removeLikedSong(trackID, userID) {
   console.log('Removing liked song into DB');
   try {

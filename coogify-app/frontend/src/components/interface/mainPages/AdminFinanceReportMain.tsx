@@ -104,7 +104,7 @@ export const AdminFinanceReportMain = () => {
           />
         </div>
         <div className="text-center text-4xl font-bold mb-10 mt-[45px] text-[50px]">
-          Financial Data Report
+          Daily Performance Data Report
         </div>
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
           {/* Work in here */}
@@ -207,16 +207,13 @@ export const AdminFinanceReportMain = () => {
               {/* All 8 columns here */}
               <thead className="text-black bg-[#D8D9DB]">
                 <tr>
-                  <th className="border-black py-3 px-2 ">ROLE</th>
-                  <th className="border-black py-3 px-2 ">FULL NAME</th>
-                  <th className="border-black py-3 px-2 ">EMAIL</th>
-                  <th className="border-black py-3 px-2 ">SUBSCRIPTION TYPE</th>
-                  <th className="border-black py-3 px-2 ">TOTAL REVENUE </th>
-                  <th className="border-black py-3 px-2 ">TOTAL PLAYLISTS</th>
+                  <th className="border-black py-3 px-2 ">RECORDED DATE</th>
+                  <th className="border-black py-3 px-2 ">TOTAL REVENUE</th>
+                  <th className="border-black py-3 px-2 ">TOTAL SESSIONS</th>
                   <th className="border-black py-3 px-2 ">
-                    NUMBER OF SESSIONS
+                    TOTAL ACCOUNTS CREATED
                   </th>
-                  <th className="border-black py-3 px-2 ">DATE CREATED</th>
+                  <th className="border-black py-3 px-2 ">TOTAL LIKES </th>
                 </tr>
               </thead>
 
@@ -224,6 +221,9 @@ export const AdminFinanceReportMain = () => {
               <tbody className="text-black text-center">
                 {adminTable.map((tuple: Table) => (
                   <tr key={tuple.userRole}>
+                    <td className="border-black bg-[#F1F3F4] py-3 px-6">
+                      {new Date(tuple.dateCreated).toLocaleDateString('en-US')}
+                    </td>
                     <td className="border-black bg-[#F1F3F4] py-3 px-6">
                       {tuple.fullName}
                     </td>
@@ -235,15 +235,6 @@ export const AdminFinanceReportMain = () => {
                     </td>
                     <td className="border-black bg-[#F1F3F4] py-3 px-6">
                       {tuple.totRevenue}
-                    </td>
-                    <td className="border-black bg-[#F1F3F4] py-3 px-6">
-                      {tuple.numPlaylists}
-                    </td>
-                    <td className="border-black bg-[#F1F3F4] py-3 px-6">
-                      {tuple.numSessions}
-                    </td>
-                    <td className="border-black bg-[#F1F3F4] py-3 px-6">
-                      {new Date(tuple.dateCreated).toLocaleDateString('en-US')}
                     </td>
                   </tr>
                 ))}
