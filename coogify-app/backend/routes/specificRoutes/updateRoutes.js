@@ -1,5 +1,5 @@
 import { errorMessage, extractUserID } from "../../util/utilFunctions.js";
-import { newAlbumNameUpdate, deletingSong, deletingAlbum } from '../../database/queries/dbUpdateQueries.js'
+import { newAlbumNameUpdate, deletingSong, deletingAlbum, songUpdating } from '../../database/queries/dbUpdateQueries.js'
 
 export async function updateAlbumName(req, res) {
     const { newAlbumName, albumName }  = req.body;
@@ -59,4 +59,24 @@ export async function deleteAlbum(req, res) {
         errorMessage(res, error, 'Error updating album name');
 
     }
+}
+
+export async function updateSong(req, res) {
+  const { trackID, songName } = req.body;
+  console.log("this is the trackID: ", trackID, " and songName: ", songName);
+  try {
+    const songUpdate = await songUpdating(songName, trackID );
+    if (songUpdate !== false) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(
+        JSON.stringify(songUpdate)
+      );  
+    } else {
+      res.writeHead(409, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'issue with commonality for song name.' }));
+    }
+  } catch(error) {
+    errorMessage(res, error, 'Error updating song name');
+
+  }
 }

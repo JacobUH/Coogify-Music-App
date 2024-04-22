@@ -5,6 +5,7 @@ import BackButton from '/images/Back Button.svg';
 import { ConfirmCancelScreen } from '../elements/ConfirmCancelScreen';
 import axios from 'axios';
 import backendBaseUrl from '../../../apiConfig';
+import { ChangeSong } from '../elements/ChangeSong';
 
 interface Music {
   trackID: number;
@@ -177,11 +178,10 @@ export const EditAlbumMain = () => {
   function refreshPage() {
     window.location.reload();
   }
-  const [showEditSong, setShowEditSong] = useState(false);
-  const [showDeleteSong, setShowDeleteSong] = useState(false);
+  const [showEditScreen, setShowEditScreen] = useState(false);
 
   const handleEditSong = () => {
-    setShowEditSong(true);
+    setShowEditScreen(true);
   };
 
   const [showDeleteScreen, setShowDeleteScreen] = useState(false);
@@ -318,6 +318,12 @@ export const EditAlbumMain = () => {
               </button>
             </div>
           </div>
+        )}
+        {showEditScreen && (
+          <ChangeSong
+            onClose={() => setShowEditScreen(false)}
+            selectedSong={selectedSong}
+          />
         )}
         {showDeleteScreen && (
           <ConfirmCancelScreen

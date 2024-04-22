@@ -21,7 +21,6 @@ interface Song {
   songURL: string;
   albumName: string;
   artistName: string;
-  isPopular: boolean;
 }
 
 interface HandleClose {

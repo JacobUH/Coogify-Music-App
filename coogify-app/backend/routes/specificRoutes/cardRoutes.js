@@ -1,4 +1,4 @@
-import { createCard, getCardDetails, retrievePurchaseHistory, createTicket } from "../../database/queries/dbCardQueries.js";
+import { createCard, getCardDetails, retrievePurchaseHistory, createTicket, changeCard } from "../../database/queries/dbCardQueries.js";
 import { extractUserID, errorMessage } from '../../util/utilFunctions.js';
 
 export async function addCard(req, res) {
@@ -73,3 +73,22 @@ export async function getPurchaseHistory(req, res) {
     
     }    
   } 
+
+
+  export async function updateCard(req, res) {
+    const { cardID, cardType, cardNumber, cardExpiration, cardSecurity }  = req.body;
+      try {
+          const cardUpdate = await changeCard(cardID, cardType, cardNumber, cardExpiration, cardSecurity);
+          if (cardUpdate !== false) {
+              console.log(cardUpdate);
+              res.writeHead(200, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify(cardUpdate));
+            } else {
+              errorMessage(res, 'Error inputting card', 'Error');
+            }
+      } catch(error) {
+          errorMessage(res, error, 'Error inputting card');
+  
+      }   
+  }
+  

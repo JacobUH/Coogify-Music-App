@@ -87,3 +87,27 @@ export async function createTicket(userID, transactionAmount, subscriptionType) 
         return false;
     }
 }
+
+export async function changeCard(cardID, cardType, cardNumber, cardExpiration, cardSecurity) {
+    try {
+        const [rows] = await pool.query(`
+            UPDATE CARD
+            SET cardType = ?, cardNumber = ?, cardExpiration = ?, cardSecurity = ?
+            WHERE cardID = ?`,
+            [cardType, cardNumber, cardExpiration, cardSecurity, cardID]
+        );
+
+        // If the query was successful, you can check the number of affected rows
+        if (rows.affectedRows > 0) {
+            console.log(`Card updated successfully.`);
+            return true; 
+        } else {
+            console.log(`No card found with the cardID.`);
+            return false; 
+        }
+        
+    } catch (err) {
+        console.error('Error updating card:', err);
+        throw err; 
+    }
+}

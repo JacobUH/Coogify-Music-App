@@ -27,7 +27,8 @@ export const SchoolEmail: React.FC<
   const handleContinue = () => {
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    const eduEmailRegex = /^[^\s@]+@([^\s@]+\.)+edu$/i; // Case insensitive
+    if (!eduEmailRegex.test(email)) {
       setError('Please enter a valid .edu email.');
       return;
     }

@@ -17,67 +17,18 @@ import {
   uploadSongsWithAlbum,
 } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
-import {
-  addArtistName,
-  artistCredentials,
-  artistTopSongs,
-  artistReport,
-  artistAlbums,
-  artistAllAlbums,
-  artistSongsFromAlbum,
-  addDeletedMusic,
-} from './specificRoutes/artistRoutes.js';
-import {
-  fetchNewestSongs,
-  fetchTopSongs,
-  fetchHomeSongs,
-  fetchUserLikedSongs,
-} from './specificRoutes/homeRoutes.js';
-import {
-  likeSong,
-  unlikeSong,
-  checkSongLiked,
-} from './specificRoutes/songRoutes.js';
-import {
-  retrieveAllArtists,
-  retrieveAllUsers,
-  retrieveAllSongs,
-  adminLogin,
-  adminUserReport,
-} from './specificRoutes/adminRoutes.js';
-import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js';
-import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js';
-import {
-  addCard,
-  fetchCardDetails,
-  getPurchaseHistory,
-  createTransaction,
-} from './specificRoutes/cardRoutes.js';
-import {
-  uploadPlaylistEntry,
-  deletePlaylistEntry,
-  fetchPlaylists,
-  fetchPlaylistSongs,
-  addSongToPlaylist,
-  selectAddSongPlaylist,
-  removeSongFromPlaylist,
-} from './specificRoutes/playlistRoutes.js';
-import {
-  fetchUserProfile,
-  updateProfile,
-} from './specificRoutes/profileRoutes.js';
-import {
-  makePayment,
-  updateSubscription,
-  cancelSubscription,
-  restoreSubscription,
-} from './specificRoutes/subscriptionRoutes.js';
-import {
-  updateAlbumName,
-  deleteSong,
-  deleteAlbum,
-} from './specificRoutes/updateRoutes.js';
-import { getNotifications } from './specificRoutes/homeRoutes.js';
+import { addArtistName, artistCredentials, artistTopSongs, artistReport, artistAlbums, artistAllAlbums, artistSongsFromAlbum, addDeletedMusic } from './specificRoutes/artistRoutes.js';
+import { fetchNewestSongs, fetchTopSongs, fetchHomeSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
+import { likeSong, unlikeSong, checkSongLiked, playedSong } from './specificRoutes/songRoutes.js';
+import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs, adminLogin, adminUserReport} from './specificRoutes/adminRoutes.js';
+import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js'
+import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
+import { addCard, fetchCardDetails, getPurchaseHistory, createTransaction, updateCard } from './specificRoutes/cardRoutes.js';
+import { uploadPlaylistEntry, deletePlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist, selectAddSongPlaylist, removeSongFromPlaylist } from './specificRoutes/playlistRoutes.js'
+import { fetchUserProfile, updateProfile } from './specificRoutes/profileRoutes.js';
+import { makePayment, updateSubscription, cancelSubscription, restoreSubscription} from './specificRoutes/subscriptionRoutes.js'
+import { updateAlbumName, deleteSong, deleteAlbum, updateSong } from './specificRoutes/updateRoutes.js'
+
 
 // Define the handlers object
 const handlers = {
@@ -96,6 +47,7 @@ const handlers = {
     },
     song: {
       likeSong: likeSong,
+      playedSong: playedSong,
       unlikeSong: unlikeSong,
       checkSongLiked: checkSongLiked,
     },
@@ -104,6 +56,7 @@ const handlers = {
       updateAlbumName: updateAlbumName,
       deleteSong: deleteSong,
       deleteAlbum: deleteAlbum,
+      updateSong: updateSong
     },
     playlist: {
       uploadPlaylistEntry: uploadPlaylistEntry,
@@ -136,7 +89,8 @@ const handlers = {
       addCard: addCard,
       PrevTransactions: getPurchaseHistory,
       createTransaction: createTransaction,
-      fetchCardDetails: fetchCardDetails,
+      fetchCardDetails:fetchCardDetails,
+      updateCard:updateCard,
     },
     subscription: {
       updateSubscription: updateSubscription,

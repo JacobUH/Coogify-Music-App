@@ -28,7 +28,6 @@ import { ClassicalSongs } from './pages/ClassicalSongs';
 import { JazzSongs } from './pages/JazzSongs';
 import { ElectronicSongs } from './pages/ElectronicSongs';
 import { CountrySongs } from './pages/CountrySongs';
-import { HipHopSongs } from './pages/HipHopSongs';
 import { RockSongs } from './pages/RockSongs';
 import { AddCard } from './pages/AddCard';
 import { PrevTransactions } from './pages/PrevTransactions';
@@ -39,7 +38,7 @@ import { AdminLogin } from './pages/AdminLogin';
 import { Admin } from './pages/Admin';
 import { AdminCreate } from './pages/AdminCreate';
 import { AdminSetup } from './pages/AdminSetup';
-import { AdminUserReport } from './pages/AdminUserReport';
+import { AdminUserReport } from './pages/AdminReport';
 import { AdminFinanceReport } from './pages/AdminFinanceReport';
 import { AdminEditAccount } from './pages/AdminEditAccount';
 

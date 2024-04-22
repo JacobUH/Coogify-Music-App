@@ -89,6 +89,26 @@ export const LikedMusicRows = ({ title }: Props) => {
     fetchNewestSongs();
   }, [handleUnlikeSong]);
 
+  const handleSongPlayed = async () => {
+    try {
+      const response = await axios.post(
+        `${backendBaseUrl}/api/song/playedSong`,
+        {
+          trackID: selectedSong?.trackID,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (err) {
+      console.log('song played could not be stored');
+    }
+  };
+
   const navigate = useNavigate();
 
   const [showPlaylistPopup, setShowPlaylistPopup] = useState(false);
@@ -179,6 +199,7 @@ export const LikedMusicRows = ({ title }: Props) => {
                   'selectedSong',
                   JSON.stringify(selectedSong)
                 );
+                handleSongPlayed();
               }}
             >
               Play Song
