@@ -22,9 +22,9 @@ import { updateAlbumName, deleteSong, deleteAlbum } from './specificRoutes/updat
 // Define the handlers object
 const handlers = {
   api: {
-    register: register, 
-    login: login, 
-    logout: logout, 
+    register: register,
+    login: login,
+    logout: logout,
     setup: {
       userSetup: userSetup,
       artistSetup: artistSetup,
@@ -32,18 +32,18 @@ const handlers = {
     },
     user: {
       userCredentials: getUserCredentials,
-      subscriptionCredentials: getSubCredentials
+      subscriptionCredentials: getSubCredentials,
     },
     song: {
       likeSong: likeSong,
       unlikeSong: unlikeSong,
-      checkSongLiked: checkSongLiked
+      checkSongLiked: checkSongLiked,
     },
     album: fetchAlbumSongs,
     update: {
       updateAlbumName: updateAlbumName,
       deleteSong: deleteSong,
-      deleteAlbum: deleteAlbum
+      deleteAlbum: deleteAlbum,
     },
     playlist: {
       uploadPlaylistEntry: uploadPlaylistEntry,
@@ -52,11 +52,10 @@ const handlers = {
       fetchPlaylistSongs: fetchPlaylistSongs,
       addSong: addSongToPlaylist,
       selectAddSong: selectAddSongPlaylist,
-      removeSong: removeSongFromPlaylist
+      removeSong: removeSongFromPlaylist,
     },
     fetch: {
       song: getSong,
-      album: (req, res) => 'info of album and image url',
     },
     payment: makePayment,
     upload: {
@@ -65,7 +64,7 @@ const handlers = {
     },
     search: {
       fetchSongs: fetchSongs,
-      fetchAlbums: fetchAlbums
+      fetchAlbums: fetchAlbums,
     },
     home: {
       fetchNewSongs: fetchNewestSongs, // GET
@@ -77,12 +76,12 @@ const handlers = {
       addCard: addCard,
       PrevTransactions: getPurchaseHistory,
       createTransaction: createTransaction,
-      fetchCardDetails:fetchCardDetails,
+      fetchCardDetails: fetchCardDetails,
     },
     subscription: {
       updateSubscription: updateSubscription,
       cancelSubscription: cancelSubscription,
-      restoreSubscription: restoreSubscription
+      restoreSubscription: restoreSubscription,
     },
     admin: {
       adminLogin: adminLogin,
@@ -99,11 +98,9 @@ const handlers = {
       artistAlbums: artistAlbums,
       artistAllAlbums: artistAllAlbums,
       artistSongsFromAlbum: artistSongsFromAlbum,
-      addDeletedMusic: addDeletedMusic
+      addDeletedMusic: addDeletedMusic,
     },
-    notifications: {
-      daysToPay: (req, res) => 'pay',
-    },
+    notifications: getNotifications,
     profile: {
       fetchProfile: fetchUserProfile,
       updateProfile: updateProfile,
@@ -114,11 +111,12 @@ const handlers = {
 // Function to handle file serving
 function serveFile(req, res) {
   const currentUrl = new URL(import.meta.url);
+  console.log('current URL', currentUrl);
   const currentPath = decodeURI(currentUrl.pathname);
   const currentDirectory = path.dirname(currentPath);
   const decodedUrl = decodeURIComponent(req.url); // Decode URI component to replace %20 with spaces
   const filePath = path.join(currentDirectory, '..', decodedUrl); // Adjust the path as needed
-  console.log('filepath: ', filePath);
+  console.log('serving filepath: ', filePath);
   fs.readFile(filePath, (err, data) => {
     if (err) {
       console.error('Error reading file:', err);
@@ -134,8 +132,16 @@ function serveFile(req, res) {
 // Function to handle the request
 export async function handleRequest(req, res) {
   console.log('in routehandler');
+  console.log(req.url);
   try {
+    // AWS Healthcheck url
+    if (req.url.startsWith('/api/healthCheck')) {
+      res.writeHead(200);
+      res.end();
+      return;
+    }
     // Check if the request URL starts with '/uploads/'
+    console.log(req.url);
     if (req.url.startsWith('/uploads/')) {
       serveFile(req, res);
       return;

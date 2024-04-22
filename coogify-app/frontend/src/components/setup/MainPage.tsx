@@ -30,9 +30,9 @@ export const MainPage: React.FC<MainPageProps> = ({ className }) => {
         </div>
       </div>
       <div className="text-center">
-        <Link to="/adminLogin" className="underline animate-flash-slow">
+        {/* <Link to="/adminLogin" className="underline animate-flash-slow">
           Admin Login Access Here
-        </Link>
+        </Link> */}
         <Footer />
       </div>
     </div>
