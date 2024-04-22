@@ -4,6 +4,7 @@ import {
   selectUserLikedSongs,
   selectSongsByGenre,
   selectNotifications,
+  insertReadNotifications,
 } from '../../database/queries/dbHomeQueries.js';
 import { extractUserID, errorMessage } from '../../util/utilFunctions.js';
 
@@ -106,12 +107,14 @@ export async function getNotifications(req, res) {
   }
 }
 
-
 // TODO
 export async function readNotifications(req, res) {
+  console.log(
+    'in route ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+  );
   try {
     const userID = await extractUserID(req);
-    const notifications = await selectNotifications(userID);
+    const notifications = await insertReadNotifications(userID);
 
     if (notifications !== false) {
       res.writeHead(200, { 'Content-Type': 'application/json' });
