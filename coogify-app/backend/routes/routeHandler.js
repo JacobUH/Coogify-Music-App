@@ -84,7 +84,6 @@ import {
   getNotifications,
   readNotifications,
 } from './specificRoutes/homeRoutes.js';
-import { read } from 'fs/promises';
 
 // Define the handlers object
 const handlers = {
