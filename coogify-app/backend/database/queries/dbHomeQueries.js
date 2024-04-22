@@ -103,7 +103,7 @@ export async function insertReadNotifications(userID) {
     const queryUpdate = `
         UPDATE NOTIFICATIONS
         SET isRead = 1
-        WHERE notificationID IN (?);
+        WHERE userID IN (?);
       `;
     await pool.query(queryUpdate, [userID]);
     return true;
