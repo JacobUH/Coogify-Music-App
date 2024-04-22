@@ -16,9 +16,9 @@ export async function registerUser(email, userPassword, fName, lName, dob) {
     // Insert a row into the SUBSCRIPTION table
     await pool.query(
       `INSERT INTO SUBSCRIPTION 
-       (userID, subscriptionType, subcriptionActive, renewDate)
-       VALUES (?, ?, ?, CURRENT_TIMESTAMP)`,
-      [userID, 'Paid', 0] // Fix the column name from 'subcriptionActive' to 'subscriptionActive'
+       (userID, subcriptionActive, renewDate)
+       VALUES (?, ?, CURRENT_TIMESTAMP)`,
+      [userID, 0] // Fix the column name from 'subcriptionActive' to 'subscriptionActive'
     );
 
     return true;
@@ -27,7 +27,6 @@ export async function registerUser(email, userPassword, fName, lName, dob) {
     return false;
   }
 }
-
 
 export async function getPasswordByEmail(email) {
   try {

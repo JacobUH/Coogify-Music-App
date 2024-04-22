@@ -68,7 +68,7 @@ export async function insertPayment(userID_promise) {
     // Update renewDate and set subscriptionActive to 1
     await pool.query(
       `UPDATE SUBSCRIPTION 
-       SET renewDate = DATE_ADD(renewDate, INTERVAL 1 MONTH), subcriptionActive = 1 
+       SET renewDate = DATE_ADD(renewDate, INTERVAL 1 MONTH), subcriptionActive = 1, subscriptionType = 'Paid' 
        WHERE userID = ?`,
       [userID]
     );
