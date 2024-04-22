@@ -69,17 +69,15 @@ export async function checkAdminVerification(userID) {
       [userID]
     );
     if (rows.length > 0) {
-      console.log("Admin verified");
+      console.log('Admin verified');
       return true;
     }
-    return false; 
+    return false;
   } catch (err) {
     console.error(err.message);
     throw err;
   }
 }
-
-
 
 export async function insertPayment(userID_promise) {
   try {
@@ -88,7 +86,7 @@ export async function insertPayment(userID_promise) {
     // Update renewDate and set subscriptionActive to 1
     await pool.query(
       `UPDATE SUBSCRIPTION 
-       SET renewDate = DATE_ADD(renewDate, INTERVAL 1 MONTH), subcriptionActive = 1 
+       SET renewDate = DATE_ADD(renewDate, INTERVAL 1 MONTH), subcriptionActive = 1, subscriptionType = 'Paid'
        WHERE userID = ?`,
       [userID]
     );
@@ -99,7 +97,7 @@ export async function insertPayment(userID_promise) {
   }
 }
 
-export async function selectUserCredentials(userID){
+export async function selectUserCredentials(userID) {
   try {
     const query = `
     SELECT userID, email, firstName, lastName, isArtist, isAdmin, dateCreated
@@ -109,11 +107,11 @@ export async function selectUserCredentials(userID){
     const [rows] = await pool.query(query, [userID]);
     console.log('user credentials retrieved successfully');
     return rows;
-  } catch (err){
+  } catch (err) {
     console.error(err.message);
   }
 }
-export async function selectSubCredentials(userID){
+export async function selectSubCredentials(userID) {
   try {
     const query = `
     SELECT subscriptionID, userID, cardID, subscriptionType, startDate, endDate, renewDate
@@ -123,7 +121,7 @@ export async function selectSubCredentials(userID){
     const [rows] = await pool.query(query, [userID]);
     console.log('subscription credentials retrieved successfully');
     return rows;
-  } catch (err){
+  } catch (err) {
     console.error(err.message);
   }
 }

@@ -6,10 +6,11 @@ import {
   insertPlaylist,
 } from '../../database/queries/dbFileQueries.js';
 import { extractUserID, extractArtistID } from '../../util/utilFunctions.js';
+import busboy from 'busboy';
 dotenv.config();
 
 // Define the base URL where files will be served
-const baseURL = `http://${process.env.MYSQL_HOST}:${process.env.SERVER_PORT}/uploads/`;
+const baseURL = `http://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}/uploads/`;
 
 // Define storage configuration for multer
 const storage = multer.diskStorage({
@@ -89,6 +90,8 @@ export async function uploadSongsWithAlbum(req, res, next) {
     } else {
       console.log('Files uploaded successfully');
 
+      console.log(req.files);
+
       // Get the URLs of the uploaded files
       const mp3Files = req.files['mp3Files'];
       const imageFile = req.files['imageFile'][0];
@@ -148,69 +151,32 @@ export async function uploadSongsWithAlbum(req, res, next) {
   });
 }
 
-// export async function uploadThing(req, res, next) {
-//   upload.fields([{ name: 'file', maxCount: 2 }])(req, res, async (err) => {
-//     if (err instanceof multer.MulterError) {
-//       console.error('Multer error: ', err);
-//       res.writeHead(500, { 'Content-Type': 'text/plain' });
-//       res.end('File upload failed');
-//     } else if (err) {
-//       console.error('Unknown error: ', err);
-//       res.writeHead(500, { 'Content-Type': 'text/plain' });
-//       res.end('File upload failed');
-//     } else {
-//       console.log('Files uploaded successfully');
+export function uploadMySong(req, res) {
+  const bb = busboy({ headers: req.headers });
 
-//       // Get the URLs of the uploaded files
-//       const fileURLs = req.files['file'].map(
-//         (file) => baseURL + encodeURIComponent(file.originalname)
-//       );
-//       // const fileURLs = req.files['file'].map(
-//       //   (file) => baseURL + file.originalname
-//       // );
+  bb.on('file', (name, file, info) => {
+    const { filename, encoding, mimeType } = info;
+    console.log(
+      `File [${name}]: filename: %j, encoding: %j, mimeType: %j`,
+      filename,
+      encoding,
+      mimeType
+    );
+    file
+      .on('data', (data) => {
+        console.log(`File [${name}] got ${data?.length} bytes`);
+      })
+      .on('close', () => {
+        console.log(`File [${name}] done`);
+      });
+  });
+  bb.on('field', (name, val, info) => {
+    console.log(`Field [${name}]: value: %j`, val);
+  });
+  bb.on('close', () => {
+    console.log('Done parsing form!');
+    res.status(200).send({ message: 'Done parsing form!' });
+  });
 
-//       // Save file metadata to the database
-//       const userID = extractUserID(req);
-//       const { playlistName, playlistDescription } = req.body; // if uploading a playlist
-//       const { genreName, songName, albumName } = req.body; // if uploading a song
-
-//       let inserted = false;
-
-//       // Check if a song was uploaded
-//       if (genreName && songName) {
-//         // Extract artist ID
-//         const artistID = await extractArtistID(req);
-//         console.log(artistID);
-
-//         // Insert song with cover art and mp3 file URLs
-//         inserted = await insertSongWithCover(
-//           artistID,
-//           albumName,
-//           genreName,
-//           songName,
-//           fileURLs[0],
-//           fileURLs[1]
-//         );
-//       }
-//       // Check if a playlist was uploaded
-//       else if (playlistName) {
-//         // Insert playlist with cover art URL
-//         inserted = await insertPlaylist(
-//           userID,
-//           playlistName,
-//           fileURLs[0],
-//           playlistDescription
-//         );
-//       }
-
-//       // if upload was successful
-//       if (inserted) {
-//         res.writeHead(200, { 'Content-Type': 'text/plain' });
-//         res.end('Files uploaded successfully');
-//       } else {
-//         res.writeHead(500, { 'Content-Type': 'text/plain' });
-//         res.end('File upload to db failed');
-//       }
-//     }
-//   });
-// }
+  bb.end(req.body);
+}

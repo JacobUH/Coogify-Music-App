@@ -1,0 +1,3 @@
+./run-fullstack.sh
+ps -ef | grep node
+tail -F nohup.out

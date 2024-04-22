@@ -42,7 +42,7 @@ export async function selectTopSongs(count) {
 }
 
 export async function selectUserLikedSongs(userID) {
-  try{
+  try {
     const query = `
     SELECT tl.trackID, t.artistID, t.genreID, t.albumName, t.songName, t.songURL, t.coverArtURL, t.duration, t.releaseDate, a.artistName
     FROM TRACK_LIKED tl
@@ -54,7 +54,7 @@ export async function selectUserLikedSongs(userID) {
     const [rows] = await pool.query(query, [userID]);
     //console.log(rows);
     return rows;
-  } catch (error){
+  } catch (error) {
     console.error('Error fetching your liked songs:', error);
     return false;
   }
@@ -76,6 +76,39 @@ export async function selectSongsByGenre(genre, count) {
     return rows;
   } catch (error) {
     console.error('Error fetching Rock songs:', error);
+    return false;
+  }
+}
+
+export async function selectNotifications(userID) {
+  try {
+    const querySelect = `
+      SELECT notificationID, timeCreated, message, trackID
+      FROM NOTIFICATIONS
+      WHERE userID = ? AND isRead = 0;
+    `;
+    const [rows] = await pool.query(querySelect, [userID]);
+    return rows;
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    return false;
+  }
+}
+
+export async function insertReadNotifications(userID) {
+  console.log(
+    'read==============================================================================='
+  );
+  try {
+    const queryUpdate = `
+        UPDATE NOTIFICATIONS
+        SET isRead = 1
+        WHERE userID IN (?);
+      `;
+    await pool.query(queryUpdate, [userID]);
+    return true;
+  } catch (error) {
+    console.error('Error seting read notifications:', error);
     return false;
   }
 }

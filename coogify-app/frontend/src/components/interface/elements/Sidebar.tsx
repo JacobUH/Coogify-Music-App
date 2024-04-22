@@ -179,7 +179,6 @@ export const Sidebar = () => {
     };
 
     fetchUserLikedSongs();
-
     // Refresh data every second
     const intervalId = setInterval(fetchUserLikedSongs, 1000);
 

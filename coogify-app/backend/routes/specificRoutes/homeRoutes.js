@@ -1,4 +1,11 @@
-import { selectNewestSongs, selectTopSongs, selectUserLikedSongs, selectSongsByGenre} from '../../database/queries/dbHomeQueries.js';
+import {
+  selectNewestSongs,
+  selectTopSongs,
+  selectUserLikedSongs,
+  selectSongsByGenre,
+  selectNotifications,
+  insertReadNotifications,
+} from '../../database/queries/dbHomeQueries.js';
 import { extractUserID, errorMessage } from '../../util/utilFunctions.js';
 
 export async function fetchNewestSongs(req, res) {
@@ -9,7 +16,7 @@ export async function fetchNewestSongs(req, res) {
       console.log('undefined count');
       songs = await selectNewestSongs(10);
     } else {
-        songs = await selectNewestSongs(count);
+      songs = await selectNewestSongs(count);
     }
     if (songs !== false) {
       res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -21,7 +28,6 @@ export async function fetchNewestSongs(req, res) {
     errorMessage(res, error, 'Error fetching newest songs');
   }
 }
-
 
 export async function fetchTopSongs(req, res) {
   const { count } = req.body;
@@ -82,5 +88,41 @@ export async function fetchHomeSongs(req, res) {
     }
   } else {
     errorMessage(res, 'Genre is not defined: ', genre);
+  }
+}
+
+export async function getNotifications(req, res) {
+  try {
+    const userID = await extractUserID(req);
+    const notifications = await selectNotifications(userID);
+
+    if (notifications !== false) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(notifications));
+    } else {
+      errorMessage(res, 'Error fetching notifications', 'Error');
+    }
+  } catch (error) {
+    errorMessage(res, error, 'Error fetching notifications');
+  }
+}
+
+// TODO
+export async function readNotifications(req, res) {
+  console.log(
+    'in route ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+  );
+  try {
+    const userID = await extractUserID(req);
+    const notifications = await insertReadNotifications(userID);
+
+    if (notifications !== false) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(notifications));
+    } else {
+      errorMessage(res, 'Error fetching notifications', 'Error');
+    }
+  } catch (error) {
+    errorMessage(res, error, 'Error fetching notifications');
   }
 }

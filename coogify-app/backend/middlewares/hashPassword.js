@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import { hashPassword } from '../util/utilFunctions.js';
 
 export default async function hashPasswordMiddleware(request, response, next) {
   try {
@@ -8,7 +8,7 @@ export default async function hashPasswordMiddleware(request, response, next) {
       request.headers['content-type'] === 'application/json' &&
       request.body.password
     ) {
-      const hashedPassword = await bcrypt.hash(request.body.password, 10); // Hash the password
+      const hashedPassword = await hashPassword(request.body.password); // Hash the password
       request.body.password = hashedPassword; // Update the password field with the hashed password
     }
     next(); // Proceed to the next middleware or route handler

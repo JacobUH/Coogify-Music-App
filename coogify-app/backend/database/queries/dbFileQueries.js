@@ -1,11 +1,19 @@
 import pool from '../dbConnection.js';
 
-// export async function insertSong(artistID, genreName, songName, songItem) {
+// export async function insertSongWithCover(
+//   artistID_promise,
+//   albumName,
+//   genreName,
+//   songName,
+//   songItem,
+//   coverArtURL
+// ) {
+//   const artistID = await artistID_promise;
 //   try {
 //     const [rows] = await pool.query(
-//       `INSERT INTO TRACK (artistID, genreID, songName, songURL)
-//       VALUES (?, (SELECT genreID FROM GENRE WHERE genreName = ?), ?, ?)`,
-//       [artistID, genreName, songName, songItem]
+//       `INSERT INTO TRACK (artistID, genreID, songName, songURL, coverArtURL, albumName)
+//       VALUES (?, (SELECT genreID FROM GENRE WHERE genreName = ?), ?, ?, ?, ?)`,
+//       [artistID, genreName, songName, songItem, coverArtURL, albumName]
 //     );
 //     console.log('Song inserted successfully');
 //     return true;
@@ -27,8 +35,10 @@ export async function insertSongWithCover(
   try {
     const [rows] = await pool.query(
       `INSERT INTO TRACK (artistID, genreID, songName, songURL, coverArtURL, albumName)
-      VALUES (?, (SELECT genreID FROM GENRE WHERE genreName = ?), ?, ?, ?, ?)`,
-      [artistID, genreName, songName, songItem, coverArtURL, albumName]
+      SELECT ?, genreID, ?, ?, ?, ?
+      FROM GENRE
+      WHERE genreName = ?`,
+      [artistID, songName, songItem, coverArtURL, albumName, genreName]
     );
     console.log('Song inserted successfully');
     return true;

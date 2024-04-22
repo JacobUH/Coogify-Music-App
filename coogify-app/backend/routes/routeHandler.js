@@ -2,10 +2,20 @@
 import fs from 'fs';
 import path from 'path';
 import { jsonParser, authenticate } from '../middlewares/middleware.js';
-import { userSetup, artistSetup, adminSetup  } from './specificRoutes/setupRoutes.js'
-import { register, login, logout} from './specificRoutes/loginRegRoutes.js';
-import { getUserCredentials, getSubCredentials } from './specificRoutes/userRoutes.js'
-import { uploadPlaylist, uploadSongsWithAlbum,  } from './specificRoutes/uploadsRoutes.js';
+import {
+  userSetup,
+  artistSetup,
+  adminSetup,
+} from './specificRoutes/setupRoutes.js';
+import { register, login, logout } from './specificRoutes/loginRegRoutes.js';
+import {
+  getUserCredentials,
+  getSubCredentials,
+} from './specificRoutes/userRoutes.js';
+import {
+  uploadPlaylist,
+  uploadSongsWithAlbum,
+} from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
 import { addArtistName, artistCredentials, artistTopSongs, artistReport, artistAlbums, artistAllAlbums, artistSongsFromAlbum, addDeletedMusic } from './specificRoutes/artistRoutes.js';
 import { fetchNewestSongs, fetchTopSongs, fetchHomeSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
@@ -18,22 +28,25 @@ import { uploadPlaylistEntry, deletePlaylistEntry, fetchPlaylists, fetchPlaylist
 import { fetchUserProfile, updateProfile } from './specificRoutes/profileRoutes.js';
 import { makePayment, updateSubscription, cancelSubscription, restoreSubscription} from './specificRoutes/subscriptionRoutes.js'
 import { updateAlbumName, deleteSong, deleteAlbum, updateSong } from './specificRoutes/updateRoutes.js'
-//import { getNotifications } from './specificRoutes/homeRoutes.js';
+import {
+  getNotifications,
+  readNotifications,
+} from './specificRoutes/homeRoutes.js';
 
 // Define the handlers object
 const handlers = {
   api: {
-    register: register, 
-    login: login, 
-    logout: logout, 
+    register: register,
+    login: login,
+    logout: logout,
     setup: {
       userSetup: userSetup,
       artistSetup: artistSetup,
-      adminSetup: adminSetup
+      adminSetup: adminSetup,
     },
     user: {
       userCredentials: getUserCredentials,
-      subscriptionCredentials: getSubCredentials
+      subscriptionCredentials: getSubCredentials,
     },
     song: {
       likeSong: likeSong,
@@ -52,7 +65,7 @@ const handlers = {
       updateAlbumName: updateAlbumName,
       deleteSong: deleteSong,
       deleteAlbum: deleteAlbum,
-      updateSong: updateSong
+      updateSong: updateSong,
     },
     playlist: {
       uploadPlaylistEntry: uploadPlaylistEntry,
@@ -61,11 +74,10 @@ const handlers = {
       fetchPlaylistSongs: fetchPlaylistSongs,
       addSong: addSongToPlaylist,
       selectAddSong: selectAddSongPlaylist,
-      removeSong: removeSongFromPlaylist
+      removeSong: removeSongFromPlaylist,
     },
     fetch: {
       song: getSong,
-      album: (req, res) => 'info of album and image url',
     },
     payment: makePayment,
     upload: {
@@ -88,13 +100,13 @@ const handlers = {
       addCard: addCard,
       PrevTransactions: getPurchaseHistory,
       createTransaction: createTransaction,
-      fetchCardDetails:fetchCardDetails,
-      updateCard:updateCard,
+      fetchCardDetails: fetchCardDetails,
+      updateCard: updateCard,
     },
     subscription: {
       updateSubscription: updateSubscription,
       cancelSubscription: cancelSubscription,
-      restoreSubscription: restoreSubscription
+      restoreSubscription: restoreSubscription,
     },
     admin: {
       adminLogin: adminLogin,
@@ -112,11 +124,10 @@ const handlers = {
       artistAlbums: artistAlbums,
       artistAllAlbums: artistAllAlbums,
       artistSongsFromAlbum: artistSongsFromAlbum,
-      addDeletedMusic: addDeletedMusic
+      addDeletedMusic: addDeletedMusic,
     },
-    notifications: {
-      daysToPay: (req, res) => 'pay',
-    },
+    readNotifications: readNotifications,
+    notifications: getNotifications,
     profile: {
       fetchProfile: fetchUserProfile,
       updateProfile: updateProfile,
@@ -127,11 +138,12 @@ const handlers = {
 // Function to handle file serving
 function serveFile(req, res) {
   const currentUrl = new URL(import.meta.url);
+  console.log('current URL', currentUrl);
   const currentPath = decodeURI(currentUrl.pathname);
   const currentDirectory = path.dirname(currentPath);
   const decodedUrl = decodeURIComponent(req.url); // Decode URI component to replace %20 with spaces
   const filePath = path.join(currentDirectory, '..', decodedUrl); // Adjust the path as needed
-  console.log('filepath: ', filePath);
+  console.log('serving filepath: ', filePath);
   fs.readFile(filePath, (err, data) => {
     if (err) {
       console.error('Error reading file:', err);
@@ -147,8 +159,16 @@ function serveFile(req, res) {
 // Function to handle the request
 export async function handleRequest(req, res) {
   console.log('in routehandler');
+  console.log(req.url);
   try {
+    // AWS Healthcheck url
+    if (req.url.startsWith('/api/healthCheck')) {
+      res.writeHead(200);
+      res.end();
+      return;
+    }
     // Check if the request URL starts with '/uploads/'
+    console.log(req.url);
     if (req.url.startsWith('/uploads/')) {
       serveFile(req, res);
       return;
