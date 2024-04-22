@@ -7,7 +7,7 @@ import {
   checkAdminVerification,
 } from '../../database/queries/dbUserQueries.js';
 import { extractUserID } from '../../util/utilFunctions.js';
-import {selectAllArtists, selectAllSongs, selectAllUsers, createAdminUserReport} from '../../database/queries/dbAdminQueries.js';
+import {selectAllArtists, selectAllSongs, selectAllUsers, createAdminUserReport, createAdminFinanceReport} from '../../database/queries/dbAdminQueries.js';
 import { errorMessage } from '../../util/utilFunctions.js';
 
 export async function retrieveAllArtists(req, res) {
@@ -117,6 +117,27 @@ export async function adminUserReport(req,res){
       if (userDetails) {
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end(JSON.stringify(userDetails));      
+      } else {
+        errorMessage(res, 'Could not get the user details', 'Error');
+      }
+    } catch (error) {
+      errorMessage(res, error, 'Error getting the selected user details');
+    }
+  } else {
+    errorMessage(res, 'Unable to get the selected user details', 'Error');
+  }
+}
+
+export async function adminFinanceReport(req,res){
+  const { minTotalRev, maxTotalRev, startDate, endDate } = req.body;
+  const userID = await extractUserID(req);
+  if (userID !== null) {
+    try {
+      const financeDetails = await createAdminFinanceReport(minTotalRev, maxTotalRev, startDate, endDate);
+      console.log(financeDetails);
+      if (financeDetails) {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end(JSON.stringify(financeDetails));      
       } else {
         errorMessage(res, 'Could not get the user details', 'Error');
       }

@@ -17,69 +17,17 @@ import {
   uploadSongsWithAlbum,
 } from './specificRoutes/uploadsRoutes.js';
 import { getSong } from './specificRoutes/playSongRoutes.js';
-import {
-  addArtistName,
-  artistCredentials,
-  artistTopSongs,
-  artistReport,
-  artistAlbums,
-  artistAllAlbums,
-  artistSongsFromAlbum,
-  addDeletedMusic,
-} from './specificRoutes/artistRoutes.js';
-import {
-  fetchNewestSongs,
-  fetchTopSongs,
-  fetchHomeSongs,
-  fetchUserLikedSongs,
-} from './specificRoutes/homeRoutes.js';
-import {
-  likeSong,
-  unlikeSong,
-  checkSongLiked,
-  playedSong,
-} from './specificRoutes/songRoutes.js';
-import {
-  retrieveAllArtists,
-  retrieveAllUsers,
-  retrieveAllSongs,
-  adminLogin,
-  adminUserReport,
-} from './specificRoutes/adminRoutes.js';
-import { fetchSongs, fetchAlbums } from './specificRoutes/searchRoutes.js';
-import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js';
-import {
-  addCard,
-  fetchCardDetails,
-  getPurchaseHistory,
-  createTransaction,
-  updateCard,
-} from './specificRoutes/cardRoutes.js';
-import {
-  uploadPlaylistEntry,
-  deletePlaylistEntry,
-  fetchPlaylists,
-  fetchPlaylistSongs,
-  addSongToPlaylist,
-  selectAddSongPlaylist,
-  removeSongFromPlaylist,
-} from './specificRoutes/playlistRoutes.js';
-import {
-  fetchUserProfile,
-  updateProfile,
-} from './specificRoutes/profileRoutes.js';
-import {
-  makePayment,
-  updateSubscription,
-  cancelSubscription,
-  restoreSubscription,
-} from './specificRoutes/subscriptionRoutes.js';
-import {
-  updateAlbumName,
-  deleteSong,
-  deleteAlbum,
-  updateSong,
-} from './specificRoutes/updateRoutes.js';
+import { addArtistName, artistCredentials, artistTopSongs, artistReport, artistAlbums, artistAllAlbums, artistSongsFromAlbum, addDeletedMusic } from './specificRoutes/artistRoutes.js';
+import { fetchNewestSongs, fetchTopSongs, fetchHomeSongs, fetchUserLikedSongs } from './specificRoutes/homeRoutes.js';
+import { likeSong, unlikeSong, checkSongLiked, playedSong, checkSongActive, checkAlbumActive, activateSong, deactivateSong, activateAlbum, deactivateAlbum } from './specificRoutes/songRoutes.js';
+import { retrieveAllArtists, retrieveAllUsers, retrieveAllSongs, adminLogin, adminUserReport, adminFinanceReport} from './specificRoutes/adminRoutes.js';
+import { fetchSongs, fetchAlbums, fetchAdminSongs, fetchAdminAlbums } from './specificRoutes/searchRoutes.js'
+import { fetchAlbumSongs } from './specificRoutes/albumRoutes.js'
+import { addCard, fetchCardDetails, getPurchaseHistory, createTransaction, updateCard } from './specificRoutes/cardRoutes.js';
+import { uploadPlaylistEntry, deletePlaylistEntry, fetchPlaylists, fetchPlaylistSongs, addSongToPlaylist, selectAddSongPlaylist, removeSongFromPlaylist } from './specificRoutes/playlistRoutes.js'
+import { fetchUserProfile, updateProfile } from './specificRoutes/profileRoutes.js';
+import { makePayment, updateSubscription, cancelSubscription, restoreSubscription} from './specificRoutes/subscriptionRoutes.js'
+import { updateAlbumName, deleteSong, deleteAlbum, updateSong } from './specificRoutes/updateRoutes.js'
 import {
   getNotifications,
   readNotifications,
@@ -105,6 +53,12 @@ const handlers = {
       playedSong: playedSong,
       unlikeSong: unlikeSong,
       checkSongLiked: checkSongLiked,
+      checkSongActive: checkSongActive,
+      checkAlbumActive: checkAlbumActive,
+      activateSong : activateSong,
+      deactivateSong: deactivateSong,
+      activateAlbum: activateAlbum,
+      deactivateAlbum: deactivateAlbum
     },
     album: fetchAlbumSongs,
     update: {
@@ -133,6 +87,8 @@ const handlers = {
     search: {
       fetchSongs: fetchSongs,
       fetchAlbums: fetchAlbums,
+      fetchAdminSongs: fetchAdminSongs,
+      fetchAdminAlbums: fetchAdminAlbums,
     },
     home: {
       fetchNewSongs: fetchNewestSongs, // GET
@@ -155,6 +111,7 @@ const handlers = {
     admin: {
       adminLogin: adminLogin,
       adminUserReport: adminUserReport,
+      adminFinanceReport: adminFinanceReport,
       music: retrieveAllSongs,
       users: retrieveAllUsers,
       artists: retrieveAllArtists,

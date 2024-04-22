@@ -41,6 +41,7 @@ import { AdminSetup } from './pages/AdminSetup';
 import { AdminUserReport } from './pages/AdminReport';
 import { AdminFinanceReport } from './pages/AdminFinanceReport';
 import { AdminEditAccount } from './pages/AdminEditAccount';
+import { AdminSearch } from './pages/AdminSongAccess';
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/adminCreate" element={<AdminCreate />} />
           <Route path="/adminSetup" element={<AdminSetup />} />
+          <Route path="/editMusic" element={<AdminSearch />} />
           <Route path="/editAccount" element={<AdminEditAccount />} />
           <Route path="/userReport" element={<AdminUserReport />} />
           <Route path="/financialReport" element={<AdminFinanceReport />} />

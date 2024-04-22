@@ -118,3 +118,110 @@ export async function updatePlaylist(
     throw err;
   }
 }
+
+
+export async function isSongActive(trackID, userID) {
+  console.log('Checking if the song is liked by the user');
+  try {
+    const [rows] = await pool.query(
+      `SELECT * 
+      FROM TRACK
+      WHERE trackID = ? AND activeSong = 1
+      `
+      ,[trackID]
+    );
+
+    // If rows are returned, it means the song is liked
+    return rows.length > 0;
+  } catch (err) {
+    console.error('Database error:', err.message);
+    throw err;
+  }
+}
+
+export async function isAlbumActive(albumName) {
+  try {
+    const [rows] = await pool.query(
+      `SELECT COUNT(*) AS totalSongs
+      FROM TRACK
+      WHERE albumName = ? AND activeSong = 1`,
+      [albumName]
+    );
+
+    const totalSongs = rows[0].totalSongs;
+
+    // If the number of active songs is equal to the total number of songs, then all songs are active
+    return totalSongs > 0;
+  } catch (err) {
+    console.error('Database error:', err.message);
+    throw err;
+  }
+}
+
+export async function songActivatation(trackID) {
+  try {
+    const [rows] = await pool.query(
+      `UPDATE TRACK
+      SET activeSong = 1
+      WHERE trackID = ?`,
+      [trackID]
+    );
+
+    // If the number of active songs is equal to the total number of songs, then all songs are active
+    return rows > 0;
+  } catch (err) {
+    console.error('Database error:', err.message);
+    throw err;
+  }
+}
+
+export async function songDeactivatation(trackID) {
+  try {
+    const [rows] = await pool.query(
+      `UPDATE TRACK
+      SET activeSong = 0
+      WHERE trackID = ?`,
+      [trackID]
+    );
+
+    // If the number of active songs is equal to the total number of songs, then all songs are active
+    return rows > 0;
+  } catch (err) {
+    console.error('Database error:', err.message);
+    throw err;
+  }
+}
+
+export async function albumActivatation(albumName) {
+  try {
+    const [rows] = await pool.query(
+      `UPDATE TRACK
+      SET activeSong = 1
+      WHERE albumName = ?`,
+      [albumName]
+    );
+
+    // If the number of active songs is equal to the total number of songs, then all songs are active
+    return rows > 0;
+  } catch (err) {
+    console.error('Database error:', err.message);
+    throw err;
+  }
+}
+
+export async function albumDeactivatation(albumName) {
+  try {
+    const [rows] = await pool.query(
+      `UPDATE TRACK
+      SET activeSong = 0
+      WHERE albumName = ?`,
+      [albumName]
+    );
+
+    // If the number of active songs is equal to the total number of songs, then all songs are active
+    return rows > 0;
+  } catch (err) {
+    console.error('Database error:', err.message);
+    throw err;
+  }
+}

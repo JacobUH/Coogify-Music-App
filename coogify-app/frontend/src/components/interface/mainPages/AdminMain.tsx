@@ -35,16 +35,6 @@ export const AdminMain = () => {
             <span className="text-3xl font-semibold">Create Admin Account</span>
           </Link>
 
-          {/* Edit User/Artist Account */}
-          <Link
-            to="/editAccount"
-            className="w-full bg-[#575656] text-center text-white py-9 rounded-xl shadow-lg hover:bg-green-600 transition duration-300"
-          >
-            <span className="text-3xl font-semibold">
-              Edit Specific Account
-            </span>
-          </Link>
-
           {/* Edit Song/Album Access */}
           <Link
             to="/editMusic"

@@ -137,10 +137,10 @@ const SongContextMenu: React.FC<Props> = ({
   return (
     <div
       className="absolute"
-      style={{ top: clickPosition.y - 195, left: clickPosition.x - 5 }}
+      style={{ top: clickPosition.y - 145, left: clickPosition.x - 5 }}
     >
       <div
-        className="text-center font-color-red-500 w-[100px] h-[200px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
+        className="text-center font-color-red-500 w-[100px] h-[150px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
         onMouseLeave={() => setHideCard(true)}
       >
         <button
@@ -186,17 +186,6 @@ const SongContextMenu: React.FC<Props> = ({
             Like Song
           </button>
         )}
-
-        <button
-          className="hover:bg-[#656262] text-xs m-2 px-3"
-          onClick={() => {
-            console.log('add to playlist button clicked');
-            handleAddSong();
-            setHideCard(true);
-          }}
-        >
-          Add to Playlist
-        </button>
       </div>
       {showPlaylistPopup && (
         <SelectPlaylistPopup

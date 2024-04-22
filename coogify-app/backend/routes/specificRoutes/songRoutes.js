@@ -1,5 +1,5 @@
 import { getUserFromSession } from "../../database/queries/dbAuthQueries.js";
-import { insertLikedSong, removeLikedSong, isSongLiked, recordPlay } from "../../database/queries/dbSongQueries.js";
+import { insertLikedSong, removeLikedSong, isSongLiked, recordPlay, isSongActive, isAlbumActive, songActivatation, songDeactivatation, albumActivatation, albumDeactivatation  } from "../../database/queries/dbSongQueries.js";
 import { extractUserID } from "../../util/utilFunctions.js";
 
 export async function likeSong(req, res) {
@@ -72,6 +72,115 @@ export async function checkSongLiked(req, res) {
         }
     } catch (error) {
         console.error('Error during checking song:', error);
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('Internal server error.');
+    }
+}
+
+export async function checkSongActive(req, res) {
+    const { trackID } = req.body;
+    try {
+        const result = await isSongActive(trackID);
+        if (result) {
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end('true'); // Convert boolean to string
+        } else {
+            res.writeHead(200, { 'Content-Type': 'text/plain' }); // Use 200 for success
+            res.end('false'); // Convert boolean to string
+        }
+    } catch (error) {
+        console.error('Error during checking song:', error);
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('Internal server error.');
+    }
+}
+
+export async function checkAlbumActive(req, res) {
+    const { albumName } = req.body;
+    try {
+        const result = await isAlbumActive(albumName);
+        if (result) {
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end('true'); // Convert boolean to string
+        } else {
+            res.writeHead(200, { 'Content-Type': 'text/plain' }); // Use 200 for success
+            res.end('false'); // Convert boolean to string
+        }
+    } catch (error) {
+        console.error('Error during checking album:', error);
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('Internal server error.');
+    }
+}
+
+export async function activateSong(req, res) {
+    const { trackID } = req.body;
+    try {
+        const result = await songActivatation(trackID);
+        if (result) {
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end('true'); // Convert boolean to string
+        } else {
+            res.writeHead(200, { 'Content-Type': 'text/plain' }); // Use 200 for success
+            res.end('false'); // Convert boolean to string
+        }
+    } catch (error) {
+        console.error('Error during checking album:', error);
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('Internal server error.');
+    }
+}
+
+export async function deactivateSong(req, res) {
+    const { trackID } = req.body;
+    try {
+        const result = await songDeactivatation(trackID);
+        if (result) {
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end('true'); // Convert boolean to string
+        } else {
+            res.writeHead(200, { 'Content-Type': 'text/plain' }); // Use 200 for success
+            res.end('false'); // Convert boolean to string
+        }
+    } catch (error) {
+        console.error('Error during checking album:', error);
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('Internal server error.');
+    }
+}
+ 
+
+export async function activateAlbum(req, res) {
+    const { albumName } = req.body;
+    try {
+        const result = await albumActivatation(albumName);
+        if (result) {
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end('true'); // Convert boolean to string
+        } else {
+            res.writeHead(200, { 'Content-Type': 'text/plain' }); // Use 200 for success
+            res.end('false'); // Convert boolean to string
+        }
+    } catch (error) {
+        console.error('Error during checking album:', error);
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('Internal server error.');
+    }
+}
+
+export async function deactivateAlbum(req, res) {
+    const { albumName } = req.body;
+    try {
+        const result = await albumDeactivatation(albumName);
+        if (result) {
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end('true'); // Convert boolean to string
+        } else {
+            res.writeHead(200, { 'Content-Type': 'text/plain' }); // Use 200 for success
+            res.end('false'); // Convert boolean to string
+        }
+    } catch (error) {
+        console.error('Error during checking album:', error);
         res.writeHead(500, { 'Content-Type': 'text/plain' });
         res.end('Internal server error.');
     }

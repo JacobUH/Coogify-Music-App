@@ -74,14 +74,6 @@ export const AdminUserReportMain = () => {
   const [minTransaction, setMinTransaction] = useState('');
   const [maxTransaction, setMaxTransaction] = useState('');
 
-  //  ADDITIONAL STATES IN TABLES
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [totRevenue, setTotRevenue] = useState('');
-  const [totPlaylists, setTotPlaylists] = useState('');
-  const [numSessions, setNumSessions] = useState('');
-  const [dateCreated, setDateCreated] = useState('');
-
   // TABLE OUTPUT
   const [userTable, setUserTable] = useState<Table[]>([]);
 
