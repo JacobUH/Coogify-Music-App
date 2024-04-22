@@ -160,7 +160,7 @@ export const ExtendedLikedSongs = ({ title }: Props) => {
           style={{ top: clickPosition.y - 195, left: clickPosition.x - 5 }}
         >
           <div
-            className="text-center font-color-red-500 w-[100px] h-[200px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
+            className="text-center font-color-red-500 w-[100px] h-[150px] bg-[rgba(33,32,32,0.8)] p-1 rounded-lg"
             onMouseLeave={handleMouseLeave}
           >
             <button
@@ -196,7 +196,7 @@ export const ExtendedLikedSongs = ({ title }: Props) => {
             >
               Unlike Song
             </button>
-            <button
+            {/* <button
               className="hover:bg-[#656262] text-xs m-2 px-3"
               onClick={() => {
                 console.log('add to playlist button clicked');
@@ -204,7 +204,7 @@ export const ExtendedLikedSongs = ({ title }: Props) => {
               }}
             >
               Add to Playlist
-            </button>
+            </button> */}
           </div>
         </div>
       )}
