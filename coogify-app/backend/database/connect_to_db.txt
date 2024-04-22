@@ -1,1 +1,5 @@
+connecting to db:
 mysql -h coogify-database.cj6qgki6g237.us-east-2.rds.amazonaws.com -u admin -p
+
+mysql dump:
+mysqldump -h coogify-database.cj6qgki6g237.us-east-2.rds.amazonaws.com -u admin -p coogify > backup.sql
