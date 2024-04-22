@@ -174,9 +174,8 @@ export const AdminUserReportMain = () => {
             </div>
           </div>
 
-          {/* Generate Report Button and Inputs */}
-          <div className="flex flex-wrap justify-center gap-32 w-full mt-3">
-            <div className="flex flex-col justify-center items-center">
+          {/* 
+          <div className="flex flex-col justify-center items-center">
               <div className="text-xs">Min Transaction Amount</div>
               <input
                 type="text"
@@ -197,10 +196,12 @@ export const AdminUserReportMain = () => {
                 onChange={(e) => setMaxTransaction(e.target.value)}
               />
             </div>
-
+          */}
+          {/* Generate Report Button and Inputs */}
+          <div className="flex flex-wrap justify-center gap-32 w-full mt-3">
             <div className="flex flex-col justify-end items-end">
               <button
-                className="bg-[#9E67E4] text-white text-bold h-12 w-full font-bold py-2 px-14 rounded"
+                className="bg-[#9E67E4] text-white text-bold h-12 w-full font-bold py-2 px-[650px] rounded"
                 onClick={handleGenerate}
               >
                 Generate Report

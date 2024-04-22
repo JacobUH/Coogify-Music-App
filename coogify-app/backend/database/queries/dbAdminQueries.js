@@ -36,17 +36,18 @@ export async function createAdminUserReport(role, subscription, startDate, endDa
     let queryParams = [];
 
     // User Role
-    if (role) {
-      let isArtist = 0;
-      let isAdmin = 0;
-      if (role === "Artist") {
-        isArtist = 1;
-      } else if (role === "Admin") {
-        isAdmin = 1;
-      }
-      whereConditions += 'AND USER.isArtist = ? AND USER.isAdmin = ? ';
-      queryParams.push(isArtist, isAdmin);
-    }
+if (role) {
+  let isArtist = 0;
+  let isAdmin = 0;
+  if (role === "Artist") {
+    isArtist = 1;
+  } else if (role === "Admin") {
+    isAdmin = 1;
+  }
+  whereConditions += 'AND USER.isArtist = ? AND USER.isAdmin = ? ';
+  queryParams.push(isArtist, isAdmin);
+}
+
 
     // Subscription Type
     if (subscription) {
@@ -68,17 +69,29 @@ export async function createAdminUserReport(role, subscription, startDate, endDa
       queryParams.push(startDate, endDate);
     }
 
+    // Transaction Total
+    if (minTransaction && !maxTransaction){
+      whereConditions += 'AND totalTransactionsAmount >= ?'
+      queryParams.push(parseInt(minTransaction));
+    }
+    if (!minTransaction && maxTransaction){
+      whereConditions += 'AND totalTransactionsAmount >= ?'
+      queryParams.push(parseInt(maxTransaction));
+    }
+    if (minTransaction && maxTransaction){
+      whereConditions += 'AND totalTransactionsAmount BETWEEN ? AND ?'
+  queryParams.push(parseInt(minTransaction), parseInt(maxTransaction));
+    }
+
     const [rows] = await pool.query(`
     SELECT
     CASE
-      WHEN USER.isArtist = 1 AND USER.isAdmin = 0 THEN 'Artist'
-      WHEN USER.isArtist = 0 AND USER.isAdmin = 1 THEN 'Admin'
-      ELSE 'Listener'
+        WHEN USER.isArtist = 1 AND USER.isAdmin = 0 THEN 'Artist'
+        WHEN USER.isArtist = 0 AND USER.isAdmin = 1 THEN 'Admin'
+        ELSE 'Listener'
     END AS role,
     CONCAT(USER.firstName, ' ', USER.lastName) AS fullName,
-    USER.email, 
-    SUBSCRIPTION.subscriptionType, 
-    USER.dateCreated,
+    USER.email, SUBSCRIPTION.subscriptionType, USER.dateCreated,
     (
       SELECT SUM(transactionAmount)
       FROM TRANSACTION
@@ -86,22 +99,19 @@ export async function createAdminUserReport(role, subscription, startDate, endDa
       WHERE SUBSCRIPTION.userID = USER.userID
     ) AS totalTransactionsAmount,      
     (
-        SELECT COUNT(playlistID)
-        FROM PLAYLIST
-        WHERE PLAYLIST.userID = USER.userID
+      SELECT COUNT(playlistID)
+      FROM PLAYLIST
+      WHERE PLAYLIST.userID = USER.userID
     ) AS totalPlaylistIDs,
     (
-        SELECT COUNT(session_id)
-        FROM SESSION
-        WHERE SESSION.user_id = USER.userID
+      SELECT COUNT(session_id)
+      FROM SESSION
+      WHERE SESSION.user_id = USER.userID
     ) AS totalSessionIDs
     FROM USER
     JOIN SUBSCRIPTION ON USER.userID = SUBSCRIPTION.userID
-    WHERE 1=1
-    ${minTransaction ? 'AND (SELECT SUM(transactionAmount) FROM TRANSACTION JOIN SUBSCRIPTION ON TRANSACTION.subscriptionID = SUBSCRIPTION.subscriptionID WHERE SUBSCRIPTION.userID = USER.userID) >= ?' : ''}
-    ${maxTransaction ? 'AND (SELECT SUM(transactionAmount) FROM TRANSACTION JOIN SUBSCRIPTION ON TRANSACTION.subscriptionID = SUBSCRIPTION.subscriptionID WHERE SUBSCRIPTION.userID = USER.userID) <= ?' : ''}
     ${whereConditions}
-    `, [minTransaction ? parseInt(minTransaction) : null, maxTransaction ? parseInt(maxTransaction) : null].concat(queryParams));
+  `, queryParams);
 
     console.log(rows);
     return rows;
