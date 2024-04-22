@@ -80,7 +80,11 @@ import {
   deleteAlbum,
   updateSong,
 } from './specificRoutes/updateRoutes.js';
-import { getNotifications } from './specificRoutes/homeRoutes.js';
+import {
+  getNotifications,
+  readNotifications,
+} from './specificRoutes/homeRoutes.js';
+import { read } from 'fs/promises';
 
 // Define the handlers object
 const handlers = {
@@ -166,6 +170,7 @@ const handlers = {
       artistSongsFromAlbum: artistSongsFromAlbum,
       addDeletedMusic: addDeletedMusic,
     },
+    readNotifications: readNotifications,
     notifications: getNotifications,
     profile: {
       fetchProfile: fetchUserProfile,

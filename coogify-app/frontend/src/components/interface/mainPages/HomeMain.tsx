@@ -53,43 +53,44 @@ export const HomeMain = () => {
     fetchUserCredentials();
 
     // Load notifications from localStorage if available
-    const storedNotifications = localStorage.getItem('notifications');
-    if (storedNotifications) {
-      const parsedNotifications = JSON.parse(storedNotifications);
-      setNotifications(parsedNotifications);
-      setShowNotifications(true);
-      fetchNotificationsIfNeeded(parsedNotifications);
-    } else {
-      fetchNotifications();
-    }
+    // const storedNotifications = localStorage.getItem('notifications');
+    // if (storedNotifications) {
+    //   const parsedNotifications = JSON.parse(storedNotifications);
+    //   setNotifications(parsedNotifications);
+    //   setShowNotifications(true);
+    //   // fetchNotificationsIfNeeded(parsedNotifications);
+    // } else {
+    //   fetchNotifications();
+    // }
+    fetchNotifications();
   }, []);
 
-  const fetchNotificationsIfNeeded = async (storedNotifications: any[]) => {
-    try {
-      const response = await axios.get(`${backendBaseUrl}/api/notifications`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      const newNotifications = response.data.filter(
-        (notification: any) =>
-          !storedNotifications.some(
-            (storedNotification) =>
-              storedNotification.notificationID === notification.notificationID
-          )
-      );
-      if (newNotifications.length > 0) {
-        setNotifications([...storedNotifications, ...newNotifications]);
-        localStorage.setItem(
-          'notifications',
-          JSON.stringify([...storedNotifications, ...newNotifications])
-        );
-      }
-    } catch (error) {
-      console.error('Error fetching notifications:', error);
-    }
-  };
+  // const fetchNotificationsIfNeeded = async (storedNotifications: any[]) => {
+  //   try {
+  //     const response = await axios.get(`${backendBaseUrl}/api/notifications`, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+  //     const newNotifications = response.data.filter(
+  //       (notification: any) =>
+  //         !storedNotifications.some(
+  //           (storedNotification) =>
+  //             storedNotification.notificationID === notification.notificationID
+  //         )
+  //     );
+  //     if (newNotifications.length > 0) {
+  //       setNotifications([...storedNotifications, ...newNotifications]);
+  //       localStorage.setItem(
+  //         'notifications',
+  //         JSON.stringify([...storedNotifications, ...newNotifications])
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching notifications:', error);
+  //   }
+  // };
 
   const fetchNotifications = async () => {
     try {
@@ -99,18 +100,28 @@ export const HomeMain = () => {
           'Content-Type': 'application/json',
         },
       });
+      console.log('Notifications: ', response.data);
       setNotifications(response.data);
       // Store notifications in localStorage
-      localStorage.setItem('notifications', JSON.stringify(response.data));
+      // localStorage.setItem('notifications', JSON.stringify(response.data));
       setShowNotifications(true);
     } catch (error) {
       console.error('Error fetching notifications:', error);
     }
   };
 
-  const handleDismiss = () => {
+  const handleDismiss = async () => {
     // Remove notifications from localStorage
-    localStorage.removeItem('notifications');
+    // localStorage.removeItem('notifications');
+    const response = await axios.get(
+      `${backendBaseUrl}/api/readNotifications`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
     setShowNotifications(false);
   };
 

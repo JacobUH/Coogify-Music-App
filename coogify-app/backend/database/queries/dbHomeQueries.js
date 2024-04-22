@@ -88,21 +88,24 @@ export async function selectNotifications(userID) {
       WHERE userID = ? AND isRead = 0;
     `;
     const [rows] = await pool.query(querySelect, [userID]);
+    return rows;
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    return false;
+  }
+}
 
-    // Mark notifications as read
-    const notificationIDs = rows.map((row) => row.notificationID);
-    if (notificationIDs.length > 0) {
-      const queryUpdate = `
+export async function insertReadNotifications(userID) {
+  try {
+    const queryUpdate = `
         UPDATE NOTIFICATIONS
         SET isRead = 1
         WHERE notificationID IN (?);
       `;
-      await pool.query(queryUpdate, [notificationIDs]);
-    }
-
-    return rows;
+    await pool.query(queryUpdate, [userID]);
+    return true;
   } catch (error) {
-    console.error('Error fetching notifications:', error);
+    console.error('Error seting read notifications:', error);
     return false;
   }
 }

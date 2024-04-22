@@ -105,3 +105,21 @@ export async function getNotifications(req, res) {
     errorMessage(res, error, 'Error fetching notifications');
   }
 }
+
+
+// TODO
+export async function readNotifications(req, res) {
+  try {
+    const userID = await extractUserID(req);
+    const notifications = await selectNotifications(userID);
+
+    if (notifications !== false) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(notifications));
+    } else {
+      errorMessage(res, 'Error fetching notifications', 'Error');
+    }
+  } catch (error) {
+    errorMessage(res, error, 'Error fetching notifications');
+  }
+}
