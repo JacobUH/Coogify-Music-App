@@ -5,14 +5,11 @@ import backendBaseUrl from '../../../apiConfig';
 import axios from 'axios';
 
 interface Table {
-  userRole: string;
-  fullName: string;
-  email: string;
-  subType: string;
-  totRevenue: number;
-  numPlaylists: number;
-  numSessions: number;
-  dateCreated: string;
+  date: string;
+  totalRevenue: number;
+  totalSessions: number;
+  totalAccounts: number;
+  totalLikes: number;
 }
 
 export const AdminFinanceReportMain = () => {
@@ -32,30 +29,16 @@ export const AdminFinanceReportMain = () => {
     console.log(
       'Request data:',
       JSON.stringify({
-        role: userRole,
-        name: fullName,
-        email: email,
-        subscription: subType,
-        revenue: totRevenue,
-        playlists: totPlaylists,
-        sessions: numSessions,
-        date: dateCreated,
+        minTotalRev: minTotalRev,
+        maxTotalRev: maxTotalRev,
         startDate: startDate,
         endDate: endDate,
       })
     );
     try {
       const response = await axios.post(
-        `${backendBaseUrl}/api/admin/adminUserReport`,
+        `${backendBaseUrl}/api/admin/adminFinanceReport`,
         {
-          role: userRole,
-          name: fullName,
-          email: email,
-          subscription: subType,
-          revenue: totRevenue,
-          playlists: totPlaylists,
-          sessions: numSessions,
-          date: dateCreated,
           startDate: startDate,
           endDate: endDate,
         },
@@ -73,21 +56,14 @@ export const AdminFinanceReportMain = () => {
     }
   };
 
-  // USESTATES
-  const [userRole, setUserRole] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [subType, setSubType] = useState('');
-  const [totRevenue, setTotRevenue] = useState('');
-  const [totPlaylists, setTotPlaylists] = useState('');
-  const [numSessions, setNumSessions] = useState('');
-  const [dateCreated, setDateCreated] = useState('');
-
+  // USESTATES USED IN GENERATE REPORT / TABLES
+  const [minTotalRev, setMinRevenue] = useState('');
+  const [maxTotalRev, setMaxRevenue] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
-  const [maxTransaction, setMaxTransaction] = useState('');
-  const [minTransaction, setMinTransaction] = useState('');
+  // TABLE OUTPUT
+  const [userTable, setUserTable] = useState<Table[]>([]);
 
   return (
     <div
@@ -111,23 +87,25 @@ export const AdminFinanceReportMain = () => {
           <div className="flex flex-wrap justify-center gap-32 w-full">
             {/* DROP DOWNS */}
             <div className="flex flex-col justify-center items-center">
-              <div className="text-xs">Role</div>
-              <select
-                className="bg-white text-black h-12 w-60 font-bold py-2 px-4 rounded"
-                onChange={(e) => setUserRole(e.target.value)}
-              >
-                {/* Options */}
-              </select>
+              <div className="text-xs">Min Total Revenue Amount</div>
+              <input
+                type="text"
+                placeholder="Enter min amount"
+                className="bg-white text-black text-sm h-12 w-60 font-bold py-3 px-4 rounded"
+                value={minTotalRev}
+                onChange={(e) => setMinRevenue(e.target.value)}
+              />
             </div>
 
             <div className="flex flex-col justify-center items-center">
-              <div className="text-xs">Subscription Type</div>
-              <select
-                className="bg-white text-black h-12 w-60 font-bold py-2 px-4 rounded"
-                onChange={(e) => setSubType(e.target.value)}
-              >
-                {/* Options */}
-              </select>
+              <div className="text-xs">Max Total Revenue Amount</div>
+              <input
+                type="text"
+                placeholder="Enter max amount"
+                className="bg-white text-black text-sm h-12 w-60 font-bold py-3 px-4 rounded"
+                value={maxTotalRev}
+                onChange={(e) => setMaxRevenue(e.target.value)}
+              />
             </div>
 
             {/* INPUTS */}
@@ -155,53 +133,18 @@ export const AdminFinanceReportMain = () => {
           </div>
 
           {/* Generate Report Button and Inputs */}
-          <div className="flex flex-wrap justify-center gap-32 w-full">
-            <div className="flex flex-col justify-center items-center">
-              <div className="text-xs">Min Transaction Amount</div>
-              <input
-                type="text"
-                placeholder="Enter min amount"
-                className="bg-white text-black text-sm h-12 w-60 font-bold py-3 px-4 rounded"
-                value={minTransaction}
-                onChange={(e) => setMinTransaction(e.target.value)}
-              />
-            </div>
-
-            <div className="flex flex-col justify-center items-center">
-              <div className="text-xs">Max Transaction Amount</div>
-              <input
-                type="text"
-                placeholder="Enter max amount"
-                className="bg-white text-black text-sm h-12 w-60 font-bold py-3 px-4 rounded"
-                value={maxTransaction}
-                onChange={(e) => setMaxTransaction(e.target.value)}
-              />
-            </div>
-
-            <div className="flex flex-col justify-center items-center">
-              <div className="text-xs">Number of Sessions</div>
-              <input
-                type="text"
-                placeholder="Enter number of sessions"
-                className="bg-white text-black text-sm h-12 w-60 font-bold py-3 px-4 rounded"
-                value={numSessions}
-                onChange={(e) => setNumSessions(e.target.value)}
-              />
-            </div>
-
+          <div className="flex flex-wrap justify-center gap-32 w-full mt-3">
             <div className="flex flex-col justify-end items-end">
               <button
-                className="bg-[#9E67E4] text-white text-bold h-12 w-full font-bold py-2 px-14 rounded"
+                className="bg-[#9E67E4] text-white text-bold h-12 w-full font-bold py-2 px-[650px] rounded"
                 onClick={handleGenerate}
               >
                 Generate Report
               </button>
             </div>
           </div>
-
           {/* Table */}
           <div className="px-0.5 mt-12">
-            {' '}
             {/* TABLE USER SUBSCRIPTION REPORT */}
             <table className="border-collapse border-2 w-full text-sm table-fixed">
               {/* All 8 columns here */}
@@ -220,21 +163,21 @@ export const AdminFinanceReportMain = () => {
               {/* Rows */}
               <tbody className="text-black text-center">
                 {adminTable.map((tuple: Table) => (
-                  <tr key={tuple.userRole}>
+                  <tr key={tuple.date}>
                     <td className="border-black bg-[#F1F3F4] py-3 px-6">
-                      {new Date(tuple.dateCreated).toLocaleDateString('en-US')}
+                      {new Date(tuple.date).toLocaleDateString('en-US')}
                     </td>
                     <td className="border-black bg-[#F1F3F4] py-3 px-6">
-                      {tuple.fullName}
+                      {tuple.totalRevenue}
                     </td>
                     <td className="border-black bg-[#F1F3F4] py-3 px-6">
-                      {tuple.email}
+                      {tuple.totalSessions}
                     </td>
                     <td className="border-black bg-[#F1F3F4] py-3 px-6">
-                      {tuple.subType}
+                      {tuple.totalAccounts}
                     </td>
                     <td className="border-black bg-[#F1F3F4] py-3 px-6">
-                      {tuple.totRevenue}
+                      {tuple.totalLikes}
                     </td>
                   </tr>
                 ))}

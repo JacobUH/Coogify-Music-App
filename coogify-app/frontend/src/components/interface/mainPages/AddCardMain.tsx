@@ -63,7 +63,7 @@ export const AddCardMain = () => {
         </div>
         <div className="w-full rounded-xl md:h-[calc(100vh-140px)] h-auto flex flex-col items-center gap-5 px-5 md:py-5 pb-20 pt-5">
           {/* Work in here */}
-          <div className="flex p-10 px-24 bg-[#656262] gap-y-12 text-white rounded-xl">
+          <div className="flex p-10 px-24 bg-[#656262] gap-y-12 text-white rounded-xl overflow-y-auto">
             <div className="text-left">
               <div className="mb-4">
                 <label className="block bg-[#9E67E4] text-sm font-bold mb-2">

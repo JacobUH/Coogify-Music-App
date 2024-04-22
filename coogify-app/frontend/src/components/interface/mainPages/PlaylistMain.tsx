@@ -456,7 +456,6 @@ export const PlaylistMain = () => {
                 <div className="flex flex-col flex-grow">
                   <div className="text-lg">Title</div>
                 </div>
-                <div className="text-sm text-gray-400">Duration</div>
               </div>
               <div className="border-b border-gray-300"></div>
 
@@ -478,9 +477,6 @@ export const PlaylistMain = () => {
                     <div className="text-lg text-[#BA85FE]">
                       {song.artistName}
                     </div>
-                  </div>
-                  <div className="text-sm text-gray-400">
-                    {formatDuration(song.duration)}
                   </div>
                 </div>
               ))}

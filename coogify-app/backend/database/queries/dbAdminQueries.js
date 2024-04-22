@@ -120,3 +120,32 @@ if (role) {
     throw new Error('Error creating admin user metric report (query)');
   }
 }
+
+
+export async function createAdminFinanceReport(minTotalRev, maxTotalRev, startDate, endDate) {
+  try {
+    const [rows] = await pool.query(`
+      SELECT
+        DATE_FORMAT(revenue_query.tDate, '%Y-%m-%d') AS date,
+        revenue_query.TotalRevenue AS totalRevenue,
+        COUNT(DISTINCT s.session_id) AS totalSessions,
+        COUNT(DISTINCT u.userID) AS totalAccounts,
+        COUNT(DISTINCT tl.trackLikedID) AS totalLikes
+      FROM (
+        SELECT DATE(t.tDate) AS tDate, SUM(t.transactionAmount) AS TotalRevenue
+        FROM TRANSACTION t
+        GROUP BY DATE(t.tDate)
+      ) AS revenue_query
+      LEFT JOIN SESSION s ON DATE(revenue_query.tDate) = DATE(s.created_at)
+      LEFT JOIN USER u ON DATE(revenue_query.tDate) = DATE(u.dateCreated)
+      LEFT JOIN TRACK_LIKED tl ON DATE(revenue_query.tDate) = DATE(tl.dateLiked)
+      GROUP BY revenue_query.tDate, revenue_query.TotalRevenue;
+    `);
+
+    console.log(rows);
+    return rows;
+  } catch (err) {
+    console.error('Error executing admin daily performance report:', err);
+    throw new Error('Error creating admin daily performance report (query)');
+  }
+}
