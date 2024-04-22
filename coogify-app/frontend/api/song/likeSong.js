@@ -1,0 +1,28 @@
+import { getUserFromSession } from '../../backend_util/database/queries/dbAuthQueries.js';
+import { insertLikedSong } from '../../backend_util/database/queries/dbSongQueries.js';
+import jsonParserMiddleware from '../../backend_util/middlewares/jsonParser.js';
+import authenticateMiddleware from '../../backend_util/middlewares/authenticate.js';
+
+export default async function handler(req, res) {
+  jsonParserMiddleware(req, res, async () => {
+    authenticateMiddleware(req, res, async () => {
+      const { trackID, sessionToken } = req.body;
+      const userID = await getUserFromSession(sessionToken);
+      console.log('userID: ', userID);
+      try {
+        const result = await insertLikedSong(trackID, userID);
+        if (result) {
+          res.writeHead(200, { 'Content-Type': 'text/plain' });
+          res.end('Song added to liked songs');
+        } else {
+          res.writeHead(404, { 'Content-Type': 'text/plain' });
+          res.end('Song could not be added to liked songs');
+        }
+      } catch (error) {
+        console.error('Error during liking song:', error);
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('Internal server error.');
+      }
+    });
+  });
+}

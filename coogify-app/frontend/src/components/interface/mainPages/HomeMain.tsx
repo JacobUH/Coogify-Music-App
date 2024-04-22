@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import backendBaseUrl from '../../../apiConfig';
 import axios from 'axios';
 import { useState } from 'react';
+import { Notifications } from '../elements/notificationsPopup';
 
 interface User {
   userID: number;
@@ -28,8 +29,8 @@ interface Song {
 
 export const HomeMain = () => {
   const [userCreds, setUserCreds] = useState<User[]>([]);
-
-  const storedToken = localStorage.getItem('sessionToken');
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [showNotifications, setShowNotifications] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserCredentials = async () => {
@@ -38,7 +39,7 @@ export const HomeMain = () => {
           `${backendBaseUrl}/api/user/userCredentials`,
           {
             headers: {
-              Authorization: `Bearer ${storedToken}`,
+              Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
               'Content-Type': 'application/json',
             },
           }
@@ -50,13 +51,80 @@ export const HomeMain = () => {
       }
     };
     fetchUserCredentials();
+
+    // Load notifications from localStorage if available
+    const storedNotifications = localStorage.getItem('notifications');
+    if (storedNotifications) {
+      const parsedNotifications = JSON.parse(storedNotifications);
+      setNotifications(parsedNotifications);
+      setShowNotifications(true);
+      fetchNotificationsIfNeeded(parsedNotifications);
+    } else {
+      fetchNotifications();
+    }
   }, []);
+
+  const fetchNotificationsIfNeeded = async (storedNotifications: any[]) => {
+    try {
+      const response = await axios.get(`${backendBaseUrl}/api/notifications`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const newNotifications = response.data.filter(
+        (notification: any) =>
+          !storedNotifications.some(
+            (storedNotification) =>
+              storedNotification.notificationID === notification.notificationID
+          )
+      );
+      if (newNotifications.length > 0) {
+        setNotifications([...storedNotifications, ...newNotifications]);
+        localStorage.setItem(
+          'notifications',
+          JSON.stringify([...storedNotifications, ...newNotifications])
+        );
+      }
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await axios.get(`${backendBaseUrl}/api/notifications`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('sessionToken')}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      setNotifications(response.data);
+      // Store notifications in localStorage
+      localStorage.setItem('notifications', JSON.stringify(response.data));
+      setShowNotifications(true);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+
+  const handleDismiss = () => {
+    // Remove notifications from localStorage
+    localStorage.removeItem('notifications');
+    setShowNotifications(false);
+  };
 
   return (
     <div
       className="text-white md:pl-[400px] pl-4 px-5 flex flex-col w-full gap-5"
       style={{ maxHeight: 'calc(100vh - 211px)' }}
     >
+      {notifications.length > 0 && showNotifications && (
+        <Notifications
+          notifications={notifications}
+          onDismiss={handleDismiss}
+        />
+      )}
       <div className="bg-gradient-to-t from-[#3E3C3C] from-85% to-[#9E67E4] to-100% rounded-md overflow-auto">
         <div className="flex flex-col text-[40px] gap-5 px-5 md:py-5 pb-20 pt-5">
           <span>

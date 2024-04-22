@@ -114,7 +114,7 @@ export const AccountDropdown = () => {
                 )}
               <div
                 className="hover:text-[#bf8fff] block m-2 px-3 py-3 hover:bg-[#656262]"
-                onClick={handleLogout} // here chatGPT
+                onClick={handleLogout}
               >
                 Logout
               </div>
