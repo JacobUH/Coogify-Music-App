@@ -13,8 +13,8 @@ Welcome to the repository for the COSC 3380 Database class project. This applica
 ## Project Overview
 
 <p align="center">
-  <a href="https://ibb.co/WzQwD8c"><img src="https://i.ibb.co/HP0sNwr/Screenshot-2024-04-23-at-3-02-05-AM.png" alt="Screenshot-2024-04-23-at-3-02-05-AM" border="0" width="400" height="250" style="margin-right: 20px;"></a>
-  <a href="https://ibb.co/ncWj3XZ"><img src="https://i.ibb.co/jMpDVCB/Screenshot-2024-04-23-at-2-52-35-AM.png" alt="Screenshot-2024-04-23-at-2-52-35-AM" border="0" width="400" height="250" style="margin-left: 20px;"></a>
+  <a href="https://ibb.co/WzQwD8c"><img src="https://i.ibb.co/HP0sNwr/Screenshot-2024-04-23-at-3-02-05-AM.png" alt="Screenshot-2024-04-23-at-3-02-05-AM" border="0" width="400" height="250" style="margin-right: 60px;"></a>
+  <a href="https://ibb.co/ncWj3XZ"><img src="https://i.ibb.co/jMpDVCB/Screenshot-2024-04-23-at-2-52-35-AM.png" alt="Screenshot-2024-04-23-at-2-52-35-AM" border="0" width="400" height="250" style="margin-left: 60px;"></a>
 </p>
 
 <p align="center">
