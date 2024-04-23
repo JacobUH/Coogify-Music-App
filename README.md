@@ -21,7 +21,14 @@ Our project aims to display the uses of topics of database systems whether for s
 
 ## Getting Started
 
-Please read the README.md files for each Directory to make sure that you properly understand how each works in order to fully utilize applications or concepts within.
+ - go to ```TeamProject3380/coogify-app/backend/.env```
+   - change the ```SERVER_HOST = '3.18.22.13'``` to ```SERVER_HOST = 'your host (localhost)'```
+   - if you wish to use your own database, then change ```MYSQL_HOST = 'coogify-database.cj6qgki6g237.us-east-2.rds.amazonaws.com'``` to ```MYSQL_HOST = 'your database host'```
+     - (if you change the MYSQL_HOST, you also need to change the MYSQL_USER, MYSQL_PASSWORD, and MYSQL_DATABASE)
+ - go to ```TeamProject3380/coogify-app/frontend/src/apiConfig.ts```
+   - change ```const backendBaseUrl = 'http://3.18.22.13:3001'``` to ```const backendBaseUrl = 'http://${your url (localhost)}:3001';```
+ - in your terminal go into the ```./coogify-app``` folder
+   - run ```./run-for-uma.sh```
 
 ## Contribution Guidelines
 
