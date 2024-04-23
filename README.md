@@ -13,15 +13,19 @@ Welcome to the repository for the COSC 3380 Database class project. This applica
 ## Project Overview
 
 <p align="center">
-<a href="https://ibb.co/ncWj3XZ"><img src="https://i.ibb.co/jMpDVCB/Screenshot-2024-04-23-at-2-52-35-AM.png" alt="Screenshot-2024-04-23-at-2-52-35-AM" border="0"></a>
-<a href="https://ibb.co/WzQwD8c"><img src="https://i.ibb.co/HP0sNwr/Screenshot-2024-04-23-at-3-02-05-AM.png" alt="Screenshot-2024-04-23-at-3-02-05-AM" border="0"></a>
-<a href="https://ibb.co/26mZBzt"><img src="https://i.ibb.co/0X8s30M/Screenshot-2024-04-23-at-3-01-55-AM.png" alt="Screenshot-2024-04-23-at-3-01-55-AM" border="0"></a>
-<a href="https://ibb.co/njXYY8X"><img src="https://i.ibb.co/VTFzzpF/Screenshot-2024-04-23-at-2-58-31-AM.png" alt="Screenshot-2024-04-23-at-2-58-31-AM" border="0"></a>
-<a href="https://ibb.co/nD3d1Tv"><img src="https://i.ibb.co/FBsZY9M/Screenshot-2024-04-23-at-2-56-29-AM.png" alt="Screenshot-2024-04-23-at-2-56-29-AM" border="0"></a>
-<a href="https://ibb.co/4Ph2rkm"><img src="https://i.ibb.co/RzRNw8v/Screenshot-2024-04-23-at-2-54-45-AM.png" alt="Screenshot-2024-04-23-at-2-54-45-AM" border="0"></a>
-<a href="https://ibb.co/Lx0bQwc"><img src="https://i.ibb.co/D91sGXv/Screenshot-2024-04-23-at-2-53-58-AM.png" alt="Screenshot-2024-04-23-at-2-53-58-AM" border="0"></a>
-<a href="https://ibb.co/fk3QZj2"><img src="https://i.ibb.co/v3NDf0H/Screenshot-2024-04-23-at-2-53-29-AM.png" alt="Screenshot-2024-04-23-at-2-53-29-AM" border="0"></a><br /><a target='_blank' href='https://imgbb.com/'>image uploader</a><br />
+  <a href="https://ibb.co/ncWj3XZ"><img src="https://i.ibb.co/jMpDVCB/Screenshot-2024-04-23-at-2-52-35-AM.png" alt="Screenshot-2024-04-23-at-2-52-35-AM" border="0" width="2" height="4"></a>
+  <a href="https://ibb.co/WzQwD8c"><img src="https://i.ibb.co/HP0sNwr/Screenshot-2024-04-23-at-3-02-05-AM.png" alt="Screenshot-2024-04-23-at-3-02-05-AM" border="0" width="2" height="4"></a>
+  <a href="https://ibb.co/26mZBzt"><img src="https://i.ibb.co/0X8s30M/Screenshot-2024-04-23-at-3-01-55-AM.png" alt="Screenshot-2024-04-23-at-3-01-55-AM" border="0" width="2" height="4"></a>
+  <a href="https://ibb.co/njXYY8X"><img src="https://i.ibb.co/VTFzzpF/Screenshot-2024-04-23-at-2-58-31-AM.png" alt="Screenshot-2024-04-23-at-2-58-31-AM" border="0" width="2" height="4"></a>
 </p>
+
+<p align="center">
+  <a href="https://ibb.co/nD3d1Tv"><img src="https://i.ibb.co/FBsZY9M/Screenshot-2024-04-23-at-2-56-29-AM.png" alt="Screenshot-2024-04-23-at-2-56-29-AM" border="0" width="2" height="4"></a>
+  <a href="https://ibb.co/4Ph2rkm"><img src="https://i.ibb.co/RzRNw8v/Screenshot-2024-04-23-at-2-54-45-AM.png" alt="Screenshot-2024-04-23-at-2-54-45-AM" border="0" width="2" height="4"></a>
+  <a href="https://ibb.co/Lx0bQwc"><img src="https://i.ibb.co/D91sGXv/Screenshot-2024-04-23-at-2-53-58-AM.png" alt="Screenshot-2024-04-23-at-2-53-58-AM" border="0" width="2" height="4"></a>
+  <a href="https://ibb.co/fk3QZj2"><img src="https://i.ibb.co/v3NDf0H/Screenshot-2024-04-23-at-2-53-29-AM.png" alt="Screenshot-2024-04-23-at-2-53-29-AM" border="0" width="2" height="4"></a>
+</p>
+
 
 Our project aims to display the uses of topics of database systems whether for someone who doesn't know anything or someone who has worked with databases before. Throughout the semester, we'll be collaboratively working on our web application, Coogify Music - The Online Music Library, to showcase our understanding of Database System principles.
 
