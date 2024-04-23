@@ -19,14 +19,14 @@ Welcome to the repository for the COSC 3380 Database class project. This applica
 
 Our project aims to display the uses of topics of database systems whether for someone who doesn't know anything or someone who has worked with databases before. Throughout the semester, we'll be collaboratively working on our web application, Coogify Music - The Online Music Library, to showcase our understanding of Database System principles.
 
-## Getting Started
+### Getting Started
 
-## Dependencies:
+### Dependencies:
 Before running the application, ensure you have the following dependencies installed:
 - Node.js: [Download and install Node.js](https://nodejs.org/) if you haven't already.
 - npm: Node Package Manager, usually comes with Node.js installation.
 
-## Backend Configuration:
+### Backend Configuration:
 - Navigate to TeamProject3380/coogify-app/backend/.env.
 - Update the SERVER_HOST variable:
 - Change SERVER_HOST = '3.18.22.13' to SERVER_HOST = 'your host (localhost)'.
@@ -34,12 +34,12 @@ Before running the application, ensure you have the following dependencies insta
 - Change MYSQL_HOST = 'coogify-database.cj6qgki6g237.us-east-2.rds.amazonaws.com' to MYSQL_HOST = 'your database host'.
 - Ensure to also update MYSQL_USER, MYSQL_PASSWORD, and MYSQL_DATABASE if you changed MYSQL_HOST.
 
-## Frontend Configuration:
+### Frontend Configuration:
 - Navigate to TeamProject3380/coogify-app/frontend/src/apiConfig.ts.
 - Update the backendBaseUrl variable:
 - Change const backendBaseUrl = 'http://3.18.22.13:3001' to const backendBaseUrl = 'http://${your url (localhost)}:3001';.
 
-## Running the Application:
+### Running the Application:
 - Open your terminal.
 - Navigate to the ./coogify-app/frontend folder.
 - Run npm i to install dependencies.
