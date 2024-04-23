@@ -33,7 +33,7 @@ Our project aims to display the uses of topics of database systems whether for s
  - open another terminal and go to ```./coogify-app/backend``` folder
    - run ```npm i```
    - run ```tsc && vite build```
-   - run ```nohup vite --host```
+   - run ```vite --host```
 
 ## Contribution Guidelines
 
