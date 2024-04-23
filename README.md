@@ -27,8 +27,13 @@ Our project aims to display the uses of topics of database systems whether for s
      - (if you change the MYSQL_HOST, you also need to change the MYSQL_USER, MYSQL_PASSWORD, and MYSQL_DATABASE)
  - go to ```TeamProject3380/coogify-app/frontend/src/apiConfig.ts```
    - change ```const backendBaseUrl = 'http://3.18.22.13:3001'``` to ```const backendBaseUrl = 'http://${your url (localhost)}:3001';```
- - in your terminal go into the ```./coogify-app``` folder
-   - run ```./run-for-uma.sh```
+ - in your terminal go into the ```./coogify-app/frontend``` folder
+   - run ```npm i```
+   - run ```node app.js```
+ - open another terminal and go to ```./coogify-app/backend``` folder
+   - run ```npm i```
+   - run ```tsc && vite build```
+   - run ```nohup vite --host```
 
 ## Contribution Guidelines
 
