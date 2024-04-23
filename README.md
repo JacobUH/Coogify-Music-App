@@ -13,8 +13,8 @@ Welcome to the repository for the COSC 3380 Database class project. This applica
 ## Project Overview
 
 <p align="center">
-  <a href="https://ibb.co/WzQwD8c"><img src="https://i.ibb.co/HP0sNwr/Screenshot-2024-04-23-at-3-02-05-AM.png" alt="Screenshot-2024-04-23-at-3-02-05-AM" border="0" width="400" height="250" style="margin-right: 60px;"></a>
-  <a href="https://ibb.co/fk3QZj2"><img src="https://i.ibb.co/v3NDf0H/Screenshot-2024-04-23-at-2-53-29-AM.png" alt="Screenshot-2024-04-23-at-2-53-29-AM" border="0" width="400" height="250" style="margin-right: 60px;"></a>
+  <img src="https://drive.google.com/file/d/177GM2UIrlOe5iacuV7eDKSUfLRw-3xC1/view?usp=drive_link" alt="Screenshot-2024-04-23-at-3-02-05-AM" border="0" width="400" height="250" style="margin-right: 60px;">
+  <img src="https://i.ibb.co/v3NDf0H/Screenshot-2024-04-23-at-2-53-29-AM.png" alt="Screenshot-2024-04-23-at-2-53-29-AM" border="0" width="400" height="250" style="margin-right: 60px;">
 </p>
 
 Our project aims to display the uses of topics of database systems whether for someone who doesn't know anything or someone who has worked with databases before. Throughout the semester, we'll be collaboratively working on our web application, Coogify Music - The Online Music Library, to showcase our understanding of Database System principles.
