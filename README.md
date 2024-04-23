@@ -4,7 +4,7 @@ Welcome to the repository for the COSC 3380 Database class project. This applica
 
 ## Team Members
 
-- Jacob Rangel (GitHub: [JacobUH](https://github.com/JacobUH))
+- Jacob Rangel **(Team Lead)** (GitHub: [JacobUH](https://github.com/JacobUH))
 - Diego Vera Garza (GitHub: [~](https://github.com/lindolfo1))
 - Abdul Rafay Khan (GitHub: [arkhan24-cs](https://github.com/arkhan24-cs))
 - Shruthi Yenamagandla (GitHub: [Shruthi1935](https://github.com/Shruthi1935))
@@ -19,7 +19,7 @@ Welcome to the repository for the COSC 3380 Database class project. This applica
 
 Our project aims to display the uses of topics of database systems whether for someone who doesn't know anything or someone who has worked with databases before. Throughout the semester, we'll be collaboratively working on our web application, Coogify Music - The Online Music Library, to showcase our understanding of Database System principles.
 
-### Getting Started
+## Getting Started
 
 ### Dependencies:
 Before running the application, ensure you have the following dependencies installed:
