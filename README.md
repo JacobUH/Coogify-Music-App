@@ -60,7 +60,7 @@ Before running the application, ensure you have the following dependencies insta
 
 ## Contributions
 
-### Jacob
+### Jacob - Team Lead
 - Overall Styling of Application, used figma to create and mockup all views of the app.
 - Lead the team for all views on the frontend side. (Listener, Artist, Admin)
 - Connected and created backend apis to following pages/components: music content on app, playlist/library functionality, search functionality, artist analytics, admin portal.
