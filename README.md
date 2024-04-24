@@ -10,7 +10,7 @@ Welcome to the repository for Coogify Music! Created at the Univarsity of Housto
 - Shruthi Yenamagandla (GitHub: [Shruthi1935](https://github.com/Shruthi1935))
 - Emma U. Pham (GitHub: [EMMAPHA](https://github.com/EMMAPHA))
 
-## Project Overview
+## Website Screenshots
 
 <p align="center">
   <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihaEdoI-sY4LyGGNTlW8V5UaiwUIv5hw1ywU0FYSzGUl0ZHBd9ETROshYM2pIcuiIdtrWGe7rOv-CgtMKg0mIJ_zsGwtwgJ9B48=s1600-rw-v1" alt="Landing Page" border="0" width="400" height="250" style="margin-right: 60px;">
@@ -26,6 +26,7 @@ Welcome to the repository for Coogify Music! Created at the Univarsity of Housto
 Our project aims to display the uses of topics of database systems whether for someone who doesn't know anything or someone who has worked with databases before. Throughout the semester, we'll be collaboratively working on our web application, Coogify Music - The Online Music Library, to showcase our understanding of Database System principles.
 
 ## Getting Started
+If you are interested in running our music application on your own device for testing, here eare some steps for getting you up to date to run it.
 
 ### Dependencies:
 Before running the application, ensure you have the following dependencies installed:
@@ -57,16 +58,41 @@ Before running the application, ensure you have the following dependencies insta
 - Finally, run vite --host to start the backend server.
 - Now your Coogify App should be up and running!
 
-## Contribution Guidelines
+## Contributions
 
-- TBA
+### Jacob
+- Overall Styling of Application, used figma to create and mockup all views of the app.
+- Lead the team for all views on the frontend side. (Listener, Artist, Admin)
+- Connected and created backend apis to following pages/components: music content on app, playlist/library functionality, search functionality, artist analytics, admin portal.
+- Made a multitude of queries for fetching tracks, user information, artist credentials, admin privileges, subscription, etc.
+- Helped other teammates with their assigned tasks when they needed my help.
+- Created the database and schema for the application in SQL.
 
-## Project Structure
+### Diego
+- Lead the backend side of the application.
+- Deployed the web application and database using aws.
+- Created the authentication system for the application.
+- Created the upload functionality for the app. (upload music, images)
+-  Monitored the database checking for incorrect data, etc.
 
-Our repository is strucutred based off the courseload of the class. Inside you will find our web application and documents tailored to prompts for checkpoints given throughout the semester. Hope this helps for anyone curious about Database systems in the future!
+### Rafay
+- Created the Profile Page and connected hashing functionality for the password.
+- Made the APIs dealing with fetch profle information and changing details.
+- Loaded Music and files into the database.
+- Created styling for upload artist view. 
+
+### Shruthi
+- Created the Payment system of the web application.
+- Created the design of the admin and artist data report tables as well as enforcing constraints on user input.
+- Created the multiple extended pages of the specified genres on the home page and the APIs to fetch the specifed genre.
+- Loaded Music and files into the database.
+
+### Emma
+- Created the Subscription Display and functionality.
+- Helped style pages of the frontend to match Jacob's design.
+- Loaded Music and files into the database.
 
 ## Contact
-
 Feel free to reach out to any of our emails below!
 
 - Jacob Rangel [jacobrangel0628@gmail.com](https://jacobrangel0628@gmail.com)
