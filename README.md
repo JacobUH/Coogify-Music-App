@@ -6,6 +6,11 @@ Welcome to the repository for Coogify Music! Created at the University of Housto
 
 You can check out the Figma here Jacob used to design the interface of the web application: [Coogify Figma](https://www.figma.com/file/ltTh4kdESnNopkHbfQzhZy/Coogify-Music-Interface?type=design&node-id=0-1&mode=design&t=HVVXC6FgRquDLLsT-0)
 
+<p align="center">
+  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihasXks1QqmRqeHSg_2d01ENFJ61jHRQQmX2W-0IaQPVP6FX0UtxIrW2HfD6XxbBrhLg-hZUTnix9sb-pazDyMucA1xNVChxb2w=s1600-rw-v1" alt="Figma 1/2" border="0" width="300" height="150" style="margin-right: 60px;">
+  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihbDun4C0fSLV1wlpTAniIuADDbWLx7iADKqMiNgQCt2WeJpenC40PPMg-5ZjHwLPzrDBbMet84lk_nEf2LwuFZ7Olu8BSgu9KQ=s1600-rw-v1" alt="Figma 1/2" border="0" width="300" height="150" style="margin-right: 60px;">
+</p>
+
 ## Team Members
 - Jacob Rangel **(Team Lead)** (GitHub: [JacobUH](https://github.com/JacobUH))
 - Diego Vera Garza (GitHub: [lindolfo1](https://github.com/lindolfo1))
