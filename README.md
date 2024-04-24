@@ -34,29 +34,29 @@ Before running the application, ensure you have the following dependencies insta
 - npm: Node Package Manager, usually comes with Node.js installation.
 
 ### Backend Configuration:
-- Navigate to TeamProject3380/coogify-app/backend/.env.
-- Update the SERVER_HOST variable:
-- Change SERVER_HOST = '3.18.22.13' to SERVER_HOST = 'your host (localhost)'.
-- If you wish to use your own database:
-- Change MYSQL_HOST = 'coogify-database.cj6qgki6g237.us-east-2.rds.amazonaws.com' to MYSQL_HOST = 'your database host'.
-- Ensure to also update MYSQL_USER, MYSQL_PASSWORD, and MYSQL_DATABASE if you changed MYSQL_HOST.
+1. Navigate to TeamProject3380/coogify-app/backend/.env.
+2. Update the SERVER_HOST variable:
+3. Change SERVER_HOST = '3.18.22.13' to SERVER_HOST = 'your host (localhost)'.
+4. If you wish to use your own database:
+5. Change MYSQL_HOST = 'coogify-database.cj6qgki6g237.us-east-2.rds.amazonaws.com' to MYSQL_HOST = 'your database host'.
+6. Ensure to also update MYSQL_USER, MYSQL_PASSWORD, and MYSQL_DATABASE if you changed MYSQL_HOST.
 
 ### Frontend Configuration:
 1. Navigate to TeamProject3380/coogify-app/frontend/src/apiConfig.ts.
-2. Update the backendBaseUrl variable:
-3. Change const backendBaseUrl = 'http://3.18.22.13:3001' to const backendBaseUrl = 'http://${your url (localhost)}:3001';.
+2. Update the backendBaseUrl variable: Change const backendBaseUrl = 'http://3.18.22.13:3001' to const backendBaseUrl = 'http://${your url (localhost)}:3001';.
 
 ### Running the Application:
-- Open your terminal.
-- Navigate to the ./coogify-app/frontend folder.
-- Run npm i to install dependencies.
-- Run node app.js.
-- Open another terminal.
-- Navigate to the ./coogify-app/backend folder.
-- Run npm i to install dependencies.
-- Run tsc && vite build to compile TypeScript and build the project.
-- Finally, run vite --host to start the backend server.
-- Now your Coogify App should be up and running!
+1. Open your terminal.
+2. Navigate to the ./coogify-app/frontend folder.
+3. Run npm i to install dependencies.
+4. Run node app.js.
+5. Open another terminal.
+6. Navigate to the ./coogify-app/backend folder.
+7. Run npm i to install dependencies.
+8. Run tsc && vite build to compile TypeScript and build the project.
+9. Finally, run vite --host to start the backend server.
+
+### Now your Coogify App should be up and running!
 
 ## Contributions
 
