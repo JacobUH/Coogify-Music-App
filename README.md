@@ -3,9 +3,8 @@
 Welcome to the repository for Coogify Music! Created at the Univarsity of Houston in the COSC 3380 Database Systems class. This application project is a collaboration of Team 10 in the Database Systems class.
 
 ## Team Members
-
 - Jacob Rangel **(Team Lead)** (GitHub: [JacobUH](https://github.com/JacobUH))
-- Diego Vera Garza (GitHub: [~](https://github.com/lindolfo1))
+- Diego Vera Garza (GitHub: [lindolfo1](https://github.com/lindolfo1))
 - Abdul Rafay Khan (GitHub: [arkhan24-cs](https://github.com/arkhan24-cs))
 - Shruthi Yenamagandla (GitHub: [Shruthi1935](https://github.com/Shruthi1935))
 - Emma U. Pham (GitHub: [EMMAPHA](https://github.com/EMMAPHA))
@@ -22,8 +21,6 @@ Welcome to the repository for Coogify Music! Created at the Univarsity of Housto
   <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihbxexQrBdUm3oloZ0KAQCwhFYmlNDJQvgQtR-GMELWQJhy-00Hc7hy0oI7_iHC4vaXuWihAwbDGoHbCL3dSwpHgpoY7nmzlmA=s1600-rw-v1" alt="Analytics" border="0" width="400" height="250" style="margin-right: 60px;">
   <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihYacfX-oujJs8YRMfDVyX7JZEjtecP36u5xDch-KIJMSOVolzv2-wPPpgwlj8_PmxTwvUg_fRM0muRnzslO9nRR4mpFnX_5zJ4=s1600-rw-v1" alt="Admin Portal" border="0" width="400" height="250" style="margin-right: 60px;">
 </p>
-
-Our project aims to display the uses of topics of database systems whether for someone who doesn't know anything or someone who has worked with databases before. Throughout the semester, we'll be collaboratively working on our web application, Coogify Music - The Online Music Library, to showcase our understanding of Database System principles.
 
 ## Getting Started
 If you are interested in running our music application on your own device for testing, here eare some steps for getting you up to date to run it.
@@ -59,7 +56,6 @@ Before running the application, ensure you have the following dependencies insta
 ### Now your Coogify App should be up and running!
 
 ## Contributions
-
 ### Jacob - Team Lead
 - Overall Styling of Application, used figma to create and mockup all views of the app.
 - Lead the team for all views on the frontend side. (Listener, Artist, Admin)
