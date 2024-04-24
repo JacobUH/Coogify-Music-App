@@ -1,4 +1,5 @@
 # Coogify Music: Your Melodies, Your Moments.
+### Created By: Team 10
 <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihaIj9HcF_CWGdvme_tIn6zQy1IRAYwMyMJgnSJtnE3-zO7obHuBj3v-p8FyGCS4wUo92dDz9x-mddF8bIZUzbsbBAfoQPTr9vA=s1600-rw-v1" alt="Coogify Official"/>
 
 Welcome to the repository for Coogify Music! Created at the Univarsity of Houston in the COSC 3380 Database Systems class. This application project is a collaboration of Team 10 in the Database Systems class.
