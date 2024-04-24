@@ -42,9 +42,9 @@ Before running the application, ensure you have the following dependencies insta
 - Ensure to also update MYSQL_USER, MYSQL_PASSWORD, and MYSQL_DATABASE if you changed MYSQL_HOST.
 
 ### Frontend Configuration:
-- Navigate to TeamProject3380/coogify-app/frontend/src/apiConfig.ts.
-- Update the backendBaseUrl variable:
-- Change const backendBaseUrl = 'http://3.18.22.13:3001' to const backendBaseUrl = 'http://${your url (localhost)}:3001';.
+1. Navigate to TeamProject3380/coogify-app/frontend/src/apiConfig.ts.
+2. Update the backendBaseUrl variable:
+3. Change const backendBaseUrl = 'http://3.18.22.13:3001' to const backendBaseUrl = 'http://${your url (localhost)}:3001';.
 
 ### Running the Application:
 - Open your terminal.
