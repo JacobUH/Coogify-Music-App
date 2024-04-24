@@ -2,6 +2,8 @@
 
 Welcome to the repository for Coogify Music! Created at the Univarsity of Houston in the COSC 3380 Database Systems class. This application project is a collaboration of Team 10 in the Database Systems class.
 
+You can check out the Figma here Jacob used to design the interface of the web application: [Coogify Figma](https://www.figma.com/file/ltTh4kdESnNopkHbfQzhZy/Coogify-Music-Interface?type=design&node-id=0-1&mode=design&t=HVVXC6FgRquDLLsT-0)
+
 ## Team Members
 - Jacob Rangel **(Team Lead)** (GitHub: [JacobUH](https://github.com/JacobUH))
 - Diego Vera Garza (GitHub: [lindolfo1](https://github.com/lindolfo1))
