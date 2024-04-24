@@ -1,6 +1,6 @@
-# COSC 3380: Database Systems Class Repository 💻
+# Coogify Music: Your Melodies, Your Moments.
 
-Welcome to the repository for the COSC 3380 Database class project. This application project is part of our coursework and collaboration in the Database class.
+Welcome to the repository for Coogify Music! Created at the Univarsity of Houston in the COSC 3380 Database Systems class. This application project is a collaboration of Team 10 in the Database Systems class.
 
 ## Team Members
 
