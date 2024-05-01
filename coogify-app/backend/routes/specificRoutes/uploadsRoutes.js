@@ -99,7 +99,8 @@ export async function uploadSongsWithAlbum(req, res, next) {
         imageFile = req.files['imageFile'][0];
       } catch (error) {
         console.error('Error accessing imageFile:', error);
-        res.status(500).send('Error accessing image file');
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('Failed to upload image: no image found');
         return;
       }
 
