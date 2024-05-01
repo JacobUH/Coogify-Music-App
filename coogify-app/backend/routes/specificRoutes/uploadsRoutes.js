@@ -75,6 +75,11 @@ export async function uploadPlaylist(req, res) {
 }
 
 export async function uploadSongsWithAlbum(req, res, next) {
+  if (!mp3Files || !mp3Files.length || !imageFile || !imageFile.length) {
+  res.writeHead(400, { 'Content-Type': 'text/plain' });
+  res.end('Please upload at least one MP3 file and one image file');
+  return;
+}
   upload.fields([
     { name: 'mp3Files', maxCount: 50 },
     { name: 'imageFile', maxCount: 1 },
