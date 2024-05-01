@@ -94,21 +94,17 @@ export async function uploadSongsWithAlbum(req, res, next) {
 
       // Get the URLs of the uploaded files
       const mp3Files = req.files['mp3Files'];
-      const imageFile = req.files['imageFile'];
-
-      // Check if required files are uploaded
-      if (!mp3Files || !mp3Files.length || !imageFile || !imageFile.length) {
-        res
-          .status(400)
-          .send('Please upload at least one MP3 file and one image file');
+      let imageFile = null;
+      try {
+        imageFile = req.files['imageFile'][0];
+      } catch (error) {
+        console.error('Error accessing imageFile:', error);
+        res.status(500).send('Error accessing image file');
         return;
       }
 
-      // Get the first image file
-      const firstImageFile = imageFile[0];
-
       // Check if required files are uploaded
-      if (!mp3Files || !mp3Files.length || !firstImageFile) {
+      if (!mp3Files || !mp3Files.length || !imageFile) {
         res.writeHead(400, { 'Content-Type': 'text/plain' });
         res.end('Please upload at least one MP3 file and one image file');
         return;
@@ -131,8 +127,7 @@ export async function uploadSongsWithAlbum(req, res, next) {
       console.log(artistID);
 
       // Prepend baseURL to image file name
-      const imageURL =
-        baseURL + encodeURIComponent(firstImageFile.originalname);
+      const imageURL = baseURL + encodeURIComponent(imageFile.originalname);
 
       // Loop through each song and insert it with the album cover
       for (let i = 0; i < mp3FileURLs.length; i++) {
