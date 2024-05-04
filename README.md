@@ -4,13 +4,14 @@
 
 Welcome to the repository for Coogify Music! Created at the University of Houston in the COSC 3380 Database Systems class. This application project is a collaboration of Team 10 in the Database Systems class.
 
-You can check out the Figma here Jacob used to design the interface of the web application: [Coogify Figma](https://www.figma.com/file/ltTh4kdESnNopkHbfQzhZy/Coogify-Music-Interface?type=design&node-id=0-1&mode=design&t=HVVXC6FgRquDLLsT-0)
+## Figma Design
+You can check out the Figma here Jacob used to design the interface of the web application as well as a demo of the mockup of the application playing below: [Coogify Figma](https://www.figma.com/file/ltTh4kdESnNopkHbfQzhZy/Coogify-Music-Interface?type=design&node-id=0-1&mode=design&t=HVVXC6FgRquDLLsT-0)
 
 https://github.com/JacobUH/Coogify-Music-App/assets/126317798/3237b707-e4db-4481-9534-866c7809f640
 
 <p align="center">
-  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihasXks1QqmRqeHSg_2d01ENFJ61jHRQQmX2W-0IaQPVP6FX0UtxIrW2HfD6XxbBrhLg-hZUTnix9sb-pazDyMucA1xNVChxb2w=s1600-rw-v1" alt="Figma 1/2" border="0" width="300" height="150" style="margin-right: 60px;">
-  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihbDun4C0fSLV1wlpTAniIuADDbWLx7iADKqMiNgQCt2WeJpenC40PPMg-5ZjHwLPzrDBbMet84lk_nEf2LwuFZ7Olu8BSgu9KQ=s1600-rw-v1" alt="Figma 1/2" border="0" width="300" height="150" style="margin-right: 60px;">
+  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihasXks1QqmRqeHSg_2d01ENFJ61jHRQQmX2W-0IaQPVP6FX0UtxIrW2HfD6XxbBrhLg-hZUTnix9sb-pazDyMucA1xNVChxb2w=s1600-rw-v1" alt="Figma 1/2" border="0" width="400" height="250" style="margin-right: 60px;">
+  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihbDun4C0fSLV1wlpTAniIuADDbWLx7iADKqMiNgQCt2WeJpenC40PPMg-5ZjHwLPzrDBbMet84lk_nEf2LwuFZ7Olu8BSgu9KQ=s1600-rw-v1" alt="Figma 1/2" border="0" width="400" height="250" style="margin-right: 60px;">
 </p>
 
 ## Team Members
@@ -21,7 +22,6 @@ https://github.com/JacobUH/Coogify-Music-App/assets/126317798/3237b707-e4db-4481
 - Emma U. Pham (GitHub: [EMMAPHA](https://github.com/EMMAPHA))
 
 ## Website Screenshots
-
 <p align="center">
   <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihaEdoI-sY4LyGGNTlW8V5UaiwUIv5hw1ywU0FYSzGUl0ZHBd9ETROshYM2pIcuiIdtrWGe7rOv-CgtMKg0mIJ_zsGwtwgJ9B48=s1600-rw-v1" alt="Landing Page" border="0" width="400" height="250" style="margin-right: 60px;">
   <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihbtdIPxEfWe7ZVfYkmMe0ngfaWPHaCwwJu61o-m4_Jg9yeo4Ox4Q7qVpkW-RIwDSUjW8zCyI4M9ndWon9xNxkRryJWn1fQlJo0=s1600-rw-v1" alt="Sign Up" border="0" width="400" height="250" style="margin-right: 60px;">
