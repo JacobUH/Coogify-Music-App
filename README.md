@@ -44,14 +44,14 @@ Before running the application, ensure you have the following dependencies insta
 ### Backend Configuration:
 1. Navigate to TeamProject3380/coogify-app/backend/.env.
 2. Update the SERVER_HOST variable:
-3. Change SERVER_HOST = '3.18.22.13' to SERVER_HOST = 'your host (localhost)'.
+3. Change SERVER_HOST to SERVER_HOST = 'your host (localhost)'.
 4. If you wish to use your own database:
-5. Change MYSQL_HOST = 'coogify-database.cj6qgki6g237.us-east-2.rds.amazonaws.com' to MYSQL_HOST = 'your database host'.
+5. Change MYSQL_HOST to MYSQL_HOST = 'your database host'.
 6. Ensure to also update MYSQL_USER, MYSQL_PASSWORD, and MYSQL_DATABASE if you changed MYSQL_HOST.
 
 ### Frontend Configuration:
 1. Navigate to TeamProject3380/coogify-app/frontend/src/apiConfig.ts.
-2. Update the backendBaseUrl variable: Change const backendBaseUrl = 'http://3.18.22.13:3001' to const backendBaseUrl = 'http://${your url (localhost)}:3001';.
+2. Update the backendBaseUrl variable: Change const backendBaseUrl to const backendBaseUrl = 'http://${your url (localhost)}:3001';.
 
 ### Running the Application:
 1. Open your terminal.
