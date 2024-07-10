@@ -1,2 +1,0 @@
- - Middleware functions can be used for tasks like authentication, logging, error handling, etc.
- - Define custom middleware functions in the middlewares/ directory.

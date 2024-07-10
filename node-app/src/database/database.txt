@@ -1,1 +1,0 @@
- - handles all database interactions (except the initalization of the database connection)
