@@ -78,9 +78,12 @@ Before running the application, ensure you have the following dependencies insta
 ### Diego
 - Lead the backend side of the application.
 - Deployed the web application and database using aws.
-- Created the authentication system for the application.
+- Created the authentication system and password hashing for the application.
 - Created the upload functionality for the app. (upload music, images)
--  Monitored the database checking for incorrect data, etc.
+- Monitored the database checking for incorrect data, etc.
+- Designed the queries for inserting/removing tracks, user information, artist credentials, admin privileges, subscription, etc.
+- Made a multitude of API calls (fetching/inserting/deleting/updating tracks, user info, subscription, images/media, etc.)
+- Designed backend middleware
 
 ### Rafay
 - Created the Profile Page and connected hashing functionality for the password.
