@@ -10,8 +10,8 @@ You can check out the Figma here Jacob used to design the interface of the web a
 https://github.com/JacobUH/Coogify-Music-App/assets/126317798/3237b707-e4db-4481-9534-866c7809f640
 
 <p align="center">
-  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihasXks1QqmRqeHSg_2d01ENFJ61jHRQQmX2W-0IaQPVP6FX0UtxIrW2HfD6XxbBrhLg-hZUTnix9sb-pazDyMucA1xNVChxb2w=s1600-rw-v1" alt="Figma 1/2" border="0" width="400" height="250" style="margin-right: 60px;">
-  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihbDun4C0fSLV1wlpTAniIuADDbWLx7iADKqMiNgQCt2WeJpenC40PPMg-5ZjHwLPzrDBbMet84lk_nEf2LwuFZ7Olu8BSgu9KQ=s1600-rw-v1" alt="Figma 1/2" border="0" width="400" height="250" style="margin-right: 60px;">
+  <img src="https://raw.githubusercontent.com/JacobUH/Coogify-Music-App/main/Screenshots/Figma%201_2.png" alt="Figma 1/2" border="0" width="400" height="250" style="margin-right: 60px;">
+  <img src="https://raw.githubusercontent.com/JacobUH/Coogify-Music-App/main/Screenshots/Figma%202_2.png" alt="Figma 1/2" border="0" width="400" height="250" style="margin-right: 60px;">
 </p>
 
 ## Team Members
@@ -23,14 +23,14 @@ https://github.com/JacobUH/Coogify-Music-App/assets/126317798/3237b707-e4db-4481
 
 ## Website Screenshots
 <p align="center">
-  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihaEdoI-sY4LyGGNTlW8V5UaiwUIv5hw1ywU0FYSzGUl0ZHBd9ETROshYM2pIcuiIdtrWGe7rOv-CgtMKg0mIJ_zsGwtwgJ9B48=s1600-rw-v1" alt="Landing Page" border="0" width="400" height="250" style="margin-right: 60px;">
-  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihbtdIPxEfWe7ZVfYkmMe0ngfaWPHaCwwJu61o-m4_Jg9yeo4Ox4Q7qVpkW-RIwDSUjW8zCyI4M9ndWon9xNxkRryJWn1fQlJo0=s1600-rw-v1" alt="Sign Up" border="0" width="400" height="250" style="margin-right: 60px;">
-  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihYEx6dLhfMhgYDRR6D2PmujDzIuEn3bo5YhD3_XBZ3qoWRJi02cHlLln0umVOW5ePLD2jiHgh-plRxrYAcXDcOfaIXdkECFFQ=s1600-rw-v1" alt="Dashboard" border="0" width="400" height="250" style="margin-right: 60px;">
-  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihbmJYk_GlYGBMqA1geHpu72-mAlW5PsGuRwYBe3oTiqgIHheGvwYHD00zA2cP9vBjZj3LVyzYQftvthCsX2-KqvxIalSfX3w5c=s1600-rw-v1" alt="Album Page" border="0" width="400" height="250" style="margin-right: 60px;">
-  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihbFJzgbZH2wVO-FwKi6kQLhU7a8RWryLAolKkOfHZ5Ypx_6DBNXEVPs_njuQJPbV3CRSbcJpv9RabkY7XLk27nJjXB31EitTw=s1600-rw-v1" alt="Search" border="0" width="400" height="250" style="margin-right: 60px;">
-  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihY1o_8-OrkwGjT-_tyyHvutMrmNdCrYN3gfuAjEQDKAU-_nNj4Z53YKxIuYBocoFqcD12T6Vpc5aypkJ9-t2-EGK2zlvBHvabU=s1600-rw-v1" alt="Library" border="0" width="400" height="250" style="margin-right: 60px;">
-  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihbxexQrBdUm3oloZ0KAQCwhFYmlNDJQvgQtR-GMELWQJhy-00Hc7hy0oI7_iHC4vaXuWihAwbDGoHbCL3dSwpHgpoY7nmzlmA=s1600-rw-v1" alt="Analytics" border="0" width="400" height="250" style="margin-right: 60px;">
-  <img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihYacfX-oujJs8YRMfDVyX7JZEjtecP36u5xDch-KIJMSOVolzv2-wPPpgwlj8_PmxTwvUg_fRM0muRnzslO9nRR4mpFnX_5zJ4=s1600-rw-v1" alt="Admin Portal" border="0" width="400" height="250" style="margin-right: 60px;">
+  <img src="https://raw.githubusercontent.com/JacobUH/Coogify-Music-App/main/Screenshots/Landing%20Page.png" alt="Landing Page" border="0" width="400" height="250" style="margin-right: 60px;">
+  <img src="https://raw.githubusercontent.com/JacobUH/Coogify-Music-App/main/Screenshots/Sign%20Up.png" alt="Sign Up" border="0" width="400" height="250" style="margin-right: 60px;">
+  <img src="https://raw.githubusercontent.com/JacobUH/Coogify-Music-App/main/Screenshots/Dashboard.png" alt="Dashboard" border="0" width="400" height="250" style="margin-right: 60px;">
+  <img src="https://raw.githubusercontent.com/JacobUH/Coogify-Music-App/main/Screenshots/Album.png" alt="Album Page" border="0" width="400" height="250" style="margin-right: 60px;">
+  <img src="https://raw.githubusercontent.com/JacobUH/Coogify-Music-App/main/Screenshots/Search.png" alt="Search" border="0" width="400" height="250" style="margin-right: 60px;">
+  <img src="https://raw.githubusercontent.com/JacobUH/Coogify-Music-App/main/Screenshots/Library.png" alt="Library" border="0" width="400" height="250" style="margin-right: 60px;">
+  <img src="https://raw.githubusercontent.com/JacobUH/Coogify-Music-App/main/Screenshots/Analytics.png" alt="Analytics" border="0" width="400" height="250" style="margin-right: 60px;">
+  <img src="https://raw.githubusercontent.com/JacobUH/Coogify-Music-App/main/Screenshots/Admin%20Portal.png" alt="Admin Portal" border="0" width="400" height="250" style="margin-right: 60px;">
 </p>
 
 ## Getting Started
