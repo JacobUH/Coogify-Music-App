@@ -108,5 +108,5 @@ Feel free to reach out to any of our emails below!
 - Jacob Rangel [jacobrangel0628@gmail.com](https://jacobrangel0628@gmail.com)
 - Abdul Rafay Khan [a.rafaykhan2002@gmail.com](https://a.rafaykhan2002@gmail.com)
 - Shruthi Yenamagandla [yshruthi.14@gmail.com](https://yshruthi.14@gmail.com)
-- Diego Vera Garza [dv@feptec.com]()
+- Diego Vera [dv@feptec.com]()
 - Emma U. Pham [emmauyentrinh@gmail.com](https://emmauyentrinh@gmail.com)
