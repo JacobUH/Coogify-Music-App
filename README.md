@@ -16,7 +16,7 @@ https://github.com/JacobUH/Coogify-Music-App/assets/126317798/3237b707-e4db-4481
 
 ## Team Members
 - Jacob Rangel **(Team Lead)** (GitHub: [JacobUH](https://github.com/JacobUH))
-- Diego Vera Garza (GitHub: [lindolfo1](https://github.com/lindolfo1))
+- Diego V. (GitHub: [lindolfo1](https://github.com/lindolfo1))
 - Abdul Rafay Khan (GitHub: [arkhan24-cs](https://github.com/arkhan24-cs))
 - Shruthi Yenamagandla (GitHub: [Shruthi1935](https://github.com/Shruthi1935))
 - Emma U. Pham (GitHub: [EMMAPHA](https://github.com/EMMAPHA))
@@ -108,5 +108,5 @@ Feel free to reach out to any of our emails below!
 - Jacob Rangel [jacobrangel0628@gmail.com](https://jacobrangel0628@gmail.com)
 - Abdul Rafay Khan [a.rafaykhan2002@gmail.com](https://a.rafaykhan2002@gmail.com)
 - Shruthi Yenamagandla [yshruthi.14@gmail.com](https://yshruthi.14@gmail.com)
-- Diego Vera [dv@feptec.com]()
+- Diego V. [dv@feptec.com]()
 - Emma U. Pham [emmauyentrinh@gmail.com](https://emmauyentrinh@gmail.com)
